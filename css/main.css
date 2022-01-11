@@ -2781,3 +2781,9 @@ mjx-container[display='true'] + br {
     padding: 10px 12px;
   }
 }
+body {
+  background-image: url("image/bg.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+}
