@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="-jCet6qPD7nML4-W6IY2HZwfSblJyWta_Jx7_AGHgIk">
+  <meta name="baidu-site-verification" content="f349dc627a72ee616d62ed513574025d">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"weirdozz.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<meta name="description" content="入门 命令行参数 os包提供了一些与餐佐系统交互的函数和变量。命令行参数可以从os包的Args变量中获取；os包外部使用os.Args访问该变量。 os.Args变量是一个字符串(string)的切片(slice)。os.Args[0]是命令本身的名字，其他元素是程序启动时传给他的参数。 下面是echo命令的一个实现，其作用是将命令行参数打印成一行。 123456789101112131">
+<meta property="og:type" content="article">
+<meta property="og:title" content="go语言圣经学习">
+<meta property="og:url" content="https://weirdozz.github.io/2022/01/15/go%E8%AF%AD%E8%A8%80%E5%9C%A3%E7%BB%8F%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="Weirdo">
+<meta property="og:description" content="入门 命令行参数 os包提供了一些与餐佐系统交互的函数和变量。命令行参数可以从os包的Args变量中获取；os包外部使用os.Args访问该变量。 os.Args变量是一个字符串(string)的切片(slice)。os.Args[0]是命令本身的名字，其他元素是程序启动时传给他的参数。 下面是echo命令的一个实现，其作用是将命令行参数打印成一行。 123456789101112131">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-01-15T07:30:10.000Z">
+<meta property="article:modified_time" content="2022-01-15T18:33:43.741Z">
+<meta property="article:author" content="Weirdo">
+<meta property="article:tag" content="WeirdoBlog">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://weirdozz.github.io/2022/01/15/go%E8%AF%AD%E8%A8%80%E5%9C%A3%E7%BB%8F%E5%AD%A6%E4%B9%A0/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://weirdozz.github.io/2022/01/15/go%E8%AF%AD%E8%A8%80%E5%9C%A3%E7%BB%8F%E5%AD%A6%E4%B9%A0/","path":"2022/01/15/go语言圣经学习/","title":"go语言圣经学习"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>go语言圣经学习 | Weirdo</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Weirdo</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-movies"><a href="/movies/" rel="section"><i class="fa fa-film fa-fw"></i>电影</a></li>
+        <li class="menu-item menu-item-books"><a href="/books/" rel="section"><i class="fa fa-book fa-fw"></i>书籍</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%A5%E9%97%A8"><span class="nav-number">1.</span> <span class="nav-text">入门</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0"><span class="nav-number">1.1.</span> <span class="nav-text">命令行参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E6%89%BE%E9%87%8D%E5%A4%8D%E8%A1%8C"><span class="nav-number">1.2.</span> <span class="nav-text">查找重复行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gif%E5%8A%A8%E7%94%BB"><span class="nav-number">1.3.</span> <span class="nav-text">GIF动画</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96url"><span class="nav-number">1.4.</span> <span class="nav-text">获取URL</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Weirdo"
+      src="/images/weirdo.jpg">
+  <p class="site-author-name" itemprop="name">Weirdo</p>
+  <div class="site-description" itemprop="description">怕什么真理无穷，进一步有进一步的欢喜</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/01/15/go%E8%AF%AD%E8%A8%80%E5%9C%A3%E7%BB%8F%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/weirdo.jpg">
+      <meta itemprop="name" content="Weirdo">
+      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Weirdo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          go语言圣经学习
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-01-15 15:30:10" itemprop="dateCreated datePublished" datetime="2022-01-15T15:30:10+08:00">2022-01-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-01-16 02:33:43" itemprop="dateModified" datetime="2022-01-16T02:33:43+08:00">2022-01-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/go/" itemprop="url" rel="index"><span itemprop="name">go</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/01/15/go%E8%AF%AD%E8%A8%80%E5%9C%A3%E7%BB%8F%E5%AD%A6%E4%B9%A0/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/01/15/go语言圣经学习/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="入门">入门</h2>
+<h3 id="命令行参数">命令行参数</h3>
+<p><code>os</code>包提供了一些与餐佐系统交互的函数和变量。命令行参数可以从os包的Args变量中获取；os包外部使用os.Args访问该变量。</p>
+<p>os.Args变量是一个字符串(string)的切片(slice)。os.Args[0]是命令本身的名字，其他元素是程序启动时传给他的参数。</p>
+<p>下面是echo命令的一个实现，其作用是将命令行参数打印成一行。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;fmt&quot;</span></span><br><span class="line">    <span class="string">&quot;os&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> s, sep <span class="keyword">string</span></span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">1</span>; i &lt; <span class="built_in">len</span>(os.Args); i++ &#123;</span><br><span class="line">        <span class="comment">//连接sep（为空或者为空格）和命令行参数</span></span><br><span class="line">        s += sep + os.Args[i]</span><br><span class="line">        sep = <span class="string">&quot; &quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">    fmt.Println(s)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>另外一种版本</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;fmt&quot;</span></span><br><span class="line">    <span class="string">&quot;os&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    s, sep := <span class="string">&quot;&quot;</span>, <span class="string">&quot;&quot;</span></span><br><span class="line">    <span class="keyword">for</span> _, arg := <span class="keyword">range</span> os.Args[<span class="number">1</span>:] &#123;</span><br><span class="line">        s += sep + arg</span><br><span class="line">        sep = <span class="string">&quot; &quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">    fmt.Println(s)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>第三种</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    fmt.Println(strings.Join(os.Args[<span class="number">1</span>:], <span class="string">&quot; &quot;</span>))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="查找重复行">查找重复行</h3>
+<p>Unix中的uniq命令，作用是寻找相邻的重复行。</p>
+<p>第一个版本答应标准输入中重复出现的行，以重复次数开头</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;bufio&quot;</span></span><br><span class="line">    <span class="string">&quot;fmt&quot;</span></span><br><span class="line">    <span class="string">&quot;os&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    counts := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>)</span><br><span class="line">    input := bufio.NewScanner(os.Stdin)</span><br><span class="line">    <span class="keyword">for</span> input.Scan() &#123;</span><br><span class="line">        counts[input.Text()]++</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// <span class="doctag">NOTE:</span> ignoring potential errors from input.Err()</span></span><br><span class="line">    <span class="keyword">for</span> line, n := <span class="keyword">range</span> counts &#123;</span><br><span class="line">        <span class="keyword">if</span> n &gt; <span class="number">1</span> &#123;</span><br><span class="line">            fmt.Printf(<span class="string">&quot;%d\t%s\n&quot;</span>, n, line)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>很多程序要么从标准输入中读取数据，如上面的例子所示，要么从一系列具名文件中读取数据。dup程序的下个版本读取标准输入或是使用os.Open打开各个具名文件，并操作它们。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;bufio&quot;</span></span><br><span class="line">    <span class="string">&quot;fmt&quot;</span></span><br><span class="line">    <span class="string">&quot;os&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    counts := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>)</span><br><span class="line">    files := os.Args[<span class="number">1</span>:]</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(files) == <span class="number">0</span> &#123;</span><br><span class="line">        countLines(os.Stdin, counts)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> _, arg := <span class="keyword">range</span> files &#123;</span><br><span class="line">            f, err := os.Open(arg)</span><br><span class="line">            <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">                fmt.Fprintf(os.Stderr, <span class="string">&quot;dup2: %v\n&quot;</span>, err)</span><br><span class="line">                <span class="keyword">continue</span></span><br><span class="line">            &#125;</span><br><span class="line">            countLines(f, counts)</span><br><span class="line">            f.Close()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> line, n := <span class="keyword">range</span> counts &#123;</span><br><span class="line">        <span class="keyword">if</span> n &gt; <span class="number">1</span> &#123;</span><br><span class="line">            fmt.Printf(<span class="string">&quot;%d\t%s\n&quot;</span>, n, line)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">countLines</span><span class="params">(f *os.File, counts <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>)</span></span> &#123;</span><br><span class="line">    input := bufio.NewScanner(f)</span><br><span class="line">    <span class="keyword">for</span> input.Scan() &#123;</span><br><span class="line">        counts[input.Text()]++</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// <span class="doctag">NOTE:</span> ignoring potential errors from input.Err()</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>前两个版本都是以“流”模式读取输入，并且根据需要拆分成多行。下面的方法是一口气把数据全部放到内存中，一次分割为多行，然后处理他们。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;fmt&quot;</span></span><br><span class="line">    <span class="string">&quot;io/ioutil&quot;</span></span><br><span class="line">    <span class="string">&quot;os&quot;</span></span><br><span class="line">    <span class="string">&quot;strings&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    counts := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>)</span><br><span class="line">    <span class="keyword">for</span> _, filename := <span class="keyword">range</span> os.Args[<span class="number">1</span>:] &#123;</span><br><span class="line">        data, err := ioutil.ReadFile(filename)</span><br><span class="line">        <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">            fmt.Fprintf(os.Stderr, <span class="string">&quot;dup3: %v\n&quot;</span>, err)</span><br><span class="line">            <span class="keyword">continue</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> _, line := <span class="keyword">range</span> strings.Split(<span class="keyword">string</span>(data), <span class="string">&quot;\n&quot;</span>) &#123;</span><br><span class="line">            counts[line]++</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> line, n := <span class="keyword">range</span> counts &#123;</span><br><span class="line">        <span class="keyword">if</span> n &gt; <span class="number">1</span> &#123;</span><br><span class="line">            fmt.Printf(<span class="string">&quot;%d\t%s\n&quot;</span>, n, line)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="gif动画">GIF动画</h3>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;image&quot;</span></span><br><span class="line">    <span class="string">&quot;image/color&quot;</span></span><br><span class="line">    <span class="string">&quot;image/gif&quot;</span></span><br><span class="line">    <span class="string">&quot;io&quot;</span></span><br><span class="line">    <span class="string">&quot;math&quot;</span></span><br><span class="line">    <span class="string">&quot;math/rand&quot;</span></span><br><span class="line">    <span class="string">&quot;os&quot;</span></span><br><span class="line">    <span class="string">&quot;time&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> palette = []color.Color&#123;color.White, color.Black&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> (</span><br><span class="line">    whiteIndex = <span class="number">0</span> <span class="comment">// first color in palette</span></span><br><span class="line">    blackIndex = <span class="number">1</span> <span class="comment">// next color in palette</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">// The sequence of images is deterministic unless we seed</span></span><br><span class="line">    <span class="comment">// the pseudo-random number generator using the current time.</span></span><br><span class="line">    <span class="comment">// Thanks to Randall McPherson for pointing out the omission.</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//使用当前时间作为随机种子</span></span><br><span class="line">    rand.Seed(time.Now().UTC().UnixNano())</span><br><span class="line">    lissajous(os.Stdout)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">lissajous</span><span class="params">(out io.Writer)</span></span> &#123;</span><br><span class="line">    <span class="keyword">const</span> (</span><br><span class="line">        cycles  = <span class="number">5</span>     <span class="comment">// 完整的x震荡器转数</span></span><br><span class="line">        res     = <span class="number">0.001</span> <span class="comment">// 角转</span></span><br><span class="line">        size    = <span class="number">100</span>   <span class="comment">// 画布覆盖范围</span></span><br><span class="line">        nframes = <span class="number">64</span>    <span class="comment">// 动画帧数</span></span><br><span class="line">        delay   = <span class="number">8</span>     <span class="comment">// 10ms为单位的帧之间的延迟</span></span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    freq := rand.Float64() * <span class="number">3.0</span> <span class="comment">// y震荡器的相关频率</span></span><br><span class="line">    anim := gif.GIF&#123;LoopCount: nframes&#125;</span><br><span class="line">    phase := <span class="number">0.0</span> <span class="comment">// 相位差</span></span><br><span class="line">    <span class="comment">//刻画每一帧的图像</span></span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">0</span>; i &lt; nframes; i++ &#123;</span><br><span class="line">        rect := image.Rect(<span class="number">0</span>, <span class="number">0</span>, <span class="number">2</span>*size+<span class="number">1</span>, <span class="number">2</span>*size+<span class="number">1</span>)</span><br><span class="line">        img := image.NewPaletted(rect, palette)</span><br><span class="line">        <span class="comment">//刻画当前帧的完整图像</span></span><br><span class="line">        <span class="keyword">for</span> t := <span class="number">0.0</span>; t &lt; cycles*<span class="number">2</span>*math.Pi; t += res &#123;</span><br><span class="line">            x := math.Sin(t)</span><br><span class="line">            y := math.Sin(t*freq + phase)</span><br><span class="line">            img.SetColorIndex(size+<span class="keyword">int</span>(x*size+<span class="number">0.5</span>), size+<span class="keyword">int</span>(y*size+<span class="number">0.5</span>),</span><br><span class="line">                blackIndex)</span><br><span class="line">        &#125;</span><br><span class="line">        phase += <span class="number">0.1</span></span><br><span class="line">        anim.Delay = <span class="built_in">append</span>(anim.Delay, delay)</span><br><span class="line">        anim.Image = <span class="built_in">append</span>(anim.Image, img)</span><br><span class="line">    &#125;</span><br><span class="line">    gif.EncodeAll(out, &amp;anim) <span class="comment">// <span class="doctag">NOTE:</span> ignoring encoding errors</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>lissajous函数内部有两层嵌套的for循环。外层循环会循环64次，每一次都会生成一个单独的动画帧。它生成了一个包含两种颜色的201*201大小的图片，白色和黑色。所有像素点都会被默认设置为其零值（也就是调色板palette里的第0个值），这里我们设置的是白色。每次外层循环都会生成一张新图片，并将一些像素设置为黑色。其结果会append到之前结果之后。这里我们用到了append内置函数，将结果append到anim中的帧列表末尾，并设置一个默认的80ms的延迟值。循环结束后所有的延迟值被编码进了GIF图片中，并将结果写入到输出流。out这个变量是io.Writer类型，这个类型支持把输出结果写到很多目标，很快我们就可以看到例子。</p>
+<p>我们可以用color.RGBA{0xRR, 0xGG, 0xBB, 0xff}来得到#RRGGBB这个色值，三个十六进制的字符串分别代表红、绿、蓝像素。</p>
+<p>下面这个命令会在当前目录下产生一个GIF动画。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ go build gopl.io/ch1/lissajous</span><br><span class="line">$ ./lissajous &gt;out.gif</span><br></pre></td></tr></table></figure>
+<h3 id="获取url">获取URL</h3>
+<p>对于很多现代应用来说，访问互联网上的信息和访问本地文件系统一样重要。Go语言在net这个强大package的帮助下提供了一系列的package来做这件事情，使用这些包可以更简单地用网络收发信息，还可以建立更底层的网络连接，编写服务器程序。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;fmt&quot;</span></span><br><span class="line">    <span class="string">&quot;io/ioutil&quot;</span></span><br><span class="line">    <span class="string">&quot;net/http&quot;</span></span><br><span class="line">    <span class="string">&quot;os&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">for</span> _, url := <span class="keyword">range</span> os.Args[<span class="number">1</span>:] &#123;</span><br><span class="line">        resp, err := http.Get(url)</span><br><span class="line">        <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">            fmt.Fprintf(os.Stderr, <span class="string">&quot;fetch: %v\n&quot;</span>, err)</span><br><span class="line">            os.Exit(<span class="number">1</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        b, err := ioutil.ReadAll(resp.Body)</span><br><span class="line">        resp.Body.Close()</span><br><span class="line">        <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">            fmt.Fprintf(os.Stderr, <span class="string">&quot;fetch: reading %s: %v\n&quot;</span>, url, err)</span><br><span class="line">            os.Exit(<span class="number">1</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        fmt.Printf(<span class="string">&quot;%s&quot;</span>, b)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/01/10/%E6%A1%83%E5%AD%90%E4%BD%A0%E5%A5%BD/" rel="prev" title="桃子你好">
+                  <i class="fa fa-chevron-left"></i> 桃子你好
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Weirdo</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"weirdoblog","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>
