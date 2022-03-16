@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="-jCet6qPD7nML4-W6IY2HZwfSblJyWta_Jx7_AGHgIk">
+  <meta name="baidu-site-verification" content="f349dc627a72ee616d62ed513574025d">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/orange/pace-theme-center-circle.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"weirdozz.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<meta name="description" content="决策树和梯度提升树简介 以下是表格数据的一个样例。其中列出了5个人物的信息，包括年龄、性别、职业、是否每天使用电脑这4个维度，我们希望利用这些信息构建机器学习模型，来预测一个人是否喜欢电脑游戏。因此，这4个维度的信息即是数据的特征，而是否喜欢电脑游戏则是数据的标签。每一行的数据是一个样本。 表1    年龄 性别 职业 是否每天使用电脑 是否喜欢电脑游戏     12 男 学生 是 是   13">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LightGBM的时间序列预测">
+<meta property="og:url" content="https://weirdozz.github.io/2022/01/20/LightGBM%E7%9A%84%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%E9%A2%84%E6%B5%8B/index.html">
+<meta property="og:site_name" content="Weirdo">
+<meta property="og:description" content="决策树和梯度提升树简介 以下是表格数据的一个样例。其中列出了5个人物的信息，包括年龄、性别、职业、是否每天使用电脑这4个维度，我们希望利用这些信息构建机器学习模型，来预测一个人是否喜欢电脑游戏。因此，这4个维度的信息即是数据的特征，而是否喜欢电脑游戏则是数据的标签。每一行的数据是一个样本。 表1    年龄 性别 职业 是否每天使用电脑 是否喜欢电脑游戏     12 男 学生 是 是   13">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.imgur.com/3cFe97Y.png">
+<meta property="og:image" content="https://i.imgur.com/ofGBFqu.png">
+<meta property="og:image" content="https://i.imgur.com/4juLbOA.png">
+<meta property="article:published_time" content="2022-01-20T03:05:57.000Z">
+<meta property="article:modified_time" content="2022-03-16T14:38:03.591Z">
+<meta property="article:author" content="Weirdo">
+<meta property="article:tag" content="LightGBM，GBDT">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/3cFe97Y.png">
+
+
+<link rel="canonical" href="https://weirdozz.github.io/2022/01/20/LightGBM%E7%9A%84%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%E9%A2%84%E6%B5%8B/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://weirdozz.github.io/2022/01/20/LightGBM%E7%9A%84%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%E9%A2%84%E6%B5%8B/","path":"2022/01/20/LightGBM的时间序列预测/","title":"LightGBM的时间序列预测"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>LightGBM的时间序列预测 | Weirdo</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Weirdo</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-movies"><a href="/movies/" rel="section"><i class="fa fa-film fa-fw"></i>电影</a></li>
+        <li class="menu-item menu-item-books"><a href="/books/" rel="section"><i class="fa fa-book fa-fw"></i>书籍</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%B3%E7%AD%96%E6%A0%91%E5%92%8C%E6%A2%AF%E5%BA%A6%E6%8F%90%E5%8D%87%E6%A0%91%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">决策树和梯度提升树简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%B3%E7%AD%96%E6%A0%91%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%BB%93%E6%9E%84"><span class="nav-number">1.1.</span> <span class="nav-text">决策树的基本结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%B3%E7%AD%96%E6%A0%91%E7%9A%84%E5%88%86%E7%B1%BB"><span class="nav-number">1.2.</span> <span class="nav-text">决策树的分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%B3%E7%AD%96%E6%A0%91%E7%9A%84%E8%AE%AD%E7%BB%83"><span class="nav-number">1.3.</span> <span class="nav-text">决策树的训练</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%B3%E7%AD%96%E6%A0%91%E7%9A%84%E6%AD%A3%E5%88%99"><span class="nav-number">1.4.</span> <span class="nav-text">决策树的正则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A2%AF%E5%BA%A6%E6%8F%90%E5%8D%87%E6%A0%91"><span class="nav-number">1.5.</span> <span class="nav-text">梯度提升树</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LightGBM"><span class="nav-number">2.</span> <span class="nav-text">LightGBM</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Weirdo"
+      src="/images/weirdo.jpg">
+  <p class="site-author-name" itemprop="name">Weirdo</p>
+  <div class="site-description" itemprop="description">怕什么真理无穷，进一步有进一步的欢喜</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/01/20/LightGBM%E7%9A%84%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%E9%A2%84%E6%B5%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/weirdo.jpg">
+      <meta itemprop="name" content="Weirdo">
+      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Weirdo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          LightGBM的时间序列预测
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-01-20 11:05:57" itemprop="dateCreated datePublished" datetime="2022-01-20T11:05:57+08:00">2022-01-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-03-16 22:38:03" itemprop="dateModified" datetime="2022-03-16T22:38:03+08:00">2022-03-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/MachineLearning/" itemprop="url" rel="index"><span itemprop="name">MachineLearning</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/01/20/LightGBM%E7%9A%84%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%E9%A2%84%E6%B5%8B/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/01/20/LightGBM的时间序列预测/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="决策树和梯度提升树简介">决策树和梯度提升树简介</h2>
+<p>以下是表格数据的一个样例。其中列出了5个人物的信息，包括年龄、性别、职业、是否每天使用电脑这4个维度，我们希望利用这些信息构建机器学习模型，来预测一个人是否喜欢电脑游戏。因此，这4个维度的信息即是数据的特征，而是否喜欢电脑游戏则是数据的标签。每一行的数据是一个样本。</p>
+<p>表1</p>
+<table>
+<thead>
+<tr>
+<th>年龄</th>
+<th>性别</th>
+<th>职业</th>
+<th>是否每天使用电脑</th>
+<th>是否喜欢电脑游戏</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>12</td>
+<td>男</td>
+<td>学生</td>
+<td>是</td>
+<td>是</td>
+</tr>
+<tr>
+<td>13</td>
+<td>女</td>
+<td>学生</td>
+<td>是</td>
+<td>否</td>
+</tr>
+<tr>
+<td>36</td>
+<td>女</td>
+<td>护士</td>
+<td>是</td>
+<td>否</td>
+</tr>
+<tr>
+<td>60</td>
+<td>男</td>
+<td>退休</td>
+<td>否</td>
+<td>否</td>
+</tr>
+<tr>
+<td>57</td>
+<td>女</td>
+<td>退休</td>
+<td>否</td>
+<td>否</td>
+</tr>
+</tbody>
+</table>
+<p>表格数据的特征类型可大致归为数值特征与类别特征这两大类。其中，数值特征的数值大小具有意义，不同特征值之间可以进行大小的比较，表1中的年龄就属于数值特征。而类别特征的不能比较大小，而是表示样本的一种属性，例如表1中的职业、性别等等。</p>
+<span id="more"></span>
+<h3 id="决策树的基本结构">决策树的基本结构</h3>
+<p>决策树是一种基于决策规则的树结构模型。下图是基于表1中数据的决策树的一个例子。该决策树使用表1中的特征预测了每个人是否喜爱电脑游戏。</p>
+<p><img src="https://i.imgur.com/3cFe97Y.png" alt="picture 1"></p>
+<p>样本从决策树的根节点出发，经过一系列的决策条件之后到达叶子节点。例如，对于表1中的第一个样本，由于其年龄不超过15岁，并且性别为男性，故会到达决策树最左边的叶子节点。决策树的每个叶子节点都包含一个常数预测值，作为所有落在该叶子上的样本的预测结果。</p>
+<h3 id="决策树的分类">决策树的分类</h3>
+<p>决策树的分类方法有许多。最常见的是根据其叶子上输出的类型进行分类。叶子上预测值为类别的，称为分类树，用于分类任务。叶子上预测值为实数值的，称为回归树，用于回归任务。上图中的决策树就是一个分类树。</p>
+<h3 id="决策树的训练">决策树的训练</h3>
+<p>同其他有监督学习方法一样，决策树的训练本身也是以优化某个目标函数为目的的。例如，对于回归问题，目标函数可以是最小化均方误差；对于分类问题，目标函数可以是最小化分类错误率。 但是，要找到一个最优的决策树结构非常困难，故决策树的训练通常使用自顶向下的贪心方法。流程如下：</p>
+<ol>
+<li>在训练的开始，决策树仅有一个根节点，所有的训练数据都被分配在根节点上（这时候的根节点也是叶子节点）。</li>
+<li>在当前每片叶子上，遍历所有可能的决策条件，并记录下对优化目标函数贡献（我们称这一贡献为分割增益，即split gain）最大的决策条件，作为该叶子的最优决策条件。</li>
+<li>选取一些叶子，将选中的每片叶子分割为两片新的叶子，同时将这些叶子上的训练数据按照最优决策条件划分到两片新的叶子上。</li>
+<li>对新的叶子赋予预测值，使落在该叶子上的这部分训练数据的目标函数值最优。</li>
+</ol>
+<p>循环以上过程，直到决策树达到预定的规模，或者没有合适的决策条件（例如，所有叶子上的决策条件都有损于目标函数的优化）为止。 需要特别说明的是，在步骤3中选取哪些叶子进行分割有两种常见的方式。第一种是按层分割，即每次分割现存的所有叶子节点。按层分割训练出来的决策树是一个完全二叉树。第二种是按叶子分割，每次只选取当前对优化目标函数最有效的那片叶子。按叶子分割产生的决策树不一定是完全二叉树，因此结构更加灵活。下图展示了两种分割的区别。</p>
+<p><img src="https://i.imgur.com/ofGBFqu.png" alt="picture 2"></p>
+<p>下图展示了以表1为训练数据，以最小化分类错误率为目标、按叶子分割的分类树训练过程。首先让我们关注一下每片叶子上的预测值。正如上面步骤4中所提到的，每片叶子上的预测值，是以最小化该片叶子上数据的分类错误率为目的的。例如，一开始所有数据点都在根节点上，这5条数据中，只有1条的标签为“是”，其余的标签均为“否”，因此一开始根节点上的预测值为否。分割了根节点之后，得到的紫色叶子上有一条数据标签为“是”，其他为“否”，对该叶子赋予“是”或“否”都没有区别，我们随机赋予它“是”作为预测值。 总结而言，对于最小化分类错误率的分类任务，一片叶子上的最优预测值是该片叶子上所有训练数据标签最多归属的类别。 对于最小化均方误差的回归任务，容易得到一片叶子上的最优预测值，就是该片叶子上所有训练数据的标签均值。</p>
+<p>接着我们来完整地查看这个决策树的训练过程。 在训练的一开始，分类错误率为⅕，且容易发现，不管在根节点上选择哪个决策条件，都不能降低分类错误率。因此，我们随机选取年龄是否超过15岁作为根节点的最优分割条件。分割好根节点之后，我们发现右边的子节点上的数据标签已经属于同一类别（都是“否”），它所对应的那部分训练数据的分类错误率已经是0，因此不需要对右边的子节点继续进行分割。考虑左边的子节点，显然，只有用性别作为决策条件才能够分开左边子节点上的两条数据，让训练误差达到0。</p>
+<p><img src="https://i.imgur.com/4juLbOA.png" alt="picture 3"></p>
+<h3 id="决策树的正则">决策树的正则</h3>
+<p>可以想象，只要我们不停地分割叶子节点，且训练集中不存在两条完全相同但标签不同的数据，最后一定可以让决策树完全拟合训练数据的标签，只是这样训练出来的决策树的通常只是在过拟合训练数据，泛化能力较差。因此，除了直接限制决策树的规模之外，在决策树的训练过程中通常会引入一些正则化的限制。常见的有： 1. 叶子上的训练数据不能少于一个阈值。 2. 分割叶子带来的目标函数的改进量不能低于某个阈值。</p>
+<h3 id="梯度提升树">梯度提升树</h3>
+<p>由于单个决策树的拟合能力有限，常通过集成学习的方式将许多决策树综合起来。其中梯度提升树（Gradient Boosted Decision Trees，GBDT）就是一种强有力的决策树集成学习算法，它通过训练一系列的回归树，使得预测值不断逼近目标。GBDT是一个迭代算法，每个迭代都会训练一棵新的回归树，这棵回归树的训练算法与普通的回归树并没有区别。不同的是它所使用的标签，具体如下。</p>
+<p>用 $t_i$ 表示第i轮迭代得到的回归树。那么，在进行完前k轮迭代之后，GBDT对训练数据点(x,y)（其中x为特征，y为标签）的预测值为 $f_k(x)=\sum_{i=1}^k t_i(x)$ 。则第k+1轮迭代训练使用的数据标签为 $-\frac{\partial l(y, \hat{y})}{\partial \hat{y}}|_{\hat{y} = t_k(x_i)}$ 。 其中 $l(y,\hat{y})$ 表示单个样本点对损失函数的贡献。例如，当损失函数为均方误差时， $l(y, \hat{y}) = \frac{1}{2}(y - \hat{y}) ^ 2$ 。因此，在第k+1轮迭代训练的决策树，实际上是拟合当前GBDT预测值对损失函数的负梯度。如果损失函数为均方误差，则负梯度为 $f_k(x)-y$ ，这实际上就是当前预测值与标签y的残差。</p>
+<p>前面提到决策树有分类树和回归树。而GBDT只使用回归树，那么GBDT如何处理分类任务呢？虽然，GBDT直接的预测输出是实数值，而不是类别，但是与逻辑回归类似，可以通过sigmoid函数或者softmax转化成分类概率。并以最小化cross-entropy作为训练目标。</p>
+<p>除了决策树本身的正则化手段之外，梯度提升树也有一些正则化方式，主要包括： 1. 在训练好一棵决策树之后，将它的输出乘上一个小的系数（通常小于1）。这一过程称为shrinkage，这个系数可以看作是GBDT的学习率。注意到沿着一个点的负梯度方向，通常只有在该点的领域附近才能带来损失函数的下降，如果走得太远，损失函数可能不降反升。shrinkage在这一点上，与神经网络梯度优化方法的训练中的学习率的作用是一致的。此外，大量的实验表明GBDT使用适当的学习率有助于提高泛化性能。 2. 每个决策树只采样一部分训练数据和特征进行训练。这样做一方面可以提高每个决策树的训练速度；另一方面，使用样本采样时，每个子模型看到了不同的数据集。虽然这些数据集都是整个训练集的子集，但是一定程度上避免了所有子模型过分集中精力去优化整个训练集上的表现，从而缓解了过拟合，也使得在不同测试集上的表现更加稳定。 3. 对回归树叶子的预测值进行L2正则。具体来说，在训练第k+1棵决策树时，在损失函数当中加入一项 $\beta \sum_{l \in t_{k+1}} w_l^2$ ，其中 $l\in t_{k+1}$ 表示决策树 $t_{k+1}$ 中的所有叶子，w_l表示叶子l上的预测值。</p>
+<h2 id="LightGBM">LightGBM</h2>
+<p>在性能方面，LightGBM的特点主要包括：</p>
+<ol>
+<li>率先支持了按叶子分割的决策树训练方式。在更早的GBDT开源实现中，均采用按层分割的决策树训练。正如上文介绍决策树训练的部分提到的，按叶子分割的方式更加灵活。使用相同叶子数量的情况下，按叶子分割可以更加充分地拟合训练数据。</li>
+<li>对类别特征的直接支持。在决策树的基本结构中，提到了决策树基于类别特征进行的分割，是选出类别特征所有取值中的一个子集 $\mathcal{C}$ 作为判断条件。若一个样本的该类别特征值在 $\mathcal{C}$ 中，则将被划分到左边的子节点，否则划分到右边的子节点。然而，要遍历所有这样的 $\mathcal{C}$ 并选出最优的一个，代价十分巨大。假设一个类别特征共有K种不同的取值，则需要考虑的子集 $\mathcal{C}$ 的数量为 $2^{K-1}-1$ 。在实际的数据中，很容易出现K达到上万甚至几十万的情况。因此，穷举所有的子集 $\mathcal{C}$ 的代价是不可接受的。因此，在GBDT中对类别特征常见的处理方式，是将它们通过编码转换成数值特征。LightGBM提供了一种高效地寻找最优子集 $\mathcal{C}$ 的方法，因此用户无需对类别特征进行额外的预处理。具体来说，在查找类别特征在某片叶子上的最优分割条件时，LightGBM首先将类别特征值按照某个统计量进行排序，然后按照这个顺序从左往右遍历不同的取值，并依次考虑将左边的全部取值作为子集 $\mathcal{C}$ 。关于排序使用的统计量这里不展开介绍，但是使用这个统计量，就可以保证选取出来的 $\mathcal{C}$ 一定是最优的。不过，由于选取的子集是 $2^{K-1}-1$ 个中最优的，因此这个方法很容易过拟合数据，尤其是在拥有每种类别特征值的训练样本数量较少的情况下。故LightGBM引入了三个对类别特征分割进行正则化的超参数，分别是: - max_cat_threshold，该参数限制子集 $\mathcal{C}$ 的最大允许规模。 - cat_smooth，该参数用于对排序使用的统计量进行平滑操作。 - cat_l2，该参数用于增加使用类别特征时的L2正则权重。 要让LightGBM对类别特征的直接支持达到比较好的效果，必须很仔细地调整好这三个参数，缓解过拟合。</li>
+</ol>
+<p>在效率方面，LightGBM的特性主要包括:</p>
+<ol>
+<li>率先使用特征直方图来加速最优分割条件的查找。所谓的直方图优化，就是对每个特征构建一个直方图，在直方图中的每个区间中，累积了计算分割增益所需要的统计量。在查找一个特征的最优分割点，只考虑从直方图的区间边界中进行选取。通常直方图的区间数量不需要太多，几十个到两百多个就可以取得很好的结果。减少候选分割点的数量还可以起到一定的正则化作用。此外，LightGBM还采用了直方图做差的技巧。具体来说，由于直方图每个区间中累积的统计量是按数据进行累加得到的，因此一个特征在父节点中的直方图就等于在两个子节点中的直方图之和。故对属于同一个父节点的两个子节点，我们只需要对其中一个数据量较少的节点构建直方图，而另一个节点的直方图可以从父节点的直方图中减去其兄弟节点的直方图来得到。使用直方图做差可以让直方图的构建加速至少两倍。</li>
+<li>基于梯度的单边样本采样(Gradient-based One-side Sampling，简称GOSS)。与随机森林类似，GBDT每一轮迭代可以只选取一部分数据进行训练。这样做一方面可以降低每轮迭代的训练开销，另一方面也可以提高模型的泛化性能。一般的样本采样方法是随机采样。但是在GBDT的训练中，样本的重要性是有区别的。由于每轮的决策树拟合的标签是当前每个样本的负梯度，故需要根据当前轮次的梯度进行分割增益的计算，因此梯度绝对值的大小很大程度上决定了样本对计算分割增益的贡献。因此，LightGBM提出了一种基于梯度的采样方法GOSS。假设训练数据总量为N，在训练每个决策树之前，GOSS首先选出梯度绝对值最大的a\times N样本，然后从剩下的样本中，再随机选取 $b\times N$ 个样本，并将随机选取的这b\times N个样本的梯度值乘上 $\frac{1-a}{b}$ ，从而保证采样后的样本梯度和是采样前的一个无偏估计（这样做是因为叶子上的分割增益的计算与梯度之和有关）。使用GOSS，可以在相同的采样率下，取得比随机采样更好的训练结果。</li>
+<li>互斥特征捆绑(Exclusive Feature Bundling，简称EFB)。在表格数据中，常常会遇到一些特征，它们只在很少的一部分训练数据上有取值，而在大部分训练数据上都是缺失的。这样的特征称为稀疏特征。EFB将稀疏特征分组，并将每个分组合并为一个稠密特征，从而减少了训练中的实际特征数量，优化了存储空间并提高最有分割条件的查找速度。合并的原则，是尽可能地减少同组内不同稀疏特征之间的冲突（当两个稀疏特征在同一个数据点都有取值时，我们称之为一个冲突）。</li>
+<li>LightGBM设计了一种改进的数据分布式方案，称为投票分布式(parallel voting trees)。与数据分布式一样，投票分布式将数据按行分配到不同的机器上，并使用本地数据构造不完整的直方图。但是构造完直方图之后，投票分布式只会选取一小部分特征，通过与其他机器的通信得到这些特征的全局直方图，这样就。这些特征的选取方式如下：首先每台机器使用本地不完整的直方图，计算出每个特征的最优分割增益，并选出增益最大的K个特征。记这台机器给这K个特征各投了一票。最后统计每个特征在所有机器中所得的票数，选出的票最高的2K个特征，只通信获得这2K个特征的全局直方图。实验表明投票分布式可以在不降低准确率的前提下减少通信时间，从而提高分布式训练的效率。</li>
+</ol>
+<p><a target="_blank" rel="noopener" href="https://microsoft.github.io/ai-edu/%E5%AE%9E%E8%B7%B5%E6%A1%88%E4%BE%8B/B16-%E5%9F%BA%E4%BA%8ELightGBM%E7%9A%84%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%E9%A2%84%E6%B5%8B/index.html#%E5%9F%BA%E4%BA%8Elightgbm%E7%9A%84%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%E9%A2%84%E6%B5%8B">具体案例</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/LightGBM%EF%BC%8CGBDT/" rel="tag"># LightGBM，GBDT</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/01/16/KnowledgeDistill/" rel="prev" title="Distilling the Knowledge in a Neural Network">
+                  <i class="fa fa-chevron-left"></i> Distilling the Knowledge in a Neural Network
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/01/20/kaggle%E6%95%B0%E6%8D%AE%E9%9B%86%E4%B8%8A%E4%BC%A0%E5%88%B0colab/" rel="next" title="kaggle数据集上传到colab">
+                  kaggle数据集上传到colab <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Weirdo</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"weirdoblog","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>
