@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://weirdozz.github.io/2022/03/16/EvolveGCN-Evolving-Graph-Convolutional-Networks-for-Dynamic-Graphs/</loc>
+    
+    <lastmod>2022-03-18</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://weirdozz.github.io/2022/03/17/github%E6%97%A0%E6%B3%95%E7%94%A8%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%BF%9E%E6%8E%A5/</loc>
     
     <lastmod>2022-03-17</lastmod>
@@ -12,15 +21,6 @@
   
   <url>
     <loc>https://weirdozz.github.io/2022/03/06/GORM%E5%AD%A6%E4%B9%A0/</loc>
-    
-    <lastmod>2022-03-17</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://weirdozz.github.io/2022/03/16/EvolveGCN-Evolving-Graph-Convolutional-Networks-for-Dynamic-Graphs/</loc>
     
     <lastmod>2022-03-17</lastmod>
     
@@ -166,7 +166,7 @@
 
   <url>
     <loc>https://weirdozz.github.io/</loc>
-    <lastmod>2022-03-17</lastmod>
+    <lastmod>2022-03-18</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -174,77 +174,77 @@
   
   <url>
     <loc>https://weirdozz.github.io/tags/Hinton/</loc>
-    <lastmod>2022-03-17</lastmod>
+    <lastmod>2022-03-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://weirdozz.github.io/tags/LightGBM%EF%BC%8CGBDT/</loc>
-    <lastmod>2022-03-17</lastmod>
+    <lastmod>2022-03-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://weirdozz.github.io/tags/colab-kaggle/</loc>
-    <lastmod>2022-03-17</lastmod>
+    <lastmod>2022-03-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://weirdozz.github.io/tags/error/</loc>
-    <lastmod>2022-03-17</lastmod>
+    <lastmod>2022-03-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://weirdozz.github.io/tags/GCN-GNN/</loc>
-    <lastmod>2022-03-17</lastmod>
+    <lastmod>2022-03-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://weirdozz.github.io/tags/sql-docker-gorm/</loc>
-    <lastmod>2022-03-17</lastmod>
+    <lastmod>2022-03-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://weirdozz.github.io/tags/web/</loc>
-    <lastmod>2022-03-17</lastmod>
+    <lastmod>2022-03-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://weirdozz.github.io/tags/net-http/</loc>
-    <lastmod>2022-03-17</lastmod>
+    <lastmod>2022-03-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://weirdozz.github.io/tags/ssh/</loc>
-    <lastmod>2022-03-17</lastmod>
+    <lastmod>2022-03-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://weirdozz.github.io/tags/sql-docker/</loc>
-    <lastmod>2022-03-17</lastmod>
+    <lastmod>2022-03-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://weirdozz.github.io/tags/GPU/</loc>
-    <lastmod>2022-03-17</lastmod>
+    <lastmod>2022-03-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -253,63 +253,63 @@
   
   <url>
     <loc>https://weirdozz.github.io/categories/Incremental-Learning/</loc>
-    <lastmod>2022-03-17</lastmod>
+    <lastmod>2022-03-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://weirdozz.github.io/categories/go/</loc>
-    <lastmod>2022-03-17</lastmod>
+    <lastmod>2022-03-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://weirdozz.github.io/categories/MachineLearning/</loc>
-    <lastmod>2022-03-17</lastmod>
+    <lastmod>2022-03-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://weirdozz.github.io/categories/Code/</loc>
-    <lastmod>2022-03-17</lastmod>
+    <lastmod>2022-03-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://weirdozz.github.io/categories/%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B/</loc>
-    <lastmod>2022-03-17</lastmod>
+    <lastmod>2022-03-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://weirdozz.github.io/categories/%E5%90%8E%E7%AB%AF/</loc>
-    <lastmod>2022-03-17</lastmod>
+    <lastmod>2022-03-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://weirdozz.github.io/categories/github/</loc>
-    <lastmod>2022-03-17</lastmod>
+    <lastmod>2022-03-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://weirdozz.github.io/categories/DeepLearning/</loc>
-    <lastmod>2022-03-17</lastmod>
+    <lastmod>2022-03-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://weirdozz.github.io/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8/</loc>
-    <lastmod>2022-03-17</lastmod>
+    <lastmod>2022-03-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
