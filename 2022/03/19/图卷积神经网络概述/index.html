@@ -24,28 +24,34 @@
   <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"weirdozz.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
-<meta name="description" content="从服务器上下载文件 1scp &lt;用户名&gt;@&lt;ssh服务器地址&gt;:&lt;文件路径&gt; &lt;本地文件名&gt; 比如下载文件到桌面 1scp root@127.0.0.1:~&#x2F;test.txt ~&#x2F;Desktop&#x2F;test.txt 上传文件到服务器 1scp &lt;本地文件名&gt; &lt;用户名&gt;@&lt;ssh服务器地址&gt;:&lt;上传保存路径即文">
+<meta name="description" content="图卷积缘起 我们要思考：为什么研究者们要设计图卷积，直接在图上不能应用传统的卷积吗？要理解这个，我们首先要理解应用传统卷积的图像（欧氏空间）和图（非欧式空间的区别）。如下图，是在两种不同结构上应用卷积的场景  图卷积真正的难点在于 邻居节点数量不固定。目前有两中主流的研究方向  将非欧式空间转换为欧式空间 找出一种可以处理变长邻居节点的卷积核在图上抽取特征  图卷积的框架 如下图所示，输入的是整张">
 <meta property="og:type" content="article">
-<meta property="og:title" content="使用ssh传输文件&#x2F;文件夹">
-<meta property="og:url" content="https://weirdozz.github.io/2022/02/16/%E4%BD%BF%E7%94%A8ssh%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6-%E6%96%87%E4%BB%B6%E5%A4%B9/index.html">
+<meta property="og:title" content="图卷积神经网络概述">
+<meta property="og:url" content="https://weirdozz.github.io/2022/03/19/%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/index.html">
 <meta property="og:site_name" content="Weirdo">
-<meta property="og:description" content="从服务器上下载文件 1scp &lt;用户名&gt;@&lt;ssh服务器地址&gt;:&lt;文件路径&gt; &lt;本地文件名&gt; 比如下载文件到桌面 1scp root@127.0.0.1:~&#x2F;test.txt ~&#x2F;Desktop&#x2F;test.txt 上传文件到服务器 1scp &lt;本地文件名&gt; &lt;用户名&gt;@&lt;ssh服务器地址&gt;:&lt;上传保存路径即文">
+<meta property="og:description" content="图卷积缘起 我们要思考：为什么研究者们要设计图卷积，直接在图上不能应用传统的卷积吗？要理解这个，我们首先要理解应用传统卷积的图像（欧氏空间）和图（非欧式空间的区别）。如下图，是在两种不同结构上应用卷积的场景  图卷积真正的难点在于 邻居节点数量不固定。目前有两中主流的研究方向  将非欧式空间转换为欧式空间 找出一种可以处理变长邻居节点的卷积核在图上抽取特征  图卷积的框架 如下图所示，输入的是整张">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-02-16T09:50:58.000Z">
-<meta property="article:modified_time" content="2022-02-19T22:33:06.753Z">
+<meta property="og:image" content="https://i.imgur.com/PrBt36X.png">
+<meta property="og:image" content="https://i.imgur.com/3Jnfovx.png">
+<meta property="og:image" content="https://i.imgur.com/dmxgXS1.png">
+<meta property="og:image" content="https://i.imgur.com/aaerMwm.png">
+<meta property="og:image" content="https://i.imgur.com/N3phwJo.png">
+<meta property="article:published_time" content="2022-03-18T23:37:08.000Z">
+<meta property="article:modified_time" content="2022-03-19T00:58:31.379Z">
 <meta property="article:author" content="Weirdo">
-<meta property="article:tag" content="ssh">
+<meta property="article:tag" content="GCN 综述">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/PrBt36X.png">
 
 
-<link rel="canonical" href="https://weirdozz.github.io/2022/02/16/%E4%BD%BF%E7%94%A8ssh%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6-%E6%96%87%E4%BB%B6%E5%A4%B9/">
+<link rel="canonical" href="https://weirdozz.github.io/2022/03/19/%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://weirdozz.github.io/2022/02/16/%E4%BD%BF%E7%94%A8ssh%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6-%E6%96%87%E4%BB%B6%E5%A4%B9/","path":"2022/02/16/使用ssh传输文件-文件夹/","title":"使用ssh传输文件/文件夹"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://weirdozz.github.io/2022/03/19/%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/","path":"2022/03/19/图卷积神经网络概述/","title":"图卷积神经网络概述"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>使用ssh传输文件/文件夹 | Weirdo</title>
+<title>图卷积神经网络概述 | Weirdo</title>
   
 
 
@@ -125,7 +131,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8E%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E4%B8%8B%E8%BD%BD%E6%96%87%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">从服务器上下载文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">2.</span> <span class="nav-text">上传文件到服务器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E4%BA%8E%E6%96%87%E4%BB%B6%E5%A4%B9%E7%9A%84%E6%93%8D%E4%BD%9C"><span class="nav-number">3.</span> <span class="nav-text">对于文件夹的操作</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%BC%98%E8%B5%B7"><span class="nav-number">1.</span> <span class="nav-text">图卷积缘起</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%9A%84%E6%A1%86%E6%9E%B6"><span class="nav-number">2.</span> <span class="nav-text">图卷积的框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%B7%E7%A7%AF"><span class="nav-number">3.</span> <span class="nav-text">卷积</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A9%BA%E5%9F%9F%E5%8D%B7%E7%A7%AF"><span class="nav-number">3.1.</span> <span class="nav-text">空域卷积</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E4%BC%A0%E9%80%92%E7%BD%91%E7%BB%9C%EF%BC%88Message-Passing-Neural-Network%EF%BC%89"><span class="nav-number">3.2.</span> <span class="nav-text">消息传递网络（Message Passing Neural Network）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BE%E9%87%87%E6%A0%B7%E4%B8%8E%E8%81%9A%E5%90%88"><span class="nav-number">3.3.</span> <span class="nav-text">图采样与聚合</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -190,7 +196,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/02/16/%E4%BD%BF%E7%94%A8ssh%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6-%E6%96%87%E4%BB%B6%E5%A4%B9/">
+    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/03/19/%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/weirdo.jpg">
@@ -203,7 +209,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          使用ssh传输文件/文件夹
+          图卷积神经网络概述
         </h1>
 
         <div class="post-meta-container">
@@ -213,15 +219,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
+      
 
-      <time title="创建时间：2022-02-16 17:50:58" itemprop="dateCreated datePublished" datetime="2022-02-16T17:50:58+08:00">2022-02-16</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-02-20 06:33:06" itemprop="dateModified" datetime="2022-02-20T06:33:06+08:00">2022-02-20</time>
+      <time title="创建时间：2022-03-19 07:37:08 / 修改时间：08:58:31" itemprop="dateCreated datePublished" datetime="2022-03-19T07:37:08+08:00">2022-03-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -229,7 +229,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8/" itemprop="url" rel="index"><span itemprop="name">服务器</span></a>
+          <a href="/categories/%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">图神经网络</span></a>
         </span>
     </span>
 
@@ -242,8 +242,8 @@
       </span>
       <span class="post-meta-item-text">Disqus：</span>
     
-    <a title="disqus" href="/2022/02/16/%E4%BD%BF%E7%94%A8ssh%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6-%E6%96%87%E4%BB%B6%E5%A4%B9/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/02/16/使用ssh传输文件-文件夹/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2022/03/19/%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/03/19/图卷积神经网络概述/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -257,15 +257,37 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h2 id="从服务器上下载文件">从服务器上下载文件</h2>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp &lt;用户名&gt;@&lt;ssh服务器地址&gt;:&lt;文件路径&gt; &lt;本地文件名&gt;</span><br></pre></td></tr></table></figure>
-<p>比如下载文件到桌面</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp root@127.0.0.1:~/test.txt ~/Desktop/test.txt</span><br></pre></td></tr></table></figure>
-<h2 id="上传文件到服务器">上传文件到服务器</h2>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp &lt;本地文件名&gt; &lt;用户名&gt;@&lt;ssh服务器地址&gt;:&lt;上传保存路径即文件名&gt;</span><br></pre></td></tr></table></figure>
-<p>这里需要注意：只能将文件上传到用户目录下，如果需要上传到其他地方需要之后再自行移动文件</p>
-<h2 id="对于文件夹的操作">对于文件夹的操作</h2>
-<p>只需要加个-r操作就可以了</p>
+        <h2 id="图卷积缘起">图卷积缘起</h2>
+<p>我们要思考：为什么研究者们要设计图卷积，直接在图上不能应用传统的卷积吗？要理解这个，我们首先要理解应用传统卷积的图像（欧氏空间）和图（非欧式空间的区别）。如下图，是在两种不同结构上应用卷积的场景</p>
+<p><img src="https://i.imgur.com/PrBt36X.png" alt="picture 6"></p>
+<p>图卷积真正的难点在于 <strong>邻居节点数量不固定</strong>。目前有两中主流的研究方向</p>
+<ul>
+<li>将非欧式空间转换为欧式空间</li>
+<li>找出一种可以处理变长邻居节点的卷积核在图上抽取特征</li>
+</ul>
+<h2 id="图卷积的框架">图卷积的框架</h2>
+<p>如下图所示，输入的是整张图，在<code>Convolution Layer 1</code>里面，对每个节点的邻居都进行一次卷积操作，并且用卷积的结果更新这个节点；然后经过激活函数传给<code>Convolution Layer 2</code>与激活函数，重复这个过程。</p>
+<p>与GNN类似，GCN也有一个局部输出函数，用于将节点的状态（包括隐藏状态和节点特征）转换成任务相关的标签，称为<code>Node-Level</code>的任务；也有些任务是对整张图进行分类的，比如化合物分类，称为<code>Graph-Level</code>的任务。卷积操作只关心每个节点的隐藏状态如何更新，而对于<code>Graph-Level</code>的任务，会在卷积层之后增加更多的操作。</p>
+<h2 id="卷积">卷积</h2>
+<p>图卷积神经网络主要两中：空域和频域的。通俗点，空域就是直接在图片的像素点上进行卷积，频域是对图片进行傅里叶变换后再卷积。</p>
+<h3 id="空域卷积">空域卷积</h3>
+<p>其核心在于聚合邻居节点的信息。比如最简单的无参卷积方式是：将所有直连邻居节点的隐藏状态加和，来更新当前节点的隐藏状态。</p>
+<p><img src="https://i.imgur.com/3Jnfovx.png" alt="picture 14"></p>
+<h3 id="消息传递网络（Message-Passing-Neural-Network）">消息传递网络（Message Passing Neural Network）</h3>
+<p>严格来说，MPNN并不是一种具体的模型，而是一种空域卷积的形式化框架。将空域卷积分解为两个过程：消息传递和状态更新，分别由$M_l(·)$和$U_l(·)$函数完成。将节点v的特征$X_v$作为隐藏状态的初始状态$H_v^0$之后，空域卷积对隐藏状态的更新如下：</p>
+<p><img src="https://i.imgur.com/dmxgXS1.png" alt="picture 15"></p>
+<p>其中l代表卷积层的第l层。式子的物理意义是：受到来自每个邻居的消息$M_{l+1}$之后，每个节点如何更新自己的状态。</p>
+<p>MPNN的示意图如下</p>
+<p><img src="https://i.imgur.com/aaerMwm.png" alt="picture 16"></p>
+<h3 id="图采样与聚合">图采样与聚合</h3>
+<p>MPNN很好地概括了空域卷积的过程，但这个框架下的所有模型都有一个共同的缺陷：卷积操作针对的对象是整张图，即要将所有的节点放到内存中，才能卷积。但是实际应用中，整个图上的卷积操作并不现实。GraphSage利用采样部分节点的方式进行学习。当然，即使不需要整张图同时卷积，GraphSage仍然需要聚合邻居节点的信息。这种操作类似于MPNN中的消息传递过程</p>
+<p><img src="https://i.imgur.com/N3phwJo.png" alt="picture 17"></p>
+<p>具体采样过程分为三步：</p>
+<ol>
+<li>在图中随机采样若干个节点，节点数就是传统任务中的<code>batch_size</code>。对于每个节点，随机选择固定数目的邻居节点（未必是一阶邻居，也可以是二阶邻居）。</li>
+<li>将邻居节点的信息通过aggregate函数聚合起来更新刚才采样的节点</li>
+<li>计算采样节点处的损失。如果是无监督任务，我们希望图上邻居节点的编码相似；如果是监督任务，可以根据具体节点的任务标签计算损失。</li>
+</ol>
 
     </div>
 
@@ -275,21 +297,18 @@
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/ssh/" rel="tag"># ssh</a>
+              <a href="/tags/GCN-%E7%BB%BC%E8%BF%B0/" rel="tag"># GCN 综述</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2022/01/28/%E4%BD%BF%E7%94%A8golang+postgres+docker%E8%BF%9B%E8%A1%8C%E5%BC%80%E5%8F%91/" rel="prev" title="使用golang+postgres+docker进行开发">
-                  <i class="fa fa-chevron-left"></i> 使用golang+postgres+docker进行开发
+                <a href="/2022/03/19/%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/" rel="prev" title="图神经网络概述">
+                  <i class="fa fa-chevron-left"></i> 图神经网络概述
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2022/02/21/http-Client%E8%BF%9E%E6%8E%A5%E8%A1%8C%E4%B8%BA%E6%8E%A7%E5%88%B6/" rel="next" title="http.Client连接行为控制">
-                  http.Client连接行为控制 <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
     </footer>

@@ -137,7 +137,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-count">16</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -148,7 +148,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -186,6 +186,124 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/03/19/%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/weirdo.jpg">
+      <meta itemprop="name" content="Weirdo">
+      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Weirdo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/03/19/%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/" class="post-title-link" itemprop="url">图卷积神经网络概述</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-03-19 07:37:08 / 修改时间：08:58:31" itemprop="dateCreated datePublished" datetime="2022-03-19T07:37:08+08:00">2022-03-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">图神经网络</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/03/19/%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/03/19/图卷积神经网络概述/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="图卷积缘起">图卷积缘起</h2>
+<p>我们要思考：为什么研究者们要设计图卷积，直接在图上不能应用传统的卷积吗？要理解这个，我们首先要理解应用传统卷积的图像（欧氏空间）和图（非欧式空间的区别）。如下图，是在两种不同结构上应用卷积的场景</p>
+<p><img src="https://i.imgur.com/PrBt36X.png" alt="picture 6"></p>
+<p>图卷积真正的难点在于 <strong>邻居节点数量不固定</strong>。目前有两中主流的研究方向</p>
+<ul>
+<li>将非欧式空间转换为欧式空间</li>
+<li>找出一种可以处理变长邻居节点的卷积核在图上抽取特征</li>
+</ul>
+<h2 id="图卷积的框架">图卷积的框架</h2>
+<p>如下图所示，输入的是整张图，在<code>Convolution Layer 1</code>里面，对每个节点的邻居都进行一次卷积操作，并且用卷积的结果更新这个节点；然后经过激活函数传给<code>Convolution Layer 2</code>与激活函数，重复这个过程。</p>
+<p>与GNN类似，GCN也有一个局部输出函数，用于将节点的状态（包括隐藏状态和节点特征）转换成任务相关的标签，称为<code>Node-Level</code>的任务；也有些任务是对整张图进行分类的，比如化合物分类，称为<code>Graph-Level</code>的任务。卷积操作只关心每个节点的隐藏状态如何更新，而对于<code>Graph-Level</code>的任务，会在卷积层之后增加更多的操作。</p>
+<h2 id="卷积">卷积</h2>
+<p>图卷积神经网络主要两中：空域和频域的。通俗点，空域就是直接在图片的像素点上进行卷积，频域是对图片进行傅里叶变换后再卷积。</p>
+<h3 id="空域卷积">空域卷积</h3>
+<p>其核心在于聚合邻居节点的信息。比如最简单的无参卷积方式是：将所有直连邻居节点的隐藏状态加和，来更新当前节点的隐藏状态。</p>
+<p><img src="https://i.imgur.com/3Jnfovx.png" alt="picture 14"></p>
+<h3 id="消息传递网络（Message-Passing-Neural-Network）">消息传递网络（Message Passing Neural Network）</h3>
+<p>严格来说，MPNN并不是一种具体的模型，而是一种空域卷积的形式化框架。将空域卷积分解为两个过程：消息传递和状态更新，分别由$M_l(·)$和$U_l(·)$函数完成。将节点v的特征$X_v$作为隐藏状态的初始状态$H_v^0$之后，空域卷积对隐藏状态的更新如下：</p>
+<p><img src="https://i.imgur.com/dmxgXS1.png" alt="picture 15"></p>
+<p>其中l代表卷积层的第l层。式子的物理意义是：受到来自每个邻居的消息$M_{l+1}$之后，每个节点如何更新自己的状态。</p>
+<p>MPNN的示意图如下</p>
+<p><img src="https://i.imgur.com/aaerMwm.png" alt="picture 16"></p>
+<h3 id="图采样与聚合">图采样与聚合</h3>
+<p>MPNN很好地概括了空域卷积的过程，但这个框架下的所有模型都有一个共同的缺陷：卷积操作针对的对象是整张图，即要将所有的节点放到内存中，才能卷积。但是实际应用中，整个图上的卷积操作并不现实。GraphSage利用采样部分节点的方式进行学习。当然，即使不需要整张图同时卷积，GraphSage仍然需要聚合邻居节点的信息。这种操作类似于MPNN中的消息传递过程</p>
+<p><img src="https://i.imgur.com/N3phwJo.png" alt="picture 17"></p>
+<p>具体采样过程分为三步：</p>
+<ol>
+<li>在图中随机采样若干个节点，节点数就是传统任务中的<code>batch_size</code>。对于每个节点，随机选择固定数目的邻居节点（未必是一阶邻居，也可以是二阶邻居）。</li>
+<li>将邻居节点的信息通过aggregate函数聚合起来更新刚才采样的节点</li>
+<li>计算采样节点处的损失。如果是无监督任务，我们希望图上邻居节点的编码相似；如果是监督任务，可以根据具体节点的任务标签计算损失。</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/03/19/%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -211,7 +329,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2022-03-19 05:12:47 / 修改时间：07:35:08" itemprop="dateCreated datePublished" datetime="2022-03-19T05:12:47+08:00">2022-03-19</time>
+      <time title="创建时间：2022-03-19 05:12:47 / 修改时间：07:55:14" itemprop="dateCreated datePublished" datetime="2022-03-19T05:12:47+08:00">2022-03-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -249,9 +367,7 @@
     <div class="post-body" itemprop="articleBody">
           <h2 id="状态更新与输出">状态更新与输出</h2>
 <p>最早的图神经网络的理论基础是不动点理论。给定一张图$G$，每个节点都有其自身特征$X_v$，每个边也有其自身特征$X_{(u,v)}$。GNN的学习目标就是获得每个结点的图感知的隐藏状态，即：对于每个节点，其隐藏状态包含来自邻居节点的信息。那如何让每个节点都能感知到图上的其他节点呢？GNN通过迭代式更新所有节点的隐藏状态来实现，在t+1时刻，节点的隐藏状态按照如下方式更新：</p>
-<p>$$<br>
-\mathbf{h}<em>{v}^{t+1}=f\left(\mathbf{x}</em>{v}, \mathbf{x}<em>{c} o[v], \mathbf{h}</em>{n}^{t} e[v], \mathbf{x}_{n} e[v]\right)<br>
-$$</p>
+<p><img src="https://i.imgur.com/2vgW7gB.png" alt="picture 8"></p>
 <p>其中f就是隐藏状态的更新函数，$x_co[v]$是与节点v相邻的边的特征，$x_ne[v]$是节点v的邻居节点的特征，$h_n^te[v]$是邻居节点在t时刻的隐藏状态。神经网络需要做的就是拟合这个函数f。</p>
           <!--noindex-->
             <div class="post-button">
@@ -411,7 +527,7 @@ $$</p>
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-03-18 19:10:34" itemprop="dateModified" datetime="2022-03-18T19:10:34+08:00">2022-03-18</time>
+      <time title="修改时间：2022-03-19 11:00:39" itemprop="dateModified" datetime="2022-03-19T11:00:39+08:00">2022-03-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1095,98 +1211,6 @@ $$</p>
 <h2 id="方法二">方法二</h2>
 <p>对上述数据使用<code>.to(device)</code>，device需要提前设置好，利用<code>torch.device(&quot;cuda:i&quot;)</code>其中i是你想用那一块显卡</p>
 <p><code>device=torch.device('cuda' if torch.cuda.is_available() else 'cpu')</code></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/01/25/%E5%B8%B8%E8%A7%81%E7%9A%84%E6%8A%A5%E9%94%99%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E5%BC%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/weirdo.jpg">
-      <meta itemprop="name" content="Weirdo">
-      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Weirdo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/01/25/%E5%B8%B8%E8%A7%81%E7%9A%84%E6%8A%A5%E9%94%99%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E5%BC%8F/" class="post-title-link" itemprop="url">常见的报错以及解决方式</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-01-25 23:14:49 / 修改时间：23:16:37" itemprop="dateCreated datePublished" datetime="2022-01-25T23:14:49+08:00">2022-01-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Code/" itemprop="url" rel="index"><span itemprop="name">Code</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2022/01/25/%E5%B8%B8%E8%A7%81%E7%9A%84%E6%8A%A5%E9%94%99%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E5%BC%8F/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/01/25/常见的报错以及解决方式/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="Deep-Learning">Deep Learning</h2>
-<h3 id="tqdm">tqdm</h3>
-<ul>
-<li>使用tqdm对迭代对象时，如果出现<code>'module' object is not callable</code>则将<code>import tqdm</code>改为<code>tqdm</code></li>
-</ul>
 
       
     </div>
