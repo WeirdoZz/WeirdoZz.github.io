@@ -24,12 +24,12 @@
   <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"weirdozz.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
-<meta name="description" content="图卷积缘起 我们要思考：为什么研究者们要设计图卷积，直接在图上不能应用传统的卷积吗？要理解这个，我们首先要理解应用传统卷积的图像（欧氏空间）和图（非欧式空间的区别）。如下图，是在两种不同结构上应用卷积的场景  图卷积真正的难点在于 邻居节点数量不固定。目前有两中主流的研究方向  将非欧式空间转换为欧式空间 找出一种可以处理变长邻居节点的卷积核在图上抽取特征  图卷积的框架 如下图所示，输入的是整张">
+<meta name="description" content="图卷积缘起我们要思考：为什么研究者们要设计图卷积，直接在图上不能应用传统的卷积吗？要理解这个，我们首先要理解应用传统卷积的图像（欧氏空间）和图（非欧式空间的区别）。如下图，是在两种不同结构上应用卷积的场景    图卷积真正的难点在于 邻居节点数量不固定。目前有两中主流的研究方向  将非欧式空间转换为欧式空间 找出一种可以处理变长邻居节点的卷积核在图上抽取特征  图卷积的框架如下图所示，输入的是整张">
 <meta property="og:type" content="article">
 <meta property="og:title" content="图卷积神经网络概述">
 <meta property="og:url" content="https://weirdozz.github.io/2022/03/19/%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/index.html">
 <meta property="og:site_name" content="Weirdo">
-<meta property="og:description" content="图卷积缘起 我们要思考：为什么研究者们要设计图卷积，直接在图上不能应用传统的卷积吗？要理解这个，我们首先要理解应用传统卷积的图像（欧氏空间）和图（非欧式空间的区别）。如下图，是在两种不同结构上应用卷积的场景  图卷积真正的难点在于 邻居节点数量不固定。目前有两中主流的研究方向  将非欧式空间转换为欧式空间 找出一种可以处理变长邻居节点的卷积核在图上抽取特征  图卷积的框架 如下图所示，输入的是整张">
+<meta property="og:description" content="图卷积缘起我们要思考：为什么研究者们要设计图卷积，直接在图上不能应用传统的卷积吗？要理解这个，我们首先要理解应用传统卷积的图像（欧氏空间）和图（非欧式空间的区别）。如下图，是在两种不同结构上应用卷积的场景    图卷积真正的难点在于 邻居节点数量不固定。目前有两中主流的研究方向  将非欧式空间转换为欧式空间 找出一种可以处理变长邻居节点的卷积核在图上抽取特征  图卷积的框架如下图所示，输入的是整张">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://i.imgur.com/PrBt36X.png">
 <meta property="og:image" content="https://i.imgur.com/3Jnfovx.png">
@@ -37,7 +37,7 @@
 <meta property="og:image" content="https://i.imgur.com/aaerMwm.png">
 <meta property="og:image" content="https://i.imgur.com/N3phwJo.png">
 <meta property="article:published_time" content="2022-03-18T23:37:08.000Z">
-<meta property="article:modified_time" content="2022-03-19T00:58:31.379Z">
+<meta property="article:modified_time" content="2022-03-19T03:13:15.656Z">
 <meta property="article:author" content="Weirdo">
 <meta property="article:tag" content="GCN 综述">
 <meta name="twitter:card" content="summary">
@@ -131,7 +131,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%BC%98%E8%B5%B7"><span class="nav-number">1.</span> <span class="nav-text">图卷积缘起</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%9A%84%E6%A1%86%E6%9E%B6"><span class="nav-number">2.</span> <span class="nav-text">图卷积的框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%B7%E7%A7%AF"><span class="nav-number">3.</span> <span class="nav-text">卷积</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A9%BA%E5%9F%9F%E5%8D%B7%E7%A7%AF"><span class="nav-number">3.1.</span> <span class="nav-text">空域卷积</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E4%BC%A0%E9%80%92%E7%BD%91%E7%BB%9C%EF%BC%88Message-Passing-Neural-Network%EF%BC%89"><span class="nav-number">3.2.</span> <span class="nav-text">消息传递网络（Message Passing Neural Network）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BE%E9%87%87%E6%A0%B7%E4%B8%8E%E8%81%9A%E5%90%88"><span class="nav-number">3.3.</span> <span class="nav-text">图采样与聚合</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%BC%98%E8%B5%B7"><span class="nav-number">1.</span> <span class="nav-text">图卷积缘起</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%9A%84%E6%A1%86%E6%9E%B6"><span class="nav-number">2.</span> <span class="nav-text">图卷积的框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%B7%E7%A7%AF"><span class="nav-number">3.</span> <span class="nav-text">卷积</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A9%BA%E5%9F%9F%E5%8D%B7%E7%A7%AF"><span class="nav-number">3.1.</span> <span class="nav-text">空域卷积</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E4%BC%A0%E9%80%92%E7%BD%91%E7%BB%9C%EF%BC%88Message-Passing-Neural-Network%EF%BC%89"><span class="nav-number">3.2.</span> <span class="nav-text">消息传递网络（Message Passing Neural Network）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%BE%E9%87%87%E6%A0%B7%E4%B8%8E%E8%81%9A%E5%90%88"><span class="nav-number">3.3.</span> <span class="nav-text">图采样与聚合</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E7%BB%93%E6%9E%84%E5%BA%8F%E5%88%97%E5%8C%96"><span class="nav-number">4.</span> <span class="nav-text">图结构序列化</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -221,7 +221,7 @@
       <span class="post-meta-item-text">发表于</span>
       
 
-      <time title="创建时间：2022-03-19 07:37:08 / 修改时间：08:58:31" itemprop="dateCreated datePublished" datetime="2022-03-19T07:37:08+08:00">2022-03-19</time>
+      <time title="创建时间：2022-03-19 07:37:08 / 修改时间：11:13:15" itemprop="dateCreated datePublished" datetime="2022-03-19T07:37:08+08:00">2022-03-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -257,38 +257,35 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h2 id="图卷积缘起">图卷积缘起</h2>
-<p>我们要思考：为什么研究者们要设计图卷积，直接在图上不能应用传统的卷积吗？要理解这个，我们首先要理解应用传统卷积的图像（欧氏空间）和图（非欧式空间的区别）。如下图，是在两种不同结构上应用卷积的场景</p>
-<p><img src="https://i.imgur.com/PrBt36X.png" alt="picture 6"></p>
+        <h2 id="图卷积缘起"><a href="#图卷积缘起" class="headerlink" title="图卷积缘起"></a>图卷积缘起</h2><p>我们要思考：为什么研究者们要设计图卷积，直接在图上不能应用传统的卷积吗？要理解这个，我们首先要理解应用传统卷积的图像（欧氏空间）和图（非欧式空间的区别）。如下图，是在两种不同结构上应用卷积的场景</p>
+<p><img src="https://i.imgur.com/PrBt36X.png" alt="picture 6">  </p>
 <p>图卷积真正的难点在于 <strong>邻居节点数量不固定</strong>。目前有两中主流的研究方向</p>
 <ul>
 <li>将非欧式空间转换为欧式空间</li>
 <li>找出一种可以处理变长邻居节点的卷积核在图上抽取特征</li>
 </ul>
-<h2 id="图卷积的框架">图卷积的框架</h2>
-<p>如下图所示，输入的是整张图，在<code>Convolution Layer 1</code>里面，对每个节点的邻居都进行一次卷积操作，并且用卷积的结果更新这个节点；然后经过激活函数传给<code>Convolution Layer 2</code>与激活函数，重复这个过程。</p>
+<h2 id="图卷积的框架"><a href="#图卷积的框架" class="headerlink" title="图卷积的框架"></a>图卷积的框架</h2><p>如下图所示，输入的是整张图，在<code>Convolution Layer 1</code>里面，对每个节点的邻居都进行一次卷积操作，并且用卷积的结果更新这个节点；然后经过激活函数传给<code>Convolution Layer 2</code>与激活函数，重复这个过程。</p>
 <p>与GNN类似，GCN也有一个局部输出函数，用于将节点的状态（包括隐藏状态和节点特征）转换成任务相关的标签，称为<code>Node-Level</code>的任务；也有些任务是对整张图进行分类的，比如化合物分类，称为<code>Graph-Level</code>的任务。卷积操作只关心每个节点的隐藏状态如何更新，而对于<code>Graph-Level</code>的任务，会在卷积层之后增加更多的操作。</p>
-<h2 id="卷积">卷积</h2>
-<p>图卷积神经网络主要两中：空域和频域的。通俗点，空域就是直接在图片的像素点上进行卷积，频域是对图片进行傅里叶变换后再卷积。</p>
-<h3 id="空域卷积">空域卷积</h3>
-<p>其核心在于聚合邻居节点的信息。比如最简单的无参卷积方式是：将所有直连邻居节点的隐藏状态加和，来更新当前节点的隐藏状态。</p>
-<p><img src="https://i.imgur.com/3Jnfovx.png" alt="picture 14"></p>
-<h3 id="消息传递网络（Message-Passing-Neural-Network）">消息传递网络（Message Passing Neural Network）</h3>
-<p>严格来说，MPNN并不是一种具体的模型，而是一种空域卷积的形式化框架。将空域卷积分解为两个过程：消息传递和状态更新，分别由$M_l(·)$和$U_l(·)$函数完成。将节点v的特征$X_v$作为隐藏状态的初始状态$H_v^0$之后，空域卷积对隐藏状态的更新如下：</p>
-<p><img src="https://i.imgur.com/dmxgXS1.png" alt="picture 15"></p>
+<h2 id="卷积"><a href="#卷积" class="headerlink" title="卷积"></a>卷积</h2><p>图卷积神经网络主要两中：空域和频域的。通俗点，空域就是直接在图片的像素点上进行卷积，频域是对图片进行傅里叶变换后再卷积。</p>
+<h3 id="空域卷积"><a href="#空域卷积" class="headerlink" title="空域卷积"></a>空域卷积</h3><p>其核心在于聚合邻居节点的信息。比如最简单的无参卷积方式是：将所有直连邻居节点的隐藏状态加和，来更新当前节点的隐藏状态。</p>
+<p><img src="https://i.imgur.com/3Jnfovx.png" alt="picture 14">  </p>
+<h3 id="消息传递网络（Message-Passing-Neural-Network）"><a href="#消息传递网络（Message-Passing-Neural-Network）" class="headerlink" title="消息传递网络（Message Passing Neural Network）"></a>消息传递网络（Message Passing Neural Network）</h3><p>严格来说，MPNN并不是一种具体的模型，而是一种空域卷积的形式化框架。将空域卷积分解为两个过程：消息传递和状态更新，分别由$M_l(·)$和$U_l(·)$函数完成。将节点v的特征$X_v$作为隐藏状态的初始状态$H_v^0$之后，空域卷积对隐藏状态的更新如下：</p>
+<p><img src="https://i.imgur.com/dmxgXS1.png" alt="picture 15">  </p>
 <p>其中l代表卷积层的第l层。式子的物理意义是：受到来自每个邻居的消息$M_{l+1}$之后，每个节点如何更新自己的状态。</p>
 <p>MPNN的示意图如下</p>
-<p><img src="https://i.imgur.com/aaerMwm.png" alt="picture 16"></p>
-<h3 id="图采样与聚合">图采样与聚合</h3>
-<p>MPNN很好地概括了空域卷积的过程，但这个框架下的所有模型都有一个共同的缺陷：卷积操作针对的对象是整张图，即要将所有的节点放到内存中，才能卷积。但是实际应用中，整个图上的卷积操作并不现实。GraphSage利用采样部分节点的方式进行学习。当然，即使不需要整张图同时卷积，GraphSage仍然需要聚合邻居节点的信息。这种操作类似于MPNN中的消息传递过程</p>
-<p><img src="https://i.imgur.com/N3phwJo.png" alt="picture 17"></p>
+<p><img src="https://i.imgur.com/aaerMwm.png" alt="picture 16">  </p>
+<h3 id="图采样与聚合"><a href="#图采样与聚合" class="headerlink" title="图采样与聚合"></a>图采样与聚合</h3><p>MPNN很好地概括了空域卷积的过程，但这个框架下的所有模型都有一个共同的缺陷：卷积操作针对的对象是整张图，即要将所有的节点放到内存中，才能卷积。但是实际应用中，整个图上的卷积操作并不现实。GraphSage利用采样部分节点的方式进行学习。当然，即使不需要整张图同时卷积，GraphSage仍然需要聚合邻居节点的信息。这种操作类似于MPNN中的消息传递过程</p>
+<p><img src="https://i.imgur.com/N3phwJo.png" alt="picture 17">  </p>
 <p>具体采样过程分为三步：</p>
 <ol>
 <li>在图中随机采样若干个节点，节点数就是传统任务中的<code>batch_size</code>。对于每个节点，随机选择固定数目的邻居节点（未必是一阶邻居，也可以是二阶邻居）。</li>
 <li>将邻居节点的信息通过aggregate函数聚合起来更新刚才采样的节点</li>
 <li>计算采样节点处的损失。如果是无监督任务，我们希望图上邻居节点的编码相似；如果是监督任务，可以根据具体节点的任务标签计算损失。</li>
 </ol>
-
+<p>最终的GraphSage的状态更新公式如下：</p>
+<p>$$<br>\mathbf{h}<em>{v}^{l+1}&#x3D;\sigma\left(\mathbf{W}^{l+1} \cdot \text { aggregate }\left(\mathbf{h}</em>{v}^{l},\left{\mathbf{h}_{u}^{l}\right}\right), \forall u \in n e[v]\right)<br>$$</p>
+<p>GraphSage的设计重点是aggrega函数的设计上，它可以是max，mean也可以是带参数的如LSTM等神经网络。</p>
+<h2 id="图结构序列化"><a href="#图结构序列化" class="headerlink" title="图结构序列化"></a>图结构序列化</h2>
     </div>
 
     
