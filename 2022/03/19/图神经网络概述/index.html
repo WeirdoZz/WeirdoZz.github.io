@@ -32,19 +32,20 @@
 <meta property="og:description" content="状态更新与输出最早的图神经网络的理论基础是不动点理论。给定一张图$G$，每个节点都有其自身特征$X_v$，每个边也有其自身特征$X_{(u,v)}$。GNN的学习目标就是获得每个结点的图感知的隐藏状态，即：对于每个节点，其隐藏状态包含来自邻居节点的信息。那如何让每个节点都能感知到图上的其他节点呢？GNN通过迭代式更新所有节点的隐藏状态来实现，在t+1时刻，节点的隐藏状态按照如下方式更新：    其">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://i.imgur.com/2vgW7gB.png">
-<meta property="og:image" content="https://i.imgur.com/Z35Eowq.png">
-<meta property="og:image" content="https://i.imgur.com/PB7UMun.png">
-<meta property="og:image" content="https://i.imgur.com/c3jpfK3.png">
+<meta property="og:image" content="https://i.imgur.com/AdE1gjq.png">
+<meta property="og:image" content="https://i.imgur.com/JV7M8Ow.png">
+<meta property="og:image" content="https://i.imgur.com/xxyvPCL.png">
+<meta property="og:image" content="https://i.imgur.com/IF5e2Zf.png">
 <meta property="og:image" content="https://i.imgur.com/ryRG4FY.png">
 <meta property="og:image" content="https://i.imgur.com/bYmBx17.png">
 <meta property="og:image" content="https://i.imgur.com/JGORo9H.png">
 <meta property="og:image" content="https://i.imgur.com/6LVIkvo.png">
-<meta property="og:image" content="https://i.imgur.com/rtryOwA.png">
+<meta property="og:image" content="https://i.imgur.com/fOPCggK.png">
 <meta property="og:image" content="https://images.cnblogs.com/cnblogs_com/SivilTaram/1510485/o_image-9-over-smooth.gif">
 <meta property="og:image" content="https://i.imgur.com/OxrJiqQ.png">
-<meta property="og:image" content="https://i.imgur.com/sYVaPHg.png">
+<meta property="og:image" content="https://i.imgur.com/9v9XVfd.png">
 <meta property="article:published_time" content="2022-03-18T21:12:47.000Z">
-<meta property="article:modified_time" content="2022-03-20T05:42:57.889Z">
+<meta property="article:modified_time" content="2022-03-20T11:30:14.879Z">
 <meta property="article:author" content="Weirdo">
 <meta property="article:tag" content="GNN 综述">
 <meta name="twitter:card" content="summary">
@@ -153,7 +154,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-count">18</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -164,7 +165,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-count">14</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -234,7 +235,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-03-20 13:42:57" itemprop="dateModified" datetime="2022-03-20T13:42:57+08:00">2022-03-20</time>
+      <time title="修改时间：2022-03-20 19:30:14" itemprop="dateModified" datetime="2022-03-20T19:30:14+08:00">2022-03-20</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -276,16 +277,16 @@
 <span id="more"></span>
 
 <p>显然对于不同的节点，他们相邻的边或者点的个数不一定是相同的，那这个f函数的输入就是不定长的，怎么解决这个问题呢？我们可以在f的内部先将不定长的参数转变成一个固定的参数，比如说所有隐状态的和作为隐状态的代表。举个例子：</p>
-<p><img src="https://i.imgur.com/Z35Eowq.png" alt="picture 1">  </p>
+<p><img src="https://i.imgur.com/AdE1gjq.png" alt="picture 45">  </p>
 <p>假设节点5是中心节点，隐藏状态更新的公式如图所示。公式的中心思想：不断利用当前时刻邻居节点的隐藏状态作为部分输入来生成下一时刻中心节点的隐藏状态，直到每个节点的隐藏状态变化幅度很小。</p>
 <p>但是状态更新公式仅仅描述了如何获取每个节点的隐状态，我们还需要一个函数g来描述如何适应下游任务。比如，下游任务是判断各节点是否为水军账号</p>
 <p>$$<br>o_v&#x3D;g(h_v,x_v)<br>$$</p>
 <p>整个流程可以使用下面这张图表达</p>
-<p><img src="https://i.imgur.com/PB7UMun.png" alt="picture 2">  </p>
+<p><img src="https://i.imgur.com/JV7M8Ow.png" alt="picture 46">  </p>
 <p>直到$T_n$时刻各个节点的隐藏状态收敛，每个节点后面接一个g就可以得到节点的输出。对于不同的图，节点的收敛时刻可能不同，收敛是通过两个时刻的p-范数差值和某个阈值$\epsilon$。</p>
-<p>$$<br>\left|\mathbf{H}^{t+1}\right|<em>{2}-\left|\mathbf{H}^{t}\right|</em>{2}&lt;\epsilon<br>$$</p>
+<p><img src="https://i.imgur.com/xxyvPCL.png" alt="picture 47">  </p>
 <h2 id="不动点理论"><a href="#不动点理论" class="headerlink" title="不动点理论"></a>不动点理论</h2><p>这里的不动点理论专指巴纳赫不动点理论(Banach’s Fixed Point Theorem)。首先我们用F表示若干个f堆叠得到的一个函数，那么图上所有节点的状态更新公式可以写成</p>
-<p><img src="https://i.imgur.com/c3jpfK3.png" alt="picture 9">  </p>
+<p><img src="https://i.imgur.com/IF5e2Zf.png" alt="picture 48">  </p>
 <p>不动点定理指的就是，不论$H^0$是什么，只要F是个压缩映射，$H^0$经过不断迭代都会收敛到某一个固定的点，称之为不动点。</p>
 <h3 id="压缩映射"><a href="#压缩映射" class="headerlink" title="压缩映射"></a>压缩映射</h3><p><img src="https://i.imgur.com/ryRG4FY.png" alt="picture 3">  </p>
 <p>上图的实线就是映射F，任意两个点x，y经过映射后变成F(x),F(y)。经过F变换后的空间一定比原空间小，这样经过不断的迭代压缩，最终原空间上的所有点都会被映射到同一个点上。</p>
@@ -307,7 +308,7 @@
 <li>对于有监督信号的结点，将其隐藏状态通过 g 得到输出，进而算出模型的损失</li>
 </ol>
 <h2 id="GNN与RNN"><a href="#GNN与RNN" class="headerlink" title="GNN与RNN"></a>GNN与RNN</h2><p>大家可以发现，GNN与RNN的不论是前向还是反向传播的算法，都是非常相似的。实际上确实如此，我们用下图来解释两者设计上的不同：</p>
-<p><img src="https://i.imgur.com/rtryOwA.png" alt="picture 4">  </p>
+<p><img src="https://i.imgur.com/fOPCggK.png" alt="picture 49">  </p>
 <p>假设在GNN上存在三个节点x1,x2,x3,同样RNN中存在一个序列（x1,x2,x3），他们的区别主要在于：</p>
 <ol>
 <li>GNN的基础理论是不动点，所以其沿时间展开的长度是动态的，根据收敛条件决定，RNN沿时间展开的长度就等于序列本身的长度。</li>
@@ -333,7 +334,7 @@
 <li>对部分有监督信号的节点求得模型损失，利用BPTT算法反向传播求得$W_edge$和GRU参数梯度</li>
 </ol>
 <h3 id="实例1：到达判断"><a href="#实例1：到达判断" class="headerlink" title="实例1：到达判断"></a>实例1：到达判断</h3><p>比如说给定一张图G，开始结点 S，对于任意一个结点 E，模型判断开始结点是否可以通过图游走至该结点。同样地，这也可以转换成一个对结点的二分类问题，即可以到达和不能到达。下图即描述了这样的过程：</p>
-<p><img src="https://i.imgur.com/sYVaPHg.png" alt="picture 5">  </p>
+<p><img src="https://i.imgur.com/9v9XVfd.png" alt="picture 50">  </p>
 <p>图中的黄色结点即开始结点S，绿色结点是我们希望判断的结点E，我们这里称其为结束结点。那么相比于其他结点，这两个结点具有一定特殊性。那我们就可以使用第1维为1来表示开始结点，第2维为1来表示结束结点。最后在对结束结点分类时，如果其隐藏状态的第1维被赋予得到了一个非0的实数值，那意味着它可以到达。</p>
 <p>从初始化的流程我们也可以看出GNN与GGNN的区别：GNN依赖于不动点理论，所以每个结点的隐藏状态即使使用随机初始化都会收敛到不动点；GGNN则不同，不同的初始化对GGNN最终的结果影响很大。</p>
 <p>下一篇博客中会继续介绍图卷积神经网络，摆脱了基于循环的方法，开始走向多层神经网络。</p>
