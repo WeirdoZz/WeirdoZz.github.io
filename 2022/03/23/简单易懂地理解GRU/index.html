@@ -24,26 +24,33 @@
   <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"weirdozz.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
-<meta name="description" content="怕什么真理无穷，进一步有进一步的欢喜">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Weirdo">
-<meta property="og:url" content="https://weirdozz.github.io/archives/index.html">
+<meta name="description" content="GRU的输入输出结构它的输入是当前时刻的输入$x^t$和上一时刻传递过来的隐状态$h^{t-1}$，通过对这两个数据的结合进行操作，会得到当前节点的输出$y^t$和传递给下一个节点的隐状态$h^t$    GRU的内部结构其中有两个门控状态。r控制重置门，z控制更新门，具体计算过程如下图所示    得到门控信号之后，首先使用重置门的数据来得到重置后的$h^{t-1’}&#x3D;h^{t-1}\o">
+<meta property="og:type" content="article">
+<meta property="og:title" content="简单易懂地理解GRU">
+<meta property="og:url" content="https://weirdozz.github.io/2022/03/23/%E7%AE%80%E5%8D%95%E6%98%93%E6%87%82%E5%9C%B0%E7%90%86%E8%A7%A3GRU/index.html">
 <meta property="og:site_name" content="Weirdo">
-<meta property="og:description" content="怕什么真理无穷，进一步有进一步的欢喜">
+<meta property="og:description" content="GRU的输入输出结构它的输入是当前时刻的输入$x^t$和上一时刻传递过来的隐状态$h^{t-1}$，通过对这两个数据的结合进行操作，会得到当前节点的输出$y^t$和传递给下一个节点的隐状态$h^t$    GRU的内部结构其中有两个门控状态。r控制重置门，z控制更新门，具体计算过程如下图所示    得到门控信号之后，首先使用重置门的数据来得到重置后的$h^{t-1’}&#x3D;h^{t-1}\o">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.imgur.com/Lb0dS15.png">
+<meta property="og:image" content="https://i.imgur.com/25vkcJn.png">
+<meta property="og:image" content="https://i.imgur.com/ulcM3RC.png">
+<meta property="og:image" content="https://i.imgur.com/U9JlMYQ.png">
+<meta property="article:published_time" content="2022-03-23T08:35:02.000Z">
+<meta property="article:modified_time" content="2022-03-23T09:28:51.887Z">
 <meta property="article:author" content="Weirdo">
-<meta property="article:tag" content="WeirdoBlog">
+<meta property="article:tag" content="GRU">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/Lb0dS15.png">
 
 
-<link rel="canonical" href="https://weirdozz.github.io/archives/">
+<link rel="canonical" href="https://weirdozz.github.io/2022/03/23/%E7%AE%80%E5%8D%95%E6%98%93%E6%87%82%E5%9C%B0%E7%90%86%E8%A7%A3GRU/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":false,"lang":"zh-CN","comments":"","permalink":"","path":"archives/index.html","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://weirdozz.github.io/2022/03/23/%E7%AE%80%E5%8D%95%E6%98%93%E6%87%82%E5%9C%B0%E7%90%86%E8%A7%A3GRU/","path":"2022/03/23/简单易懂地理解GRU/","title":"简单易懂地理解GRU"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>归档 | Weirdo</title>
+<title>简单易懂地理解GRU | Weirdo</title>
   
 
 
@@ -72,7 +79,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <h1 class="site-title">Weirdo</h1>
+      <p class="site-title">Weirdo</p>
       <i class="logo-line"></i>
     </a>
   </div>
@@ -110,7 +117,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -123,6 +130,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#GRU%E7%9A%84%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA%E7%BB%93%E6%9E%84"><span class="nav-number">1.</span> <span class="nav-text">GRU的输入输出结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GRU%E7%9A%84%E5%86%85%E9%83%A8%E7%BB%93%E6%9E%84"><span class="nav-number">2.</span> <span class="nav-text">GRU的内部结构</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -176,233 +184,127 @@
 </noscript>
 
 
-    <div class="main-inner archive posts-collapse">
+    <div class="main-inner post posts-expand">
 
 
   
-  
-  
-  <div class="post-block">
-    <div class="post-content">
-      <div class="collection-title">
-        <span class="collection-header">嗯..! 目前共计 20 篇日志。 继续努力。</span>
-      </div>
 
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/03/23/%E7%AE%80%E5%8D%95%E6%98%93%E6%87%82%E5%9C%B0%E7%90%86%E8%A7%A3GRU/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/weirdo.jpg">
+      <meta itemprop="name" content="Weirdo">
+      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Weirdo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          简单易懂地理解GRU
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
       
-    <div class="collection-year">
-      <span class="collection-header">2022</span>
+
+      <time title="创建时间：2022-03-23 16:35:02 / 修改时间：17:28:51" itemprop="dateCreated datePublished" datetime="2022-03-23T16:35:02+08:00">2022-03-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/DeepLearning/" itemprop="url" rel="index"><span itemprop="name">DeepLearning</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/03/23/%E7%AE%80%E5%8D%95%E6%98%93%E6%87%82%E5%9C%B0%E7%90%86%E8%A7%A3GRU/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/03/23/简单易懂地理解GRU/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="GRU的输入输出结构"><a href="#GRU的输入输出结构" class="headerlink" title="GRU的输入输出结构"></a>GRU的输入输出结构</h2><p>它的输入是当前时刻的输入$x^t$和上一时刻传递过来的隐状态$h^{t-1}$，通过对这两个数据的结合进行操作，会得到当前节点的输出$y^t$和传递给下一个节点的隐状态$h^t$</p>
+<p><img src="https://i.imgur.com/Lb0dS15.png" alt="picture 1">  </p>
+<h2 id="GRU的内部结构"><a href="#GRU的内部结构" class="headerlink" title="GRU的内部结构"></a>GRU的内部结构</h2><p>其中有两个门控状态。r控制重置门，z控制更新门，具体计算过程如下图所示</p>
+<p><img src="https://i.imgur.com/25vkcJn.png" alt="picture 2">  </p>
+<p>得到门控信号之后，首先使用重置门的数据来得到重置后的$h^{t-1’}&#x3D;h^{t-1}\odot r$，再将$h^{t-1’}$与输入进行拼接得到下图</p>
+<p><img src="https://i.imgur.com/ulcM3RC.png" alt="picture 3">  </p>
+<p>这里的$h’$主要包含了当前输入的$x^t$数据，相当于记忆了当前时刻的状态。</p>
+<p>最后一步是进行更新，更新表达式如下</p>
+<p><img src="https://i.imgur.com/U9JlMYQ.png" alt="picture 4">  </p>
+
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2022-03-23T17:45:40+08:00"
-              content="2022-03-23">
-          03-23
-        </time>
-      </div>
+    
+    
+    
 
-      <div class="post-title">
-          <a class="post-title-link" href="/2022/03/23/%E7%AE%80%E5%8D%95%E6%98%93%E6%87%82%E5%9C%B0%E7%90%86%E8%A7%A3LSTM/" itemprop="url">
-            <span itemprop="name">简单易懂地理解LSTM</span>
-          </a>
-      </div>
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/GRU/" rel="tag"># GRU</a>
+          </div>
 
-      
-    </header>
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/03/20/Semi-Supervised-Classification-With-Graph-Convolutional-Networks/" rel="prev" title="Semi-Supervised Classification With Graph Convolutional Networks">
+                  <i class="fa fa-chevron-left"></i> Semi-Supervised Classification With Graph Convolutional Networks
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/03/23/%E7%AE%80%E5%8D%95%E6%98%93%E6%87%82%E5%9C%B0%E7%90%86%E8%A7%A3LSTM/" rel="next" title="简单易懂地理解LSTM">
+                  简单易懂地理解LSTM <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
   </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2022-03-23T16:35:02+08:00"
-              content="2022-03-23">
-          03-23
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2022/03/23/%E7%AE%80%E5%8D%95%E6%98%93%E6%87%82%E5%9C%B0%E7%90%86%E8%A7%A3GRU/" itemprop="url">
-            <span itemprop="name">简单易懂地理解GRU</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2022-03-20T19:04:27+08:00"
-              content="2022-03-20">
-          03-20
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2022/03/20/Semi-Supervised-Classification-With-Graph-Convolutional-Networks/" itemprop="url">
-            <span itemprop="name">Semi-Supervised Classification With Graph Convolutional Networks</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2022-03-19T21:03:01+08:00"
-              content="2022-03-19">
-          03-19
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2022/03/19/%E8%8A%82%E7%82%B9%E8%A1%A8%E7%A4%BA%E5%A6%82%E4%BD%95%E7%94%9F%E6%88%90%E5%9B%BE%E8%A1%A8%E7%A4%BA/" itemprop="url">
-            <span itemprop="name">节点表示如何生成图表示</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2022-03-19T07:37:08+08:00"
-              content="2022-03-19">
-          03-19
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2022/03/19/%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/" itemprop="url">
-            <span itemprop="name">图卷积神经网络概述</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2022-03-19T05:12:47+08:00"
-              content="2022-03-19">
-          03-19
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2022/03/19/%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/" itemprop="url">
-            <span itemprop="name">图神经网络概述</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2022-03-17T16:11:40+08:00"
-              content="2022-03-17">
-          03-17
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2022/03/17/github%E6%97%A0%E6%B3%95%E7%94%A8%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%BF%9E%E6%8E%A5/" itemprop="url">
-            <span itemprop="name">github无法用命令行连接</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2022-03-16T21:17:17+08:00"
-              content="2022-03-16">
-          03-16
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2022/03/16/EvolveGCN-Evolving-Graph-Convolutional-Networks-for-Dynamic-Graphs/" itemprop="url">
-            <span itemprop="name">EvolveGCN:Evolving Graph Convolutional Networks for Dynamic Graphs</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2022-03-09T15:21:53+08:00"
-              content="2022-03-09">
-          03-09
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2022/03/09/go-web-%E7%BC%96%E7%A8%8B/" itemprop="url">
-            <span itemprop="name">go web 编程</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-      <div class="post-meta-container">
-        <time itemprop="dateCreated"
-              datetime="2022-03-06T11:12:03+08:00"
-              content="2022-03-06">
-          03-06
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2022/03/06/GORM%E5%AD%A6%E4%B9%A0/" itemprop="url">
-            <span itemprop="name">GORM学习</span>
-          </a>
-      </div>
-
-      
-    </header>
-  </article>
+</div>
 
 
-    </div>
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
   </div>
   
-  
-  
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="extend next" rel="next" href="/archives/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
-  </nav>
-
 </div>
   </main>
 
