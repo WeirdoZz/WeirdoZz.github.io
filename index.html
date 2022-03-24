@@ -137,18 +137,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-count">20</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">16</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -186,6 +186,893 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/03/23/%E7%AE%80%E5%8D%95%E6%98%93%E6%87%82%E5%9C%B0%E7%90%86%E8%A7%A3LSTM/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/weirdo.jpg">
+      <meta itemprop="name" content="Weirdo">
+      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Weirdo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/03/23/%E7%AE%80%E5%8D%95%E6%98%93%E6%87%82%E5%9C%B0%E7%90%86%E8%A7%A3LSTM/" class="post-title-link" itemprop="url">简单易懂地理解LSTM</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-03-23 17:45:40" itemprop="dateCreated datePublished" datetime="2022-03-23T17:45:40+08:00">2022-03-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-03-24 12:35:10" itemprop="dateModified" datetime="2022-03-24T12:35:10+08:00">2022-03-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/DeepLearning/" itemprop="url" rel="index"><span itemprop="name">DeepLearning</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/03/23/%E7%AE%80%E5%8D%95%E6%98%93%E6%87%82%E5%9C%B0%E7%90%86%E8%A7%A3LSTM/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/03/23/简单易懂地理解LSTM/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="lstm结构">lstm结构</h2>
+<p><img src="https://i.imgur.com/YTwGUXM.png" alt="picture 5"></p>
+<p>相较于传统的RNN只有一个状态值传递，lstm传递了两个状态，其中c(cell state)变化地比较慢，而h(hidden state)则在不同节点下往往有很大的区别</p>
+<h2 id="深入lstm结构">深入lstm结构</h2>
+<p>首先用lstm当前的输入和上层传递过来的$h^{t-1}$拼接训练得到四个状态</p>
+<p><img src="https://i.imgur.com/T581bEb.png" alt="picture 6"></p>
+<p>接下来介绍这四个状态在LSTM内部的使用</p>
+<p><img src="https://i.imgur.com/Vsx3k7N.png" alt="picture 7"></p>
+<p>lstm主要有三个阶段：</p>
+<ol>
+<li>忘记阶段。对上个节点传过来的输入做选择性忘记。即通过$z^f$作为忘记门控，来控制上一个状态的$c^{t-1}$</li>
+<li>选择记忆。将这个阶段的输入进行有选择性地记忆。选择门控信号由$z^i$控制。到这里将这两步的结果进行相加就可以得到传递给下一时间步的$c^t$</li>
+<li>输出阶段。通过$z^0$控制当前状态的输出应该是什么。</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/03/23/%E7%AE%80%E5%8D%95%E6%98%93%E6%87%82%E5%9C%B0%E7%90%86%E8%A7%A3GRU/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/weirdo.jpg">
+      <meta itemprop="name" content="Weirdo">
+      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Weirdo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/03/23/%E7%AE%80%E5%8D%95%E6%98%93%E6%87%82%E5%9C%B0%E7%90%86%E8%A7%A3GRU/" class="post-title-link" itemprop="url">简单易懂地理解GRU</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-03-23 16:35:02" itemprop="dateCreated datePublished" datetime="2022-03-23T16:35:02+08:00">2022-03-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-03-24 12:35:10" itemprop="dateModified" datetime="2022-03-24T12:35:10+08:00">2022-03-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/DeepLearning/" itemprop="url" rel="index"><span itemprop="name">DeepLearning</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/03/23/%E7%AE%80%E5%8D%95%E6%98%93%E6%87%82%E5%9C%B0%E7%90%86%E8%A7%A3GRU/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/03/23/简单易懂地理解GRU/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="GRU的输入输出结构">GRU的输入输出结构</h2>
+<p>它的输入是当前时刻的输入$x^t$和上一时刻传递过来的隐状态$h^{t-1}$，通过对这两个数据的结合进行操作，会得到当前节点的输出$y^t$和传递给下一个节点的隐状态$h^t$</p>
+<p><img src="https://i.imgur.com/Lb0dS15.png" alt="picture 1"></p>
+<h2 id="GRU的内部结构">GRU的内部结构</h2>
+<p>其中有两个门控状态。r控制重置门，z控制更新门，具体计算过程如下图所示</p>
+<p><img src="https://i.imgur.com/25vkcJn.png" alt="picture 2"></p>
+<p>得到门控信号之后，首先使用重置门的数据来得到重置后的$h^{t-1’}=h^{t-1}\odot r$，再将$h^{t-1’}$与输入进行拼接得到下图</p>
+<p><img src="https://i.imgur.com/ulcM3RC.png" alt="picture 3"></p>
+<p>这里的$h’$主要包含了当前输入的$x^t$数据，相当于记忆了当前时刻的状态。</p>
+<p>最后一步是进行更新，更新表达式如下</p>
+<p><img src="https://i.imgur.com/U9JlMYQ.png" alt="picture 4"></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/03/20/Semi-Supervised-Classification-With-Graph-Convolutional-Networks/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/weirdo.jpg">
+      <meta itemprop="name" content="Weirdo">
+      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Weirdo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/03/20/Semi-Supervised-Classification-With-Graph-Convolutional-Networks/" class="post-title-link" itemprop="url">Semi-Supervised Classification With Graph Convolutional Networks</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-03-20 19:04:27" itemprop="dateCreated datePublished" datetime="2022-03-20T19:04:27+08:00">2022-03-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-03-24 12:35:10" itemprop="dateModified" datetime="2022-03-24T12:35:10+08:00">2022-03-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">图神经网络</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/03/20/Semi-Supervised-Classification-With-Graph-Convolutional-Networks/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/03/20/Semi-Supervised-Classification-With-Graph-Convolutional-Networks/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="引言-2">引言</h2>
+<p>文章主要围绕对仅有少部分节点存在标签的图节点进行分类任务。这个问题可以被认为是基于图的半监督学习，通过某种基于图的正则化来平滑图上的标签信息，比如在损失函数中增加一个图拉普拉斯正则化。</p>
+<p><img src="https://i.imgur.com/q31vbLg.png" alt="picture 44"></p>
+<p>其中$L_0$是有标签部分的损失项，函数f是一个可微函数，$\lambda$是一个权重参数，X是节点的特征向量矩阵，$\delta =D-A$是一个未归一化的图拉普拉斯矩阵，A是邻接矩阵，D是度矩阵。**公式一是居于相邻节点可能会共享相同标签的假设下的。**然而这种假设会限制模型的能力，因为图的边不一定是表示节点相似性的，可能是不相似性！</p>
+<p>文中作者直接使用神经网络模型$f(X,A)$来编码整个图结构并且在所有有监督的节点上获取loss进行训练，因此就避免了损失函数中基于图的显示正则化。在图的邻接矩阵上调节函数f会使得模型能够从监督损失中分配梯度信息并且使它既能学习有标签也能学习无标签节点的表示。</p>
+<p>主要贡献有两点：</p>
+<ol>
+<li>提出了一个简单有效的神经网络模型的传播规则，能够直接用于图并且展示了它是如何从一阶近似的谱图卷积得来的。</li>
+<li>解释了这种模型是如何应用于快速且可扩展的节点半监督分类任务中的。</li>
+</ol>
+<h2 id="图的快速近似卷积">图的快速近似卷积</h2>
+<p>下面是本文中GCN的逐层传播规则：</p>
+<p><img src="https://i.imgur.com/dEpVbPD.png" alt="picture 51"></p>
+<p>其中$\widetilde{A}=A+I_N$是带有自连接的邻接矩阵，$\tilde{D}$就是根据$\tilde{A}$的来的度矩阵，$W^{(l)}$是各层独立的可训练的权重参数，$\sigma$是激活函数，$H^{(l)} \in R^{N \times D}$是第l层的隐藏状态矩阵,$H^{(0)}=X$。</p>
+<h3 id="谱图卷积">谱图卷积</h3>
+<p>谱卷积定义为信号x和过滤器$g_\theta \times =Ug_\theta U^Tx $在傅里叶域上的乘法</p>
+<p><img src="https://i.imgur.com/c7vuiU7.png" alt="picture 52"></p>
+<p>其中U是归一化拉普拉斯的特征向量组成的矩阵，$L=L_N-D^{- \frac{1}{2}}AD^{- \frac{1}{2}}=U\Lambda U^T$，$U^Tx$是对x的图傅里叶转换。我们可以将$g_\theta$理解成对L的特征值的函数，比如$g_\theta(\Lambda)$。但是计算公式3的计算成本太高，并且对于大的图更是如此。为此，有人提出$g_\theta (\Lambda)$可以由车比雪夫多项式的前k部分估计出来</p>
+<p><img src="https://i.imgur.com/L1Monm9.png" alt="picture 53"></p>
+<p>其中$\tilde{\Lambda}=\frac{2}{\lambda <em>{max}} \Lambda -I_N$，$\lambda <em>{max}$是L的最大特征值。车比雪夫多项式可以递归地定义为$T_k(x)=2xT</em>{k-1}(x)-T</em>{k-2}(x)$,其中$T_0(x)=1$,$T_1(x)=x$。</p>
+<p>回到我们的定义上，现在我们有</p>
+<p><img src="https://i.imgur.com/sWHyYb3.png" alt="picture 54"></p>
+<p>可以看出这个表达式只关心节点的k阶邻居，这使得它的计算复杂度直线下降。</p>
+<h3 id="逐层的线性模型">逐层的线性模型</h3>
+<p>因此根据公式5可以堆叠多个基于图卷积的神经网络层，每一层之后更一个逐点的非线性层。现在我们对逐层的卷积操作进行限制，使它只关注一阶邻居，即K=1，这样的话就是在拉普拉斯图谱上进行一个线性操作。</p>
+<p>用这种方式仍然可以通过叠加这样的层来恢复丰富的卷积滤波器函数。我们期望这种模型能够减轻在图的局部邻接关系上的过拟合问题。此外，这样的逐层线性转化使我们能够构建更深的模型。</p>
+<p>我们近似将$\lambda =2$，这样公式5就可以简化为：</p>
+<p><img src="https://i.imgur.com/LXQcZ2B.png" alt="picture 55"></p>
+<p>实际应用中我们可以限制参数的数量来解决过拟合问题，并且最小化每一层的计算量。这样我们可以得到以下公式</p>
+<p><img src="https://i.imgur.com/BNLrisG.png" alt="picture 56"></p>
+<p>其中$\theta =\theta_{1}^{‘} =-\theta_{1}^{’}$。但是重复这一操作会导致数值不稳定出现梯度消失/爆炸。为了解决这一问题，这里做了个小trick，邻接矩阵使用包含自邻接关系，度矩阵也包含自邻接关系。</p>
+<p>这样我们就可以将具有C个输入通道的信号矩阵$X\in R^{N\times C}$和过滤器或者特征图定义为下式</p>
+<p><img src="https://i.imgur.com/jJj90Ec.png" alt="picture 57"></p>
+<h2 id="自监督节点分类">自监督节点分类</h2>
+<h3 id="举例">举例</h3>
+<p>我们假设一个两层的GCN用于半监督节点分类。我们先在一个预处理步骤中计算出$\tilde{A}=\tilde{D}^{-\frac{1}{2}}\tilde{A}\tilde{D}^{-\frac{1}{2}}$。前向传播公式如下</p>
+<p><img src="https://i.imgur.com/h5iMkZD.png" alt="picture 58"></p>
+<p>其中，$W^{(0)}\in R^{C\times H}$是第一个隐藏层的参数，$W^{(1)}\in R^{H\times F}$是输出层的参数。然后我们在所有的有标签样本上计算交叉熵损失</p>
+<p><img src="https://i.imgur.com/Jtsg0ac.png" alt="picture 59"></p>
+<p>下图是图卷积层的示意图</p>
+<p><img src="https://i.imgur.com/JGUN9Vu.png" alt="picture 60"></p>
+<h2 id="文章种公式的详细理解">文章种公式的详细理解</h2>
+<p>首先我们有了一张图和他的基本信息，注意这里每个节点的向量可以是通过一些embeding方式得到的，不是重点。</p>
+<p><img src="https://i.imgur.com/ldUPSX0.png" alt="picture 61"></p>
+<p>那我们怎么获取到周遭节点的信息来辅助更新本节点的信息呢？可以用邻接矩阵和全部节点的特征组成的矩阵进行乘法，下图可以直观地展示出为什么能够获得邻居节点的信息</p>
+<p><img src="https://i.imgur.com/bySloaz.png" alt="picture 62"></p>
+<p>当然，这样做还是有缺点的：</p>
+<ol>
+<li>缺少该节点本身的特征信息</li>
+<li>如果一个节点连接的邻居特别多或者特别少，用这种sum方法就会出现梯度爆炸或者梯度消失的问题。此外神经网络对输入信息的值比较敏感，因此需要归一化</li>
+</ol>
+<p>对于问题一解决办法很简单，邻接矩阵包含自邻接信息就可以了。</p>
+<p>对于问题二，一般做矩阵的缩放是乘以一个对角阵实现的。自然而然我们会想到使用度矩阵来实现。这里的度矩阵同样应该是包含自邻接关系的。使用度矩阵的逆，就可以实现邻接节点特征求和之后的取平均了。如下图所示</p>
+<p><img src="https://i.imgur.com/ZqluyWD.png" alt="picture 63"></p>
+<p>但是我们会发现，因为对角阵是在邻接矩阵左边乘的，所以实际上，只是用了$D_{ii}$对邻接矩阵的行进行了缩放，而没有对列进行。如下图所示</p>
+<p><img src="https://i.imgur.com/rDiJJK0.png" alt="picture 64"></p>
+<p>既然如此，我们可以尝试在右边再乘一个度矩阵的逆，这样不就行列都能得到缩放了吗？但是需要注意这里的原理是邻接矩阵是一个对称阵，所以其第i行和第i列是一样的，因此才可以这么做。</p>
+<p><img src="https://i.imgur.com/qYMvgrE.png" alt="picture 65"></p>
+<p>新的缩放方法给出了一个平均的权重，我们做的改进就是让他对邻接关系少的节点赋予更高的权重，这样能够减少邻接关系多的节点的影响。</p>
+<p>需要注意，我们对缩放矩阵进行归一化的时候一般做两次，一次对行一次对列，这是最常用的方式。也是文中作者使用的方式。</p>
+<p><img src="https://i.imgur.com/kphpELZ.png" alt="picture 66"></p>
+<p>卷积层的数量意味着一个节点的特征能够传播的距离。假如我们只有一层的话，那只能获取到邻居的信息，所有节点同时聚合自己邻居的信息。但如果我们堆叠多层，一个节点的邻居就能够包含其自身邻居的信息，经过聚合后当前节点就能够获得更远的节点的信息。</p>
+<p>但是一般我们不希望有太多层，经过6-7次跳跃，我们几乎已经可以聚合整张图的信息了。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/03/19/%E8%8A%82%E7%82%B9%E8%A1%A8%E7%A4%BA%E5%A6%82%E4%BD%95%E7%94%9F%E6%88%90%E5%9B%BE%E8%A1%A8%E7%A4%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/weirdo.jpg">
+      <meta itemprop="name" content="Weirdo">
+      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Weirdo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/03/19/%E8%8A%82%E7%82%B9%E8%A1%A8%E7%A4%BA%E5%A6%82%E4%BD%95%E7%94%9F%E6%88%90%E5%9B%BE%E8%A1%A8%E7%A4%BA/" class="post-title-link" itemprop="url">节点表示如何生成图表示</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-03-19 21:03:01" itemprop="dateCreated datePublished" datetime="2022-03-19T21:03:01+08:00">2022-03-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-03-24 12:35:10" itemprop="dateModified" datetime="2022-03-24T12:35:10+08:00">2022-03-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">图神经网络</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/03/19/%E8%8A%82%E7%82%B9%E8%A1%A8%E7%A4%BA%E5%A6%82%E4%BD%95%E7%94%9F%E6%88%90%E5%9B%BE%E8%A1%A8%E7%A4%BA/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/03/19/节点表示如何生成图表示/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="图读出操作">图读出操作</h2>
+<p>顾名思义，图读出操作就是用来生成图表示的。它的核心要义在于：操作本身要对节点顺序不敏感。</p>
+<p>为什么是这样呢？因为在欧氏空间中如果一张图片旋转了，那么他就是新的图片了；但在非欧氏空间中，如果一个图旋转一下，比如重新编号，形成的图仍然是原图。这就是典型的图重构问题。下面两个图是等价的</p>
+<p><img src="https://i.imgur.com/1lrMMsW.png" alt="picture 35"></p>
+<p>为了使得同构图能够保持一致，图读出的操作就需要对节点顺序不敏感。数学上能表达这种操作的函数称为对称函数。</p>
+<p>接下来介绍两中方法实现图读出操作：<strong>基于统计的方法</strong>和<strong>基于学习的方法</strong></p>
+<h2 id="基于统计的方法">基于统计的方法</h2>
+<p>有学者提出用类似直方图的方法对每维数据分布进行建模。假设我们有100个介于[-3,1]之间的数字，如果我们直接将他们求和，就看不出他们的分布情况；而如果我们将[-3,1]分成4个子区域，分开统计各个区域的和就能略微发现一些原始数据分布特征，如下图</p>
+<p><img src="https://i.imgur.com/YT5Y8pE.png" alt="picture 36"></p>
+<p>如果要实现上面这个做法，应该怎么做呢？很简单，举个例子，给定3个数据点，他们的特征向量（2D）分别是[-2,1],[-1,2]和[-1,1]。如果直接求和，全局的特征向量是[-2±1±1,1+2+1]即[-4,4]。如果采取上述直方图的方式，则可能会得到一个这样的全局特征向量<code>[-2, -1 + -1, 1 + 1, 2]</code>（第1,2维代表从原先的第1维统计的直方图,对应的区域为<code>[-2,1),[1,2)</code>,第3,4维的含义类似）。但在实践中并没有使用这种方法，而是采用高斯函数来实现名为模糊直方图的操作。</p>
+<p><img src="https://i.imgur.com/T5HHZvP.png" alt="picture 37"></p>
+<p>模糊直方图的原理也很简单：预先定义几个特征值区域的边界为各个高斯分布的均匀值，并且预设好方差。对于任一特征值，根据其与各个高斯分布交点的纵坐标作为其落入该区域的数值，然后将所有数值归一化。比如，图上的[1.8]与三个高斯分布交点分别在0，0.3，0.9处，归一化一下可以用一个三维向量<code>[0.0,0.25,0.75]</code>表示。</p>
+<h2 id="基于学习的方法">基于学习的方法</h2>
+<p>基于统计的方法的坏处在于它没办法参数化，间接地难以表示节点到图向量的“复杂过程”。基于学习的方法就是希望用神经网络来拟合这个过程。</p>
+<h3 id="采样加全连接">采样加全连接</h3>
+<p>最简单的做法，取固定数量节点，通过全连接层得到图表示。这里不论是随机采样，还是根据某些规则采样，都需要得到确定数量的节点，不够就填充。公式也很简单（$H^L指的是将采样到的节点表示拼在一起）：</p>
+<p><img src="https://i.imgur.com/4wwS4yv.png" alt="picture 38"></p>
+<p>这种方法很难适用于规模差距很大的图。比如训练时见过的图只有几百个节点，但测试的图可能有上千个节点，很难泛化。</p>
+<h3 id="全局节点">全局节点</h3>
+<p>这种做法动机很简单，考虑到图同构问题和基于统计的方法，从节点的表示生成最终图表示主要有两个难点：</p>
+<ol>
+<li>难以找到一个合适的根节点（图的根节点一般都是根据领域知识确定的，比如前面第一篇中讲到的化合物分类）</li>
+<li>如果直接用基于统计的方法对各个节点一视同仁，无法区别对待（比如某些重要的节点信息更多，就应该表达得更多）</li>
+</ol>
+<p>那直接引入一个全局节点代表这张图的根节点，把他跟图中的每个节点通过一种特殊的边连接，最终拿这个节点的表示作为整个图的表示，岂不是很棒？</p>
+<h3 id="可微池化">可微池化</h3>
+<p>上面的两中方法都比较简单，不会层次化地去获得图表示。因此又有研究者提出了一种层次化的图的表示，而这依赖于他们提出的可微池化技术。简单来说就是，他不希望各个节点一次性得到图的表示，而是希望通过一个逐渐压缩信息的过程，来得到最终图的表示。如下图所示：</p>
+<p><img src="https://i.imgur.com/QCFr9Db.png" alt="picture 39"></p>
+<p>相比于一般先通过GCN获取所有节点表示，再通过方法汇总得到图的最终表示的方法，DiffPool同时完成了两个任务：<strong>节点聚类</strong>和<strong>节点表示</strong>。</p>
+<p>这两个任务是由两个不共享参数的GCN模块分别完成的，下文用SC和NR分别表示这两个模块。NR模块和传统GCN一样，输入是各个节点隐藏状态，通过图上的传播，输出是传播后各个节点的i傲视。SC模块则不同，虽然输入也是各节点的隐藏表示，但输出是各节点属于不同聚类簇的概率（这里每一层聚类簇的数目是预先定义的）。上图中最左侧每个节点右上方的表格就代表这个。举个例子，假设本层子图有6个节点，将各个节点输出的簇分类概率堆叠在一起，就可以得到矩阵$S^l$，如下图所示（三个颜色代表三个聚类簇。实际中，聚类矩阵不是离散变量，而是连续变量）</p>
+<p><img src="https://i.imgur.com/eDLJ1Nn.png" alt="picture 40"></p>
+<p>用$A_l$表示第l层子图节点的邻接关系，$A^0$即是图的邻接矩阵，$N_l$表示第l层节点的个数，$H^l$表示第l层子图各个节点表示堆叠而成的隐状态矩阵，DiffPool通过如下公式得到新子图中各个节点的表示：</p>
+<p><img src="https://i.imgur.com/B53yvW6.png" alt="picture 41"></p>
+<p>除了表示各个节点的表示之外，还有一个很重要的事情是生成新子图$A^{l+1}$的邻接关系</p>
+<p><img src="https://i.imgur.com/dEP1ZEr.png" alt="picture 42"></p>
+<a href="/2022/03/19/%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/" title="图神经网络概述">图神经网络概述</a>
+<a href="/2022/03/19/%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/" title="图卷积神经网络概述">图卷积神经网络概述</a>
+<a href="/2022/03/19/%E8%8A%82%E7%82%B9%E8%A1%A8%E7%A4%BA%E5%A6%82%E4%BD%95%E7%94%9F%E6%88%90%E5%9B%BE%E8%A1%A8%E7%A4%BA/" title="节点表示如何生成图表示">节点表示如何生成图表示</a>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/03/19/%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/weirdo.jpg">
+      <meta itemprop="name" content="Weirdo">
+      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Weirdo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/03/19/%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/" class="post-title-link" itemprop="url">图卷积神经网络概述</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-03-19 07:37:08" itemprop="dateCreated datePublished" datetime="2022-03-19T07:37:08+08:00">2022-03-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-03-24 12:35:10" itemprop="dateModified" datetime="2022-03-24T12:35:10+08:00">2022-03-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">图神经网络</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/03/19/%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/03/19/图卷积神经网络概述/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="图卷积缘起">图卷积缘起</h2>
+<p>我们要思考：为什么研究者们要设计图卷积，直接在图上不能应用传统的卷积吗？要理解这个，我们首先要理解应用传统卷积的图像（欧氏空间）和图（非欧式空间的区别）。如下图，是在两种不同结构上应用卷积的场景</p>
+<p><img src="https://i.imgur.com/PrBt36X.png" alt="picture 6"></p>
+<p>图卷积真正的难点在于 <strong>邻居节点数量不固定</strong>。目前有两中主流的研究方向</p>
+<ul>
+<li>将非欧式空间转换为欧式空间</li>
+<li>找出一种可以处理变长邻居节点的卷积核在图上抽取特征</li>
+</ul>
+<h2 id="图卷积的框架">图卷积的框架</h2>
+<p>如下图所示，输入的是整张图，在<code>Convolution Layer 1</code>里面，对每个节点的邻居都进行一次卷积操作，并且用卷积的结果更新这个节点；然后经过激活函数传给<code>Convolution Layer 2</code>与激活函数，重复这个过程。</p>
+<p>与GNN类似，GCN也有一个局部输出函数，用于将节点的状态（包括隐藏状态和节点特征）转换成任务相关的标签，称为<code>Node-Level</code>的任务；也有些任务是对整张图进行分类的，比如化合物分类，称为<code>Graph-Level</code>的任务。卷积操作只关心每个节点的隐藏状态如何更新，而对于<code>Graph-Level</code>的任务，会在卷积层之后增加更多的操作。</p>
+<h2 id="卷积">卷积</h2>
+<p>图卷积神经网络主要两中：空域和频域的。通俗点，空域就是直接在图片的像素点上进行卷积，频域是对图片进行傅里叶变换后再卷积。</p>
+<h3 id="空域卷积">空域卷积</h3>
+<p>其核心在于聚合邻居节点的信息。比如最简单的无参卷积方式是：将所有直连邻居节点的隐藏状态加和，来更新当前节点的隐藏状态。</p>
+<p><img src="https://i.imgur.com/3Jnfovx.png" alt="picture 14"></p>
+<h3 id="消息传递网络（Message-Passing-Neural-Network）">消息传递网络（Message Passing Neural Network）</h3>
+<p>严格来说，MPNN并不是一种具体的模型，而是一种空域卷积的形式化框架。将空域卷积分解为两个过程：消息传递和状态更新，分别由$M_l(·)$和$U_l(·)$函数完成。将节点v的特征$X_v$作为隐藏状态的初始状态$H_v^0$之后，空域卷积对隐藏状态的更新如下：</p>
+<p><img src="https://i.imgur.com/dmxgXS1.png" alt="picture 15"></p>
+<p>其中l代表卷积层的第l层。式子的物理意义是：受到来自每个邻居的消息$M_{l+1}$之后，每个节点如何更新自己的状态。</p>
+<p>MPNN的示意图如下</p>
+<p><img src="https://i.imgur.com/aaerMwm.png" alt="picture 16"></p>
+<h3 id="图采样与聚合">图采样与聚合</h3>
+<p>MPNN很好地概括了空域卷积的过程，但这个框架下的所有模型都有一个共同的缺陷：卷积操作针对的对象是整张图，即要将所有的节点放到内存中，才能卷积。但是实际应用中，整个图上的卷积操作并不现实。GraphSage利用采样部分节点的方式进行学习。当然，即使不需要整张图同时卷积，GraphSage仍然需要聚合邻居节点的信息。这种操作类似于MPNN中的消息传递过程</p>
+<p><img src="https://i.imgur.com/N3phwJo.png" alt="picture 17"></p>
+<p>具体采样过程分为三步：</p>
+<ol>
+<li>在图中随机采样若干个节点，节点数就是传统任务中的<code>batch_size</code>。对于每个节点，随机选择固定数目的邻居节点（未必是一阶邻居，也可以是二阶邻居）。</li>
+<li>将邻居节点的信息通过aggregate函数聚合起来更新刚才采样的节点</li>
+<li>计算采样节点处的损失。如果是无监督任务，我们希望图上邻居节点的编码相似；如果是监督任务，可以根据具体节点的任务标签计算损失。</li>
+</ol>
+<p>最终的GraphSage的状态更新公式如下：</p>
+<p><img src="https://i.imgur.com/e6fe9aR.png" alt="picture 43"></p>
+<p>GraphSage的设计重点是aggrega函数的设计上，它可以是max，mean也可以是带参数的如LSTM等神经网络。</p>
+<h2 id="图结构序列化">图结构序列化</h2>
+<p>这个方法将图结构转换成序列结构，然后直接利用卷积神经网络在序列化之后的序列结构上进行卷积。</p>
+<p>这种序列转换需要保持图结构的两个特点：1.同构的性质。2.邻居节点的链接关系。对于前者，意思是我们把图上节点的标号随机打乱，得到的仍然应该是一样的序列；对于后者，意味着我们需要保持邻居节点和目标节点的距离关系。</p>
+<p>PATCH-SAN通过以下三个步骤来解决这两个问题：</p>
+<ol>
+<li><strong>节点选择</strong>：通过一些人为定义的规则（比如度大的节点分数高，邻居节点度大时分数较高等）为每个节点指定一个在图中的排序。完成排序后取出前$\omega$个节点代表整个图。</li>
+<li><strong>邻居节点构造</strong>：以第一步选择的节点为中心，得到他们的邻居节点（可以是一阶邻居也可以是二阶邻居），这样就构成了$\omega$个团，根据第一步得到的节点排序对每个团中的邻居节点进行排序，取前k个邻居节点按照顺序排序，就组成了$\omega$个有序的团。</li>
+<li><strong>图规范化</strong>：按照每个团中的节点顺序可以将所有的团转换成固定长度的序列（k+1），再将他们按照中心节点的顺序从前到后依次拼接就能得到长度为$\omega \times (k+1)$的代表整张图的序列。需要注意的是，如果取不到$\omega$或者k个节点，需要用空节点填充。</li>
+</ol>
+<p>流程图如下所示：</p>
+<p><img src="https://i.imgur.com/qEhL4bU.png" alt="picture 24"></p>
+<p>下图更清晰：</p>
+<p><img src="https://i.imgur.com/aRKWzoN.png" alt="picture 25"></p>
+<h2 id="频域卷积">频域卷积</h2>
+<p>空域卷积直观地借鉴了图像中的卷积操作，但是缺乏理论基础。而频域卷积则不同，主要利用图傅里叶变换实现卷积。</p>
+<p>简单来说就是，利用图的拉普拉斯矩阵导出其频域上的拉普拉斯算子，再类比频域上的欧氏空间中的卷积，导出卷积公式。</p>
+<h3 id="傅里叶变换">傅里叶变换</h3>
+<p>傅里叶变换会将一个在空域（或者时域）上定义的函数分解成频域上的若干频率成分。即傅里叶变换可以将一个函数从空域变换到频域。先抛开傅里叶变换的数学公式，用F来表示傅里叶变换的话，有一个重要的恒等式：</p>
+<p>$$<br>
+(f * g)(t)=F^{-1} [F [f(t)] \odot F [g(t)] ]<br>
+$$</p>
+<p>这里的$F^{-1}$ 指的是傅里叶逆变换，$\odot$ 指的是哈达玛积。上式的直观含义是：空（时）域卷积等于频域卷积。简单来说就是如果要求f和g的卷积，可以先将他们通过傅里叶变换变换到频域中，将两个函数在频域中相乘，然后再通过傅里叶逆变换转换出来。</p>
+<p>那么傅里叶变换能够做什么呢？一个简单的应用是给图像去除规律噪点。如下图，傅里叶变换前有一些规律的条纹，直接在原图去除有点困难，但我们可以将图片通过傅里叶变换变到频谱图中，频谱中的规律条纹就是原图中的背景条纹。</p>
+<p><img src="https://i.imgur.com/1RCTpbS.png" alt="picture 26"></p>
+<p>只要在频谱图中去除这些点，就可以将背景条纹去掉。</p>
+<p><img src="https://i.imgur.com/ocm1zaI.png" alt="picture 27"></p>
+<p>除了去除噪声点，其在加速卷积运算方面还有很大的潜力，快速傅里叶变换也是由此而生。事实上现在常用的卷积神经网络完全可以搭配傅里叶变换。但是由于目前的大部分卷积核都比较小，卷积操作本身就不是很大开销，搭配傅里叶变换不一定就会减小时间开销。</p>
+<p>那么傅里叶变换的公式是什么样的呢？</p>
+<p>$$<br>
+\hat{f}(t)=\int f(x) \exp ^{-2 \pi i x t} d x<br>
+$$</p>
+<p>其中$i=\sqrt{-1}$，t是任意实数。</p>
+<p>我们这里实际上需要关注$\exp ^{-2 \pi i x t}$的物理意义，它实际上是拉普拉斯算子$\delta$的广义特征函数。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">拉普拉斯算子(Laplacian operator) 的物理意义是空间二阶导，准确定义是：标量梯度场中的散度，一般可用于描述物理量的流入流出。比如说在二维空间中的温度传播规律，一般可以用拉普拉斯算子来描述。</span><br></pre></td></tr></table></figure>
+<p>为什么是特征向量呢？稍微推导以下就可以知道，拉普拉斯算子作用在$\exp ^{-2 \pi i x t}$确实满足以上特征向量的定义：</p>
+<p>$$<br>
+\Delta \exp ^{-2 \pi i x t}=\frac{\partial^{2} } {\partial t^{2} } \exp ^{-2 \pi i x t}=-4 \pi^{2} x^{2} \exp ^{-2 \pi i x t}<br>
+$$</p>
+<p>这里$\partial$是求导符号，$\partial^2$是二阶导。</p>
+<p>实际上，仔细观察傅里叶变换的例子，本质上就是将函数f(t)映射到$\exp ^{-2\pi ixt}$的基向量空间中。</p>
+<h3 id="图上的傅里叶变换">图上的傅里叶变换</h3>
+<p>前面讲的都是为了这一部分做铺垫。问题来了：在图上，我们怎么找拉普拉斯算子$\delta$和$\exp ^{-2\pi ixt}$呢？</p>
+<p>研究者们找到了图的拉普拉斯矩阵和特征向量作为替代品。拉普拉斯矩阵本质上是度矩阵（D）减去邻接矩阵（A）L=D-A，如图所示</p>
+<p><img src="https://i.imgur.com/xkIhW3R.png" alt="picture 28"></p>
+<p>频域卷积的前提条件就是图必须是无向图，那么L就是对称矩阵。所以可以由以下公式分解：</p>
+<p><img src="https://i.imgur.com/zJw8FYb.png" alt="picture 29"></p>
+<p>那么根据上面卷积和傅里叶结合的变换公式，图上频域卷积的公式就可以写成$\hat{f}(t)=\sum_{n=1}^{N} f(n) u_{t}(n)$，如果整个图上的N个节点一起做卷积，就能够得到整张图上的卷积如下：</p>
+<p><img src="https://i.imgur.com/oZNB2qd.png" alt="picture 30"></p>
+<p>回顾传统卷积和图卷积，发现他们非常相似，这里f都是特征函数，g都是卷积核</p>
+<p><img src="https://i.imgur.com/hxBFtSB.png" alt="picture 31"></p>
+<p>如果把$U^Tg$整体看作可以学习的卷积核，我们写作$g_\theta$。最终的卷积公式就是：</p>
+<p><img src="https://i.imgur.com/6ZqiOgV.png" alt="picture 32"></p>
+<h3 id="频域卷积网络">频域卷积网络</h3>
+<p>上面推导出的$g_\theta$就是首个提出的频域卷积神经网络的卷积核。设l层的隐藏状态为$h^l\in R^{N\times d_t}$，频域卷积层的状态更新计算公式如下：</p>
+<p><img src="https://i.imgur.com/K0CkMxN.png" alt="picture 33"></p>
+<p>物理上可以如下理解</p>
+<p><img src="https://i.imgur.com/lldUmjS.png" alt="picture 34"></p>
+<a href="/2022/03/19/%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/" title="图神经网络概述">图神经网络概述</a>
+<a href="/2022/03/19/%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/" title="图卷积神经网络概述">图卷积神经网络概述</a>
+<a href="/2022/03/19/%E8%8A%82%E7%82%B9%E8%A1%A8%E7%A4%BA%E5%A6%82%E4%BD%95%E7%94%9F%E6%88%90%E5%9B%BE%E8%A1%A8%E7%A4%BA/" title="节点表示如何生成图表示">节点表示如何生成图表示</a>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/03/19/%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/weirdo.jpg">
+      <meta itemprop="name" content="Weirdo">
+      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Weirdo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/03/19/%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/" class="post-title-link" itemprop="url">图神经网络概述</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-03-19 05:12:47" itemprop="dateCreated datePublished" datetime="2022-03-19T05:12:47+08:00">2022-03-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-03-24 12:35:10" itemprop="dateModified" datetime="2022-03-24T12:35:10+08:00">2022-03-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">图神经网络</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/03/19/%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/03/19/图神经网络概述/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="状态更新与输出">状态更新与输出</h2>
+<p>最早的图神经网络的理论基础是不动点理论。给定一张图$G$，每个节点都有其自身特征$X_v$，每个边也有其自身特征$X_{(u,v)}$。GNN的学习目标就是获得每个结点的图感知的隐藏状态，即：对于每个节点，其隐藏状态包含来自邻居节点的信息。那如何让每个节点都能感知到图上的其他节点呢？GNN通过迭代式更新所有节点的隐藏状态来实现，在t+1时刻，节点的隐藏状态按照如下方式更新：</p>
+<p><img src="https://i.imgur.com/2vgW7gB.png" alt="picture 8"></p>
+<p>其中f就是隐藏状态的更新函数，$x_co[v]$是与节点v相邻的边的特征，$x_ne[v]$是节点v的邻居节点的特征，$h_n^te[v]$是邻居节点在t时刻的隐藏状态。神经网络需要做的就是拟合这个函数f。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/03/19/%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/03/17/github%E6%97%A0%E6%B3%95%E7%94%A8%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%BF%9E%E6%8E%A5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/weirdo.jpg">
+      <meta itemprop="name" content="Weirdo">
+      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Weirdo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/03/17/github%E6%97%A0%E6%B3%95%E7%94%A8%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%BF%9E%E6%8E%A5/" class="post-title-link" itemprop="url">github无法用命令行连接</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-03-17 16:11:40" itemprop="dateCreated datePublished" datetime="2022-03-17T16:11:40+08:00">2022-03-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-03-24 12:35:10" itemprop="dateModified" datetime="2022-03-24T12:35:10+08:00">2022-03-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/github/" itemprop="url" rel="index"><span itemprop="name">github</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/03/17/github%E6%97%A0%E6%B3%95%E7%94%A8%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%BF%9E%E6%8E%A5/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/03/17/github无法用命令行连接/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>如果在使用git命令的时候出现<code>ssh: connect to host github.com port 22: Connection timed out</code>,可能是host文件配置错误，我们打开host文件（win10一般在C:\Windows\System32\drivers\etc）。在最下方添加github ip。</p>
+<ul>
+<li>查看github的ip地址，进入网址：<a target="_blank" rel="noopener" href="https://github.com.ipaddress.com">https://github.com.ipaddress.com</a></li>
+<li>确定域名ip，进入网址：<a target="_blank" rel="noopener" href="https://fastly.net.ipaddress.com/github.global.ssl.fastly.net">https://fastly.net.ipaddress.com/github.global.ssl.fastly.net</a></li>
+<li>确定静态资源ip（应该是有4个），进入网址：<a target="_blank" rel="noopener" href="https://github.com.ipaddress.com/assets-cdn.github.com">https://github.com.ipaddress.com/assets-cdn.github.com</a></li>
+</ul>
+<p>得到上述ip后添加到记事本最后，格式如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">140.82.113.4 github.com</span><br><span class="line">199.232.69.194 github.global.ssl.fastly.net</span><br><span class="line">185.199.108.153 assets-cdn.github.com</span><br><span class="line">185.199.109.153 assets-cdn.github.com</span><br><span class="line">185.199.110.153 assets-cdn.github.com</span><br><span class="line">185.199.111.153 assets-cdn.github.com</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/03/16/EvolveGCN-Evolving-Graph-Convolutional-Networks-for-Dynamic-Graphs/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -209,9 +1096,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2022-03-16 21:17:17 / 修改时间：22:53:15" itemprop="dateCreated datePublished" datetime="2022-03-16T21:17:17+08:00">2022-03-16</time>
+      <time title="创建时间：2022-03-16 21:17:17" itemprop="dateCreated datePublished" datetime="2022-03-16T21:17:17+08:00">2022-03-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-03-24 12:35:10" itemprop="dateModified" datetime="2022-03-24T12:35:10+08:00">2022-03-24</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -323,7 +1216,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-03-16 22:53:30" itemprop="dateModified" datetime="2022-03-16T22:53:30+08:00">2022-03-16</time>
+      <time title="修改时间：2022-03-24 13:45:01" itemprop="dateModified" datetime="2022-03-24T13:45:01+08:00">2022-03-24</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -438,7 +1331,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-03-16 22:38:03" itemprop="dateModified" datetime="2022-03-16T22:38:03+08:00">2022-03-16</time>
+      <time title="修改时间：2022-03-24 12:35:10" itemprop="dateModified" datetime="2022-03-24T12:35:10+08:00">2022-03-24</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -482,895 +1375,9 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -it --network host --rm mysql mysql -h127.0.0.1 -P13306 --default-character-set=utf8mb4 -uroot -p</span><br></pre></td></tr></table></figure>
 <p>然后在环境中创建一个数据库</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE DATABASE db1;</span><br></pre></td></tr></table></figure>
-<h2 id="使用GORM操作MySQL">使用GORM操作MySQL</h2>
-<p>以下是对数据库中表的增删改查</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    db, err := gorm.Open(<span class="string">&quot;mysql&quot;</span>, <span class="string">&quot;root:123@(127.0.0.1:13306)/db1?charset=utf8mb4&amp;parseTime=True&amp;loc=Local&quot;</span>)</span><br><span class="line">    <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">        <span class="built_in">panic</span>(err)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">defer</span> db.Close()</span><br><span class="line"></span><br><span class="line">    <span class="comment">//创建表 自动迁移（把结构体和数据表进行对应）</span></span><br><span class="line">    db.AutoMigrate(&amp;UserInfo&#123;&#125;)</span><br><span class="line"></span><br><span class="line">    <span class="comment">//创建记录</span></span><br><span class="line">    u1 := UserInfo&#123;</span><br><span class="line">        <span class="number">1</span>,</span><br><span class="line">        <span class="string">&quot;weirdo&quot;</span>,</span><br><span class="line">        <span class="string">&quot;male&quot;</span>,</span><br><span class="line">        <span class="string">&quot;guitar&quot;</span>,</span><br><span class="line">    &#125;</span><br><span class="line">    db.Create(&amp;u1)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 查询数据,查询第一条数据 保存到u</span></span><br><span class="line">    <span class="keyword">var</span> u UserInfo</span><br><span class="line">    db.First(&amp;u)</span><br><span class="line">    fmt.Printf(<span class="string">&quot;%#v\n&quot;</span>, u)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 更新数据</span></span><br><span class="line">    db.Model(&amp;u).Update(<span class="string">&quot;hobby&quot;</span>, <span class="string">&quot;双色球&quot;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 删除</span></span><br><span class="line">    db.Delete(&amp;u)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="GORM-Model定义">GORM Model定义</h2>
-<p>我们需要在代码中定义模型与数据库中的数据表进行映射，在GORM中模型通常是正常定义的结构体、基本的go类型或者他们的指针。</p>
-<h3 id="gorm-Model">gorm.Model</h3>
-<p>为了方便模型的定义，GORM内置了一个gorm.Model结构体。其中包含了<code>ID</code>,<code>CreatedAt</code>,<code>UpdateAt</code>,<code>DeleteAt</code>字段</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// gorm.Model 定义</span></span><br><span class="line"><span class="keyword">type</span> Model <span class="keyword">struct</span> &#123;</span><br><span class="line">  ID        <span class="keyword">uint</span> <span class="string">`gorm:&quot;primary_key&quot;`</span></span><br><span class="line">  CreatedAt time.Time</span><br><span class="line">  UpdatedAt time.Time</span><br><span class="line">  DeletedAt *time.Time</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>可以将他嵌入到我们自己的模型中</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将 `ID`, `CreatedAt`, `UpdatedAt`, `DeletedAt`字段注入到`User`模型中</span></span><br><span class="line"><span class="keyword">type</span> User <span class="keyword">struct</span> &#123;</span><br><span class="line">  gorm.Model</span><br><span class="line">  Name <span class="keyword">string</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>模型定义的示例</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> User <span class="keyword">struct</span> &#123;</span><br><span class="line">  gorm.Model</span><br><span class="line">  Name         <span class="keyword">string</span></span><br><span class="line">  Age          sql.NullInt64</span><br><span class="line">  Birthday     *time.Time</span><br><span class="line">  Email        <span class="keyword">string</span>  <span class="string">`gorm:&quot;type:varchar(100);unique_index&quot;`</span></span><br><span class="line">  Role         <span class="keyword">string</span>  <span class="string">`gorm:&quot;size:255&quot;`</span> <span class="comment">// 设置字段大小为255</span></span><br><span class="line">  MemberNumber *<span class="keyword">string</span> <span class="string">`gorm:&quot;unique;not null&quot;`</span> <span class="comment">// 设置会员号（member number）唯一并且不为空</span></span><br><span class="line">  Num          <span class="keyword">int</span>     <span class="string">`gorm:&quot;AUTO_INCREMENT&quot;`</span> <span class="comment">// 设置 num 为自增类型</span></span><br><span class="line">  Address      <span class="keyword">string</span>  <span class="string">`gorm:&quot;index:addr&quot;`</span> <span class="comment">// 给address字段创建名为addr的索引</span></span><br><span class="line">  IgnoreMe     <span class="keyword">int</span>     <span class="string">`gorm:&quot;-&quot;`</span> <span class="comment">// 忽略本字段</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="主键、表名、列名的约定">主键、表名、列名的约定</h2>
-<h3 id="主键">主键</h3>
-<p>gorm默认会使用名为ID的字段作为表的主键，如果我们想要设置主键的话就用结构体tag进行设置</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> User <span class="keyword">struct</span> &#123;</span><br><span class="line">  ID   <span class="keyword">string</span> <span class="comment">// 名为`ID`的字段会默认作为表的主键</span></span><br><span class="line">  Name <span class="keyword">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用`AnimalID`作为主键</span></span><br><span class="line"><span class="keyword">type</span> Animal <span class="keyword">struct</span> &#123;</span><br><span class="line">  AnimalID <span class="keyword">int64</span> <span class="string">`gorm:&quot;primary_key&quot;`</span></span><br><span class="line">  Name     <span class="keyword">string</span></span><br><span class="line">  Age      <span class="keyword">int64</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="表名">表名</h3>
-<p>表名默认是结构体的复数形式，如果想要修改表的名字的话可以通过对结构体设置一个<code>TableName()</code>函数进行设置。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> User <span class="keyword">struct</span> &#123;&#125; <span class="comment">// 默认表名是 `users`</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 将 User 的表名设置为 `profiles`</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(User)</span> <span class="title">TableName</span><span class="params">()</span> <span class="title">string</span></span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">&quot;profiles&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(u User)</span> <span class="title">TableName</span><span class="params">()</span> <span class="title">string</span></span> &#123;</span><br><span class="line">  <span class="keyword">if</span> u.Role == <span class="string">&quot;admin&quot;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;admin_users&quot;</span></span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&quot;users&quot;</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 禁用默认表名的复数形式，如果置为 true，则 `User` 的默认表名是 `user`</span></span><br><span class="line">db.SingularTable(<span class="literal">true</span>)</span><br></pre></td></tr></table></figure>
-<p>也可以通过<code>Table()</code>指定表名</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用User结构体创建名为`deleted_users`的表</span></span><br><span class="line">db.Table(<span class="string">&quot;deleted_users&quot;</span>).CreateTable(&amp;User&#123;&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> deleted_users []User</span><br><span class="line">db.Table(<span class="string">&quot;deleted_users&quot;</span>).Find(&amp;deleted_users)</span><br><span class="line"><span class="comment">//// SELECT * FROM deleted_users;</span></span><br><span class="line"></span><br><span class="line">db.Table(<span class="string">&quot;deleted_users&quot;</span>).Where(<span class="string">&quot;name = ?&quot;</span>, <span class="string">&quot;jinzhu&quot;</span>).Delete()</span><br><span class="line"><span class="comment">//// DELETE FROM deleted_users WHERE name = &#x27;jinzhu&#x27;;</span></span><br></pre></td></tr></table></figure>
-<p>gorm还支持更改默认的表名称规则,自己指定的表名不受影响</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">gorm.DefaultTableNameHandler = <span class="function"><span class="keyword">func</span> <span class="params">(db *gorm.DB, defaultTableName <span class="keyword">string</span>)</span> <span class="title">string</span></span>  &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="string">&quot;prefix_&quot;</span> + defaultTableName;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="列名">列名</h3>
-<p>默认命名规则和表名是一样的，由下划线分割连接并且全部小写。同样也可以用结构体tag进行修改。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> Animal <span class="keyword">struct</span> &#123;</span><br><span class="line">  AnimalId    <span class="keyword">int64</span>     <span class="string">`gorm:&quot;column:beast_id&quot;`</span>         <span class="comment">// set column name to `beast_id`</span></span><br><span class="line">  Birthday    time.Time <span class="string">`gorm:&quot;column:day_of_the_beast&quot;`</span> <span class="comment">// set column name to `day_of_the_beast`</span></span><br><span class="line">  Age         <span class="keyword">int64</span>     <span class="string">`gorm:&quot;column:age_of_the_beast&quot;`</span> <span class="comment">// set column name to `age_of_the_beast`</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="GORM的增删改查">GORM的增删改查</h2>
-<h3 id="创建记录">创建记录</h3>
-<p>先要定义模型</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> User <span class="keyword">struct</span> &#123;</span><br><span class="line">    ID           <span class="keyword">int64</span></span><br><span class="line">    Name         <span class="keyword">string</span></span><br><span class="line">    Age          <span class="keyword">int64</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>然后把模型和数据库的表对应起来</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.AutoMigrate(&amp;User&#123;&#125;)</span><br></pre></td></tr></table></figure>
-<p>最后创建记录并且存到表中</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">user:=User&#123;</span><br><span class="line">    Name:<span class="string">&quot;weirdo&quot;</span>,</span><br><span class="line">    Age:<span class="number">18</span>，</span><br><span class="line">&#125;</span><br><span class="line">db.Create(&amp;user)</span><br></pre></td></tr></table></figure>
-<p>可以通过tag定义字段的默认值</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> User <span class="keyword">struct</span> &#123;</span><br><span class="line">  ID   <span class="keyword">int64</span></span><br><span class="line">  Name <span class="keyword">string</span> <span class="string">`gorm:&quot;default:&#x27;小王子&#x27;&quot;`</span></span><br><span class="line">  Age  <span class="keyword">int64</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>需要注意的是：创建记录的时候所有字段的零值不会存入到数据库中，但是会使用他们的默认值。如果想避免这种情况的话就使用指针或者<code>Scanner.Valuer</code>接口。</p>
-<ul>
-<li>指针方式</li>
-</ul>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用指针</span></span><br><span class="line"><span class="keyword">type</span> User <span class="keyword">struct</span> &#123;</span><br><span class="line">  ID   <span class="keyword">int64</span></span><br><span class="line">  Name *<span class="keyword">string</span> <span class="string">`gorm:&quot;default:&#x27;小王子&#x27;&quot;`</span></span><br><span class="line">  Age  <span class="keyword">int64</span></span><br><span class="line">&#125;</span><br><span class="line">user := User&#123;Name: <span class="built_in">new</span>(<span class="keyword">string</span>), Age: <span class="number">18</span>&#125;</span><br><span class="line">db.Create(&amp;user)  <span class="comment">// 此时数据库中该条记录name字段的值就是&#x27;&#x27;</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li>Scanner/Valuer方式</li>
-</ul>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用 Scanner/Valuer</span></span><br><span class="line"><span class="keyword">type</span> User <span class="keyword">struct</span> &#123;</span><br><span class="line">    ID <span class="keyword">int64</span></span><br><span class="line">    Name sql.NullString <span class="string">`gorm:&quot;default:&#x27;小王子&#x27;&quot;`</span> <span class="comment">// sql.NullString 实现了Scanner/Valuer接口</span></span><br><span class="line">    Age  <span class="keyword">int64</span></span><br><span class="line">&#125;</span><br><span class="line">user := User&#123;Name: sql.NullString&#123;<span class="string">&quot;&quot;</span>, <span class="literal">true</span>&#125;, Age:<span class="number">18</span>&#125;</span><br><span class="line">db.Create(&amp;user)  <span class="comment">// 此时数据库中该条记录name字段的值就是&#x27;&#x27;</span></span><br></pre></td></tr></table></figure>
-<h3 id="查询">查询</h3>
-<p>一般查询</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 根据主键查询第一条记录</span></span><br><span class="line">db.First(&amp;user)</span><br><span class="line"><span class="comment">//// SELECT * FROM users ORDER BY id LIMIT 1;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 随机获取一条记录</span></span><br><span class="line">db.Take(&amp;user)</span><br><span class="line"><span class="comment">//// SELECT * FROM users LIMIT 1;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 根据主键查询最后一条记录</span></span><br><span class="line">db.Last(&amp;user)</span><br><span class="line"><span class="comment">//// SELECT * FROM users ORDER BY id DESC LIMIT 1;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 查询所有的记录</span></span><br><span class="line">db.Find(&amp;users)</span><br><span class="line"><span class="comment">//// SELECT * FROM users;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 查询指定的某条记录(仅当主键为整型时可用)</span></span><br><span class="line">db.First(&amp;user, <span class="number">10</span>)</span><br><span class="line"><span class="comment">//// SELECT * FROM users WHERE id = 10;</span></span><br></pre></td></tr></table></figure>
-<h4 id="where-条件">where 条件</h4>
-<p>普通sql查询</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Get first matched record</span></span><br><span class="line">db.Where(<span class="string">&quot;name = ?&quot;</span>, <span class="string">&quot;jinzhu&quot;</span>).First(&amp;user)</span><br><span class="line"><span class="comment">//// SELECT * FROM users WHERE name = &#x27;jinzhu&#x27; limit 1;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Get all matched records</span></span><br><span class="line">db.Where(<span class="string">&quot;name = ?&quot;</span>, <span class="string">&quot;jinzhu&quot;</span>).Find(&amp;users)</span><br><span class="line"><span class="comment">//// SELECT * FROM users WHERE name = &#x27;jinzhu&#x27;;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// &lt;&gt;</span></span><br><span class="line">db.Where(<span class="string">&quot;name &lt;&gt; ?&quot;</span>, <span class="string">&quot;jinzhu&quot;</span>).Find(&amp;users)</span><br><span class="line"><span class="comment">//// SELECT * FROM users WHERE name &lt;&gt; &#x27;jinzhu&#x27;;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// IN</span></span><br><span class="line">db.Where(<span class="string">&quot;name IN (?)&quot;</span>, []<span class="keyword">string</span>&#123;<span class="string">&quot;jinzhu&quot;</span>, <span class="string">&quot;jinzhu 2&quot;</span>&#125;).Find(&amp;users)</span><br><span class="line"><span class="comment">//// SELECT * FROM users WHERE name in (&#x27;jinzhu&#x27;,&#x27;jinzhu 2&#x27;);</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// LIKE</span></span><br><span class="line">db.Where(<span class="string">&quot;name LIKE ?&quot;</span>, <span class="string">&quot;%jin%&quot;</span>).Find(&amp;users)</span><br><span class="line"><span class="comment">//// SELECT * FROM users WHERE name LIKE &#x27;%jin%&#x27;;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// AND</span></span><br><span class="line">db.Where(<span class="string">&quot;name = ? AND age &gt;= ?&quot;</span>, <span class="string">&quot;jinzhu&quot;</span>, <span class="string">&quot;22&quot;</span>).Find(&amp;users)</span><br><span class="line"><span class="comment">//// SELECT * FROM users WHERE name = &#x27;jinzhu&#x27; AND age &gt;= 22;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Time</span></span><br><span class="line">db.Where(<span class="string">&quot;updated_at &gt; ?&quot;</span>, lastWeek).Find(&amp;users)</span><br><span class="line"><span class="comment">//// SELECT * FROM users WHERE updated_at &gt; &#x27;2000-01-01 00:00:00&#x27;;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// BETWEEN</span></span><br><span class="line">db.Where(<span class="string">&quot;created_at BETWEEN ? AND ?&quot;</span>, lastWeek, today).Find(&amp;users)</span><br><span class="line"><span class="comment">//// SELECT * FROM users WHERE created_at BETWEEN &#x27;2000-01-01 00:00:00&#x27; AND &#x27;2000-01-08 00:00:00&#x27;;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>struct map查询</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Struct</span></span><br><span class="line">db.Where(&amp;User&#123;Name: <span class="string">&quot;jinzhu&quot;</span>, Age: <span class="number">20</span>&#125;).First(&amp;user)</span><br><span class="line"><span class="comment">//// SELECT * FROM users WHERE name = &quot;jinzhu&quot; AND age = 20 LIMIT 1;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Map</span></span><br><span class="line">db.Where(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">interface</span>&#123;&#125;&#123;<span class="string">&quot;name&quot;</span>: <span class="string">&quot;jinzhu&quot;</span>, <span class="string">&quot;age&quot;</span>: <span class="number">20</span>&#125;).Find(&amp;users)</span><br><span class="line"><span class="comment">//// SELECT * FROM users WHERE name = &quot;jinzhu&quot; AND age = 20;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 主键的切片</span></span><br><span class="line">db.Where([]<span class="keyword">int64</span>&#123;<span class="number">20</span>, <span class="number">21</span>, <span class="number">22</span>&#125;).Find(&amp;users)</span><br><span class="line"><span class="comment">//// SELECT * FROM users WHERE id IN (20, 21, 22);</span></span><br></pre></td></tr></table></figure>
-<p>同样的，通过结构体查询时，GORM会只通过非零值字段查询，即字段如果为零值，将不会被用于查询。这一点同样可以通过Scanner/Valuer解决。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">db.Where(&amp;User&#123;Name: <span class="string">&quot;jinzhu&quot;</span>, Age: <span class="number">0</span>&#125;).Find(&amp;users)</span><br><span class="line"><span class="comment">//// SELECT * FROM users WHERE name = &quot;jinzhu&quot;;</span></span><br></pre></td></tr></table></figure>
-<h4 id="Not条件">Not条件</h4>
-<p>就是与where相反，取非我们给出条件的数据</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">db.Not(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;jinzhu&quot;</span>).First(&amp;user)</span><br><span class="line"><span class="comment">//// SELECT * FROM users WHERE name &lt;&gt; &quot;jinzhu&quot; LIMIT 1;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Not In</span></span><br><span class="line">db.Not(<span class="string">&quot;name&quot;</span>, []<span class="keyword">string</span>&#123;<span class="string">&quot;jinzhu&quot;</span>, <span class="string">&quot;jinzhu 2&quot;</span>&#125;).Find(&amp;users)</span><br><span class="line"><span class="comment">//// SELECT * FROM users WHERE name NOT IN (&quot;jinzhu&quot;, &quot;jinzhu 2&quot;);</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Not In slice of primary keys</span></span><br><span class="line">db.Not([]<span class="keyword">int64</span>&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>&#125;).First(&amp;user)</span><br><span class="line"><span class="comment">//// SELECT * FROM users WHERE id NOT IN (1,2,3);</span></span><br><span class="line"></span><br><span class="line">db.Not([]<span class="keyword">int64</span>&#123;&#125;).First(&amp;user)</span><br><span class="line"><span class="comment">//// SELECT * FROM users;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Plain SQL</span></span><br><span class="line">db.Not(<span class="string">&quot;name = ?&quot;</span>, <span class="string">&quot;jinzhu&quot;</span>).First(&amp;user)</span><br><span class="line"><span class="comment">//// SELECT * FROM users WHERE NOT(name = &quot;jinzhu&quot;);</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Struct</span></span><br><span class="line">db.Not(User&#123;Name: <span class="string">&quot;jinzhu&quot;</span>&#125;).First(&amp;user)</span><br><span class="line"><span class="comment">//// SELECT * FROM users WHERE name &lt;&gt; &quot;jinzhu&quot;;</span></span><br></pre></td></tr></table></figure>
-<h4 id="Or条件">Or条件</h4>
-<p>就是同时满足几个条件的</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">db.Where(<span class="string">&quot;role = ?&quot;</span>, <span class="string">&quot;admin&quot;</span>).Or(<span class="string">&quot;role = ?&quot;</span>, <span class="string">&quot;super_admin&quot;</span>).Find(&amp;users)</span><br><span class="line"><span class="comment">//// SELECT * FROM users WHERE role = &#x27;admin&#x27; OR role = &#x27;super_admin&#x27;;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Struct</span></span><br><span class="line">db.Where(<span class="string">&quot;name = &#x27;jinzhu&#x27;&quot;</span>).Or(User&#123;Name: <span class="string">&quot;jinzhu 2&quot;</span>&#125;).Find(&amp;users)</span><br><span class="line"><span class="comment">//// SELECT * FROM users WHERE name = &#x27;jinzhu&#x27; OR name = &#x27;jinzhu 2&#x27;;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Map</span></span><br><span class="line">db.Where(<span class="string">&quot;name = &#x27;jinzhu&#x27;&quot;</span>).Or(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">interface</span>&#123;&#125;&#123;<span class="string">&quot;name&quot;</span>: <span class="string">&quot;jinzhu 2&quot;</span>&#125;).Find(&amp;users)</span><br><span class="line"><span class="comment">//// SELECT * FROM users WHERE name = &#x27;jinzhu&#x27; OR name = &#x27;jinzhu 2&#x27;;</span></span><br></pre></td></tr></table></figure>
-<h4 id="内联条件">内联条件</h4>
-<p>当内联条件和多个立即执行方法一起使用的时候不会传递给后面的立即执行方法，即只对当前方法的条件</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 根据主键获取记录 (只适用于整形主键)</span></span><br><span class="line">db.First(&amp;user, <span class="number">23</span>)</span><br><span class="line"><span class="comment">//// SELECT * FROM users WHERE id = 23 LIMIT 1;</span></span><br><span class="line"><span class="comment">// 根据主键获取记录, 如果它是一个非整形主键</span></span><br><span class="line">db.First(&amp;user, <span class="string">&quot;id = ?&quot;</span>, <span class="string">&quot;string_primary_key&quot;</span>)</span><br><span class="line"><span class="comment">//// SELECT * FROM users WHERE id = &#x27;string_primary_key&#x27; LIMIT 1;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Plain SQL</span></span><br><span class="line">db.Find(&amp;user, <span class="string">&quot;name = ?&quot;</span>, <span class="string">&quot;jinzhu&quot;</span>)</span><br><span class="line"><span class="comment">//// SELECT * FROM users WHERE name = &quot;jinzhu&quot;;</span></span><br><span class="line"></span><br><span class="line">db.Find(&amp;users, <span class="string">&quot;name &lt;&gt; ? AND age &gt; ?&quot;</span>, <span class="string">&quot;jinzhu&quot;</span>, <span class="number">20</span>)</span><br><span class="line"><span class="comment">//// SELECT * FROM users WHERE name &lt;&gt; &quot;jinzhu&quot; AND age &gt; 20;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Struct</span></span><br><span class="line">db.Find(&amp;users, User&#123;Age: <span class="number">20</span>&#125;)</span><br><span class="line"><span class="comment">//// SELECT * FROM users WHERE age = 20;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Map</span></span><br><span class="line">db.Find(&amp;users, <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">interface</span>&#123;&#125;&#123;<span class="string">&quot;age&quot;</span>: <span class="number">20</span>&#125;)</span><br><span class="line"><span class="comment">//// SELECT * FROM users WHERE age = 20;</span></span><br></pre></td></tr></table></figure>
-<h4 id="额外查询选项">额外查询选项</h4>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 为查询 SQL 添加额外的 SQL 操作</span></span><br><span class="line">db.Set(<span class="string">&quot;gorm:query_option&quot;</span>, <span class="string">&quot;FOR UPDATE&quot;</span>).First(&amp;user, <span class="number">10</span>)</span><br><span class="line"><span class="comment">//// SELECT * FROM users WHERE id = 10 FOR UPDATE;</span></span><br></pre></td></tr></table></figure>
-<h4 id="FirstOrInit">FirstOrInit</h4>
-<p>获取匹配到的第一个数据，如果不存在的话，用给定条件初始化一个新的对象（仅支持struct和map条件）</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 未找到</span></span><br><span class="line">db.FirstOrInit(&amp;user, User&#123;Name: <span class="string">&quot;non_existing&quot;</span>&#125;)</span><br><span class="line"><span class="comment">//// user -&gt; User&#123;Name: &quot;non_existing&quot;&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 找到</span></span><br><span class="line">db.Where(User&#123;Name: <span class="string">&quot;Jinzhu&quot;</span>&#125;).FirstOrInit(&amp;user)</span><br><span class="line"><span class="comment">//// user -&gt; User&#123;Id: 111, Name: &quot;Jinzhu&quot;, Age: 20&#125;</span></span><br><span class="line">db.FirstOrInit(&amp;user, <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">interface</span>&#123;&#125;&#123;<span class="string">&quot;name&quot;</span>: <span class="string">&quot;jinzhu&quot;</span>&#125;)</span><br><span class="line"><span class="comment">//// user -&gt; User&#123;Id: 111, Name: &quot;Jinzhu&quot;, Age: 20&#125;</span></span><br></pre></td></tr></table></figure>
-<h4 id="Attrs">Attrs</h4>
-<p>如果记录没有找到的话，就用参数初始化struct</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 未找到</span></span><br><span class="line">db.Where(User&#123;Name: <span class="string">&quot;non_existing&quot;</span>&#125;).Attrs(User&#123;Age: <span class="number">20</span>&#125;).FirstOrInit(&amp;user)</span><br><span class="line"><span class="comment">//// SELECT * FROM USERS WHERE name = &#x27;non_existing&#x27;;</span></span><br><span class="line"><span class="comment">//// user -&gt; User&#123;Name: &quot;non_existing&quot;, Age: 20&#125;</span></span><br><span class="line"></span><br><span class="line">db.Where(User&#123;Name: <span class="string">&quot;non_existing&quot;</span>&#125;).Attrs(<span class="string">&quot;age&quot;</span>, <span class="number">20</span>).FirstOrInit(&amp;user)</span><br><span class="line"><span class="comment">//// SELECT * FROM USERS WHERE name = &#x27;non_existing&#x27;;</span></span><br><span class="line"><span class="comment">//// user -&gt; User&#123;Name: &quot;non_existing&quot;, Age: 20&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 找到</span></span><br><span class="line">db.Where(User&#123;Name: <span class="string">&quot;Jinzhu&quot;</span>&#125;).Attrs(User&#123;Age: <span class="number">30</span>&#125;).FirstOrInit(&amp;user)</span><br><span class="line"><span class="comment">//// SELECT * FROM USERS WHERE name = jinzhu&#x27;;</span></span><br><span class="line"><span class="comment">//// user -&gt; User&#123;Id: 111, Name: &quot;Jinzhu&quot;, Age: 20&#125;</span></span><br></pre></td></tr></table></figure>
-<h4 id="Assign">Assign</h4>
-<p>不管记录是否找到，都会用参数初始化struct</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 未找到</span></span><br><span class="line">db.Where(User&#123;Name: <span class="string">&quot;non_existing&quot;</span>&#125;).Assign(User&#123;Age: <span class="number">20</span>&#125;).FirstOrInit(&amp;user)</span><br><span class="line"><span class="comment">//// user -&gt; User&#123;Name: &quot;non_existing&quot;, Age: 20&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 找到</span></span><br><span class="line">db.Where(User&#123;Name: <span class="string">&quot;Jinzhu&quot;</span>&#125;).Assign(User&#123;Age: <span class="number">30</span>&#125;).FirstOrInit(&amp;user)</span><br><span class="line"><span class="comment">//// SELECT * FROM USERS WHERE name = jinzhu&#x27;;</span></span><br><span class="line"><span class="comment">//// user -&gt; User&#123;Id: 111, Name: &quot;Jinzhu&quot;, Age: 30&#125;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>另外，还有<code>FirstOrCreate</code>和<code>Attrs</code>、<code>Assign</code>相结合，它就是比上面的多一个向数据库中添加或者修改数据的动作。</p>
-<h4 id="高级查询">高级查询</h4>
-<ul>
-<li><strong>子查询</strong></li>
-</ul>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">db.Where(<span class="string">&quot;amount &gt; ?&quot;</span>, db.Table(<span class="string">&quot;orders&quot;</span>).Select(<span class="string">&quot;AVG(amount)&quot;</span>).Where(<span class="string">&quot;state = ?&quot;</span>, <span class="string">&quot;paid&quot;</span>).SubQuery()).Find(&amp;orders)</span><br><span class="line"><span class="comment">// SELECT * FROM &quot;orders&quot;  WHERE &quot;orders&quot;.&quot;deleted_at&quot; IS NULL AND (amount &gt; (SELECT AVG(amount) FROM &quot;orders&quot;  WHERE (state = &#x27;paid&#x27;)));</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li><strong>选择字段</strong></li>
-</ul>
-<p>指定我们想要检索出的字段，默认是选择全部字段</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">db.Select(<span class="string">&quot;name, age&quot;</span>).Find(&amp;users)</span><br><span class="line"><span class="comment">//// SELECT name, age FROM users;</span></span><br><span class="line"></span><br><span class="line">db.Select([]<span class="keyword">string</span>&#123;<span class="string">&quot;name&quot;</span>, <span class="string">&quot;age&quot;</span>&#125;).Find(&amp;users)</span><br><span class="line"><span class="comment">//// SELECT name, age FROM users;</span></span><br><span class="line"></span><br><span class="line">db.Table(<span class="string">&quot;users&quot;</span>).Select(<span class="string">&quot;COALESCE(age,?)&quot;</span>, <span class="number">42</span>).Rows()</span><br><span class="line"><span class="comment">//// SELECT COALESCE(age,&#x27;42&#x27;) FROM users;</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li><strong>排序</strong></li>
-</ul>
-<p>指定从数据库中检索出记录的顺序。设置第二个参数 reorder 为 true ，可以覆盖前面定义的排序条件。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">db.Order(<span class="string">&quot;age desc, name&quot;</span>).Find(&amp;users)</span><br><span class="line"><span class="comment">//// SELECT * FROM users ORDER BY age desc, name;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 多字段排序</span></span><br><span class="line">db.Order(<span class="string">&quot;age desc&quot;</span>).Order(<span class="string">&quot;name&quot;</span>).Find(&amp;users)</span><br><span class="line"><span class="comment">//// SELECT * FROM users ORDER BY age desc, name;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 覆盖排序</span></span><br><span class="line">db.Order(<span class="string">&quot;age desc&quot;</span>).Find(&amp;users1).Order(<span class="string">&quot;age&quot;</span>, <span class="literal">true</span>).Find(&amp;users2)</span><br><span class="line"><span class="comment">//// SELECT * FROM users ORDER BY age desc; (users1)</span></span><br><span class="line"><span class="comment">//// SELECT * FROM users ORDER BY age; (users2)</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li><strong>数量</strong></li>
-</ul>
-<p>指定从数据库检索出的最大记录数。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">db.Limit(<span class="number">3</span>).Find(&amp;users)</span><br><span class="line"><span class="comment">//// SELECT * FROM users LIMIT 3;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// -1 取消 Limit 条件</span></span><br><span class="line">db.Limit(<span class="number">10</span>).Find(&amp;users1).Limit(<span class="number">-1</span>).Find(&amp;users2)</span><br><span class="line"><span class="comment">//// SELECT * FROM users LIMIT 10; (users1)</span></span><br><span class="line"><span class="comment">//// SELECT * FROM users; (users2)</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li><strong>偏移</strong></li>
-</ul>
-<p>指定开始返回记录前要跳过的记录数。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">db.Offset(<span class="number">3</span>).Find(&amp;users)</span><br><span class="line"><span class="comment">//// SELECT * FROM users OFFSET 3;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// -1 取消 Offset 条件</span></span><br><span class="line">db.Offset(<span class="number">10</span>).Find(&amp;users1).Offset(<span class="number">-1</span>).Find(&amp;users2)</span><br><span class="line"><span class="comment">//// SELECT * FROM users OFFSET 10; (users1)</span></span><br><span class="line"><span class="comment">//// SELECT * FROM users; (users2)</span></span><br></pre></td></tr></table></figure>
-<h3 id="更新">更新</h3>
-<h4 id="更新所有字段">更新所有字段</h4>
-<p><code>Save()</code>会更新该对象的所有字段，即使没有赋值</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">db.First(&amp;user)</span><br><span class="line"></span><br><span class="line">user.Name = <span class="string">&quot;七米&quot;</span></span><br><span class="line">user.Age = <span class="number">99</span></span><br><span class="line">db.Save(&amp;user)</span><br><span class="line"></span><br><span class="line"><span class="comment">////  UPDATE `users` SET `created_at` = &#x27;2020-02-16 12:52:20&#x27;, `updated_at` = &#x27;2020-02-16 12:54:55&#x27;, `deleted_at` = NULL, `name` = &#x27;七米&#x27;, `age` = 99, `active` = true  WHERE `users`.`deleted_at` IS NULL AND `users`.`id` = 1</span></span><br></pre></td></tr></table></figure>
-<h4 id="更新修改字段">更新修改字段</h4>
-<p><code>Update</code> <code>Updates</code>只会修改指定字段。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 更新单个属性，如果它有变化</span></span><br><span class="line">db.Model(&amp;user).Update(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;hello&quot;</span>)</span><br><span class="line"><span class="comment">//// UPDATE users SET name=&#x27;hello&#x27;, updated_at=&#x27;2013-11-17 21:34:10&#x27; WHERE id=111;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 根据给定的条件更新单个属性</span></span><br><span class="line">db.Model(&amp;user).Where(<span class="string">&quot;active = ?&quot;</span>, <span class="literal">true</span>).Update(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;hello&quot;</span>)</span><br><span class="line"><span class="comment">//// UPDATE users SET name=&#x27;hello&#x27;, updated_at=&#x27;2013-11-17 21:34:10&#x27; WHERE id=111 AND active=true;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用 map 更新多个属性，只会更新其中有变化的属性</span></span><br><span class="line">db.Model(&amp;user).Updates(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">interface</span>&#123;&#125;&#123;<span class="string">&quot;name&quot;</span>: <span class="string">&quot;hello&quot;</span>, <span class="string">&quot;age&quot;</span>: <span class="number">18</span>, <span class="string">&quot;active&quot;</span>: <span class="literal">false</span>&#125;)</span><br><span class="line"><span class="comment">//// UPDATE users SET name=&#x27;hello&#x27;, age=18, active=false, updated_at=&#x27;2013-11-17 21:34:10&#x27; WHERE id=111;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用 struct 更新多个属性，只会更新其中有变化且为非零值的字段</span></span><br><span class="line">db.Model(&amp;user).Updates(User&#123;Name: <span class="string">&quot;hello&quot;</span>, Age: <span class="number">18</span>&#125;)</span><br><span class="line"><span class="comment">//// UPDATE users SET name=&#x27;hello&#x27;, age=18, updated_at = &#x27;2013-11-17 21:34:10&#x27; WHERE id = 111;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 警告：当使用 struct 更新时，GORM只会更新那些非零值的字段</span></span><br><span class="line"><span class="comment">// 对于下面的操作，不会发生任何更新，&quot;&quot;, 0, false 都是其类型的零值</span></span><br><span class="line">db.Model(&amp;user).Updates(User&#123;Name: <span class="string">&quot;&quot;</span>, Age: <span class="number">0</span>, Active: <span class="literal">false</span>&#125;)</span><br></pre></td></tr></table></figure>
-<h4 id="更新选定字段或者忽略选定字段">更新选定字段或者忽略选定字段</h4>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">db.Model(&amp;user).Select(<span class="string">&quot;name&quot;</span>).Updates(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">interface</span>&#123;&#125;&#123;<span class="string">&quot;name&quot;</span>: <span class="string">&quot;hello&quot;</span>, <span class="string">&quot;age&quot;</span>: <span class="number">18</span>, <span class="string">&quot;active&quot;</span>: <span class="literal">false</span>&#125;)</span><br><span class="line"><span class="comment">//// UPDATE users SET name=&#x27;hello&#x27;, updated_at=&#x27;2013-11-17 21:34:10&#x27; WHERE id=111;</span></span><br><span class="line"></span><br><span class="line">db.Model(&amp;user).Omit(<span class="string">&quot;name&quot;</span>).Updates(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">interface</span>&#123;&#125;&#123;<span class="string">&quot;name&quot;</span>: <span class="string">&quot;hello&quot;</span>, <span class="string">&quot;age&quot;</span>: <span class="number">18</span>, <span class="string">&quot;active&quot;</span>: <span class="literal">false</span>&#125;)</span><br><span class="line"><span class="comment">//// UPDATE users SET age=18, active=false, updated_at=&#x27;2013-11-17 21:34:10&#x27; WHERE id=111;</span></span><br></pre></td></tr></table></figure>
-<h4 id="无hooks更新">无hooks更新</h4>
-<p>上面的更新操作都会默认执行<code>BeforeUpdate</code>和<code>AfterUpdate</code>方法，用于更新<code>UpdatedAt</code>时间戳，如果不想使用这些方法的话，可以使用<code>UpdateColumn</code>、<code>UpdateColumns</code>。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 更新单个属性，类似于 `Update`</span></span><br><span class="line">db.Model(&amp;user).UpdateColumn(<span class="string">&quot;name&quot;</span>, <span class="string">&quot;hello&quot;</span>)</span><br><span class="line"><span class="comment">//// UPDATE users SET name=&#x27;hello&#x27; WHERE id = 111;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 更新多个属性，类似于 `Updates`</span></span><br><span class="line">db.Model(&amp;user).UpdateColumns(User&#123;Name: <span class="string">&quot;hello&quot;</span>, Age: <span class="number">18</span>&#125;)</span><br><span class="line"><span class="comment">//// UPDATE users SET name=&#x27;hello&#x27;, age=18 WHERE id = 111;</span></span><br></pre></td></tr></table></figure>
-<h4 id="批量更新">批量更新</h4>
-<p>批量更新的时候hook函数是不会执行的。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">db.Table(<span class="string">&quot;users&quot;</span>).Where(<span class="string">&quot;id IN (?)&quot;</span>, []<span class="keyword">int</span>&#123;<span class="number">10</span>, <span class="number">11</span>&#125;).Updates(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">interface</span>&#123;&#125;&#123;<span class="string">&quot;name&quot;</span>: <span class="string">&quot;hello&quot;</span>, <span class="string">&quot;age&quot;</span>: <span class="number">18</span>&#125;)</span><br><span class="line"><span class="comment">//// UPDATE users SET name=&#x27;hello&#x27;, age=18 WHERE id IN (10, 11);</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用 struct 更新时，只会更新非零值字段，若想更新所有字段，请使用map[string]interface&#123;&#125;</span></span><br><span class="line">db.Model(User&#123;&#125;).Updates(User&#123;Name: <span class="string">&quot;hello&quot;</span>, Age: <span class="number">18</span>&#125;)</span><br><span class="line"><span class="comment">//// UPDATE users SET name=&#x27;hello&#x27;, age=18;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用 `RowsAffected` 获取更新记录总数</span></span><br><span class="line">db.Model(User&#123;&#125;).Updates(User&#123;Name: <span class="string">&quot;hello&quot;</span>, Age: <span class="number">18</span>&#125;).RowsAffected</span><br></pre></td></tr></table></figure>
-<h4 id="使用SQL表达式更新">使用SQL表达式更新</h4>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//先获取表中的第一条数据</span></span><br><span class="line"><span class="keyword">var</span> user User</span><br><span class="line">db.First(&amp;user)</span><br><span class="line"></span><br><span class="line">db.Model(&amp;user).Update(<span class="string">&quot;age&quot;</span>, gorm.Expr(<span class="string">&quot;age * ? + ?&quot;</span>, <span class="number">2</span>, <span class="number">100</span>))</span><br><span class="line"><span class="comment">//// UPDATE `users` SET `age` = age * 2 + 100, `updated_at` = &#x27;2020-02-16 13:10:20&#x27;  WHERE `users`.`id` = 1;</span></span><br><span class="line"></span><br><span class="line">db.Model(&amp;user).Updates(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">interface</span>&#123;&#125;&#123;<span class="string">&quot;age&quot;</span>: gorm.Expr(<span class="string">&quot;age * ? + ?&quot;</span>, <span class="number">2</span>, <span class="number">100</span>)&#125;)</span><br><span class="line"><span class="comment">//// UPDATE &quot;users&quot; SET &quot;age&quot; = age * &#x27;2&#x27; + &#x27;100&#x27;, &quot;updated_at&quot; = &#x27;2020-02-16 13:05:51&#x27; WHERE `users`.`id` = 1;</span></span><br><span class="line"></span><br><span class="line">db.Model(&amp;user).UpdateColumn(<span class="string">&quot;age&quot;</span>, gorm.Expr(<span class="string">&quot;age - ?&quot;</span>, <span class="number">1</span>))</span><br><span class="line"><span class="comment">//// UPDATE &quot;users&quot; SET &quot;age&quot; = age - 1 WHERE &quot;id&quot; = &#x27;1&#x27;;</span></span><br><span class="line"></span><br><span class="line">db.Model(&amp;user).Where(<span class="string">&quot;age &gt; 10&quot;</span>).UpdateColumn(<span class="string">&quot;age&quot;</span>, gorm.Expr(<span class="string">&quot;age - ?&quot;</span>, <span class="number">1</span>))</span><br><span class="line"><span class="comment">//// UPDATE &quot;users&quot; SET &quot;age&quot; = age - 1 WHERE &quot;id&quot; = &#x27;1&#x27; AND quantity &gt; 10;</span></span><br></pre></td></tr></table></figure>
-<p>这里需要注意，要对整个表修改的话Model()的括号中必须是对应的空结构体，否则只对对应的数据进行修改。</p>
-<h3 id="删除">删除</h3>
-<h4 id="删除记录">删除记录</h4>
-<p>注意：删除记录的时候，要确保主键字段有值，GORM会通过主键去删除记录，如果主键为空，GORM会删除该model的所有记录。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 删除现有记录</span></span><br><span class="line">db.Delete(&amp;email)</span><br><span class="line"><span class="comment">//// DELETE from emails where id=10;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 为删除 SQL 添加额外的 SQL 操作</span></span><br><span class="line">db.Set(<span class="string">&quot;gorm:delete_option&quot;</span>, <span class="string">&quot;OPTION (OPTIMIZE FOR UNKNOWN)&quot;</span>).Delete(&amp;email)</span><br><span class="line"><span class="comment">//// DELETE from emails where id=10 OPTION (OPTIMIZE FOR UNKNOWN);</span></span><br></pre></td></tr></table></figure>
-<h4 id="批量删除">批量删除</h4>
-<p>删除全部匹配的记录</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">db.Where(<span class="string">&quot;email LIKE ?&quot;</span>, <span class="string">&quot;%jinzhu%&quot;</span>).Delete(Email&#123;&#125;)</span><br><span class="line"><span class="comment">//// DELETE from emails where email LIKE &quot;%jinzhu%&quot;;</span></span><br><span class="line"></span><br><span class="line">db.Delete(Email&#123;&#125;, <span class="string">&quot;email LIKE ?&quot;</span>, <span class="string">&quot;%jinzhu%&quot;</span>)</span><br><span class="line"><span class="comment">//// DELETE from emails where email LIKE &quot;%jinzhu%&quot;;</span></span><br></pre></td></tr></table></figure>
-<h4 id="软删除">软删除</h4>
-<p>当一个表中有<code>DeletedAt</code>字段，它将会自动获得软删除功能。删除时会记录删除时间而不会真正从表中移除数据。</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">db.Delete(&amp;user)</span><br><span class="line"><span class="comment">//// UPDATE users SET deleted_at=&quot;2013-10-29 10:23&quot; WHERE id = 111;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 批量删除</span></span><br><span class="line">db.Where(<span class="string">&quot;age = ?&quot;</span>, <span class="number">20</span>).Delete(&amp;User&#123;&#125;)</span><br><span class="line"><span class="comment">//// UPDATE users SET deleted_at=&quot;2013-10-29 10:23&quot; WHERE age = 20;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 查询记录时会忽略被软删除的记录</span></span><br><span class="line">db.Where(<span class="string">&quot;age = 20&quot;</span>).Find(&amp;user)</span><br><span class="line"><span class="comment">//// SELECT * FROM users WHERE age = 20 AND deleted_at IS NULL;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Unscoped 方法可以查询被软删除的记录</span></span><br><span class="line">db.Unscoped().Where(<span class="string">&quot;age = 20&quot;</span>).Find(&amp;users)</span><br><span class="line"><span class="comment">//// SELECT * FROM users WHERE age = 20;</span></span><br></pre></td></tr></table></figure>
-<h4 id="物理删除">物理删除</h4>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Unscoped 方法可以物理删除记录</span></span><br><span class="line">db.Unscoped().Delete(&amp;order)</span><br><span class="line"><span class="comment">//// DELETE FROM orders WHERE id=10;</span></span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/02/16/%E4%BD%BF%E7%94%A8ssh%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6-%E6%96%87%E4%BB%B6%E5%A4%B9/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/weirdo.jpg">
-      <meta itemprop="name" content="Weirdo">
-      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Weirdo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/02/16/%E4%BD%BF%E7%94%A8ssh%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6-%E6%96%87%E4%BB%B6%E5%A4%B9/" class="post-title-link" itemprop="url">使用ssh传输文件/文件夹</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-02-16 17:50:58" itemprop="dateCreated datePublished" datetime="2022-02-16T17:50:58+08:00">2022-02-16</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-03-16 22:38:03" itemprop="dateModified" datetime="2022-03-16T22:38:03+08:00">2022-03-16</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8/" itemprop="url" rel="index"><span itemprop="name">服务器</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2022/02/16/%E4%BD%BF%E7%94%A8ssh%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6-%E6%96%87%E4%BB%B6%E5%A4%B9/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/02/16/使用ssh传输文件-文件夹/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="从服务器上下载文件">从服务器上下载文件</h2>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp &lt;用户名&gt;@&lt;ssh服务器地址&gt;:&lt;文件路径&gt; &lt;本地文件名&gt;</span><br></pre></td></tr></table></figure>
-<p>比如下载文件到桌面</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp root@127.0.0.1:~/test.txt ~/Desktop/test.txt</span><br></pre></td></tr></table></figure>
-<h2 id="上传文件到服务器">上传文件到服务器</h2>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp &lt;本地文件名&gt; &lt;用户名&gt;@&lt;ssh服务器地址&gt;:&lt;上传保存路径即文件名&gt;</span><br></pre></td></tr></table></figure>
-<p>这里需要注意：只能将文件上传到用户目录下，如果需要上传到其他地方需要之后再自行移动文件</p>
-<h2 id="对于文件夹的操作">对于文件夹的操作</h2>
-<p>只需要加个-r操作就可以了</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/01/28/%E4%BD%BF%E7%94%A8golang+postgres+docker%E8%BF%9B%E8%A1%8C%E5%BC%80%E5%8F%91/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/weirdo.jpg">
-      <meta itemprop="name" content="Weirdo">
-      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Weirdo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/01/28/%E4%BD%BF%E7%94%A8golang+postgres+docker%E8%BF%9B%E8%A1%8C%E5%BC%80%E5%8F%91/" class="post-title-link" itemprop="url">使用golang+postgres+docker进行开发</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-01-28 22:47:22" itemprop="dateCreated datePublished" datetime="2022-01-28T22:47:22+08:00">2022-01-28</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-03-16 22:38:03" itemprop="dateModified" datetime="2022-03-16T22:38:03+08:00">2022-03-16</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%90%8E%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">后端</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2022/01/28/%E4%BD%BF%E7%94%A8golang+postgres+docker%E8%BF%9B%E8%A1%8C%E5%BC%80%E5%8F%91/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/01/28/使用golang+postgres+docker进行开发/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p><a target="_blank" rel="noopener" href="https://dev.to/techschoolguru/design-db-schema-and-generate-sql-code-with-dbdiagram-io-4ko5">课程官方文档地址</a></p>
-<h2 id="docker的下载">docker的下载</h2>
-<p><a target="_blank" rel="noopener" href="https://docs.docker.com/engine/install/ubuntu/">ubuntu的docker下载地址</a></p>
-<p>照着上述地址的步骤进行下载安装docker</p>
-<p>为了不用每次都要sudo权限运行docker，进行以下步骤使我们当前用户具有启用docker权限</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo groupadd docker //创建docker组 通常来说安装万docker就已经自动创建好了</span><br><span class="line">sudo usermod -aG docker $USER //将当前用户添加到组中</span><br><span class="line">newgrp docker  //刷新一下对group的更改</span><br><span class="line">docker run hello-world //测试不用sudo是否可以进行使用docker</span><br></pre></td></tr></table></figure>
-<p><code>image</code>和<code>container</code>的区别在于，container是image的一个实例，通过<code>docker run</code>来启动，我们可以根据一个镜像启动多个container。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/01/28/%E4%BD%BF%E7%94%A8golang+postgres+docker%E8%BF%9B%E8%A1%8C%E5%BC%80%E5%8F%91/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/01/26/%E5%88%A9%E7%94%A8GPU%E8%BF%9B%E8%A1%8C%E8%AE%AD%E7%BB%83%E7%9A%84%E6%96%B9%E6%B3%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/weirdo.jpg">
-      <meta itemprop="name" content="Weirdo">
-      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Weirdo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/01/26/%E5%88%A9%E7%94%A8GPU%E8%BF%9B%E8%A1%8C%E8%AE%AD%E7%BB%83%E7%9A%84%E6%96%B9%E6%B3%95/" class="post-title-link" itemprop="url">利用GPU进行训练的方法</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-01-26 15:46:24" itemprop="dateCreated datePublished" datetime="2022-01-26T15:46:24+08:00">2022-01-26</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-03-16 22:38:03" itemprop="dateModified" datetime="2022-03-16T22:38:03+08:00">2022-03-16</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/DeepLearning/" itemprop="url" rel="index"><span itemprop="name">DeepLearning</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2022/01/26/%E5%88%A9%E7%94%A8GPU%E8%BF%9B%E8%A1%8C%E8%AE%AD%E7%BB%83%E7%9A%84%E6%96%B9%E6%B3%95/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/01/26/利用GPU进行训练的方法/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="方法一">方法一</h2>
-<p>在模型、损失函数和数据后面添加<code>.cuda()</code></p>
-<h2 id="方法二">方法二</h2>
-<p>对上述数据使用<code>.to(device)</code>，device需要提前设置好，利用<code>torch.device(&quot;cuda:i&quot;)</code>其中i是你想用那一块显卡</p>
-<p><code>device=torch.device('cuda' if torch.cuda.is_available() else 'cpu')</code></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/01/25/%E5%B8%B8%E8%A7%81%E7%9A%84%E6%8A%A5%E9%94%99%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E5%BC%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/weirdo.jpg">
-      <meta itemprop="name" content="Weirdo">
-      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Weirdo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/01/25/%E5%B8%B8%E8%A7%81%E7%9A%84%E6%8A%A5%E9%94%99%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E5%BC%8F/" class="post-title-link" itemprop="url">常见的报错以及解决方式</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-01-25 23:14:49" itemprop="dateCreated datePublished" datetime="2022-01-25T23:14:49+08:00">2022-01-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-03-16 22:38:03" itemprop="dateModified" datetime="2022-03-16T22:38:03+08:00">2022-03-16</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Code/" itemprop="url" rel="index"><span itemprop="name">Code</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2022/01/25/%E5%B8%B8%E8%A7%81%E7%9A%84%E6%8A%A5%E9%94%99%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E5%BC%8F/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/01/25/常见的报错以及解决方式/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="Deep-Learning">Deep Learning</h2>
-<h3 id="tqdm">tqdm</h3>
-<ul>
-<li>使用tqdm对迭代对象时，如果出现<code>'module' object is not callable</code>则将<code>import tqdm</code>改为<code>tqdm</code></li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/01/20/kaggle%E6%95%B0%E6%8D%AE%E9%9B%86%E4%B8%8A%E4%BC%A0%E5%88%B0colab/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/weirdo.jpg">
-      <meta itemprop="name" content="Weirdo">
-      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Weirdo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/01/20/kaggle%E6%95%B0%E6%8D%AE%E9%9B%86%E4%B8%8A%E4%BC%A0%E5%88%B0colab/" class="post-title-link" itemprop="url">kaggle数据集上传到colab</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-01-20 14:13:08" itemprop="dateCreated datePublished" datetime="2022-01-20T14:13:08+08:00">2022-01-20</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-03-16 22:38:03" itemprop="dateModified" datetime="2022-03-16T22:38:03+08:00">2022-03-16</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/DeepLearning/" itemprop="url" rel="index"><span itemprop="name">DeepLearning</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2022/01/20/kaggle%E6%95%B0%E6%8D%AE%E9%9B%86%E4%B8%8A%E4%BC%A0%E5%88%B0colab/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/01/20/kaggle数据集上传到colab/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>在colab上依次运行下面的命令</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">!pip install kaggle</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line">token=&#123;<span class="string">&quot;username&quot;</span>:<span class="string">&quot;xxxxx&quot;</span>,<span class="string">&quot;key&quot;</span>:<span class="string">&quot;xxxxx&quot;</span>&#125;</span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./content/kaggle.json&#x27;</span>,<span class="string">&#x27;w&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">    json.dump(token,file)</span><br></pre></td></tr></table></figure>
-<p>token中的键值对对应的是自己的账号内容，具体操作：</p>
-<ol>
-<li>进入kaggle，点击头像，点击myaccount</li>
-<li>往下拖，点击API栏中的Creat New API token，会自动生成一个json文件</li>
-<li>将json文件中的username和key对应填写到上面代码中</li>
-</ol>
-<p>接下来，依次运行下面的代码</p>
-<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-mkdir -p ~/.kaggle</span><br><span class="line">!cp /content/kaggle.json ~/.kaggle</span><br><span class="line">!chmod <span class="number">600</span> ~/.kaggle/kaggle.json</span><br><span class="line">!kaggle config <span class="built_in">set</span> -n path -v /content</span><br></pre></td></tr></table></figure>
-<p>找到我们需要的kaggle数据集的API后，复制执行</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/01/20/LightGBM%E7%9A%84%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%E9%A2%84%E6%B5%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/weirdo.jpg">
-      <meta itemprop="name" content="Weirdo">
-      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Weirdo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/01/20/LightGBM%E7%9A%84%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%E9%A2%84%E6%B5%8B/" class="post-title-link" itemprop="url">LightGBM的时间序列预测</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-01-20 11:05:57" itemprop="dateCreated datePublished" datetime="2022-01-20T11:05:57+08:00">2022-01-20</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-03-16 22:38:03" itemprop="dateModified" datetime="2022-03-16T22:38:03+08:00">2022-03-16</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/MachineLearning/" itemprop="url" rel="index"><span itemprop="name">MachineLearning</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2022/01/20/LightGBM%E7%9A%84%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%E9%A2%84%E6%B5%8B/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/01/20/LightGBM的时间序列预测/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="决策树和梯度提升树简介">决策树和梯度提升树简介</h2>
-<p>以下是表格数据的一个样例。其中列出了5个人物的信息，包括年龄、性别、职业、是否每天使用电脑这4个维度，我们希望利用这些信息构建机器学习模型，来预测一个人是否喜欢电脑游戏。因此，这4个维度的信息即是数据的特征，而是否喜欢电脑游戏则是数据的标签。每一行的数据是一个样本。</p>
-<p>表1</p>
-<table>
-<thead>
-<tr>
-<th>年龄</th>
-<th>性别</th>
-<th>职业</th>
-<th>是否每天使用电脑</th>
-<th>是否喜欢电脑游戏</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>12</td>
-<td>男</td>
-<td>学生</td>
-<td>是</td>
-<td>是</td>
-</tr>
-<tr>
-<td>13</td>
-<td>女</td>
-<td>学生</td>
-<td>是</td>
-<td>否</td>
-</tr>
-<tr>
-<td>36</td>
-<td>女</td>
-<td>护士</td>
-<td>是</td>
-<td>否</td>
-</tr>
-<tr>
-<td>60</td>
-<td>男</td>
-<td>退休</td>
-<td>否</td>
-<td>否</td>
-</tr>
-<tr>
-<td>57</td>
-<td>女</td>
-<td>退休</td>
-<td>否</td>
-<td>否</td>
-</tr>
-</tbody>
-</table>
-<p>表格数据的特征类型可大致归为数值特征与类别特征这两大类。其中，数值特征的数值大小具有意义，不同特征值之间可以进行大小的比较，表1中的年龄就属于数值特征。而类别特征的不能比较大小，而是表示样本的一种属性，例如表1中的职业、性别等等。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/01/20/LightGBM%E7%9A%84%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%E9%A2%84%E6%B5%8B/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/01/16/KnowledgeDistill/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/weirdo.jpg">
-      <meta itemprop="name" content="Weirdo">
-      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Weirdo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/01/16/KnowledgeDistill/" class="post-title-link" itemprop="url">Distilling the Knowledge in a Neural Network</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-01-16 15:55:05" itemprop="dateCreated datePublished" datetime="2022-01-16T15:55:05+08:00">2022-01-16</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-03-16 22:38:03" itemprop="dateModified" datetime="2022-03-16T22:38:03+08:00">2022-03-16</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Incremental-Learning/" itemprop="url" rel="index"><span itemprop="name">Incremental Learning</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2022/01/16/KnowledgeDistill/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/01/16/KnowledgeDistill/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="摘要-2">摘要</h2>
-<p>提升机器学习算法性能的最简单方式就是在相同数据集上训练足够多的模型然后对他们的预测取平均值。但是使用多个模型的组合相当繁琐，而且对于大部分使用者来说其计算代价太大，尤其是每个模型都是大型的神经网络的时候。Caruana提出可以将集合模型的知识压缩到一个单独模型中，这会使得知识更容易使用。Hinton使用了一个不同的压缩技术对这一方法进行了改进发展。该方法在MNIST数据集上获取了很好的表现，并且Hinton证明了通过蒸馏一组模型中的知识到一个单独模型中，能够极大提升大量应用在商业系统中传统模型的性能。Hinton还提出了由一个或者多个完整模型和专家模型组合而成的集合，该集合能够分辨更细的类，这是完整模型所无法做到的。这些专家模型可以快速并行训练</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/01/16/KnowledgeDistill/#more" rel="contents">
+              <a class="btn" href="/2022/03/06/GORM%E5%AD%A6%E4%B9%A0/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
