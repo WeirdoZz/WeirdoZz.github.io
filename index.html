@@ -137,7 +137,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">20</span>
+          <span class="site-state-item-count">21</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -177,6 +177,110 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/03/25/Human-level-concept-learning-through-probabilistic-program-induction/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/weirdo.jpg">
+      <meta itemprop="name" content="Weirdo">
+      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Weirdo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/03/25/Human-level-concept-learning-through-probabilistic-program-induction/" class="post-title-link" itemprop="url">Human-level concept learning through probabilistic program induction</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-03-25 13:18:32 / 修改时间：15:07:57" itemprop="dateCreated datePublished" datetime="2022-03-25T13:18:32+08:00">2022-03-25</time>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/03/25/Human-level-concept-learning-through-probabilistic-program-induction/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/03/25/Human-level-concept-learning-through-probabilistic-program-induction/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="摘要">摘要</h2>
+<p>人类学习一个新的概念通常只需要从极其少量的实例中就能进行概括归纳，但是机器学习算法则需要大量的样本才能达到相同的精度。</p>
+<p>此外人类学习的比机器学习的具有更丰富更广泛的拓展，人类可以基于现有的类创建新的抽象对象类别，而机器分类器不会执行这些额外的功能，即便要执行，也会需要一个专门的新算法。</p>
+<p><img src="https://i.imgur.com/eytNsjy.png" alt="picture 1"></p>
+<p>对于这些新算法面临的挑战在于：</p>
+<ul>
+<li>人们如何从少量例子学习新的概念？</li>
+<li>人们如何学习抽象、丰富、灵活的表示？</li>
+<li>如何从稀疏的数据中成功学习，同时产生如此丰富的表示？</li>
+</ul>
+<h2 id="引言">引言</h2>
+<p>本文介绍了一个贝叶斯程序学习（BPL）框架，能够仅从一个示例中学习一大类视觉概念，并且以人类几乎无法区分的方式进行泛化。</p>
+<p>概念用简单的概率程序进行表示。这样，丰富的概念就可以从更简单的概念组合构成。</p>
+<p>学习则是通过构建最能解释贝叶斯标准下的观察结果的程序来进行的，而模型去学会学习是通过开发层次鲜艳，允许之前对相关概念的经验来简化新概念的学习。简单来说就是，该框架可以通过重用现有的程序片段来构建新的程序，捕捉因果和组合。</p>
+<h2 id="贝叶斯程序学习">贝叶斯程序学习</h2>
+<p>BPL通过学习简单的随机程序来表示概念，通过下图中的part(A,iii),subpart(A,ii)和空间关系(A,iv)来构建他们。</p>
+<p>BPL定义了一个生成模型，可以通过新的方式组合part和subpart来对新类型的概念进行采样。</p>
+<p>每个新的类型也被表示为一个生成模型，并且产生了新概念的实例(A,v)，这样BPL就成为了生成模型的生成模型。最后用原始数据的格式对生成的实例进行展示。</p>
+<p>在随后的评估任务中，既不使用产生的数据，也不使用该集合中的任何字母，这些任务只提供新字符的原始图像。</p>
+<p>手写字符的类型$\Psi$是part、subpart和空间关系的抽象模式。字符的part$S_i$是按下笔开始到提起笔结束的笔画，而subpart则是由短暂的停笔所分隔的更原始的动作。</p>
+<p>首先是type层面的内容：</p>
+<p>为了构建一个新的字符类型，首先需要采样k个parts并且对于每一个part i=1…k取$n_i$个subparts。一个part $S_i$的模板是通过从一组离散原始的动作中采样来的subpart构成的,这些原始动作是从背景集中学来的，这样下一个动作的概率会依赖上一个动作。然后通过对每一个subparts之间的控制点和尺度参数进行取样将parts表示成参数化的曲线。最后parts之间的位置关系由$R_i$决定。</p>
+<p>到这一步的时候就已经得到字符的解析结构了，接下来就要进入到token层面的过程了：</p>
+<p>首先引入适当的噪声来生成笔画曲线S(m)，然后从背景集中得到笔画空间位置关系结合上一笔，取样就能得到part的开始位置。然后进行放射变换A(m)并加入适当噪声。最后通过随机补偿函数得到二值图像，画出轨迹。</p>
+<p><img src="https://i.imgur.com/RqMOnN2.png" alt="picture 2"></p>
+<p>字符的token$\theta^{(m)}$是通过执行part和关系并且对墨迹流向建模产生的。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1292,116 +1396,8 @@ $$</p>
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/03/06/GORM%E5%AD%A6%E4%B9%A0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/weirdo.jpg">
-      <meta itemprop="name" content="Weirdo">
-      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Weirdo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/03/06/GORM%E5%AD%A6%E4%B9%A0/" class="post-title-link" itemprop="url">GORM学习</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-03-06 11:12:03" itemprop="dateCreated datePublished" datetime="2022-03-06T11:12:03+08:00">2022-03-06</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-03-24 12:35:10" itemprop="dateModified" datetime="2022-03-24T12:35:10+08:00">2022-03-24</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%90%8E%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">后端</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2022/03/06/GORM%E5%AD%A6%E4%B9%A0/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/03/06/GORM学习/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="使用docker快速创建MySql实例">使用docker快速创建MySql实例</h2>
-<p>首先需要安装docker，具体安装方法已经在<a href="https://weirdozz.github.io/2022/01/28/%E4%BD%BF%E7%94%A8golang+postgres+docker%E8%BF%9B%E8%A1%8C%E5%BC%80%E5%8F%91/">使用golang+postgres+docker进行开发</a>中进行过讲述了。</p>
-<p>用如下命令创建一个容器环境</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --name mysql8019 -p 13306:3306 -e MYSQL_ROOT_PASSWORD=root1234 -d mysql:8.0.19</span><br></pre></td></tr></table></figure>
-<p>然后再启动一个<code>MySQL Client</code>连接到上面的环境</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -it --network host --rm mysql mysql -h127.0.0.1 -P13306 --default-character-set=utf8mb4 -uroot -p</span><br></pre></td></tr></table></figure>
-<p>然后在环境中创建一个数据库</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE DATABASE db1;</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/03/06/GORM%E5%AD%A6%E4%B9%A0/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 </div>
