@@ -24,18 +24,21 @@
   <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"weirdozz.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
-<meta name="description" content="怕什么真理无穷，进一步有进一步的欢喜">
+<meta name="description" content="摘要概念漂移描述的是数据流随时间的潜在分布的不可预见的变化。概念漂移研究的包括漂移检测、理解和适应的方法技术。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Learning under Concept Drift : A Review">
 <meta property="og:url" content="https://weirdozz.github.io/2022/03/26/Learning-under-Concept-Drift-A-Review/index.html">
 <meta property="og:site_name" content="Weirdo">
-<meta property="og:description" content="怕什么真理无穷，进一步有进一步的欢喜">
+<meta property="og:description" content="摘要概念漂移描述的是数据流随时间的潜在分布的不可预见的变化。概念漂移研究的包括漂移检测、理解和适应的方法技术。">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.imgur.com/n1NjFiv.png">
+<meta property="og:image" content="https://i.imgur.com/ErsAUKE.png">
 <meta property="article:published_time" content="2022-03-26T12:42:56.000Z">
-<meta property="article:modified_time" content="2022-03-26T12:42:56.689Z">
+<meta property="article:modified_time" content="2022-03-26T13:44:59.981Z">
 <meta property="article:author" content="Weirdo">
-<meta property="article:tag" content="WeirdoBlog">
+<meta property="article:tag" content="综述">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/n1NjFiv.png">
 
 
 <link rel="canonical" href="https://weirdozz.github.io/2022/03/26/Learning-under-Concept-Drift-A-Review/">
@@ -139,7 +142,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -152,6 +155,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%91%98%E8%A6%81"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E8%A8%80"><span class="nav-number">2.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0"><span class="nav-number">3.</span> <span class="nav-text">问题描述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5%E6%BC%82%E7%A7%BB%E7%9A%84%E5%AE%9A%E4%B9%89%E5%92%8C%E6%9D%A5%E6%BA%90"><span class="nav-number">3.1.</span> <span class="nav-text">概念漂移的定义和来源</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -239,8 +243,18 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
+      
 
-      <time title="创建时间：2022-03-26 20:42:56" itemprop="dateCreated datePublished" datetime="2022-03-26T20:42:56+08:00">2022-03-26</time>
+      <time title="创建时间：2022-03-26 20:42:56 / 修改时间：21:44:59" itemprop="dateCreated datePublished" datetime="2022-03-26T20:42:56+08:00">2022-03-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%A6%82%E5%BF%B5%E6%BC%82%E7%A7%BB/" itemprop="url" rel="index"><span itemprop="name">概念漂移</span></a>
+        </span>
     </span>
 
   
@@ -267,7 +281,17 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        
+        <h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>概念漂移描述的是数据流随时间的潜在分布的不可预见的变化。概念漂移研究的包括漂移检测、理解和适应的方法技术。</p>
+<span id="more"></span>
+
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>概念漂移是指模型要预测的目标变量的静态属性会随着时间以一种不可预见的方式变化。一旦概念漂移发生，过去数据所产生的模式将不再适用于新数据，会产生糟糕的性能表现。</p>
+<p>概念漂移在现实场景中很常见。比如手机使用行为的变化，如下图，可以看出手机用户使用的分布已经从“打电话”向“照相”再到“联网”做出了变动。</p>
+<p><img src="https://i.imgur.com/n1NjFiv.png" alt="picture 1">  </p>
+<p>近些年的研究致力于更加有挑战性的问题，比如，如何准确地在非结构化并且噪声很强的数据集上检测概念漂移，如何有效地以可解释性的方式理解概念漂移，如何通过相关知识对概念漂移做出反应。解决这些问题能够赋予预测和决定任务在变化场景下的适应能力。</p>
+<p>传统机器学习有两个主要组成部分：训练和预测。在概念漂移下进行学习有三个新组成部分：漂移检测（是否发生漂移）、漂移理解（什么时间，因为什么，在哪里发生漂移）、漂移适应（对已经发生的漂移做出反应），如下图。</p>
+<p><img src="https://i.imgur.com/ErsAUKE.png" alt="picture 2">  </p>
+<h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><h3 id="概念漂移的定义和来源"><a href="#概念漂移的定义和来源" class="headerlink" title="概念漂移的定义和来源"></a>概念漂移的定义和来源</h3><p>概念漂移的首次提出是有学者指出噪音数据在不同的时间会转变成非噪音数据。这些变化可能是由于不可直接衡量的隐变量的变化引起的。通常来说，概念漂移定义如下：<br>neq<br>给定时间周期[0,t]，一组样本，表示为$S_{0,t}&#x3D;\left{d_0,\dots,d_t\right}$，其中$d_i&#x3D;(X_i,y_i)$是一个观测（或者一个数据样本），$X_i$是特征向量，$y_i$是标签，$S_{0,t}$服从特定分布$F_{0,t}(X,y)$。概念漂移发生在时间步t+1，如果$F_{0,t}(X,y)\neq F_{t+1,\infin}(X,y)$，表示为$\exists t:P_t(X,y)\neq P_{t+1}(X,y)$。</p>
+
     </div>
 
     
@@ -275,6 +299,9 @@
     
 
     <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BB%BC%E8%BF%B0/" rel="tag"># 综述</a>
+          </div>
 
         
 
