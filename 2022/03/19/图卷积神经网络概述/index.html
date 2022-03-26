@@ -24,12 +24,12 @@
   <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"weirdozz.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
-<meta name="description" content="图卷积缘起我们要思考：为什么研究者们要设计图卷积，直接在图上不能应用传统的卷积吗？要理解这个，我们首先要理解应用传统卷积的图像（欧氏空间）和图（非欧式空间的区别）。如下图，是在两种不同结构上应用卷积的场景    图卷积真正的难点在于 邻居节点数量不固定。目前有两中主流的研究方向  将非欧式空间转换为欧式空间 找出一种可以处理变长邻居节点的卷积核在图上抽取特征">
+<meta name="description" content="图卷积缘起 我们要思考：为什么研究者们要设计图卷积，直接在图上不能应用传统的卷积吗？要理解这个，我们首先要理解应用传统卷积的图像（欧氏空间）和图（非欧式空间的区别）。如下图，是在两种不同结构上应用卷积的场景  图卷积真正的难点在于 邻居节点数量不固定。目前有两中主流的研究方向  将非欧式空间转换为欧式空间 找出一种可以处理变长邻居节点的卷积核在图上抽取特征">
 <meta property="og:type" content="article">
 <meta property="og:title" content="图卷积神经网络概述">
 <meta property="og:url" content="https://weirdozz.github.io/2022/03/19/%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/index.html">
 <meta property="og:site_name" content="Weirdo">
-<meta property="og:description" content="图卷积缘起我们要思考：为什么研究者们要设计图卷积，直接在图上不能应用传统的卷积吗？要理解这个，我们首先要理解应用传统卷积的图像（欧氏空间）和图（非欧式空间的区别）。如下图，是在两种不同结构上应用卷积的场景    图卷积真正的难点在于 邻居节点数量不固定。目前有两中主流的研究方向  将非欧式空间转换为欧式空间 找出一种可以处理变长邻居节点的卷积核在图上抽取特征">
+<meta property="og:description" content="图卷积缘起 我们要思考：为什么研究者们要设计图卷积，直接在图上不能应用传统的卷积吗？要理解这个，我们首先要理解应用传统卷积的图像（欧氏空间）和图（非欧式空间的区别）。如下图，是在两种不同结构上应用卷积的场景  图卷积真正的难点在于 邻居节点数量不固定。目前有两中主流的研究方向  将非欧式空间转换为欧式空间 找出一种可以处理变长邻居节点的卷积核在图上抽取特征">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://i.imgur.com/PrBt36X.png">
 <meta property="og:image" content="https://i.imgur.com/3Jnfovx.png">
@@ -302,27 +302,32 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h2 id="图卷积缘起"><a href="#图卷积缘起" class="headerlink" title="图卷积缘起"></a>图卷积缘起</h2><p>我们要思考：为什么研究者们要设计图卷积，直接在图上不能应用传统的卷积吗？要理解这个，我们首先要理解应用传统卷积的图像（欧氏空间）和图（非欧式空间的区别）。如下图，是在两种不同结构上应用卷积的场景</p>
-<p><img src="https://i.imgur.com/PrBt36X.png" alt="picture 6">  </p>
+        <h2 id="图卷积缘起">图卷积缘起</h2>
+<p>我们要思考：为什么研究者们要设计图卷积，直接在图上不能应用传统的卷积吗？要理解这个，我们首先要理解应用传统卷积的图像（欧氏空间）和图（非欧式空间的区别）。如下图，是在两种不同结构上应用卷积的场景</p>
+<p><img src="https://i.imgur.com/PrBt36X.png" alt="picture 6"></p>
 <p>图卷积真正的难点在于 <strong>邻居节点数量不固定</strong>。目前有两中主流的研究方向</p>
 <ul>
 <li>将非欧式空间转换为欧式空间</li>
 <li>找出一种可以处理变长邻居节点的卷积核在图上抽取特征</li>
 </ul>
 <span id="more"></span>
-
-<h2 id="图卷积的框架"><a href="#图卷积的框架" class="headerlink" title="图卷积的框架"></a>图卷积的框架</h2><p>如下图所示，输入的是整张图，在<code>Convolution Layer 1</code>里面，对每个节点的邻居都进行一次卷积操作，并且用卷积的结果更新这个节点；然后经过激活函数传给<code>Convolution Layer 2</code>与激活函数，重复这个过程。</p>
+<h2 id="图卷积的框架">图卷积的框架</h2>
+<p>如下图所示，输入的是整张图，在<code>Convolution Layer 1</code>里面，对每个节点的邻居都进行一次卷积操作，并且用卷积的结果更新这个节点；然后经过激活函数传给<code>Convolution Layer 2</code>与激活函数，重复这个过程。</p>
 <p>与GNN类似，GCN也有一个局部输出函数，用于将节点的状态（包括隐藏状态和节点特征）转换成任务相关的标签，称为<code>Node-Level</code>的任务；也有些任务是对整张图进行分类的，比如化合物分类，称为<code>Graph-Level</code>的任务。卷积操作只关心每个节点的隐藏状态如何更新，而对于<code>Graph-Level</code>的任务，会在卷积层之后增加更多的操作。</p>
-<h2 id="卷积"><a href="#卷积" class="headerlink" title="卷积"></a>卷积</h2><p>图卷积神经网络主要两中：空域和频域的。通俗点，空域就是直接在图片的像素点上进行卷积，频域是对图片进行傅里叶变换后再卷积。</p>
-<h3 id="空域卷积"><a href="#空域卷积" class="headerlink" title="空域卷积"></a>空域卷积</h3><p>其核心在于聚合邻居节点的信息。比如最简单的无参卷积方式是：将所有直连邻居节点的隐藏状态加和，来更新当前节点的隐藏状态。</p>
-<p><img src="https://i.imgur.com/3Jnfovx.png" alt="picture 14">  </p>
-<h3 id="消息传递网络（Message-Passing-Neural-Network）"><a href="#消息传递网络（Message-Passing-Neural-Network）" class="headerlink" title="消息传递网络（Message Passing Neural Network）"></a>消息传递网络（Message Passing Neural Network）</h3><p>严格来说，MPNN并不是一种具体的模型，而是一种空域卷积的形式化框架。将空域卷积分解为两个过程：消息传递和状态更新，分别由$M_l(·)$和$U_l(·)$函数完成。将节点v的特征$X_v$作为隐藏状态的初始状态$H_v^0$之后，空域卷积对隐藏状态的更新如下：</p>
-<p><img src="https://i.imgur.com/dmxgXS1.png" alt="picture 15">  </p>
+<h2 id="卷积">卷积</h2>
+<p>图卷积神经网络主要两中：空域和频域的。通俗点，空域就是直接在图片的像素点上进行卷积，频域是对图片进行傅里叶变换后再卷积。</p>
+<h3 id="空域卷积">空域卷积</h3>
+<p>其核心在于聚合邻居节点的信息。比如最简单的无参卷积方式是：将所有直连邻居节点的隐藏状态加和，来更新当前节点的隐藏状态。</p>
+<p><img src="https://i.imgur.com/3Jnfovx.png" alt="picture 14"></p>
+<h3 id="消息传递网络（Message-Passing-Neural-Network）">消息传递网络（Message Passing Neural Network）</h3>
+<p>严格来说，MPNN并不是一种具体的模型，而是一种空域卷积的形式化框架。将空域卷积分解为两个过程：消息传递和状态更新，分别由$M_l(·)$和$U_l(·)$函数完成。将节点v的特征$X_v$作为隐藏状态的初始状态$H_v^0$之后，空域卷积对隐藏状态的更新如下：</p>
+<p><img src="https://i.imgur.com/dmxgXS1.png" alt="picture 15"></p>
 <p>其中l代表卷积层的第l层。式子的物理意义是：受到来自每个邻居的消息$M_{l+1}$之后，每个节点如何更新自己的状态。</p>
 <p>MPNN的示意图如下</p>
-<p><img src="https://i.imgur.com/aaerMwm.png" alt="picture 16">  </p>
-<h3 id="图采样与聚合"><a href="#图采样与聚合" class="headerlink" title="图采样与聚合"></a>图采样与聚合</h3><p>MPNN很好地概括了空域卷积的过程，但这个框架下的所有模型都有一个共同的缺陷：卷积操作针对的对象是整张图，即要将所有的节点放到内存中，才能卷积。但是实际应用中，整个图上的卷积操作并不现实。GraphSage利用采样部分节点的方式进行学习。当然，即使不需要整张图同时卷积，GraphSage仍然需要聚合邻居节点的信息。这种操作类似于MPNN中的消息传递过程</p>
-<p><img src="https://i.imgur.com/N3phwJo.png" alt="picture 17">  </p>
+<p><img src="https://i.imgur.com/aaerMwm.png" alt="picture 16"></p>
+<h3 id="图采样与聚合">图采样与聚合</h3>
+<p>MPNN很好地概括了空域卷积的过程，但这个框架下的所有模型都有一个共同的缺陷：卷积操作针对的对象是整张图，即要将所有的节点放到内存中，才能卷积。但是实际应用中，整个图上的卷积操作并不现实。GraphSage利用采样部分节点的方式进行学习。当然，即使不需要整张图同时卷积，GraphSage仍然需要聚合邻居节点的信息。这种操作类似于MPNN中的消息传递过程</p>
+<p><img src="https://i.imgur.com/N3phwJo.png" alt="picture 17"></p>
 <p>具体采样过程分为三步：</p>
 <ol>
 <li>在图中随机采样若干个节点，节点数就是传统任务中的<code>batch_size</code>。对于每个节点，随机选择固定数目的邻居节点（未必是一阶邻居，也可以是二阶邻居）。</li>
@@ -330,9 +335,10 @@
 <li>计算采样节点处的损失。如果是无监督任务，我们希望图上邻居节点的编码相似；如果是监督任务，可以根据具体节点的任务标签计算损失。</li>
 </ol>
 <p>最终的GraphSage的状态更新公式如下：</p>
-<p><img src="https://i.imgur.com/e6fe9aR.png" alt="picture 43">  </p>
+<p><img src="https://i.imgur.com/e6fe9aR.png" alt="picture 43"></p>
 <p>GraphSage的设计重点是aggrega函数的设计上，它可以是max，mean也可以是带参数的如LSTM等神经网络。</p>
-<h2 id="图结构序列化"><a href="#图结构序列化" class="headerlink" title="图结构序列化"></a>图结构序列化</h2><p>这个方法将图结构转换成序列结构，然后直接利用卷积神经网络在序列化之后的序列结构上进行卷积。</p>
+<h2 id="图结构序列化">图结构序列化</h2>
+<p>这个方法将图结构转换成序列结构，然后直接利用卷积神经网络在序列化之后的序列结构上进行卷积。</p>
 <p>这种序列转换需要保持图结构的两个特点：1.同构的性质。2.邻居节点的链接关系。对于前者，意思是我们把图上节点的标号随机打乱，得到的仍然应该是一样的序列；对于后者，意味着我们需要保持邻居节点和目标节点的距离关系。</p>
 <p>PATCH-SAN通过以下三个步骤来解决这两个问题：</p>
 <ol>
@@ -341,48 +347,55 @@
 <li><strong>图规范化</strong>：按照每个团中的节点顺序可以将所有的团转换成固定长度的序列（k+1），再将他们按照中心节点的顺序从前到后依次拼接就能得到长度为$\omega \times (k+1)$的代表整张图的序列。需要注意的是，如果取不到$\omega$或者k个节点，需要用空节点填充。</li>
 </ol>
 <p>流程图如下所示：</p>
-<p><img src="https://i.imgur.com/qEhL4bU.png" alt="picture 24">  </p>
+<p><img src="https://i.imgur.com/qEhL4bU.png" alt="picture 24"></p>
 <p>下图更清晰：</p>
-<p><img src="https://i.imgur.com/aRKWzoN.png" alt="picture 25">  </p>
-<h2 id="频域卷积"><a href="#频域卷积" class="headerlink" title="频域卷积"></a>频域卷积</h2><p>空域卷积直观地借鉴了图像中的卷积操作，但是缺乏理论基础。而频域卷积则不同，主要利用图傅里叶变换实现卷积。</p>
+<p><img src="https://i.imgur.com/aRKWzoN.png" alt="picture 25"></p>
+<h2 id="频域卷积">频域卷积</h2>
+<p>空域卷积直观地借鉴了图像中的卷积操作，但是缺乏理论基础。而频域卷积则不同，主要利用图傅里叶变换实现卷积。</p>
 <p>简单来说就是，利用图的拉普拉斯矩阵导出其频域上的拉普拉斯算子，再类比频域上的欧氏空间中的卷积，导出卷积公式。</p>
-<h3 id="傅里叶变换"><a href="#傅里叶变换" class="headerlink" title="傅里叶变换"></a>傅里叶变换</h3><p>傅里叶变换会将一个在空域（或者时域）上定义的函数分解成频域上的若干频率成分。即傅里叶变换可以将一个函数从空域变换到频域。先抛开傅里叶变换的数学公式，用F来表示傅里叶变换的话，有一个重要的恒等式：</p>
-<p>$$<br>(f * g)(t)&#x3D;F^{-1} [F [f(t)] \odot F [g(t)] ]<br>$$</p>
+<h3 id="傅里叶变换">傅里叶变换</h3>
+<p>傅里叶变换会将一个在空域（或者时域）上定义的函数分解成频域上的若干频率成分。即傅里叶变换可以将一个函数从空域变换到频域。先抛开傅里叶变换的数学公式，用F来表示傅里叶变换的话，有一个重要的恒等式：</p>
+<p>$$<br>
+(f * g)(t)=F^{-1} [F [f(t)] \odot F [g(t)] ]<br>
+$$</p>
 <p>这里的$F^{-1}$ 指的是傅里叶逆变换，$\odot$ 指的是哈达玛积。上式的直观含义是：空（时）域卷积等于频域卷积。简单来说就是如果要求f和g的卷积，可以先将他们通过傅里叶变换变换到频域中，将两个函数在频域中相乘，然后再通过傅里叶逆变换转换出来。</p>
 <p>那么傅里叶变换能够做什么呢？一个简单的应用是给图像去除规律噪点。如下图，傅里叶变换前有一些规律的条纹，直接在原图去除有点困难，但我们可以将图片通过傅里叶变换变到频谱图中，频谱中的规律条纹就是原图中的背景条纹。</p>
-<p><img src="https://i.imgur.com/1RCTpbS.png" alt="picture 26">  </p>
+<p><img src="https://i.imgur.com/1RCTpbS.png" alt="picture 26"></p>
 <p>只要在频谱图中去除这些点，就可以将背景条纹去掉。</p>
-<p><img src="https://i.imgur.com/ocm1zaI.png" alt="picture 27">  </p>
+<p><img src="https://i.imgur.com/ocm1zaI.png" alt="picture 27"></p>
 <p>除了去除噪声点，其在加速卷积运算方面还有很大的潜力，快速傅里叶变换也是由此而生。事实上现在常用的卷积神经网络完全可以搭配傅里叶变换。但是由于目前的大部分卷积核都比较小，卷积操作本身就不是很大开销，搭配傅里叶变换不一定就会减小时间开销。</p>
 <p>那么傅里叶变换的公式是什么样的呢？</p>
-<p>$$<br>\hat{f}(t)&#x3D;\int f(x) \exp ^{-2 \pi i x t} d x<br>$$</p>
-<p>其中$i&#x3D;\sqrt{-1}$，t是任意实数。</p>
+<p>$$<br>
+\hat{f}(t)=\int f(x) \exp ^{-2 \pi i x t} d x<br>
+$$</p>
+<p>其中$i=\sqrt{-1}$，t是任意实数。</p>
 <p>我们这里实际上需要关注$\exp ^{-2 \pi i x t}$的物理意义，它实际上是拉普拉斯算子$\delta$的广义特征函数。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">拉普拉斯算子(Laplacian operator) 的物理意义是空间二阶导，准确定义是：标量梯度场中的散度，一般可用于描述物理量的流入流出。比如说在二维空间中的温度传播规律，一般可以用拉普拉斯算子来描述。</span><br></pre></td></tr></table></figure>
-
 <p>为什么是特征向量呢？稍微推导以下就可以知道，拉普拉斯算子作用在$\exp ^{-2 \pi i x t}$确实满足以上特征向量的定义：</p>
-<p>$$<br>\Delta \exp ^{-2 \pi i x t}&#x3D;\frac{\partial^{2} } {\partial t^{2} } \exp ^{-2 \pi i x t}&#x3D;-4 \pi^{2} x^{2} \exp ^{-2 \pi i x t}<br>$$</p>
+<p>$$<br>
+\Delta \exp ^{-2 \pi i x t}=\frac{\partial^{2} } {\partial t^{2} } \exp ^{-2 \pi i x t}=-4 \pi^{2} x^{2} \exp ^{-2 \pi i x t}<br>
+$$</p>
 <p>这里$\partial$是求导符号，$\partial^2$是二阶导。</p>
 <p>实际上，仔细观察傅里叶变换的例子，本质上就是将函数f(t)映射到$\exp ^{-2\pi ixt}$的基向量空间中。</p>
-<h3 id="图上的傅里叶变换"><a href="#图上的傅里叶变换" class="headerlink" title="图上的傅里叶变换"></a>图上的傅里叶变换</h3><p>前面讲的都是为了这一部分做铺垫。问题来了：在图上，我们怎么找拉普拉斯算子$\delta$和$\exp ^{-2\pi ixt}$呢？</p>
-<p>研究者们找到了图的拉普拉斯矩阵和特征向量作为替代品。拉普拉斯矩阵本质上是度矩阵（D）减去邻接矩阵（A）L&#x3D;D-A，如图所示</p>
-<p><img src="https://i.imgur.com/xkIhW3R.png" alt="picture 28">  </p>
+<h3 id="图上的傅里叶变换">图上的傅里叶变换</h3>
+<p>前面讲的都是为了这一部分做铺垫。问题来了：在图上，我们怎么找拉普拉斯算子$\delta$和$\exp ^{-2\pi ixt}$呢？</p>
+<p>研究者们找到了图的拉普拉斯矩阵和特征向量作为替代品。拉普拉斯矩阵本质上是度矩阵（D）减去邻接矩阵（A）L=D-A，如图所示</p>
+<p><img src="https://i.imgur.com/xkIhW3R.png" alt="picture 28"></p>
 <p>频域卷积的前提条件就是图必须是无向图，那么L就是对称矩阵。所以可以由以下公式分解：</p>
-<p><img src="https://i.imgur.com/zJw8FYb.png" alt="picture 29">  </p>
-<p>那么根据上面卷积和傅里叶结合的变换公式，图上频域卷积的公式就可以写成$\hat{f}(t)&#x3D;\sum_{n&#x3D;1}^{N} f(n) u_{t}(n)$，如果整个图上的N个节点一起做卷积，就能够得到整张图上的卷积如下：</p>
-<p><img src="https://i.imgur.com/oZNB2qd.png" alt="picture 30">  </p>
+<p><img src="https://i.imgur.com/zJw8FYb.png" alt="picture 29"></p>
+<p>那么根据上面卷积和傅里叶结合的变换公式，图上频域卷积的公式就可以写成$\hat{f}(t)=\sum_{n=1}^{N} f(n) u_{t}(n)$，如果整个图上的N个节点一起做卷积，就能够得到整张图上的卷积如下：</p>
+<p><img src="https://i.imgur.com/oZNB2qd.png" alt="picture 30"></p>
 <p>回顾传统卷积和图卷积，发现他们非常相似，这里f都是特征函数，g都是卷积核</p>
-<p><img src="https://i.imgur.com/hxBFtSB.png" alt="picture 31">  </p>
+<p><img src="https://i.imgur.com/hxBFtSB.png" alt="picture 31"></p>
 <p>如果把$U^Tg$整体看作可以学习的卷积核，我们写作$g_\theta$。最终的卷积公式就是：</p>
-<p><img src="https://i.imgur.com/6ZqiOgV.png" alt="picture 32">  </p>
-<h3 id="频域卷积网络"><a href="#频域卷积网络" class="headerlink" title="频域卷积网络"></a>频域卷积网络</h3><p>上面推导出的$g_\theta$就是首个提出的频域卷积神经网络的卷积核。设l层的隐藏状态为$h^l\in R^{N\times d_t}$，频域卷积层的状态更新计算公式如下：</p>
-<p><img src="https://i.imgur.com/K0CkMxN.png" alt="picture 33">  </p>
+<p><img src="https://i.imgur.com/6ZqiOgV.png" alt="picture 32"></p>
+<h3 id="频域卷积网络">频域卷积网络</h3>
+<p>上面推导出的$g_\theta$就是首个提出的频域卷积神经网络的卷积核。设l层的隐藏状态为$h^l\in R^{N\times d_t}$，频域卷积层的状态更新计算公式如下：</p>
+<p><img src="https://i.imgur.com/K0CkMxN.png" alt="picture 33"></p>
 <p>物理上可以如下理解</p>
-<p><img src="https://i.imgur.com/lldUmjS.png" alt="picture 34">  </p>
+<p><img src="https://i.imgur.com/lldUmjS.png" alt="picture 34"></p>
 <a href="/2022/03/19/%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/" title="图神经网络概述">图神经网络概述</a>
-
 <a href="/2022/03/19/%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/" title="图卷积神经网络概述">图卷积神经网络概述</a>
-
 <a href="/2022/03/19/%E8%8A%82%E7%82%B9%E8%A1%A8%E7%A4%BA%E5%A6%82%E4%BD%95%E7%94%9F%E6%88%90%E5%9B%BE%E8%A1%A8%E7%A4%BA/" title="节点表示如何生成图表示">节点表示如何生成图表示</a>
     </div>
 

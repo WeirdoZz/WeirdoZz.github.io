@@ -24,12 +24,12 @@
   <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"weirdozz.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
-<meta name="description" content="图读出操作顾名思义，图读出操作就是用来生成图表示的。它的核心要义在于：操作本身要对节点顺序不敏感。 为什么是这样呢？因为在欧氏空间中如果一张图片旋转了，那么他就是新的图片了；但在非欧氏空间中，如果一个图旋转一下，比如重新编号，形成的图仍然是原图。这就是典型的图重构问题。下面两个图是等价的    为了使得同构图能够保持一致，图读出的操作就需要对节点顺序不敏感。数学上能表达这种操作的函数称为对称函数。">
+<meta name="description" content="图读出操作 顾名思义，图读出操作就是用来生成图表示的。它的核心要义在于：操作本身要对节点顺序不敏感。 为什么是这样呢？因为在欧氏空间中如果一张图片旋转了，那么他就是新的图片了；但在非欧氏空间中，如果一个图旋转一下，比如重新编号，形成的图仍然是原图。这就是典型的图重构问题。下面两个图是等价的  为了使得同构图能够保持一致，图读出的操作就需要对节点顺序不敏感。数学上能表达这种操作的函数称为对称函数。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="节点表示如何生成图表示">
 <meta property="og:url" content="https://weirdozz.github.io/2022/03/19/%E8%8A%82%E7%82%B9%E8%A1%A8%E7%A4%BA%E5%A6%82%E4%BD%95%E7%94%9F%E6%88%90%E5%9B%BE%E8%A1%A8%E7%A4%BA/index.html">
 <meta property="og:site_name" content="Weirdo">
-<meta property="og:description" content="图读出操作顾名思义，图读出操作就是用来生成图表示的。它的核心要义在于：操作本身要对节点顺序不敏感。 为什么是这样呢？因为在欧氏空间中如果一张图片旋转了，那么他就是新的图片了；但在非欧氏空间中，如果一个图旋转一下，比如重新编号，形成的图仍然是原图。这就是典型的图重构问题。下面两个图是等价的    为了使得同构图能够保持一致，图读出的操作就需要对节点顺序不敏感。数学上能表达这种操作的函数称为对称函数。">
+<meta property="og:description" content="图读出操作 顾名思义，图读出操作就是用来生成图表示的。它的核心要义在于：操作本身要对节点顺序不敏感。 为什么是这样呢？因为在欧氏空间中如果一张图片旋转了，那么他就是新的图片了；但在非欧氏空间中，如果一个图旋转一下，比如重新编号，形成的图仍然是原图。这就是典型的图重构问题。下面两个图是等价的  为了使得同构图能够保持一致，图读出的操作就需要对节点顺序不敏感。数学上能表达这种操作的函数称为对称函数。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://i.imgur.com/1lrMMsW.png">
 <meta property="og:image" content="https://i.imgur.com/YT5Y8pE.png">
@@ -293,41 +293,44 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h2 id="图读出操作"><a href="#图读出操作" class="headerlink" title="图读出操作"></a>图读出操作</h2><p>顾名思义，图读出操作就是用来生成图表示的。它的核心要义在于：操作本身要对节点顺序不敏感。</p>
+        <h2 id="图读出操作">图读出操作</h2>
+<p>顾名思义，图读出操作就是用来生成图表示的。它的核心要义在于：操作本身要对节点顺序不敏感。</p>
 <p>为什么是这样呢？因为在欧氏空间中如果一张图片旋转了，那么他就是新的图片了；但在非欧氏空间中，如果一个图旋转一下，比如重新编号，形成的图仍然是原图。这就是典型的图重构问题。下面两个图是等价的</p>
-<p><img src="https://i.imgur.com/1lrMMsW.png" alt="picture 35">  </p>
+<p><img src="https://i.imgur.com/1lrMMsW.png" alt="picture 35"></p>
 <p>为了使得同构图能够保持一致，图读出的操作就需要对节点顺序不敏感。数学上能表达这种操作的函数称为对称函数。</p>
 <p>接下来介绍两中方法实现图读出操作：<strong>基于统计的方法</strong>和<strong>基于学习的方法</strong></p>
 <span id="more"></span>
-
-<h2 id="基于统计的方法"><a href="#基于统计的方法" class="headerlink" title="基于统计的方法"></a>基于统计的方法</h2><p>有学者提出用类似直方图的方法对每维数据分布进行建模。假设我们有100个介于[-3,1]之间的数字，如果我们直接将他们求和，就看不出他们的分布情况；而如果我们将[-3,1]分成4个子区域，分开统计各个区域的和就能略微发现一些原始数据分布特征，如下图</p>
-<p><img src="https://i.imgur.com/YT5Y8pE.png" alt="picture 36">  </p>
-<p>如果要实现上面这个做法，应该怎么做呢？很简单，举个例子，给定3个数据点，他们的特征向量（2D）分别是[-2,1],[-1,2]和[-1,1]。如果直接求和，全局的特征向量是[-2+-1+-1,1+2+1]即[-4,4]。如果采取上述直方图的方式，则可能会得到一个这样的全局特征向量<code>[-2, -1 + -1, 1 + 1, 2]</code>（第1,2维代表从原先的第1维统计的直方图,对应的区域为<code>[-2,1),[1,2)</code>,第3,4维的含义类似）。但在实践中并没有使用这种方法，而是采用高斯函数来实现名为模糊直方图的操作。</p>
-<p><img src="https://i.imgur.com/T5HHZvP.png" alt="picture 37">  </p>
+<h2 id="基于统计的方法">基于统计的方法</h2>
+<p>有学者提出用类似直方图的方法对每维数据分布进行建模。假设我们有100个介于[-3,1]之间的数字，如果我们直接将他们求和，就看不出他们的分布情况；而如果我们将[-3,1]分成4个子区域，分开统计各个区域的和就能略微发现一些原始数据分布特征，如下图</p>
+<p><img src="https://i.imgur.com/YT5Y8pE.png" alt="picture 36"></p>
+<p>如果要实现上面这个做法，应该怎么做呢？很简单，举个例子，给定3个数据点，他们的特征向量（2D）分别是[-2,1],[-1,2]和[-1,1]。如果直接求和，全局的特征向量是[-2±1±1,1+2+1]即[-4,4]。如果采取上述直方图的方式，则可能会得到一个这样的全局特征向量<code>[-2, -1 + -1, 1 + 1, 2]</code>（第1,2维代表从原先的第1维统计的直方图,对应的区域为<code>[-2,1),[1,2)</code>,第3,4维的含义类似）。但在实践中并没有使用这种方法，而是采用高斯函数来实现名为模糊直方图的操作。</p>
+<p><img src="https://i.imgur.com/T5HHZvP.png" alt="picture 37"></p>
 <p>模糊直方图的原理也很简单：预先定义几个特征值区域的边界为各个高斯分布的均匀值，并且预设好方差。对于任一特征值，根据其与各个高斯分布交点的纵坐标作为其落入该区域的数值，然后将所有数值归一化。比如，图上的[1.8]与三个高斯分布交点分别在0，0.3，0.9处，归一化一下可以用一个三维向量<code>[0.0,0.25,0.75]</code>表示。</p>
-<h2 id="基于学习的方法"><a href="#基于学习的方法" class="headerlink" title="基于学习的方法"></a>基于学习的方法</h2><p>基于统计的方法的坏处在于它没办法参数化，间接地难以表示节点到图向量的“复杂过程”。基于学习的方法就是希望用神经网络来拟合这个过程。</p>
-<h3 id="采样加全连接"><a href="#采样加全连接" class="headerlink" title="采样加全连接"></a>采样加全连接</h3><p>最简单的做法，取固定数量节点，通过全连接层得到图表示。这里不论是随机采样，还是根据某些规则采样，都需要得到确定数量的节点，不够就填充。公式也很简单（$H^L指的是将采样到的节点表示拼在一起）：</p>
-<p><img src="https://i.imgur.com/4wwS4yv.png" alt="picture 38">  </p>
+<h2 id="基于学习的方法">基于学习的方法</h2>
+<p>基于统计的方法的坏处在于它没办法参数化，间接地难以表示节点到图向量的“复杂过程”。基于学习的方法就是希望用神经网络来拟合这个过程。</p>
+<h3 id="采样加全连接">采样加全连接</h3>
+<p>最简单的做法，取固定数量节点，通过全连接层得到图表示。这里不论是随机采样，还是根据某些规则采样，都需要得到确定数量的节点，不够就填充。公式也很简单（$H^L指的是将采样到的节点表示拼在一起）：</p>
+<p><img src="https://i.imgur.com/4wwS4yv.png" alt="picture 38"></p>
 <p>这种方法很难适用于规模差距很大的图。比如训练时见过的图只有几百个节点，但测试的图可能有上千个节点，很难泛化。</p>
-<h3 id="全局节点"><a href="#全局节点" class="headerlink" title="全局节点"></a>全局节点</h3><p>这种做法动机很简单，考虑到图同构问题和基于统计的方法，从节点的表示生成最终图表示主要有两个难点：</p>
+<h3 id="全局节点">全局节点</h3>
+<p>这种做法动机很简单，考虑到图同构问题和基于统计的方法，从节点的表示生成最终图表示主要有两个难点：</p>
 <ol>
 <li>难以找到一个合适的根节点（图的根节点一般都是根据领域知识确定的，比如前面第一篇中讲到的化合物分类）</li>
 <li>如果直接用基于统计的方法对各个节点一视同仁，无法区别对待（比如某些重要的节点信息更多，就应该表达得更多）</li>
 </ol>
 <p>那直接引入一个全局节点代表这张图的根节点，把他跟图中的每个节点通过一种特殊的边连接，最终拿这个节点的表示作为整个图的表示，岂不是很棒？</p>
-<h3 id="可微池化"><a href="#可微池化" class="headerlink" title="可微池化"></a>可微池化</h3><p>上面的两中方法都比较简单，不会层次化地去获得图表示。因此又有研究者提出了一种层次化的图的表示，而这依赖于他们提出的可微池化技术。简单来说就是，他不希望各个节点一次性得到图的表示，而是希望通过一个逐渐压缩信息的过程，来得到最终图的表示。如下图所示：</p>
-<p><img src="https://i.imgur.com/QCFr9Db.png" alt="picture 39">  </p>
+<h3 id="可微池化">可微池化</h3>
+<p>上面的两中方法都比较简单，不会层次化地去获得图表示。因此又有研究者提出了一种层次化的图的表示，而这依赖于他们提出的可微池化技术。简单来说就是，他不希望各个节点一次性得到图的表示，而是希望通过一个逐渐压缩信息的过程，来得到最终图的表示。如下图所示：</p>
+<p><img src="https://i.imgur.com/QCFr9Db.png" alt="picture 39"></p>
 <p>相比于一般先通过GCN获取所有节点表示，再通过方法汇总得到图的最终表示的方法，DiffPool同时完成了两个任务：<strong>节点聚类</strong>和<strong>节点表示</strong>。</p>
 <p>这两个任务是由两个不共享参数的GCN模块分别完成的，下文用SC和NR分别表示这两个模块。NR模块和传统GCN一样，输入是各个节点隐藏状态，通过图上的传播，输出是传播后各个节点的i傲视。SC模块则不同，虽然输入也是各节点的隐藏表示，但输出是各节点属于不同聚类簇的概率（这里每一层聚类簇的数目是预先定义的）。上图中最左侧每个节点右上方的表格就代表这个。举个例子，假设本层子图有6个节点，将各个节点输出的簇分类概率堆叠在一起，就可以得到矩阵$S^l$，如下图所示（三个颜色代表三个聚类簇。实际中，聚类矩阵不是离散变量，而是连续变量）</p>
-<p><img src="https://i.imgur.com/eDLJ1Nn.png" alt="picture 40">  </p>
+<p><img src="https://i.imgur.com/eDLJ1Nn.png" alt="picture 40"></p>
 <p>用$A_l$表示第l层子图节点的邻接关系，$A^0$即是图的邻接矩阵，$N_l$表示第l层节点的个数，$H^l$表示第l层子图各个节点表示堆叠而成的隐状态矩阵，DiffPool通过如下公式得到新子图中各个节点的表示：</p>
-<p><img src="https://i.imgur.com/B53yvW6.png" alt="picture 41">  </p>
+<p><img src="https://i.imgur.com/B53yvW6.png" alt="picture 41"></p>
 <p>除了表示各个节点的表示之外，还有一个很重要的事情是生成新子图$A^{l+1}$的邻接关系</p>
-<p><img src="https://i.imgur.com/dEP1ZEr.png" alt="picture 42">  </p>
+<p><img src="https://i.imgur.com/dEP1ZEr.png" alt="picture 42"></p>
 <a href="/2022/03/19/%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/" title="图神经网络概述">图神经网络概述</a>
-
 <a href="/2022/03/19/%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/" title="图卷积神经网络概述">图卷积神经网络概述</a>
-
 <a href="/2022/03/19/%E8%8A%82%E7%82%B9%E8%A1%A8%E7%A4%BA%E5%A6%82%E4%BD%95%E7%94%9F%E6%88%90%E5%9B%BE%E8%A1%A8%E7%A4%BA/" title="节点表示如何生成图表示">节点表示如何生成图表示</a>
     </div>
 

@@ -422,7 +422,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-03-26 16:29:53" itemprop="dateModified" datetime="2022-03-26T16:29:53+08:00">2022-03-26</time>
+      <time title="修改时间：2022-03-26 20:52:19" itemprop="dateModified" datetime="2022-03-26T20:52:19+08:00">2022-03-26</time>
     </span>
 
   
@@ -449,30 +449,24 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>人类学习一个新的概念通常只需要从极其少量的实例中就能进行概括归纳，但是机器学习算法则需要大量的样本才能达到相同的精度。</p>
+          <h2 id="摘要-3">摘要</h2>
+<p>人类学习一个新的概念通常只需要从极其少量的实例中就能进行概括归纳，但是机器学习算法则需要大量的样本才能达到相同的精度。</p>
 <p>此外人类学习的比机器学习的具有更丰富更广泛的拓展，人类可以基于现有的类创建新的抽象对象类别，而机器分类器不会执行这些额外的功能，即便要执行，也会需要一个专门的新算法。</p>
-<p><img src="https://i.imgur.com/eytNsjy.png" alt="picture 1">  </p>
+<p><img src="https://i.imgur.com/eytNsjy.png" alt="picture 1"></p>
 <p>对于这些新算法面临的挑战在于：</p>
 <ul>
 <li>人们如何从少量例子学习新的概念？</li>
 <li>人们如何学习抽象、丰富、灵活的表示？</li>
 <li>如何从稀疏的数据中成功学习，同时产生如此丰富的表示？</li>
 </ul>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本文介绍了一个贝叶斯程序学习（BPL）框架，能够仅从一个示例中学习一大类视觉概念，并且以人类几乎无法区分的方式进行泛化。</p>
-<p>概念用简单的概率程序进行表示。这样，丰富的概念就可以从更简单的概念组合构成。</p>
-<p>学习则是通过构建最能解释贝叶斯标准下的观察结果的程序来进行的，而模型去学会学习是通过开发层次鲜艳，允许之前对相关概念的经验来简化新概念的学习。简单来说就是，该框架可以通过重用现有的程序片段来构建新的程序，捕捉因果和组合。</p>
-<h2 id="贝叶斯程序学习"><a href="#贝叶斯程序学习" class="headerlink" title="贝叶斯程序学习"></a>贝叶斯程序学习</h2><p>BPL通过学习简单的随机程序来表示概念，通过下图中的part(A,iii),subpart(A,ii)和空间关系(A,iv)来构建他们。</p>
-<p>BPL定义了一个生成模型，可以通过新的方式组合part和subpart来对新类型的概念进行采样。</p>
-<p>每个新的类型也被表示为一个生成模型，并且产生了新概念的实例(A,v)，这样BPL就成为了生成模型的生成模型。最后用原始数据的格式对生成的实例进行展示。</p>
-<p>在随后的评估任务中，既不使用产生的数据，也不使用该集合中的任何字母，这些任务只提供新字符的原始图像。</p>
-<p>手写字符的类型$\Psi$是part、subpart和空间关系的抽象模式。字符的part$S_i$是按下笔开始到提起笔结束的笔画，而subpart则是由短暂的停笔所分隔的更原始的动作。</p>
-<p>首先是type层面的内容：</p>
-<p>为了构建一个新的字符类型，首先需要采样k个parts并且对于每一个part i&#x3D;1…k取$n_i$个subparts。一个part $S_i$的模板是通过从一组离散原始的动作中采样来的subpart构成的,这些原始动作是从背景集中学来的，这样下一个动作的概率会依赖上一个动作。然后通过对每一个subparts之间的控制点和尺度参数进行取样将parts表示成参数化的曲线。最后parts之间的位置关系由$R_i$决定。</p>
-<p>到这一步的时候就已经得到字符的解析结构了，接下来就要进入到token层面的过程了：</p>
-<p>首先引入适当的噪声来生成笔画曲线S(m)，然后从背景集中得到笔画空间位置关系结合上一笔，取样就能得到part的开始位置。然后进行放射变换A(m)并加入适当噪声。最后通过随机补偿函数得到二值图像，画出轨迹。</p>
-<p><img src="https://i.imgur.com/RqMOnN2.png" alt="picture 2">  </p>
-<p>字符的token$\theta^{(m)}$是通过执行part和关系并且对墨迹流向建模产生的。</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/03/25/Human-level-concept-learning-through-probabilistic-program-induction/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -565,7 +559,8 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="lstm结构"><a href="#lstm结构" class="headerlink" title="lstm结构"></a>lstm结构</h2><p><img src="https://i.imgur.com/YTwGUXM.png" alt="picture 5">  </p>
+          <h2 id="lstm结构">lstm结构</h2>
+<p><img src="https://i.imgur.com/YTwGUXM.png" alt="picture 5"></p>
 <p>相较于传统的RNN只有一个状态值传递，lstm传递了两个状态，其中c(cell state)变化地比较慢，而h(hidden state)则在不同节点下往往有很大的区别</p>
           <!--noindex-->
             <div class="post-button">
@@ -667,7 +662,8 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="GRU的输入输出结构"><a href="#GRU的输入输出结构" class="headerlink" title="GRU的输入输出结构"></a>GRU的输入输出结构</h2><p>它的输入是当前时刻的输入$x^t$和上一时刻传递过来的隐状态$h^{t-1}$，通过对这两个数据的结合进行操作，会得到当前节点的输出$y^t$和传递给下一个节点的隐状态$h^t$</p>
+          <h2 id="GRU的输入输出结构">GRU的输入输出结构</h2>
+<p>它的输入是当前时刻的输入$x^t$和上一时刻传递过来的隐状态$h^{t-1}$，通过对这两个数据的结合进行操作，会得到当前节点的输出$y^t$和传递给下一个节点的隐状态$h^t$</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2022/03/23/%E7%AE%80%E5%8D%95%E6%98%93%E6%87%82%E5%9C%B0%E7%90%86%E8%A7%A3GRU/#more" rel="contents">
@@ -768,9 +764,10 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>文章主要围绕对仅有少部分节点存在标签的图节点进行分类任务。这个问题可以被认为是基于图的半监督学习，通过某种基于图的正则化来平滑图上的标签信息，比如在损失函数中增加一个图拉普拉斯正则化。</p>
-<p><img src="https://i.imgur.com/q31vbLg.png" alt="picture 44">  </p>
-<p>其中$L_0$是有标签部分的损失项，函数f是一个可微函数，$\lambda$是一个权重参数，X是节点的特征向量矩阵，$\delta &#x3D;D-A$是一个未归一化的图拉普拉斯矩阵，A是邻接矩阵，D是度矩阵。<strong>公式一是居于相邻节点可能会共享相同标签的假设下的。</strong>然而这种假设会限制模型的能力，因为图的边不一定是表示节点相似性的，可能是不相似性！</p>
+          <h2 id="引言-4">引言</h2>
+<p>文章主要围绕对仅有少部分节点存在标签的图节点进行分类任务。这个问题可以被认为是基于图的半监督学习，通过某种基于图的正则化来平滑图上的标签信息，比如在损失函数中增加一个图拉普拉斯正则化。</p>
+<p><img src="https://i.imgur.com/q31vbLg.png" alt="picture 44"></p>
+<p>其中$L_0$是有标签部分的损失项，函数f是一个可微函数，$\lambda$是一个权重参数，X是节点的特征向量矩阵，$\delta =D-A$是一个未归一化的图拉普拉斯矩阵，A是邻接矩阵，D是度矩阵。**公式一是居于相邻节点可能会共享相同标签的假设下的。**然而这种假设会限制模型的能力，因为图的边不一定是表示节点相似性的，可能是不相似性！</p>
 <p>文中作者直接使用神经网络模型$f(X,A)$来编码整个图结构并且在所有有监督的节点上获取loss进行训练，因此就避免了损失函数中基于图的显示正则化。在图的邻接矩阵上调节函数f会使得模型能够从监督损失中分配梯度信息并且使它既能学习有标签也能学习无标签节点的表示。</p>
 <p>主要贡献有两点：</p>
 <ol>
@@ -877,9 +874,10 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="图读出操作"><a href="#图读出操作" class="headerlink" title="图读出操作"></a>图读出操作</h2><p>顾名思义，图读出操作就是用来生成图表示的。它的核心要义在于：操作本身要对节点顺序不敏感。</p>
+          <h2 id="图读出操作">图读出操作</h2>
+<p>顾名思义，图读出操作就是用来生成图表示的。它的核心要义在于：操作本身要对节点顺序不敏感。</p>
 <p>为什么是这样呢？因为在欧氏空间中如果一张图片旋转了，那么他就是新的图片了；但在非欧氏空间中，如果一个图旋转一下，比如重新编号，形成的图仍然是原图。这就是典型的图重构问题。下面两个图是等价的</p>
-<p><img src="https://i.imgur.com/1lrMMsW.png" alt="picture 35">  </p>
+<p><img src="https://i.imgur.com/1lrMMsW.png" alt="picture 35"></p>
 <p>为了使得同构图能够保持一致，图读出的操作就需要对节点顺序不敏感。数学上能表达这种操作的函数称为对称函数。</p>
 <p>接下来介绍两中方法实现图读出操作：<strong>基于统计的方法</strong>和<strong>基于学习的方法</strong></p>
           <!--noindex-->
@@ -982,8 +980,9 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="图卷积缘起"><a href="#图卷积缘起" class="headerlink" title="图卷积缘起"></a>图卷积缘起</h2><p>我们要思考：为什么研究者们要设计图卷积，直接在图上不能应用传统的卷积吗？要理解这个，我们首先要理解应用传统卷积的图像（欧氏空间）和图（非欧式空间的区别）。如下图，是在两种不同结构上应用卷积的场景</p>
-<p><img src="https://i.imgur.com/PrBt36X.png" alt="picture 6">  </p>
+          <h2 id="图卷积缘起">图卷积缘起</h2>
+<p>我们要思考：为什么研究者们要设计图卷积，直接在图上不能应用传统的卷积吗？要理解这个，我们首先要理解应用传统卷积的图像（欧氏空间）和图（非欧式空间的区别）。如下图，是在两种不同结构上应用卷积的场景</p>
+<p><img src="https://i.imgur.com/PrBt36X.png" alt="picture 6"></p>
 <p>图卷积真正的难点在于 <strong>邻居节点数量不固定</strong>。目前有两中主流的研究方向</p>
 <ul>
 <li>将非欧式空间转换为欧式空间</li>
@@ -1089,8 +1088,9 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="状态更新与输出"><a href="#状态更新与输出" class="headerlink" title="状态更新与输出"></a>状态更新与输出</h2><p>最早的图神经网络的理论基础是不动点理论。给定一张图$G$，每个节点都有其自身特征$X_v$，每个边也有其自身特征$X_{(u,v)}$。GNN的学习目标就是获得每个结点的图感知的隐藏状态，即：对于每个节点，其隐藏状态包含来自邻居节点的信息。那如何让每个节点都能感知到图上的其他节点呢？GNN通过迭代式更新所有节点的隐藏状态来实现，在t+1时刻，节点的隐藏状态按照如下方式更新：</p>
-<p><img src="https://i.imgur.com/2vgW7gB.png" alt="picture 8">  </p>
+          <h2 id="状态更新与输出">状态更新与输出</h2>
+<p>最早的图神经网络的理论基础是不动点理论。给定一张图$G$，每个节点都有其自身特征$X_v$，每个边也有其自身特征$X_{(u,v)}$。GNN的学习目标就是获得每个结点的图感知的隐藏状态，即：对于每个节点，其隐藏状态包含来自邻居节点的信息。那如何让每个节点都能感知到图上的其他节点呢？GNN通过迭代式更新所有节点的隐藏状态来实现，在t+1时刻，节点的隐藏状态按照如下方式更新：</p>
+<p><img src="https://i.imgur.com/2vgW7gB.png" alt="picture 8"></p>
 <p>其中f就是隐藏状态的更新函数，$x_co[v]$是与节点v相邻的边的特征，$x_ne[v]$是节点v的邻居节点的特征，$h_n^te[v]$是邻居节点在t时刻的隐藏状态。神经网络需要做的就是拟合这个函数f。</p>
           <!--noindex-->
             <div class="post-button">
