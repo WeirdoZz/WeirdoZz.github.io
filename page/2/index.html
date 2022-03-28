@@ -164,7 +164,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-count">24</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -175,7 +175,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-count">18</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -204,6 +204,100 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/03/17/github%E6%97%A0%E6%B3%95%E7%94%A8%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%BF%9E%E6%8E%A5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/weirdo.jpg">
+      <meta itemprop="name" content="Weirdo">
+      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Weirdo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/03/17/github%E6%97%A0%E6%B3%95%E7%94%A8%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%BF%9E%E6%8E%A5/" class="post-title-link" itemprop="url">github无法用命令行连接</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-03-17 16:11:40 / 修改时间：16:16:01" itemprop="dateCreated datePublished" datetime="2022-03-17T16:11:40+08:00">2022-03-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/github/" itemprop="url" rel="index"><span itemprop="name">github</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/03/17/github%E6%97%A0%E6%B3%95%E7%94%A8%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%BF%9E%E6%8E%A5/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/03/17/github无法用命令行连接/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>如果在使用git命令的时候出现<code>ssh: connect to host github.com port 22: Connection timed out</code>,可能是host文件配置错误，我们打开host文件（win10一般在C:\Windows\System32\drivers\etc）。在最下方添加github ip。</p>
+<ul>
+<li>查看github的ip地址，进入网址：<a target="_blank" rel="noopener" href="https://github.com.ipaddress.com">https://github.com.ipaddress.com</a></li>
+<li>确定域名ip，进入网址：<a target="_blank" rel="noopener" href="https://fastly.net.ipaddress.com/github.global.ssl.fastly.net">https://fastly.net.ipaddress.com/github.global.ssl.fastly.net</a></li>
+<li>确定静态资源ip（应该是有4个），进入网址：<a target="_blank" rel="noopener" href="https://github.com.ipaddress.com/assets-cdn.github.com">https://github.com.ipaddress.com/assets-cdn.github.com</a></li>
+</ul>
+<p>得到上述ip后添加到记事本最后，格式如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">140.82.113.4 github.com</span><br><span class="line">199.232.69.194 github.global.ssl.fastly.net</span><br><span class="line">185.199.108.153 assets-cdn.github.com</span><br><span class="line">185.199.109.153 assets-cdn.github.com</span><br><span class="line">185.199.110.153 assets-cdn.github.com</span><br><span class="line">185.199.111.153 assets-cdn.github.com</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -356,7 +450,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-03-26 16:29:53" itemprop="dateModified" datetime="2022-03-26T16:29:53+08:00">2022-03-26</time>
+      <time title="修改时间：2022-03-27 15:45:32" itemprop="dateModified" datetime="2022-03-27T15:45:32+08:00">2022-03-27</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -392,14 +486,12 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="web基础">web基础</h2>
-<h3 id="web工作方式">web工作方式</h3>
-<h4 id="http请求包">http请求包</h4>
-<p>Request 包分为 3 部分，第一部分叫 Request line（请求行）, 第二部分叫 Request header（请求头）, 第三部分是 body（主体）。header 和 body 之间有个空行，请求包的例子所示:</p>
+          <h2 id="web基础"><a href="#web基础" class="headerlink" title="web基础"></a>web基础</h2><h3 id="web工作方式"><a href="#web工作方式" class="headerlink" title="web工作方式"></a>web工作方式</h3><h4 id="http请求包"><a href="#http请求包" class="headerlink" title="http请求包"></a>http请求包</h4><p>Request 包分为 3 部分，第一部分叫 Request line（请求行）, 第二部分叫 Request header（请求头）, 第三部分是 body（主体）。header 和 body 之间有个空行，请求包的例子所示:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">GET /domains/example/ HTTP/1.1      // 请求行: 请求方法 请求 URI HTTP 协议/协议版本</span><br><span class="line">Host：www.iana.org               // 服务端的主机名</span><br><span class="line">User-Agent：Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.94 Safari/537.4          // 浏览器信息</span><br><span class="line">Accept：text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8  // 客户端能接收的 mine</span><br><span class="line">Accept-Encoding：gzip,deflate,sdch       // 是否支持流压缩</span><br><span class="line">Accept-Charset：UTF-8,*;q=0.5        // 客户端字符编码集</span><br><span class="line">// 空行,用于分割请求头和消息体</span><br><span class="line">// 消息体,请求资源参数,例如 POST 传递的参数</span><br></pre></td></tr></table></figure>
-<p><img src="https://i.imgur.com/uTPJIPq.png" alt="picture 1"></p>
+
+<p><img src="https://i.imgur.com/uTPJIPq.png" alt="picture 1">  </p>
 <p>fiddler抓取的GET信息</p>
-<p><img src="https://i.imgur.com/1ZOWDms.png" alt="picture 3"></p>
+<p><img src="https://i.imgur.com/1ZOWDms.png" alt="picture 3">  </p>
 <p>fiddler抓取的POST信息</p>
 <p>可以看出GET请求体为空，POST请求体存在内容。</p>
 <ul>
@@ -1125,152 +1217,6 @@
 <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-mkdir -p ~/.kaggle</span><br><span class="line">!cp /content/kaggle.json ~/.kaggle</span><br><span class="line">!chmod <span class="number">600</span> ~/.kaggle/kaggle.json</span><br><span class="line">!kaggle config <span class="built_in">set</span> -n path -v /content</span><br></pre></td></tr></table></figure>
 <p>找到我们需要的kaggle数据集的API后，复制执行</p>
 
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/01/20/LightGBM%E7%9A%84%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%E9%A2%84%E6%B5%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/weirdo.jpg">
-      <meta itemprop="name" content="Weirdo">
-      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Weirdo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/01/20/LightGBM%E7%9A%84%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%E9%A2%84%E6%B5%8B/" class="post-title-link" itemprop="url">LightGBM的时间序列预测</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-      
-
-      <time title="创建时间：2022-01-20 11:05:57 / 修改时间：19:48:30" itemprop="dateCreated datePublished" datetime="2022-01-20T11:05:57+08:00">2022-01-20</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/MachineLearning/" itemprop="url" rel="index"><span itemprop="name">MachineLearning</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2022/01/20/LightGBM%E7%9A%84%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%E9%A2%84%E6%B5%8B/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/01/20/LightGBM的时间序列预测/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="决策树和梯度提升树简介">决策树和梯度提升树简介</h2>
-<p>以下是表格数据的一个样例。其中列出了5个人物的信息，包括年龄、性别、职业、是否每天使用电脑这4个维度，我们希望利用这些信息构建机器学习模型，来预测一个人是否喜欢电脑游戏。因此，这4个维度的信息即是数据的特征，而是否喜欢电脑游戏则是数据的标签。每一行的数据是一个样本。</p>
-<p>表1</p>
-<table>
-<thead>
-<tr>
-<th>年龄</th>
-<th>性别</th>
-<th>职业</th>
-<th>是否每天使用电脑</th>
-<th>是否喜欢电脑游戏</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>12</td>
-<td>男</td>
-<td>学生</td>
-<td>是</td>
-<td>是</td>
-</tr>
-<tr>
-<td>13</td>
-<td>女</td>
-<td>学生</td>
-<td>是</td>
-<td>否</td>
-</tr>
-<tr>
-<td>36</td>
-<td>女</td>
-<td>护士</td>
-<td>是</td>
-<td>否</td>
-</tr>
-<tr>
-<td>60</td>
-<td>男</td>
-<td>退休</td>
-<td>否</td>
-<td>否</td>
-</tr>
-<tr>
-<td>57</td>
-<td>女</td>
-<td>退休</td>
-<td>否</td>
-<td>否</td>
-</tr>
-</tbody>
-</table>
-<p>表格数据的特征类型可大致归为数值特征与类别特征这两大类。其中，数值特征的数值大小具有意义，不同特征值之间可以进行大小的比较，表1中的年龄就属于数值特征。而类别特征的不能比较大小，而是表示样本的一种属性，例如表1中的职业、性别等等。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/01/20/LightGBM%E7%9A%84%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%E9%A2%84%E6%B5%8B/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
       
     </div>
 
