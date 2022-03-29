@@ -23,7 +23,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/orange/pace-theme-center-circle.css">
   <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"weirdozz.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"weirdozz.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 <meta name="description" content="摘要 归功于对于欧几里得数据（排列整齐，能够很容易找到邻居节点，就在旁边不偏不倚，如图片、视频、语音等）的深度学习的广泛使用，在非欧几里得领域出现了许多有创造性的神经网络，作为其中的代表，图表示学习慢慢回到主流研究方向。随着图神经网络在静态场景下应用的成功，作者更进一步接近实际应用场景，其中的图是动态变化的。现存的方法主要是应用节点嵌入并且用RNN来规范嵌入从而学习时间动态性。这些方法需要知道节点">
 <meta property="og:type" content="article">
 <meta property="og:title" content="EvolveGCN:Evolving Graph Convolutional Networks for Dynamic Graphs">
@@ -40,11 +40,11 @@
 <meta property="og:image" content="https://i.imgur.com/lHkt56O.png">
 <meta property="og:image" content="https://i.imgur.com/VEr6QwK.png">
 <meta property="og:image" content="https://i.imgur.com/KDVVeck.png">
-<meta property="og:image" content="https://i.imgur.com/zEBCZrM.png">
+<meta property="og:image" content="https://i.imgur.com/oLQtJQv.png">
 <meta property="og:image" content="https://i.imgur.com/e1U0iWX.png">
 <meta property="og:image" content="https://i.imgur.com/n9qGXgg.png">
 <meta property="article:published_time" content="2022-03-16T13:17:17.000Z">
-<meta property="article:modified_time" content="2022-03-24T04:35:10.048Z">
+<meta property="article:modified_time" content="2022-03-29T03:46:26.151Z">
 <meta property="article:author" content="Weirdo">
 <meta property="article:tag" content="GCN GNN">
 <meta name="twitter:card" content="summary">
@@ -94,6 +94,7 @@
 
   <div class="site-nav-right">
     <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
 </div>
@@ -108,11 +109,37 @@
         <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
         <li class="menu-item menu-item-movies"><a href="/movies/" rel="section"><i class="fa fa-film fa-fw"></i>电影</a></li>
         <li class="menu-item menu-item-books"><a href="/books/" rel="section"><i class="fa fa-book fa-fw"></i>书籍</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
   </ul>
 </nav>
 
 
 
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
 
 </div>
         
@@ -153,18 +180,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-count">26</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-count">18</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -234,7 +261,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-03-24 12:35:10" itemprop="dateModified" datetime="2022-03-24T12:35:10+08:00">2022-03-24</time>
+      <time title="修改时间：2022-03-29 11:46:26" itemprop="dateModified" datetime="2022-03-29T11:46:26+08:00">2022-03-29</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -279,7 +306,7 @@
 <p>目前使用图学习的神经网络主要集中于给定的静态图。而在现实应用中，图结构通常是动态的（比如一个人的社交网络是会随着时间不断改变的）。这种情况下需要更新节点嵌入来获取其变化。</p>
 <p>作者基于用于静态图的图神经网络，通过引入循环机制来更新网络参数从而应用于动态场景。<strong>大量的 GNN 通过递归地聚合来自单跳邻域的节点嵌入来执行信息融合</strong>。网络的大部分参数是每一层中节点嵌入的线性变换。</p>
 <p>许多相近的方法都是使用GNN来提取特征然后使用RNN来学习提取到的特征（节点嵌入）中的序列信息。最后为时间轴上所有的图学习到一个单一的GNN模型。这些模型的缺点在于他们需要获取节点在整个时间跨度上的信息并且难以保证在未来某个新节点上的表现。</p>
-<p>实际应用中，除了会在训练之后产生新的节点之外，节点本身也可能频繁地出现或者小时，这使得节点嵌入的方法是有问题的因为RNN难以学习到这种无规律的行为。</p>
+<p>实际应用中，除了会在训练之后产生新的节点之外，节点本身也可能频繁地出现或者消失，这使得节点嵌入的方法是有问题的因为RNN难以学习到这种无规律的行为。</p>
 <p>为了解决这些问题，作者提出了在每一个时间步上使用RNN来调节GCN模型的参数。这个方法能够高效地执行模型调整，集中于模型本身而非节点嵌入。因此，不限制节点位置的改变。此外，对于未来图中会出现的新节点EvolceGCN仍然很敏感。</p>
 <p>注意，GCN的参数是不训练的，他们是根据RNN得来的，因此只有RNN的参数是训练得来的。通过这种方式，参数的数量不会随着时间增加而增加而且模型就像一个经典RNN一样可控。</p>
 <span id="more"></span>
@@ -326,7 +353,7 @@ $$</p>
 <p>通过上面两个函数g和summarize我们就可以总结出RNN结构的具体工作内容</p>
 <p><img src="https://i.imgur.com/KDVVeck.png" alt="picture 23"></p>
 <h4 id="GRU基本原理">GRU基本原理</h4>
-<p><img src="https://i.imgur.com/zEBCZrM.png" alt="picture 1"></p>
+<p><img src="https://i.imgur.com/oLQtJQv.png" alt="picture 12"></p>
 <p>如上图所示是一个基本的GRU工作中的一环，GRU本身有两个门重置门和更新门。</p>
 <p>可以这么理解，每个门中有三个参数，对当前输入做变换的变换矩阵$W_1$，对上一时刻传过来的隐状态做变换的变换矩阵$W_2$,和一个偏置值。此外还有一个候选隐状态的控制参数，也是由这三个类型的数据组成的。</p>
 <p>经过这两个门的转换之后，可以得到两个矩阵重置门矩阵R和更新门矩阵U。</p>
@@ -407,6 +434,8 @@ $$</p>
 <script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
 
   
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
 
 
 

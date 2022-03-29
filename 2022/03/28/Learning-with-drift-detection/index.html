@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="-jCet6qPD7nML4-W6IY2HZwfSblJyWta_Jx7_AGHgIk">
+  <meta name="baidu-site-verification" content="f349dc627a72ee616d62ed513574025d">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/orange/pace-theme-center-circle.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"weirdozz.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="摘要 机器学习中的大部分工作都是假设样本是根据静态概率分布随机生成的。本文作者主要研究了学习生成样本的类别概率分布从何时开始随着时间变化，提出了一个检测样本概率分布变化的方法。文章的一个中心点就是上下文的概念：一组静态分布的连续样本。本文主要通过控制在线错误率来进行漂移检测。统计学的理论保证了分布是静态是，错误率会下降，分布是动态时，错误率会上涨。对于现实环境，作者还定义了一个警告等级和漂移等级。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Learning with drift detection">
+<meta property="og:url" content="https://weirdozz.github.io/2022/03/28/Learning-with-drift-detection/index.html">
+<meta property="og:site_name" content="Weirdo">
+<meta property="og:description" content="摘要 机器学习中的大部分工作都是假设样本是根据静态概率分布随机生成的。本文作者主要研究了学习生成样本的类别概率分布从何时开始随着时间变化，提出了一个检测样本概率分布变化的方法。文章的一个中心点就是上下文的概念：一组静态分布的连续样本。本文主要通过控制在线错误率来进行漂移检测。统计学的理论保证了分布是静态是，错误率会下降，分布是动态时，错误率会上涨。对于现实环境，作者还定义了一个警告等级和漂移等级。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.imgur.com/Se2GUNb.png">
+<meta property="article:published_time" content="2022-03-28T07:32:42.000Z">
+<meta property="article:modified_time" content="2022-03-29T03:46:26.151Z">
+<meta property="article:author" content="Weirdo">
+<meta property="article:tag" content="WeirdoBlog">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/Se2GUNb.png">
+
+
+<link rel="canonical" href="https://weirdozz.github.io/2022/03/28/Learning-with-drift-detection/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://weirdozz.github.io/2022/03/28/Learning-with-drift-detection/","path":"2022/03/28/Learning-with-drift-detection/","title":"Learning with drift detection"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Learning with drift detection | Weirdo</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Weirdo</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-movies"><a href="/movies/" rel="section"><i class="fa fa-film fa-fw"></i>电影</a></li>
+        <li class="menu-item menu-item-books"><a href="/books/" rel="section"><i class="fa fa-book fa-fw"></i>书籍</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%91%98%E8%A6%81-4"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%BD%E8%B8%AA%E6%A6%82%E5%BF%B5%E6%BC%82%E7%A7%BB"><span class="nav-number">2.</span> <span class="nav-text">追踪概念漂移</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BC%82%E7%A7%BB%E6%A3%80%E6%B5%8B%E6%96%B9%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">漂移检测方法</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Weirdo"
+      src="/images/weirdo.jpg">
+  <p class="site-author-name" itemprop="name">Weirdo</p>
+  <div class="site-description" itemprop="description">怕什么真理无穷，进一步有进一步的欢喜</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/03/28/Learning-with-drift-detection/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/weirdo.jpg">
+      <meta itemprop="name" content="Weirdo">
+      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Weirdo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Learning with drift detection
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-03-28 15:32:42" itemprop="dateCreated datePublished" datetime="2022-03-28T15:32:42+08:00">2022-03-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-03-29 11:46:26" itemprop="dateModified" datetime="2022-03-29T11:46:26+08:00">2022-03-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%A6%82%E5%BF%B5%E6%BC%82%E7%A7%BB/" itemprop="url" rel="index"><span itemprop="name">概念漂移</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/03/28/Learning-with-drift-detection/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/03/28/Learning-with-drift-detection/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="摘要-4">摘要</h2>
+<p>机器学习中的大部分工作都是假设样本是根据静态概率分布随机生成的。本文作者主要研究了学习生成样本的类别概率分布从何时开始随着时间变化，提出了一个检测样本概率分布变化的方法。文章的一个中心点就是上下文的概念：一组静态分布的连续样本。本文主要通过控制在线错误率来进行漂移检测。统计学的理论保证了分布是静态是，错误率会下降，分布是动态时，错误率会上涨。对于现实环境，作者还定义了一个警告等级和漂移等级。如果在一系列样本中错误率升高达到了这两个等级，那么就会定义一个新的环境。算法会仅用达到警告等级的那个样本之前的样本作为数据集新训练一个模型。</p>
+<span id="more"></span>
+<h2 id="追踪概念漂移">追踪概念漂移</h2>
+<p>解决概念漂移的方法大致可以分成两类：</p>
+<ol>
+<li>每隔一段时间训练一个新的模型，不需要考虑概念漂移到底有没有发生。</li>
+<li>首先检测概念漂移，然后让模型去学习漂移后的变化。</li>
+</ol>
+<p>对于第一种方法可以设置一个时间窗，但是难点在于时间窗的大小，时间窗如果比较小，虽然能很快对概念漂移做出反应，但是在比较稳定的时期会影响模型的表现；如果时间窗比较大，虽然能提供比较好的表现和稳定的结果但是对概念漂移的发生不敏感。</p>
+<p>第二种方法需要检测概念漂移的发生，因此会监控一些指标（比如表现性能，数据属性等）。如果检测到了概念漂移，就会对模型进行调整。如果使用自适应的时间窗的话就会根据概念飘逸的程度进行自动调节。总体规则是，如果概念漂移发生则时间窗要减小，否则时间窗会增大。</p>
+<h2 id="漂移检测方法">漂移检测方法</h2>
+<p>在本文中作者是假设数据一个一个来，当然，要是扩展为一批一批来也很简单。当样本到来时，模型需要做出预测。只有在预测完成之后环境才会给模型一个反馈（这个样本的label）。</p>
+<p>假设存在一组样本$(x_i,y_i)$，对于一个样本集，错误是一个随机变量。n个样本中的一个发生错误的概率服从二项分布。对于序列样本中的每一个时间点i，错误率是观察到错误的概率，$p_i$，标准差为$s_i=\sqrt{\frac{p_i\times (1-p_i)}{i}}$。</p>
+<p>统计学理论保证了即使样本类分布是静态的，错误率会随着样本数量增加而减少。所以如果错误率出现明显上升的时候就表明类分布发生了变化，现在的模型可能已经不适用了。</p>
+<p>考虑到前后环境是静态时概率分布不会发生改变，n&gt;30时的样本错误率的$1-\frac{\alpha}{2}$置信区间大约为$p_i \pm \alpha \times s_i$。参数$\alpha$取决于置信度。漂移检测方法在训练期间会管理两个值$p_{min}$,$s_{min}$。每当新的样本的$p_i+s_i$小于$p_{min}$,$s_{min}$时，都会进行更新。</p>
+<p>作者使用一个警告等级来定义前后环境的合适窗口大小。环境窗口应当包含新环境中的旧样本和旧环境中最少的样本。假设在样本序列中存在一个样本i和其对应的$p_i$。实验中低于置信度95%的时候就会触发警告，即$p_i+s_i \geq p_{min}+2<em>s_{min}$。漂移的置信度设为$99%$，即 $p_i+s_i \geq p_{min}+3</em>s_{min}$ 就认定为发生漂移。如果一组样本中错误率在样本$k_w$的时候达到警告等级，在样本$k_d$的时候达到漂移等级，这时候就会定义一个新的前后环境，该环境从$k_w$开始，并且会用 $k_w$,$k_d$之间的数据新训练一个模型。当然也会存在错误率达到警告等级之后又降下去的现象，我们认为这种现象是错误警告，不需要改变前后环境。下图展示了动态窗口的结构。</p>
+<p><img src="https://i.imgur.com/Se2GUNb.png" alt="picture 14"></p>
+<p>该方法能够被用到任何模型中。能够直接在线上和增量算法中使用。从一个实用观点来看的话，该方法做的就是选择更加符合实际情况的训练集。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/03/27/%E4%BB%8E%E9%9B%B6%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AAgo-web%E6%A1%86%E6%9E%B6%EF%BC%9AGee/" rel="prev" title="从零实现一个go web框架：Gee">
+                  <i class="fa fa-chevron-left"></i> 从零实现一个go web框架：Gee
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/03/28/DDG-DA-Data-Distribution-Generation-for-Predictable-Concept-Drift-Adaptation/" rel="next" title="DDG-DA:Data Distribution Generation for Predictable Concept Drift Adaptation">
+                  DDG-DA:Data Distribution Generation for Predictable Concept Drift Adaptation <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Weirdo</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"weirdoblog","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>
