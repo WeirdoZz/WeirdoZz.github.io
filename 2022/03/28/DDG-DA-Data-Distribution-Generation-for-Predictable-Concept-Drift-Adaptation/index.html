@@ -24,16 +24,27 @@
   <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"weirdozz.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
-<meta name="description" content="摘要 文章作者并不是顺着前人的思路做漂移检测和漂移适应，而是提出一个DDG-DA方法直接预测数据分布的变化并且改善模型的表现。具体来说就是，先训练一个预测器来估计未来的数据分布，然后使用它来生成样本，最后在生成的数据集上训练模型。">
+<meta name="description" content="摘要 文章作者并不是顺着前人的思路做漂移检测和漂移适应，而是提出一个DDG-DA方法直接预测数据分布的变化并且改善模型的表现。具体来说就是，先训练一个预测器来估计未来的数据分布，然后使用它来生成样本，最后在生成的数据集上训练模型。 github链接">
 <meta property="og:type" content="article">
 <meta property="og:title" content="DDG-DA:Data Distribution Generation for Predictable Concept Drift Adaptation">
 <meta property="og:url" content="https://weirdozz.github.io/2022/03/28/DDG-DA-Data-Distribution-Generation-for-Predictable-Concept-Drift-Adaptation/index.html">
 <meta property="og:site_name" content="Weirdo">
-<meta property="og:description" content="摘要 文章作者并不是顺着前人的思路做漂移检测和漂移适应，而是提出一个DDG-DA方法直接预测数据分布的变化并且改善模型的表现。具体来说就是，先训练一个预测器来估计未来的数据分布，然后使用它来生成样本，最后在生成的数据集上训练模型。">
+<meta property="og:description" content="摘要 文章作者并不是顺着前人的思路做漂移检测和漂移适应，而是提出一个DDG-DA方法直接预测数据分布的变化并且改善模型的表现。具体来说就是，先训练一个预测器来估计未来的数据分布，然后使用它来生成样本，最后在生成的数据集上训练模型。 github链接">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://i.imgur.com/HWf0230.png">
+<meta property="og:image" content="https://i.imgur.com/M59yAlD.png">
+<meta property="og:image" content="https://i.imgur.com/CiLLHSG.png">
+<meta property="og:image" content="https://i.imgur.com/D4vfGYw.png">
+<meta property="og:image" content="https://i.imgur.com/cUcBhVS.png">
+<meta property="og:image" content="https://i.imgur.com/rf2t4TR.png">
+<meta property="og:image" content="https://i.imgur.com/iZ5adHj.png">
+<meta property="og:image" content="https://i.imgur.com/NDZeZhZ.png">
+<meta property="og:image" content="https://i.imgur.com/ifbPBgr.png">
+<meta property="og:image" content="https://i.imgur.com/rUC2pR1.png">
+<meta property="og:image" content="https://i.imgur.com/XkiqMMU.png">
+<meta property="og:image" content="https://i.imgur.com/5caxUkX.png">
 <meta property="article:published_time" content="2022-03-28T11:11:59.000Z">
-<meta property="article:modified_time" content="2022-03-29T04:00:11.392Z">
+<meta property="article:modified_time" content="2022-03-31T10:55:32.133Z">
 <meta property="article:author" content="Weirdo">
 <meta property="article:tag" content="WeirdoBlog">
 <meta name="twitter:card" content="summary">
@@ -154,7 +165,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%91%98%E8%A6%81-3"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E8%A8%80-4"><span class="nav-number">2.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E8%AE%BE%E8%AE%A1"><span class="nav-number">3.</span> <span class="nav-text">方法设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E4%BD%93%E8%AE%BE%E8%AE%A1"><span class="nav-number">3.1.</span> <span class="nav-text">总体设计</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%91%98%E8%A6%81"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E8%A8%80"><span class="nav-number">2.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E8%AE%BE%E8%AE%A1"><span class="nav-number">3.</span> <span class="nav-text">方法设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E4%BD%93%E8%AE%BE%E8%AE%A1"><span class="nav-number">3.1.</span> <span class="nav-text">总体设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E8%AE%BE%E8%AE%A1%E5%92%8C%E5%AD%A6%E4%B9%A0%E8%BF%87%E7%A8%8B"><span class="nav-number">3.2.</span> <span class="nav-text">模型设计和学习过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%89%B9%E5%BE%81%E8%AE%BE%E8%AE%A1"><span class="nav-number">3.2.1.</span> <span class="nav-text">特征设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%AE%E6%A0%87%E5%87%BD%E6%95%B0"><span class="nav-number">3.2.2.</span> <span class="nav-text">目标函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%98%E5%8C%96"><span class="nav-number">3.2.3.</span> <span class="nav-text">优化</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C"><span class="nav-number">4.</span> <span class="nav-text">实验</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C"><span class="nav-number">4.1.</span> <span class="nav-text">实验结果</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -250,7 +261,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-03-29 12:00:11" itemprop="dateModified" datetime="2022-03-29T12:00:11+08:00">2022-03-29</time>
+      <time title="修改时间：2022-03-31 18:55:32" itemprop="dateModified" datetime="2022-03-31T18:55:32+08:00">2022-03-31</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -286,15 +297,61 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h2 id="摘要-3">摘要</h2>
+        <h2 id="摘要">摘要</h2>
 <p>文章作者并不是顺着前人的思路做漂移检测和漂移适应，而是提出一个DDG-DA方法直接预测数据分布的变化并且改善模型的表现。具体来说就是，先训练一个预测器来估计未来的数据分布，然后使用它来生成样本，最后在生成的数据集上训练模型。</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/microsoft/qlib/tree/main/examples/benchmarks_dynamic/DDG-DA">github链接</a></p>
 <span id="more"></span>
-<h2 id="引言-4">引言</h2>
+<h2 id="引言">引言</h2>
 <p>之前的方法都是在检测到概念漂移之后对模型进行调整，但是这样的话就始终和概念漂移之间差了一个时间步，总是会慢半拍。但是其实实际上概念漂移的发生往往也是有迹可循的并不是完全随机。比如下图，作者绘制了三个现实任务的数据流轨迹：股价、电力负荷和太阳辐射照度。每个点都表示数据分布，其中按照时间对每个点进行了连线，我们发现大部分情况下数据分布的变化还是有规律的，不规律的漂移只是偶然发生。这样其实就是说存在预测概念漂移趋势的可能性。</p>
 <p><img src="https://i.imgur.com/HWf0230.png" alt="picture 15"></p>
 <p>本文注重于预测未来的数据分布，使用DDG-DA方法来预测下个时间步的数据分布，这样模型的下游学习任务能够在预测分布的数据样本上训练而不仅仅是知道要发生概念漂移。在实操中，DDG-DA被设计成一个动态的数据生成器，能够从过去数据中生成服从分布的数据。但是在现实中训练一个这样的能够最大化预测数据和真实数据相似度的数据生成器是难度很大的。为了解决这个问题，作者首先通过在数据分布下学习一个模型来表示数据分布，然后创建一个可微的分布距离来训练数据生成器。为了验证方法的有效性，作者还做了一个完整的理论分析来证明传统分布距离（比如kl散度）和本方法的等价。</p>
 <h2 id="方法设计">方法设计</h2>
+<p><img src="https://i.imgur.com/M59yAlD.png" alt="picture 1"></p>
 <h3 id="总体设计">总体设计</h3>
+<p>在上图中，训练数据和测试数据随着时间发生改变。对于每一个时间步t，任务$task^{(t)}:=(D_{train}^{(t)},D_{test}^{(t)})$目的是学习一个新的模型以调整当前在历史数据上训练的模型并且最小化$D_{test}^{(t)}$上的损失。模型可以根据内存大小在时间步t使用一个有限的$D_{train}^{(t)}$，它是从训练分布为$p_{train}^{t}(x,y)$的训练数据中取样来的，$D_{test}^{(t)}$是从分布为$p_{test}^{(t)}$的测试数据中取样来的。这两个分布可能是不同的，因此会对预测精度有不好的影响。</p>
+<p><strong>DDG-DA学习</strong>。 为了减小这种差距，DDG-DA(表示为$M_{\Theta}$)尝试对概念漂移建模并且预测测试数据的分布$p_{test}^{(t)}(x,y)$。DDG-DA的框架已经在上图中解释了。DDG-DA就像一个甲醛数据采样器在$D_{train}^{(t)}$上进行重新采样并且创建一个新的训练数据集$D_{resam}^{(t)}(\Theta)$，它的数据分布为$p_{resam}^{(t)}(x,y;\Theta)$（也就是我们假设的测试集的数据分布）。DDG-DA会去最小化这个分布和真实的测试分布之间的差距。</p>
+<p>在DDG-DA的训练过程中，$M_{\Theta}$在$task^{(t)} \in Task_{train}$通过最小化预测分布和实际分布的差距来进行学习。从$Task_{train}$中学来的知识是用于转变成$task_{Test}$中的新任务的。</p>
+<p><strong>DDG-DA预测</strong>。 预测模型是在训练数据上重新采样后的数据集上训练的，然后放到测试数据集上进行测试。训练集分布概率对于这个模型的精度是至关重要的，由于我们前面DDG-DA已经学到了一个最小化测试数据和重新采样数据分布之间差距的模式，所以该重新采样的数据相比于训练集应该更像测试集，所以在测试集上会有一个比较好的结果。</p>
+<p><strong>一个例子</strong>。作者举了一个股价趋势预测的场景。为了解决概念漂移，每个月都基于过去两年的历史数据重新训练一个模型。每次重新训练模型以解决概念漂移被称作一个task。比如，第一个任务$task^{(2011/01)}$包含了训练数据$D_{train}^{(2011/01)}$（包含2009/01-2010/12的数据）和一个月的测试数据$D_{test}^{(2011/01)}$。DDG-DA会在$D_{train}^{(2011/01)}$基础上创建一个$D_{resam}^{(2011/01)}(\Theta)$用于训练预测模型。每个月都会产生一个新的task，这些task按照时间顺序排序并且以2016年作为分割，前面的相当于训练集，后面的相当于测试集。</p>
+<h3 id="模型设计和学习过程">模型设计和学习过程</h3>
+<p><img src="https://i.imgur.com/CiLLHSG.png" alt="picture 2"></p>
+<h4 id="特征设计">特征设计</h4>
+<p>历史数据的分布信息对于预测$D_{test}^{(t)}$的分布是很有用的，因此将他作为DDG-DA的分布。DDG-DA可以表示为$q_{train}^{(t)}=M_{\Theta}(g(D_{train}^{(t)}))$。g是一个特征提取器，它将$D_{train}^{(t)}$作为输入并且输出历史数据分布信息。$M_{\Theta}$使用提取后的信息然后输出重新采样的分布概率用于在$D_{train}^(t)$上采样。</p>
+<h4 id="目标函数">目标函数</h4>
+<p>$M_{\Theta}$接收提取后的特征然后输出分布概率。DDG-DA的学习目的就是最小化预测分布和真实分布差距。作者注重于最重要的漂移主体$p(y|x)$并且认为测试数据分布和重新采样的数据分布的差距次之。DDG-DA的损失可以表示为：</p>
+<p><img src="https://i.imgur.com/D4vfGYw.png" alt="picture 3"></p>
+<p>其中$D_{KL}$是KL散度。</p>
+<p>对于未知变量假设正态分布是合理的并且经常用于最大似然估计。在这种估计下，$p_{test}^{(t)}(y|x)=\Nu(y_{test}^{(t)}(x),\sigma)$并且$p_{resam}^{(t)}(y|x)=\Nu(y_{resam}^{(t)}(x;\Theta),\sigma)$，其中$\sigma$是常量。</p>
+<p>公式1中的resample的数据集的估计期望可以描述为</p>
+<p><img src="https://i.imgur.com/cUcBhVS.png" alt="picture 4"></p>
+<p>结合所有的训练任务的损失，DDG-DA的优化目标能够描述为</p>
+<p><img src="https://i.imgur.com/rf2t4TR.png" alt="picture 5"></p>
+<h4 id="优化">优化</h4>
+<p>这一部分主要讲解公式2的优化过程。为了能够近似估计$y_{resam}^{(t)}(x;\Theta)$，DDG-DA在$D_{sample}^{(t)(\Theta)}$建立了一个回归代理模型$y_{proxy}(x;\phi)^{(t)}$。代理模型的优化可以描述为</p>
+<p><img src="https://i.imgur.com/iZ5adHj.png" alt="picture 6"></p>
+<p>DDG-DA的学习过程就是一个两层优化问题。上层的目标是用$y_{proxy}(x;\phi)^{(t)}$代替$y_{resam}^{(t)}(x;\Theta)$。下层的优化公式4可以被视作一个约束项。</p>
+<p>DDG-DA的总体双层优化公式：</p>
+<p><img src="https://i.imgur.com/NDZeZhZ.png" alt="picture 7"></p>
+<p>其中$\Theta$是DDG-DA的参数。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">对于这里公式我的理解是：首先在重新采样的数据上面对我们的代理模型进行优化，找到一个损失总和最小时候的参数，作为他在下一层的参数。</span><br><span class="line">然后在下一层使用测试集上的数据对模型进行优化，找到在测试集上的损失最小的模型参数。</span><br></pre></td></tr></table></figure>
+<p>优化公式2的阻碍主要在于公式4的下级部分无法以封闭的形式解决。argmin通常来说是不可微的，这使得许多的优化算法（比如梯度下降）无法在公式4上进行优化。</p>
+<p>DDG-DA采用了一个使用封闭式解法的模型作为$y_{proxy}(x;\phi)^{(t)}$。为了简单，作者选用了线性模型$h(x;\phi_{(t)})=x\phi^{(t)}$。$M_\Theta$输出的$q_{train}^{(t)}$可以被视为学习预测模型时的重采样权重。公式4的损失函数就可以描述为：</p>
+<p><img src="https://i.imgur.com/ifbPBgr.png" alt="picture 8"></p>
+<p>其中$X^{(t)},y^{(t)},Q^{(t)}$是将多个样本连接起来的特征，标签和$D_{train}^{(t)}$上的重采样概率。</p>
+<p>这等价于一个权重线性回归，$\phi^{(t)}$有一个正规化闭式解</p>
+<p><img src="https://i.imgur.com/rUC2pR1.png" alt="picture 9"></p>
+<p>这样公式4的闭式解使得分布距离可微。这样简单有效的优化算法就可以用来训练DDG-DA了。</p>
+<h2 id="实验">实验</h2>
+<p>实验主要是回答两个问题：</p>
+<ol>
+<li>该模型在预测概念漂移上能够超过SOTA方法</li>
+<li>该模型能否在不同场景下生成不同的预测模型</li>
+</ol>
+<h3 id="实验结果">实验结果</h3>
+<p>针对第一个问题，对于模型无关的方法，作者使用的是相同模型不同方法，得出实验结果如下</p>
+<p><img src="https://i.imgur.com/XkiqMMU.png" alt="picture 10"></p>
+<p>针对第二个问题，作者尝试了很多模型无关的方法进行不同场景和不同模型的预测比较，结果如下</p>
+<p><img src="https://i.imgur.com/5caxUkX.png" alt="picture 11"></p>
 
     </div>
 
