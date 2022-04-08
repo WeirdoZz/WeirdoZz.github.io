@@ -164,7 +164,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-count">28</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -204,6 +204,118 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/04/08/Unsupervised-Concept-Drift-Detection-with-a-Discriminative-Classifier/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/weirdo.jpg">
+      <meta itemprop="name" content="Weirdo">
+      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Weirdo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/04/08/Unsupervised-Concept-Drift-Detection-with-a-Discriminative-Classifier/" class="post-title-link" itemprop="url">Unsupervised Concept Drift Detection with a Discriminative Classifier</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-04-08 12:33:14 / 修改时间：15:49:48" itemprop="dateCreated datePublished" datetime="2022-04-08T12:33:14+08:00">2022-04-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%A6%82%E5%BF%B5%E6%BC%82%E7%A7%BB/" itemprop="url" rel="index"><span itemprop="name">概念漂移</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/04/08/Unsupervised-Concept-Drift-Detection-with-a-Discriminative-Classifier/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/04/08/Unsupervised-Concept-Drift-Detection-with-a-Discriminative-Classifier/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="摘要">摘要</h2>
+<p>作者提出了一个无监督的方法D3，它使用一个带有滑动窗口的分类器通过监视特征空间的变化来检测概念漂移。这个方法可以和已有的分类器一起使用，即便该分类器本身并没有漂移适应机制。</p>
+<h2 id="引言">引言</h2>
+<p>漂移检测主要有两种类型：有监督和无监督。无监督要求数据到了之后标签就要到，有监督则不需要。大多数情况下，有监督方法是检测分类器的表现，当表现下降的时候就说明要发生概念漂移了。而无监督方法主要研究特征的属性。</p>
+<p>本文提出的方法中，通过周期性地训练测试一个分类器来使它能够分别新样本的分布是否和就样本差不多。在批处理设置中与之相类似的问题是训练和测试分布不同的协变量移位适应，用的和本文相近的方法来检测和更正协变量移位。在流处理设置中，本文是第一个提出使用分类器来做漂移检测任务的。</p>
+<h2 id="问题定义">问题定义</h2>
+<p>流分类是发生在数据流中，在时间和内存限制下的监督学习问题。数据流由按序到来的数据$D=\left{(X_0,y_0),(X_1,y_1),\dots,(X_t,y_t),\dots\right}$组成。其中数据的类别$y_t$只有在测试之后才能获取。</p>
+<p>t时刻的概念表示为$p_t(X,y)$，这样漂移检测就变成了一个判断输入X和标签y的联合分布是否和上一个时间步不一样。</p>
+<p><img src="https://i.imgur.com/OiEohiL.png" alt="picture 1"></p>
+<p>漂移检测的初始目标是设计一个能够和分类模型合作的方法，根据检测到的漂移改进模型，从而提供对于数据分布变化的适应性，最终提升模型的分类表现。</p>
+<h2 id="D3（Discriminative-Drift-Detector）方法">D3（Discriminative Drift Detector）方法</h2>
+<p><img src="https://i.imgur.com/dK9AnlV.png" alt="picture 2"></p>
+<p>使用一个固定尺寸的滑动窗口，包含俩个集合，一个为旧数据，一个为新数据。训练一个简单分类器来区分这些集合，然后根据分类表现来判断是否发生漂移。</p>
+<p>理想状态下，可以通过估计他们的分布和计算他们之间的变化（如kl散度）来观察是否发生漂移。但是这在流数据模式下代价很大，因为需要不断重复估计且我们想要即时的结果。我们想要的仅仅是观察新旧集合是否连续不同，而不是估计他们的分布。学习分布之间的差异其实就足够检测概念漂移了。</p>
+<p>作者使用滑动窗口W，旧数据数量为w，新数据数量为wp，其中p是旧数据占新数据的比例。在初始化阶段，整个窗口为空，我们等待它装满。然后开始第一次检查，引入一个自由变量s，旧样本标记为old并且赋值为0，剩下的样本标记为new并且赋值为1。然后用s作为标签训练一个逻辑回归模型作为分类器来分辨old和new。</p>
+<p>使用AUC作为散度的度量，表示模型能分别两个类的能力。如果能很好分辨两个类的话说明发生了漂移，否则说明没有发生。为此，对AUC设置一个阈值$\tau$作为发生漂移的分界。</p>
+<p><img src="https://i.imgur.com/6TMAow7.png" alt="picture 3"></p>
+<p>如前面的过程图所示，分类器分类之后会有两个结果：</p>
+<ol>
+<li>AUC大于等于阈值，这时说明发生漂移，然后就需要丢弃所有旧样本，放入新的样本。</li>
+<li>AUC小于等于阈值，这时说明没漂移，丢弃wp(也就是新样本数量)个旧样本，然后放入新样本。</li>
+</ol>
+<p>虽然新旧样本的数量是超参数，我们总会把旧样本数量设的更大。因为需要这一部分数据足够描述当前的分布并且尽量能够覆盖多的特征空间。但是也不能太大，否则可能包含多个不同的概念。由于新数据相对来说很少，因此选择一个在类不均衡场景下能够有效工作的度量是非常有必要的，为此作者选择了AUC，因为它适用于这种场景。</p>
+<h2 id="个人感觉这个方法的缺点">个人感觉这个方法的缺点</h2>
+<p>使用滑动窗口的方法存在一个共同缺点就是窗口的选择，窗口过大可能永远不会检测到漂移，过小可能一直检测到漂移。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1111,116 +1223,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2022/03/23/%E7%AE%80%E5%8D%95%E6%98%93%E6%87%82%E5%9C%B0%E7%90%86%E8%A7%A3GRU/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/03/20/Semi-Supervised-Classification-With-Graph-Convolutional-Networks/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/weirdo.jpg">
-      <meta itemprop="name" content="Weirdo">
-      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Weirdo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/03/20/Semi-Supervised-Classification-With-Graph-Convolutional-Networks/" class="post-title-link" itemprop="url">Semi-Supervised Classification With Graph Convolutional Networks</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-03-20 19:04:27" itemprop="dateCreated datePublished" datetime="2022-03-20T19:04:27+08:00">2022-03-20</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-03-29 11:46:26" itemprop="dateModified" datetime="2022-03-29T11:46:26+08:00">2022-03-29</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">图神经网络</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2022/03/20/Semi-Supervised-Classification-With-Graph-Convolutional-Networks/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/03/20/Semi-Supervised-Classification-With-Graph-Convolutional-Networks/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="引言-2">引言</h2>
-<p>文章主要围绕对仅有少部分节点存在标签的图节点进行分类任务。这个问题可以被认为是基于图的半监督学习，通过某种基于图的正则化来平滑图上的标签信息，比如在损失函数中增加一个图拉普拉斯正则化。</p>
-<p><img src="https://i.imgur.com/q31vbLg.png" alt="picture 44"></p>
-<p>其中$L_0$是有标签部分的损失项，函数f是一个可微函数，$\lambda$是一个权重参数，X是节点的特征向量矩阵，$\delta =D-A$是一个未归一化的图拉普拉斯矩阵，A是邻接矩阵，D是度矩阵。**公式一是居于相邻节点可能会共享相同标签的假设下的。**然而这种假设会限制模型的能力，因为图的边不一定是表示节点相似性的，可能是不相似性！</p>
-<p>文中作者直接使用神经网络模型$f(X,A)$来编码整个图结构并且在所有有监督的节点上获取loss进行训练，因此就避免了损失函数中基于图的显示正则化。在图的邻接矩阵上调节函数f会使得模型能够从监督损失中分配梯度信息并且使它既能学习有标签也能学习无标签节点的表示。</p>
-<p>主要贡献有两点：</p>
-<ol>
-<li>提出了一个简单有效的神经网络模型的传播规则，能够直接用于图并且展示了它是如何从一阶近似的谱图卷积得来的。</li>
-<li>解释了这种模型是如何应用于快速且可扩展的节点半监督分类任务中的。</li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/03/20/Semi-Supervised-Classification-With-Graph-Convolutional-Networks/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>

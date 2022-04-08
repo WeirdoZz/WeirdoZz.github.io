@@ -164,7 +164,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-count">28</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -204,6 +204,116 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/03/20/Semi-Supervised-Classification-With-Graph-Convolutional-Networks/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/weirdo.jpg">
+      <meta itemprop="name" content="Weirdo">
+      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Weirdo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/03/20/Semi-Supervised-Classification-With-Graph-Convolutional-Networks/" class="post-title-link" itemprop="url">Semi-Supervised Classification With Graph Convolutional Networks</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-03-20 19:04:27" itemprop="dateCreated datePublished" datetime="2022-03-20T19:04:27+08:00">2022-03-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-03-29 11:46:26" itemprop="dateModified" datetime="2022-03-29T11:46:26+08:00">2022-03-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">图神经网络</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/03/20/Semi-Supervised-Classification-With-Graph-Convolutional-Networks/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/03/20/Semi-Supervised-Classification-With-Graph-Convolutional-Networks/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="引言-2">引言</h2>
+<p>文章主要围绕对仅有少部分节点存在标签的图节点进行分类任务。这个问题可以被认为是基于图的半监督学习，通过某种基于图的正则化来平滑图上的标签信息，比如在损失函数中增加一个图拉普拉斯正则化。</p>
+<p><img src="https://i.imgur.com/q31vbLg.png" alt="picture 44"></p>
+<p>其中$L_0$是有标签部分的损失项，函数f是一个可微函数，$\lambda$是一个权重参数，X是节点的特征向量矩阵，$\delta =D-A$是一个未归一化的图拉普拉斯矩阵，A是邻接矩阵，D是度矩阵。**公式一是居于相邻节点可能会共享相同标签的假设下的。**然而这种假设会限制模型的能力，因为图的边不一定是表示节点相似性的，可能是不相似性！</p>
+<p>文中作者直接使用神经网络模型$f(X,A)$来编码整个图结构并且在所有有监督的节点上获取loss进行训练，因此就避免了损失函数中基于图的显示正则化。在图的邻接矩阵上调节函数f会使得模型能够从监督损失中分配梯度信息并且使它既能学习有标签也能学习无标签节点的表示。</p>
+<p>主要贡献有两点：</p>
+<ol>
+<li>提出了一个简单有效的神经网络模型的传播规则，能够直接用于图并且展示了它是如何从一阶近似的谱图卷积得来的。</li>
+<li>解释了这种模型是如何应用于快速且可扩展的节点半监督分类任务中的。</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/03/20/Semi-Supervised-Classification-With-Graph-Convolutional-Networks/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1148,113 +1258,6 @@
 <h2 id="对于文件夹的操作">对于文件夹的操作</h2>
 <p>只需要加个-r操作就可以了</p>
 
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/01/28/%E4%BD%BF%E7%94%A8golang+postgres+docker%E8%BF%9B%E8%A1%8C%E5%BC%80%E5%8F%91/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/weirdo.jpg">
-      <meta itemprop="name" content="Weirdo">
-      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Weirdo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/01/28/%E4%BD%BF%E7%94%A8golang+postgres+docker%E8%BF%9B%E8%A1%8C%E5%BC%80%E5%8F%91/" class="post-title-link" itemprop="url">使用golang+postgres+docker进行开发</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-01-28 22:47:22" itemprop="dateCreated datePublished" datetime="2022-01-28T22:47:22+08:00">2022-01-28</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-03-16 22:38:03" itemprop="dateModified" datetime="2022-03-16T22:38:03+08:00">2022-03-16</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%90%8E%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">后端</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2022/01/28/%E4%BD%BF%E7%94%A8golang+postgres+docker%E8%BF%9B%E8%A1%8C%E5%BC%80%E5%8F%91/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/01/28/使用golang+postgres+docker进行开发/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p><a target="_blank" rel="noopener" href="https://dev.to/techschoolguru/design-db-schema-and-generate-sql-code-with-dbdiagram-io-4ko5">课程官方文档地址</a></p>
-<h2 id="docker的下载">docker的下载</h2>
-<p><a target="_blank" rel="noopener" href="https://docs.docker.com/engine/install/ubuntu/">ubuntu的docker下载地址</a></p>
-<p>照着上述地址的步骤进行下载安装docker</p>
-<p>为了不用每次都要sudo权限运行docker，进行以下步骤使我们当前用户具有启用docker权限</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo groupadd docker //创建docker组 通常来说安装万docker就已经自动创建好了</span><br><span class="line">sudo usermod -aG docker $USER //将当前用户添加到组中</span><br><span class="line">newgrp docker  //刷新一下对group的更改</span><br><span class="line">docker run hello-world //测试不用sudo是否可以进行使用docker</span><br></pre></td></tr></table></figure>
-<p><code>image</code>和<code>container</code>的区别在于，container是image的一个实例，通过<code>docker run</code>来启动，我们可以根据一个镜像启动多个container。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/01/28/%E4%BD%BF%E7%94%A8golang+postgres+docker%E8%BF%9B%E8%A1%8C%E5%BC%80%E5%8F%91/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
       
     </div>
 

@@ -24,30 +24,32 @@
   <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"weirdozz.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
-<meta name="description" content="摘要 机器学习中的大部分工作都是假设样本是根据静态概率分布随机生成的。本文作者主要研究了学习生成样本的类别概率分布从何时开始随着时间变化，提出了一个检测样本概率分布变化的方法。文章的一个中心点就是上下文的概念：一组静态分布的连续样本。本文主要通过控制在线错误率来进行漂移检测。统计学的理论保证了分布是静态是，错误率会下降，分布是动态时，错误率会上涨。对于现实环境，作者还定义了一个警告等级和漂移等级。">
+<meta name="description" content="摘要 作者提出了一个无监督的方法D3，它使用一个带有滑动窗口的分类器通过监视特征空间的变化来检测概念漂移。这个方法可以和已有的分类器一起使用，即便该分类器本身并没有漂移适应机制。 引言 漂移检测主要有两种类型：有监督和无监督。无监督要求数据到了之后标签就要到，有监督则不需要。大多数情况下，有监督方法是检测分类器的表现，当表现下降的时候就说明要发生概念漂移了。而无监督方法主要研究特征的属性。 本文提">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Learning with drift detection">
-<meta property="og:url" content="https://weirdozz.github.io/2022/03/28/Learning-with-drift-detection/index.html">
+<meta property="og:title" content="Unsupervised Concept Drift Detection with a Discriminative Classifier">
+<meta property="og:url" content="https://weirdozz.github.io/2022/04/08/Unsupervised-Concept-Drift-Detection-with-a-Discriminative-Classifier/index.html">
 <meta property="og:site_name" content="Weirdo">
-<meta property="og:description" content="摘要 机器学习中的大部分工作都是假设样本是根据静态概率分布随机生成的。本文作者主要研究了学习生成样本的类别概率分布从何时开始随着时间变化，提出了一个检测样本概率分布变化的方法。文章的一个中心点就是上下文的概念：一组静态分布的连续样本。本文主要通过控制在线错误率来进行漂移检测。统计学的理论保证了分布是静态是，错误率会下降，分布是动态时，错误率会上涨。对于现实环境，作者还定义了一个警告等级和漂移等级。">
+<meta property="og:description" content="摘要 作者提出了一个无监督的方法D3，它使用一个带有滑动窗口的分类器通过监视特征空间的变化来检测概念漂移。这个方法可以和已有的分类器一起使用，即便该分类器本身并没有漂移适应机制。 引言 漂移检测主要有两种类型：有监督和无监督。无监督要求数据到了之后标签就要到，有监督则不需要。大多数情况下，有监督方法是检测分类器的表现，当表现下降的时候就说明要发生概念漂移了。而无监督方法主要研究特征的属性。 本文提">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://i.imgur.com/Se2GUNb.png">
-<meta property="article:published_time" content="2022-03-28T07:32:42.000Z">
-<meta property="article:modified_time" content="2022-03-29T03:46:26.151Z">
+<meta property="og:image" content="https://i.imgur.com/OiEohiL.png">
+<meta property="og:image" content="https://i.imgur.com/dK9AnlV.png">
+<meta property="og:image" content="https://i.imgur.com/6TMAow7.png">
+<meta property="article:published_time" content="2022-04-08T04:33:14.000Z">
+<meta property="article:modified_time" content="2022-04-08T07:49:48.502Z">
 <meta property="article:author" content="Weirdo">
 <meta property="article:tag" content="WeirdoBlog">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://i.imgur.com/Se2GUNb.png">
+<meta name="twitter:image" content="https://i.imgur.com/OiEohiL.png">
 
 
-<link rel="canonical" href="https://weirdozz.github.io/2022/03/28/Learning-with-drift-detection/">
+<link rel="canonical" href="https://weirdozz.github.io/2022/04/08/Unsupervised-Concept-Drift-Detection-with-a-Discriminative-Classifier/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://weirdozz.github.io/2022/03/28/Learning-with-drift-detection/","path":"2022/03/28/Learning-with-drift-detection/","title":"Learning with drift detection"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://weirdozz.github.io/2022/04/08/Unsupervised-Concept-Drift-Detection-with-a-Discriminative-Classifier/","path":"2022/04/08/Unsupervised-Concept-Drift-Detection-with-a-Discriminative-Classifier/","title":"Unsupervised Concept Drift Detection with a Discriminative Classifier"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Learning with drift detection | Weirdo</title>
+<title>Unsupervised Concept Drift Detection with a Discriminative Classifier | Weirdo</title>
   
 
 
@@ -154,7 +156,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%91%98%E8%A6%81-4"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%BD%E8%B8%AA%E6%A6%82%E5%BF%B5%E6%BC%82%E7%A7%BB"><span class="nav-number">2.</span> <span class="nav-text">追踪概念漂移</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BC%82%E7%A7%BB%E6%A3%80%E6%B5%8B%E6%96%B9%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">漂移检测方法</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%91%98%E8%A6%81"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E8%A8%80"><span class="nav-number">2.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E5%AE%9A%E4%B9%89"><span class="nav-number">3.</span> <span class="nav-text">问题定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#D3%EF%BC%88Discriminative-Drift-Detector%EF%BC%89%E6%96%B9%E6%B3%95"><span class="nav-number">4.</span> <span class="nav-text">D3（Discriminative Drift Detector）方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%AA%E4%BA%BA%E6%84%9F%E8%A7%89%E8%BF%99%E4%B8%AA%E6%96%B9%E6%B3%95%E7%9A%84%E7%BC%BA%E7%82%B9"><span class="nav-number">5.</span> <span class="nav-text">个人感觉这个方法的缺点</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -219,7 +221,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/03/28/Learning-with-drift-detection/">
+    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/04/08/Unsupervised-Concept-Drift-Detection-with-a-Discriminative-Classifier/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/weirdo.jpg">
@@ -232,7 +234,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Learning with drift detection
+          Unsupervised Concept Drift Detection with a Discriminative Classifier
         </h1>
 
         <div class="post-meta-container">
@@ -242,15 +244,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
+      
 
-      <time title="创建时间：2022-03-28 15:32:42" itemprop="dateCreated datePublished" datetime="2022-03-28T15:32:42+08:00">2022-03-28</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-03-29 11:46:26" itemprop="dateModified" datetime="2022-03-29T11:46:26+08:00">2022-03-29</time>
+      <time title="创建时间：2022-04-08 12:33:14 / 修改时间：15:49:48" itemprop="dateCreated datePublished" datetime="2022-04-08T12:33:14+08:00">2022-04-08</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -271,8 +267,8 @@
       </span>
       <span class="post-meta-item-text">Disqus：</span>
     
-    <a title="disqus" href="/2022/03/28/Learning-with-drift-detection/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/03/28/Learning-with-drift-detection/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2022/04/08/Unsupervised-Concept-Drift-Detection-with-a-Discriminative-Classifier/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/04/08/Unsupervised-Concept-Drift-Detection-with-a-Discriminative-Classifier/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -286,25 +282,31 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h2 id="摘要-4">摘要</h2>
-<p>机器学习中的大部分工作都是假设样本是根据静态概率分布随机生成的。本文作者主要研究了学习生成样本的类别概率分布从何时开始随着时间变化，提出了一个检测样本概率分布变化的方法。文章的一个中心点就是上下文的概念：一组静态分布的连续样本。本文主要通过控制在线错误率来进行漂移检测。统计学的理论保证了分布是静态是，错误率会下降，分布是动态时，错误率会上涨。对于现实环境，作者还定义了一个警告等级和漂移等级。如果在一系列样本中错误率升高达到了这两个等级，那么就会定义一个新的环境。算法会仅用达到警告等级的那个样本之前的样本作为数据集新训练一个模型。</p>
-<span id="more"></span>
-<h2 id="追踪概念漂移">追踪概念漂移</h2>
-<p>解决概念漂移的方法大致可以分成两类：</p>
+        <h2 id="摘要">摘要</h2>
+<p>作者提出了一个无监督的方法D3，它使用一个带有滑动窗口的分类器通过监视特征空间的变化来检测概念漂移。这个方法可以和已有的分类器一起使用，即便该分类器本身并没有漂移适应机制。</p>
+<h2 id="引言">引言</h2>
+<p>漂移检测主要有两种类型：有监督和无监督。无监督要求数据到了之后标签就要到，有监督则不需要。大多数情况下，有监督方法是检测分类器的表现，当表现下降的时候就说明要发生概念漂移了。而无监督方法主要研究特征的属性。</p>
+<p>本文提出的方法中，通过周期性地训练测试一个分类器来使它能够分别新样本的分布是否和就样本差不多。在批处理设置中与之相类似的问题是训练和测试分布不同的协变量移位适应，用的和本文相近的方法来检测和更正协变量移位。在流处理设置中，本文是第一个提出使用分类器来做漂移检测任务的。</p>
+<h2 id="问题定义">问题定义</h2>
+<p>流分类是发生在数据流中，在时间和内存限制下的监督学习问题。数据流由按序到来的数据$D=\left{(X_0,y_0),(X_1,y_1),\dots,(X_t,y_t),\dots\right}$组成。其中数据的类别$y_t$只有在测试之后才能获取。</p>
+<p>t时刻的概念表示为$p_t(X,y)$，这样漂移检测就变成了一个判断输入X和标签y的联合分布是否和上一个时间步不一样。</p>
+<p><img src="https://i.imgur.com/OiEohiL.png" alt="picture 1"></p>
+<p>漂移检测的初始目标是设计一个能够和分类模型合作的方法，根据检测到的漂移改进模型，从而提供对于数据分布变化的适应性，最终提升模型的分类表现。</p>
+<h2 id="D3（Discriminative-Drift-Detector）方法">D3（Discriminative Drift Detector）方法</h2>
+<p><img src="https://i.imgur.com/dK9AnlV.png" alt="picture 2"></p>
+<p>使用一个固定尺寸的滑动窗口，包含俩个集合，一个为旧数据，一个为新数据。训练一个简单分类器来区分这些集合，然后根据分类表现来判断是否发生漂移。</p>
+<p>理想状态下，可以通过估计他们的分布和计算他们之间的变化（如kl散度）来观察是否发生漂移。但是这在流数据模式下代价很大，因为需要不断重复估计且我们想要即时的结果。我们想要的仅仅是观察新旧集合是否连续不同，而不是估计他们的分布。学习分布之间的差异其实就足够检测概念漂移了。</p>
+<p>作者使用滑动窗口W，旧数据数量为w，新数据数量为wp，其中p是旧数据占新数据的比例。在初始化阶段，整个窗口为空，我们等待它装满。然后开始第一次检查，引入一个自由变量s，旧样本标记为old并且赋值为0，剩下的样本标记为new并且赋值为1。然后用s作为标签训练一个逻辑回归模型作为分类器来分辨old和new。</p>
+<p>使用AUC作为散度的度量，表示模型能分别两个类的能力。如果能很好分辨两个类的话说明发生了漂移，否则说明没有发生。为此，对AUC设置一个阈值$\tau$作为发生漂移的分界。</p>
+<p><img src="https://i.imgur.com/6TMAow7.png" alt="picture 3"></p>
+<p>如前面的过程图所示，分类器分类之后会有两个结果：</p>
 <ol>
-<li>每隔一段时间训练一个新的模型，不需要考虑概念漂移到底有没有发生。</li>
-<li>首先检测概念漂移，然后让模型去学习漂移后的变化。</li>
+<li>AUC大于等于阈值，这时说明发生漂移，然后就需要丢弃所有旧样本，放入新的样本。</li>
+<li>AUC小于等于阈值，这时说明没漂移，丢弃wp(也就是新样本数量)个旧样本，然后放入新样本。</li>
 </ol>
-<p>对于第一种方法可以设置一个时间窗，但是难点在于时间窗的大小，时间窗如果比较小，虽然能很快对概念漂移做出反应，但是在比较稳定的时期会影响模型的表现；如果时间窗比较大，虽然能提供比较好的表现和稳定的结果但是对概念漂移的发生不敏感。</p>
-<p>第二种方法需要检测概念漂移的发生，因此会监控一些指标（比如表现性能，数据属性等）。如果检测到了概念漂移，就会对模型进行调整。如果使用自适应的时间窗的话就会根据概念飘逸的程度进行自动调节。总体规则是，如果概念漂移发生则时间窗要减小，否则时间窗会增大。</p>
-<h2 id="漂移检测方法">漂移检测方法</h2>
-<p>在本文中作者是假设数据一个一个来，当然，要是扩展为一批一批来也很简单。当样本到来时，模型需要做出预测。只有在预测完成之后环境才会给模型一个反馈（这个样本的label）。</p>
-<p>假设存在一组样本$(x_i,y_i)$，对于一个样本集，错误是一个随机变量。n个样本中的一个发生错误的概率服从二项分布。对于序列样本中的每一个时间点i，错误率是观察到错误的概率，$p_i$，标准差为$s_i=\sqrt{\frac{p_i\times (1-p_i)}{i}}$。</p>
-<p>统计学理论保证了即使样本类分布是静态的，错误率会随着样本数量增加而减少。所以如果错误率出现明显上升的时候就表明类分布发生了变化，现在的模型可能已经不适用了。</p>
-<p>考虑到前后环境是静态时概率分布不会发生改变，n&gt;30时的样本错误率的$1-\frac{\alpha}{2}$置信区间大约为$p_i \pm \alpha \times s_i$。参数$\alpha$取决于置信度。漂移检测方法在训练期间会管理两个值$p_{min}$,$s_{min}$。每当新的样本的$p_i+s_i$小于$p_{min}$,$s_{min}$时，都会进行更新。</p>
-<p>作者使用一个警告等级来定义前后环境的合适窗口大小。环境窗口应当包含新环境中的旧样本和旧环境中最少的样本。假设在样本序列中存在一个样本i和其对应的$p_i$。实验中低于置信度95%的时候就会触发警告，即$p_i+s_i \geq p_{min}+2<em>s_{min}$。漂移的置信度设为$99%$，即 $p_i+s_i \geq p_{min}+3</em>s_{min}$ 就认定为发生漂移。如果一组样本中错误率在样本$k_w$的时候达到警告等级，在样本$k_d$的时候达到漂移等级，这时候就会定义一个新的前后环境，该环境从$k_w$开始，并且会用 $k_w$,$k_d$之间的数据新训练一个模型。当然也会存在错误率达到警告等级之后又降下去的现象，我们认为这种现象是错误警告，不需要改变前后环境。下图展示了动态窗口的结构。</p>
-<p><img src="https://i.imgur.com/Se2GUNb.png" alt="picture 14"></p>
-<p>该方法能够被用到任何模型中。能够直接在线上和增量算法中使用。从一个实用观点来看的话，该方法做的就是选择更加符合实际情况的训练集。</p>
+<p>虽然新旧样本的数量是超参数，我们总会把旧样本数量设的更大。因为需要这一部分数据足够描述当前的分布并且尽量能够覆盖多的特征空间。但是也不能太大，否则可能包含多个不同的概念。由于新数据相对来说很少，因此选择一个在类不均衡场景下能够有效工作的度量是非常有必要的，为此作者选择了AUC，因为它适用于这种场景。</p>
+<h2 id="个人感觉这个方法的缺点">个人感觉这个方法的缺点</h2>
+<p>使用滑动窗口的方法存在一个共同缺点就是窗口的选择，窗口过大可能永远不会检测到漂移，过小可能一直检测到漂移。</p>
 
     </div>
 
@@ -318,14 +320,11 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2022/03/27/%E4%BB%8E%E9%9B%B6%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AAgo-web%E6%A1%86%E6%9E%B6%EF%BC%9AGee/" rel="prev" title="从零实现一个go web框架：Gee">
-                  <i class="fa fa-chevron-left"></i> 从零实现一个go web框架：Gee
+                <a href="/2022/04/01/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%88%86%E5%B8%83%E5%BC%8F%E7%BC%93%E5%AD%98/" rel="prev" title="从零开始实现一个分布式缓存">
+                  <i class="fa fa-chevron-left"></i> 从零开始实现一个分布式缓存
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2022/03/28/DDG-DA-Data-Distribution-Generation-for-Predictable-Concept-Drift-Adaptation/" rel="next" title="DDG-DA:Data Distribution Generation for Predictable Concept Drift Adaptation">
-                  DDG-DA:Data Distribution Generation for Predictable Concept Drift Adaptation <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
     </footer>
