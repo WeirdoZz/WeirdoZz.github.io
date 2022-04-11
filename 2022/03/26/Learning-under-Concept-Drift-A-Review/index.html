@@ -24,12 +24,12 @@
   <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"weirdozz.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
-<meta name="description" content="摘要 概念漂移描述的是数据流随时间的潜在分布的不可预见的变化。概念漂移研究的包括漂移检测、理解和适应的方法技术。">
+<meta name="description" content="摘要概念漂移描述的是数据流随时间的潜在分布的不可预见的变化。概念漂移研究的包括漂移检测、理解和适应的方法技术。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Learning under Concept Drift : A Review">
 <meta property="og:url" content="https://weirdozz.github.io/2022/03/26/Learning-under-Concept-Drift-A-Review/index.html">
 <meta property="og:site_name" content="Weirdo">
-<meta property="og:description" content="摘要 概念漂移描述的是数据流随时间的潜在分布的不可预见的变化。概念漂移研究的包括漂移检测、理解和适应的方法技术。">
+<meta property="og:description" content="摘要概念漂移描述的是数据流随时间的潜在分布的不可预见的变化。概念漂移研究的包括漂移检测、理解和适应的方法技术。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://i.imgur.com/n1NjFiv.png">
 <meta property="og:image" content="https://i.imgur.com/ErsAUKE.png">
@@ -162,7 +162,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%91%98%E8%A6%81-5"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E8%A8%80-5"><span class="nav-number">2.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0"><span class="nav-number">3.</span> <span class="nav-text">问题描述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5%E6%BC%82%E7%A7%BB%E7%9A%84%E5%AE%9A%E4%B9%89%E5%92%8C%E6%9D%A5%E6%BA%90"><span class="nav-number">3.1.</span> <span class="nav-text">概念漂移的定义和来源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5%E6%BC%82%E7%A7%BB%E7%9A%84%E7%B1%BB%E5%9E%8B"><span class="nav-number">3.2.</span> <span class="nav-text">概念漂移的类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5%E6%BC%82%E7%A7%BB%E6%A3%80%E6%B5%8B"><span class="nav-number">4.</span> <span class="nav-text">概念漂移检测</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%82%E7%A7%BB%E6%A3%80%E6%B5%8B%E7%9A%84%E6%80%BB%E4%BD%93%E6%A1%86%E6%9E%B6"><span class="nav-number">4.1.</span> <span class="nav-text">漂移检测的总体框架</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5%E6%BC%82%E7%A7%BB%E6%A3%80%E6%B5%8B%E7%AE%97%E6%B3%95"><span class="nav-number">4.2.</span> <span class="nav-text">概念漂移检测算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E9%94%99%E8%AF%AF%E7%8E%87%E7%9A%84%E6%BC%82%E7%A7%BB%E6%A3%80%E6%B5%8B"><span class="nav-number">4.2.1.</span> <span class="nav-text">基于错误率的漂移检测</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E6%95%B0%E6%8D%AE%E5%88%86%E5%B8%83%E7%9A%84%E6%BC%82%E7%A7%BB%E6%A3%80%E6%B5%8B"><span class="nav-number">4.2.2.</span> <span class="nav-text">基于数据分布的漂移检测</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BC%82%E7%A7%BB%E7%9A%84%E9%80%82%E5%BA%94"><span class="nav-number">5.</span> <span class="nav-text">漂移的适应</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%AD%E7%BB%83%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84%E6%A8%A1%E5%9E%8B"><span class="nav-number">5.1.</span> <span class="nav-text">训练一个新的模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E8%81%9A%E5%90%88%EF%BC%88%E7%94%A8%E4%BA%8Erecurring-drift%EF%BC%89"><span class="nav-number">5.2.</span> <span class="nav-text">模型聚合（用于recurring drift）</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%91%98%E8%A6%81"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E8%A8%80"><span class="nav-number">2.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0"><span class="nav-number">3.</span> <span class="nav-text">问题描述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5%E6%BC%82%E7%A7%BB%E7%9A%84%E5%AE%9A%E4%B9%89%E5%92%8C%E6%9D%A5%E6%BA%90"><span class="nav-number">3.1.</span> <span class="nav-text">概念漂移的定义和来源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5%E6%BC%82%E7%A7%BB%E7%9A%84%E7%B1%BB%E5%9E%8B"><span class="nav-number">3.2.</span> <span class="nav-text">概念漂移的类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5%E6%BC%82%E7%A7%BB%E6%A3%80%E6%B5%8B"><span class="nav-number">4.</span> <span class="nav-text">概念漂移检测</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%82%E7%A7%BB%E6%A3%80%E6%B5%8B%E7%9A%84%E6%80%BB%E4%BD%93%E6%A1%86%E6%9E%B6"><span class="nav-number">4.1.</span> <span class="nav-text">漂移检测的总体框架</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5%E6%BC%82%E7%A7%BB%E6%A3%80%E6%B5%8B%E7%AE%97%E6%B3%95"><span class="nav-number">4.2.</span> <span class="nav-text">概念漂移检测算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E9%94%99%E8%AF%AF%E7%8E%87%E7%9A%84%E6%BC%82%E7%A7%BB%E6%A3%80%E6%B5%8B"><span class="nav-number">4.2.1.</span> <span class="nav-text">基于错误率的漂移检测</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E6%95%B0%E6%8D%AE%E5%88%86%E5%B8%83%E7%9A%84%E6%BC%82%E7%A7%BB%E6%A3%80%E6%B5%8B"><span class="nav-number">4.2.2.</span> <span class="nav-text">基于数据分布的漂移检测</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%BC%82%E7%A7%BB%E7%9A%84%E9%80%82%E5%BA%94"><span class="nav-number">5.</span> <span class="nav-text">漂移的适应</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%AD%E7%BB%83%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84%E6%A8%A1%E5%9E%8B"><span class="nav-number">5.1.</span> <span class="nav-text">训练一个新的模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E8%81%9A%E5%90%88%EF%BC%88%E7%94%A8%E4%BA%8Erecurring-drift%EF%BC%89"><span class="nav-number">5.2.</span> <span class="nav-text">模型聚合（用于recurring drift）</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -177,7 +177,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-count">29</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -294,62 +294,48 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h2 id="摘要-5">摘要</h2>
-<p>概念漂移描述的是数据流随时间的潜在分布的不可预见的变化。概念漂移研究的包括漂移检测、理解和适应的方法技术。</p>
+        <h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>概念漂移描述的是数据流随时间的潜在分布的不可预见的变化。概念漂移研究的包括漂移检测、理解和适应的方法技术。</p>
 <span id="more"></span>
-<h2 id="引言-5">引言</h2>
-<p>概念漂移是指模型要预测的目标变量的静态属性会随着时间以一种不可预见的方式变化。一旦概念漂移发生，过去数据所产生的模式将不再适用于新数据，会产生糟糕的性能表现。</p>
+
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>概念漂移是指模型要预测的目标变量的静态属性会随着时间以一种不可预见的方式变化。一旦概念漂移发生，过去数据所产生的模式将不再适用于新数据，会产生糟糕的性能表现。</p>
 <p>概念漂移在现实场景中很常见。比如手机使用行为的变化，如下图，可以看出手机用户使用的分布已经从“打电话”向“照相”再到“联网”做出了变动。</p>
-<p><img src="https://i.imgur.com/n1NjFiv.png" alt="picture 1"></p>
+<p><img src="https://i.imgur.com/n1NjFiv.png" alt="picture 1">  </p>
 <p>近些年的研究致力于更加有挑战性的问题，比如，如何准确地在非结构化并且噪声很强的数据集上检测概念漂移，如何有效地以可解释性的方式理解概念漂移，如何通过相关知识对概念漂移做出反应。解决这些问题能够赋予预测和决定任务在变化场景下的适应能力。</p>
 <p>传统机器学习有两个主要组成部分：训练和预测。在概念漂移下进行学习有三个新组成部分：漂移检测（是否发生漂移）、漂移理解（什么时间，因为什么，在哪里发生漂移）、漂移适应（对已经发生的漂移做出反应），如下图。</p>
-<p><img src="https://i.imgur.com/ErsAUKE.png" alt="picture 2"></p>
-<h2 id="问题描述">问题描述</h2>
-<h3 id="概念漂移的定义和来源">概念漂移的定义和来源</h3>
-<p>概念漂移的首次提出是有学者指出噪音数据在不同的时间会转变成非噪音数据。这些变化可能是由于不可直接衡量的隐变量的变化引起的。通常来说，概念漂移定义如下：<br>
-neq<br>
-给定时间周期[0,t]，一组样本，表示为$S_{0,t}=\left{d_0,\dots,d_t\right}$，其中$d_i=(X_i,y_i)$是一个观测（或者一个数据样本），$X_i$是特征向量，$y_i$是标签，$S_{0,t}$服从特定分布$F_{0,t}(X,y)$。概念漂移发生在时间步t+1，如果$F_{0,t}(X,y)\neq F_{t+1,\infin}(X,y)$，表示为$\exists t:P_t(X,y)\neq P_{t+1}(X,y)$。</p>
-<p>由于概念漂移是由X和y在时间t的联合概率决定的，可以表示为$P_t(X,y)=P_t(X)\times P_{t+1}(y|X)$，那么概念漂移的发生就会有三种原因：</p>
+<p><img src="https://i.imgur.com/ErsAUKE.png" alt="picture 2">  </p>
+<h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><h3 id="概念漂移的定义和来源"><a href="#概念漂移的定义和来源" class="headerlink" title="概念漂移的定义和来源"></a>概念漂移的定义和来源</h3><p>概念漂移的首次提出是有学者指出噪音数据在不同的时间会转变成非噪音数据。这些变化可能是由于不可直接衡量的隐变量的变化引起的。通常来说，概念漂移定义如下：<br>neq<br>给定时间周期[0,t]，一组样本，表示为$S_{0,t}&#x3D;\left{d_0,\dots,d_t\right}$，其中$d_i&#x3D;(X_i,y_i)$是一个观测（或者一个数据样本），$X_i$是特征向量，$y_i$是标签，$S_{0,t}$服从特定分布$F_{0,t}(X,y)$。概念漂移发生在时间步t+1，如果$F_{0,t}(X,y)\neq F_{t+1,\infin}(X,y)$，表示为$\exists t:P_t(X,y)\neq P_{t+1}(X,y)$。</p>
+<p>由于概念漂移是由X和y在时间t的联合概率决定的，可以表示为$P_t(X,y)&#x3D;P_t(X)\times P_{t+1}(y|X)$，那么概念漂移的发生就会有三种原因：</p>
 <ul>
-<li>$P_t(y|X) = P_{t+1}(y|X) \And P_t(X) \neq P_{t+1}(X)$，这种情况下发生变化的仅仅是$P_t(X)$，由于$P_t(X)$的变化不会影响决策边界，这也被认为是虚拟漂移</li>
-<li>$P_t(y|X) \neq P_{t+1}(y|X) \And P_t(X) = P_{t+1}(X)$，这种情况下会导致决策边界的改变并且引发学习进度的下降，被称为事实漂移</li>
+<li>$P_t(y|X) &#x3D; P_{t+1}(y|X) \And P_t(X) \neq P_{t+1}(X)$，这种情况下发生变化的仅仅是$P_t(X)$，由于$P_t(X)$的变化不会影响决策边界，这也被认为是虚拟漂移</li>
+<li>$P_t(y|X) \neq P_{t+1}(y|X) \And P_t(X) &#x3D; P_{t+1}(X)$，这种情况下会导致决策边界的改变并且引发学习进度的下降，被称为事实漂移</li>
 <li>$P_t(y|X) \neq P_{t+1}(y|X) \And P_t(X) \neq P_{t+1}(X)$，概念漂移对两者的改变都比较关注，因为两者的改变都会传递出学习环境的重要信息</li>
 </ul>
-<p><img src="https://i.imgur.com/FRjYUEJ.png" alt="picture 3"></p>
+<p><img src="https://i.imgur.com/FRjYUEJ.png" alt="picture 3">  </p>
 <p>上图展示了这三种漂移的区别。第一种是特征空间的漂移，第二种是决策边界的漂移，而在现实世界中往往两者是同时发生的。</p>
-<h3 id="概念漂移的类型">概念漂移的类型</h3>
-<p>概念漂移通常分为四类，如下图所示：</p>
+<h3 id="概念漂移的类型"><a href="#概念漂移的类型" class="headerlink" title="概念漂移的类型"></a>概念漂移的类型</h3><p>概念漂移通常分为四类，如下图所示：</p>
 <p>对类型1-3的概念漂移适应的研究注重于如何最小化精度下降并且在概念转换的过程中获得最快的恢复速度。相反的，类型4强调使用历史概念，即如何用最短时间找到最佳匹配的历史概念。</p>
-<p><img src="https://i.imgur.com/wBD6Kkr.png" alt="picture 6"></p>
+<p><img src="https://i.imgur.com/wBD6Kkr.png" alt="picture 6">  </p>
 <p>中间概念这个词被用来描述概念之间转变的过程。因为概念漂移的发生并不是在某个精确时间点，它是一个长期的过程。因此中间概念就在这个过程中产生了，他可能是两个概念的混合，比如增量漂移，也可以是其中一个概念，比如渐进漂移。</p>
-<h2 id="概念漂移检测">概念漂移检测</h2>
-<h3 id="漂移检测的总体框架">漂移检测的总体框架</h3>
-<p>漂移检测指的是通过识别变化点或者变化时间间隔描述和量化概念漂移的技术和机制。总体框架包含4个阶段：</p>
+<h2 id="概念漂移检测"><a href="#概念漂移检测" class="headerlink" title="概念漂移检测"></a>概念漂移检测</h2><h3 id="漂移检测的总体框架"><a href="#漂移检测的总体框架" class="headerlink" title="漂移检测的总体框架"></a>漂移检测的总体框架</h3><p>漂移检测指的是通过识别变化点或者变化时间间隔描述和量化概念漂移的技术和机制。总体框架包含4个阶段：</p>
 <ol>
 <li><strong>数据检索</strong>。从数据流中检索数据块。一个单独的数据样本不足以推断数据整体分布，知晓如何组织数据块来形成一个有意义的模式或者知识在数据流分析任务中是非常重要的。</li>
 <li><strong>数据建模</strong>。抽象检索的数据并且提取包含敏感信息的关键特征，即一旦漂移对系统影响比较大的特征。这一阶段是非必须的，因为其主要是降维或者降采样来满足内存和在线速度的需求。</li>
 <li><strong>测试统计数据计算</strong>。不相似度或者距离估计的衡量。量化漂移的严重性并且为假设形成测试统计数据。这是概念漂移检测面临的最有挑战性的方面。</li>
 <li><strong>假设测试</strong>。使用一个特定的假设测试来估计变化的统计学显著性或者p-value。能够判断变化是由于概念漂移造成的而不是噪音或者随机采样的偏差。</li>
 </ol>
-<p><img src="https://i.imgur.com/Qz83MTV.png" alt="picture 7"></p>
-<h3 id="概念漂移检测算法">概念漂移检测算法</h3>
-<h4 id="基于错误率的漂移检测">基于错误率的漂移检测</h4>
-<p>引用量最多的算法是Drift Detection Method（DDM）。这是首个定义了警告等级和漂移等级的算法。</p>
-<p><img src="https://i.imgur.com/aSJI8Bu.png" alt="picture 8"></p>
+<p><img src="https://i.imgur.com/Qz83MTV.png" alt="picture 7">  </p>
+<h3 id="概念漂移检测算法"><a href="#概念漂移检测算法" class="headerlink" title="概念漂移检测算法"></a>概念漂移检测算法</h3><h4 id="基于错误率的漂移检测"><a href="#基于错误率的漂移检测" class="headerlink" title="基于错误率的漂移检测"></a>基于错误率的漂移检测</h4><p>引用量最多的算法是Drift Detection Method（DDM）。这是首个定义了警告等级和漂移等级的算法。</p>
+<p><img src="https://i.imgur.com/aSJI8Bu.png" alt="picture 8">  </p>
 <p>阶段一通过一个时间窗实现的，如上图所示。当新的数据样本能够评估时，DDM会检测时间窗内总体的错误率是否有显著增加。如果观察到的错误率变化达到警告等级，DDM就会开始构建一个新的学习器同时使用旧学习器做预测。如果变化达到漂移等级，旧的学习器就会被新学习器取代。为了获取在线错误率，DDM需要一个分类器来做预测。这个过程将训练数据转变为学习模型，这是第二阶段。阶段3的测试统计数据构成在线错误率。假设检验阶段(第四阶段)通过估计在线错误率的分布，计算预警级别和漂移阈值进行假设检验。</p>
 <p>其他还有很多算法变体，这里就不一一赘述。</p>
-<h4 id="基于数据分布的漂移检测">基于数据分布的漂移检测</h4>
-<p>用一个距离函数来量化历史数据和新数据的分布的差异度。如果度在统计学上存在明显不同，系统就会触发模型升级过程。这些算法不仅能够准确识别漂移时间，也能够提供漂移的位置信息。但是，这些算法往往会需要较高的算力。此外，该类算法还会需要用户预定义历史数据窗口和新数据窗口。通常采用的方法是两个滑动窗口，历史数据的窗口固定而新数据的窗口不断滑动。</p>
-<p><img src="https://i.imgur.com/39QZ3bH.png" alt="picture 9"></p>
-<h2 id="漂移的适应">漂移的适应</h2>
-<h3 id="训练一个新的模型">训练一个新的模型</h3>
-<p><img src="https://i.imgur.com/t8j9ydc.png" alt="picture 10"></p>
-<p>也许应对概念漂移最直接的方法是用最新的数据重新训练一个新的模型来代替过时的模型，如图所示。需要一个明确的概念漂移检测器来决定何时重新训练模型（漂移检测）。该方法通常采用窗口策略来保存最新的数据用于再训练和/或保留旧数据用于分布变化测试。配对学习者遵循这一策略，使用两个学习者：稳定学习者和反应性学习者。如果稳定学习者经常对反应性学习者正确分类的实例进行错误分类，则会检测到一个新的概念，并将稳定学习者替换为反应性学习者。该方法简单易懂，易于实现，可应用于数据流中的任何一点。</p>
+<h4 id="基于数据分布的漂移检测"><a href="#基于数据分布的漂移检测" class="headerlink" title="基于数据分布的漂移检测"></a>基于数据分布的漂移检测</h4><p>用一个距离函数来量化历史数据和新数据的分布的差异度。如果度在统计学上存在明显不同，系统就会触发模型升级过程。这些算法不仅能够准确识别漂移时间，也能够提供漂移的位置信息。但是，这些算法往往会需要较高的算力。此外，该类算法还会需要用户预定义历史数据窗口和新数据窗口。通常采用的方法是两个滑动窗口，历史数据的窗口固定而新数据的窗口不断滑动。</p>
+<p><img src="https://i.imgur.com/39QZ3bH.png" alt="picture 9">  </p>
+<h2 id="漂移的适应"><a href="#漂移的适应" class="headerlink" title="漂移的适应"></a>漂移的适应</h2><h3 id="训练一个新的模型"><a href="#训练一个新的模型" class="headerlink" title="训练一个新的模型"></a>训练一个新的模型</h3><p><img src="https://i.imgur.com/t8j9ydc.png" alt="picture 10">  </p>
+<p>也许应对概念漂移最直接的方法是用最新的数据重新训练一个新的模型来代替过时的模型，如图所示。需要一个明确的概念漂移检测器来决定何时重新训练模型（漂移检测）。该方法通常采用窗口策略来保存最新的数据用于再训练和&#x2F;或保留旧数据用于分布变化测试。配对学习者遵循这一策略，使用两个学习者：稳定学习者和反应性学习者。如果稳定学习者经常对反应性学习者正确分类的实例进行错误分类，则会检测到一个新的概念，并将稳定学习者替换为反应性学习者。该方法简单易懂，易于实现，可应用于数据流中的任何一点。</p>
 <p>当采用基于窗口的策略时，必须进行权衡，以确定合适的窗口大小。小窗口可以更好地反映最新的数据分布，但大窗口为训练新模型提供了更多的数据。ADWIN是一种流行的窗口方案算法，旨在缓解这一问题。与大多数早期的工作不同，它不需要用户预先猜测正在比较的窗口的固定大小；相反，它检查窗口的所有可能的剪切，并根据两个子窗口之间的变化率计算最佳子窗口大小。找到最优窗口切割后，删除包含旧数据的窗口，并用最新的窗口数据训练新模型。</p>
 <p>研究人员并没有直接对模型进行再训练，而是尝试将漂移检测过程与特定机器学习算法的再训练过程结合起来。DELM扩展了传统的ELM算法，通过自适应地调整隐藏层节点的数量来处理概念漂移。当分类错误率增加时（这可能表明概念漂移的出现），更多的节点被添加到网络层以提高其逼近能力。同样，FP-ELM是一种ELM扩展方法，它通过在ELM模型中引入遗忘参数来适应漂移。基于ELM的方法的并行版本也被开发用于概念漂移下的高速分类任务。OS-ELM是另一种在线学习的抑制因子模型集成，它使用有序聚合（OA）技术集成ELM，克服了定义最佳集成规模的问题。</p>
-<h3 id="模型聚合（用于recurring-drift）">模型聚合（用于recurring drift）</h3>
-<p>在重复出现的概念漂移的情况下，保留和重用旧模型可以节省为重复概念重新训练新模型所做的大量工作。这是使用集成方法处理概念漂移的核心思想。近年来，集成方法在流数据挖掘领域受到了广泛的关注。集成方法包括一组可能具有不同类型或不同参数的基本分类器。每个基地的产量分类器是利用一定的投票规则组合起来预测新到达的数据。许多自适应集成方法已经被开发出来，目的是通过扩展经典集成方法或创建特定的自适应投票规则来处理概念漂移。图14示出了一个例子，其中当概念漂移发生时，新的基本分类器被添加到集成中。</p>
-<p><img src="https://i.imgur.com/sLtI8UF.png" alt="picture 11"></p>
+<h3 id="模型聚合（用于recurring-drift）"><a href="#模型聚合（用于recurring-drift）" class="headerlink" title="模型聚合（用于recurring drift）"></a>模型聚合（用于recurring drift）</h3><p>在重复出现的概念漂移的情况下，保留和重用旧模型可以节省为重复概念重新训练新模型所做的大量工作。这是使用集成方法处理概念漂移的核心思想。近年来，集成方法在流数据挖掘领域受到了广泛的关注。集成方法包括一组可能具有不同类型或不同参数的基本分类器。每个基地的产量分类器是利用一定的投票规则组合起来预测新到达的数据。许多自适应集成方法已经被开发出来，目的是通过扩展经典集成方法或创建特定的自适应投票规则来处理概念漂移。图14示出了一个例子，其中当概念漂移发生时，新的基本分类器被添加到集成中。</p>
+<p><img src="https://i.imgur.com/sLtI8UF.png" alt="picture 11">  </p>
 
     </div>
 

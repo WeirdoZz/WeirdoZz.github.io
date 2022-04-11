@@ -24,12 +24,12 @@
   <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"weirdozz.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
-<meta name="description" content="引言 文章主要围绕对仅有少部分节点存在标签的图节点进行分类任务。这个问题可以被认为是基于图的半监督学习，通过某种基于图的正则化来平滑图上的标签信息，比如在损失函数中增加一个图拉普拉斯正则化。  其中$L_0$是有标签部分的损失项，函数f是一个可微函数，$\lambda$是一个权重参数，X是节点的特征向量矩阵，$\delta &#x3D;D-A$是一个未归一化的图拉普拉斯矩阵，A是邻接矩阵，D是度矩阵。**公">
+<meta name="description" content="引言文章主要围绕对仅有少部分节点存在标签的图节点进行分类任务。这个问题可以被认为是基于图的半监督学习，通过某种基于图的正则化来平滑图上的标签信息，比如在损失函数中增加一个图拉普拉斯正则化。    其中$L_0$是有标签部分的损失项，函数f是一个可微函数，$\lambda$是一个权重参数，X是节点的特征向量矩阵，$\delta &#x3D;D-A$是一个未归一化的图拉普拉斯矩阵，A是邻接矩阵，D是度">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Semi-Supervised Classification With Graph Convolutional Networks">
 <meta property="og:url" content="https://weirdozz.github.io/2022/03/20/Semi-Supervised-Classification-With-Graph-Convolutional-Networks/index.html">
 <meta property="og:site_name" content="Weirdo">
-<meta property="og:description" content="引言 文章主要围绕对仅有少部分节点存在标签的图节点进行分类任务。这个问题可以被认为是基于图的半监督学习，通过某种基于图的正则化来平滑图上的标签信息，比如在损失函数中增加一个图拉普拉斯正则化。  其中$L_0$是有标签部分的损失项，函数f是一个可微函数，$\lambda$是一个权重参数，X是节点的特征向量矩阵，$\delta &#x3D;D-A$是一个未归一化的图拉普拉斯矩阵，A是邻接矩阵，D是度矩阵。**公">
+<meta property="og:description" content="引言文章主要围绕对仅有少部分节点存在标签的图节点进行分类任务。这个问题可以被认为是基于图的半监督学习，通过某种基于图的正则化来平滑图上的标签信息，比如在损失函数中增加一个图拉普拉斯正则化。    其中$L_0$是有标签部分的损失项，函数f是一个可微函数，$\lambda$是一个权重参数，X是节点的特征向量矩阵，$\delta &#x3D;D-A$是一个未归一化的图拉普拉斯矩阵，A是邻接矩阵，D是度">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://i.imgur.com/q31vbLg.png">
 <meta property="og:image" content="https://i.imgur.com/dEpVbPD.png">
@@ -170,7 +170,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E8%A8%80-2"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E7%9A%84%E5%BF%AB%E9%80%9F%E8%BF%91%E4%BC%BC%E5%8D%B7%E7%A7%AF"><span class="nav-number">2.</span> <span class="nav-text">图的快速近似卷积</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%B1%E5%9B%BE%E5%8D%B7%E7%A7%AF"><span class="nav-number">2.1.</span> <span class="nav-text">谱图卷积</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%90%E5%B1%82%E7%9A%84%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.2.</span> <span class="nav-text">逐层的线性模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E7%9B%91%E7%9D%A3%E8%8A%82%E7%82%B9%E5%88%86%E7%B1%BB"><span class="nav-number">3.</span> <span class="nav-text">自监督节点分类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BE%E4%BE%8B"><span class="nav-number">3.1.</span> <span class="nav-text">举例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E7%AB%A0%E4%B8%AD%E5%85%AC%E5%BC%8F%E7%9A%84%E8%AF%A6%E7%BB%86%E7%90%86%E8%A7%A3"><span class="nav-number">4.</span> <span class="nav-text">文章中公式的详细理解</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%BE%E7%9A%84%E5%BF%AB%E9%80%9F%E8%BF%91%E4%BC%BC%E5%8D%B7%E7%A7%AF"><span class="nav-number">2.</span> <span class="nav-text">图的快速近似卷积</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%B1%E5%9B%BE%E5%8D%B7%E7%A7%AF"><span class="nav-number">2.1.</span> <span class="nav-text">谱图卷积</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%90%E5%B1%82%E7%9A%84%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.2.</span> <span class="nav-text">逐层的线性模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E7%9B%91%E7%9D%A3%E8%8A%82%E7%82%B9%E5%88%86%E7%B1%BB"><span class="nav-number">3.</span> <span class="nav-text">自监督节点分类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BE%E4%BE%8B"><span class="nav-number">3.1.</span> <span class="nav-text">举例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E7%AB%A0%E4%B8%AD%E5%85%AC%E5%BC%8F%E7%9A%84%E8%AF%A6%E7%BB%86%E7%90%86%E8%A7%A3"><span class="nav-number">4.</span> <span class="nav-text">文章中公式的详细理解</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -185,7 +185,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-count">29</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -302,10 +302,9 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h2 id="引言-2">引言</h2>
-<p>文章主要围绕对仅有少部分节点存在标签的图节点进行分类任务。这个问题可以被认为是基于图的半监督学习，通过某种基于图的正则化来平滑图上的标签信息，比如在损失函数中增加一个图拉普拉斯正则化。</p>
-<p><img src="https://i.imgur.com/q31vbLg.png" alt="picture 44"></p>
-<p>其中$L_0$是有标签部分的损失项，函数f是一个可微函数，$\lambda$是一个权重参数，X是节点的特征向量矩阵，$\delta =D-A$是一个未归一化的图拉普拉斯矩阵，A是邻接矩阵，D是度矩阵。**公式一是居于相邻节点可能会共享相同标签的假设下的。**然而这种假设会限制模型的能力，因为图的边不一定是表示节点相似性的，可能是不相似性！</p>
+        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>文章主要围绕对仅有少部分节点存在标签的图节点进行分类任务。这个问题可以被认为是基于图的半监督学习，通过某种基于图的正则化来平滑图上的标签信息，比如在损失函数中增加一个图拉普拉斯正则化。</p>
+<p><img src="https://i.imgur.com/q31vbLg.png" alt="picture 44">  </p>
+<p>其中$L_0$是有标签部分的损失项，函数f是一个可微函数，$\lambda$是一个权重参数，X是节点的特征向量矩阵，$\delta &#x3D;D-A$是一个未归一化的图拉普拉斯矩阵，A是邻接矩阵，D是度矩阵。<strong>公式一是居于相邻节点可能会共享相同标签的假设下的。</strong>然而这种假设会限制模型的能力，因为图的边不一定是表示节点相似性的，可能是不相似性！</p>
 <p>文中作者直接使用神经网络模型$f(X,A)$来编码整个图结构并且在所有有监督的节点上获取loss进行训练，因此就避免了损失函数中基于图的显示正则化。在图的邻接矩阵上调节函数f会使得模型能够从监督损失中分配梯度信息并且使它既能学习有标签也能学习无标签节点的表示。</p>
 <p>主要贡献有两点：</p>
 <ol>
@@ -313,42 +312,37 @@
 <li>解释了这种模型是如何应用于快速且可扩展的节点半监督分类任务中的。</li>
 </ol>
 <span id="more"></span>
-<h2 id="图的快速近似卷积">图的快速近似卷积</h2>
-<p>下面是本文中GCN的逐层传播规则：</p>
-<p><img src="https://i.imgur.com/dEpVbPD.png" alt="picture 51"></p>
-<p>其中$\widetilde{A}=A+I_N$是带有自连接的邻接矩阵，$\tilde{D}$就是根据$\tilde{A}$的来的度矩阵，$W^{(l)}$是各层独立的可训练的权重参数，$\sigma$是激活函数，$H^{(l)} \in R^{N \times D}$是第l层的隐藏状态矩阵,$H^{(0)}=X$。</p>
-<h3 id="谱图卷积">谱图卷积</h3>
-<p>谱卷积定义为信号x和过滤器$g_\theta \times =Ug_\theta U^Tx $在傅里叶域上的乘法</p>
-<p><img src="https://i.imgur.com/c7vuiU7.png" alt="picture 52"></p>
-<p>其中U是归一化拉普拉斯的特征向量组成的矩阵，$L=L_N-D^{- \frac{1}{2}}AD^{- \frac{1}{2}}=U\Lambda U^T$，$U^Tx$是对x的图傅里叶转换。我们可以将$g_\theta$理解成对L的特征值的函数，比如$g_\theta(\Lambda)$。但是计算公式3的计算成本太高，并且对于大的图更是如此。为此，有人提出$g_\theta (\Lambda)$可以由车比雪夫多项式的前k部分估计出来</p>
-<p><img src="https://i.imgur.com/L1Monm9.png" alt="picture 53"></p>
-<p>其中$\tilde{\Lambda}=\frac{2}{\lambda_{max}} \Lambda - I_N$，$\lambda_{max}$是L的最大特征值。车比雪夫多项式可以递归地定义为$T_k(x)=2xT_{k-1}(x)-T_{k-2}(x)$,其中$T_0(x)=1$,$T_1(x)=x$。</p>
+
+<h2 id="图的快速近似卷积"><a href="#图的快速近似卷积" class="headerlink" title="图的快速近似卷积"></a>图的快速近似卷积</h2><p>下面是本文中GCN的逐层传播规则：</p>
+<p><img src="https://i.imgur.com/dEpVbPD.png" alt="picture 51">  </p>
+<p>其中$\widetilde{A}&#x3D;A+I_N$是带有自连接的邻接矩阵，$\tilde{D}$就是根据$\tilde{A}$的来的度矩阵，$W^{(l)}$是各层独立的可训练的权重参数，$\sigma$是激活函数，$H^{(l)} \in R^{N \times D}$是第l层的隐藏状态矩阵,$H^{(0)}&#x3D;X$。</p>
+<h3 id="谱图卷积"><a href="#谱图卷积" class="headerlink" title="谱图卷积"></a>谱图卷积</h3><p>谱卷积定义为信号x和过滤器$g_\theta \times &#x3D;Ug_\theta U^Tx $在傅里叶域上的乘法</p>
+<p><img src="https://i.imgur.com/c7vuiU7.png" alt="picture 52">  </p>
+<p>其中U是归一化拉普拉斯的特征向量组成的矩阵，$L&#x3D;L_N-D^{- \frac{1}{2}}AD^{- \frac{1}{2}}&#x3D;U\Lambda U^T$，$U^Tx$是对x的图傅里叶转换。我们可以将$g_\theta$理解成对L的特征值的函数，比如$g_\theta(\Lambda)$。但是计算公式3的计算成本太高，并且对于大的图更是如此。为此，有人提出$g_\theta (\Lambda)$可以由车比雪夫多项式的前k部分估计出来</p>
+<p><img src="https://i.imgur.com/L1Monm9.png" alt="picture 53">  </p>
+<p>其中$\tilde{\Lambda}&#x3D;\frac{2}{\lambda_{max}} \Lambda - I_N$，$\lambda_{max}$是L的最大特征值。车比雪夫多项式可以递归地定义为$T_k(x)&#x3D;2xT_{k-1}(x)-T_{k-2}(x)$,其中$T_0(x)&#x3D;1$,$T_1(x)&#x3D;x$。</p>
 <p>回到我们的定义上，现在我们有</p>
-<p><img src="https://i.imgur.com/sWHyYb3.png" alt="picture 54"></p>
+<p><img src="https://i.imgur.com/sWHyYb3.png" alt="picture 54">  </p>
 <p>可以看出这个表达式只关心节点的k阶邻居，这使得它的计算复杂度直线下降。</p>
-<h3 id="逐层的线性模型">逐层的线性模型</h3>
-<p>因此根据公式5可以堆叠多个基于图卷积的神经网络层，每一层之后更一个逐点的非线性层。现在我们对逐层的卷积操作进行限制，使它只关注一阶邻居，即K=1，这样的话就是在拉普拉斯图谱上进行一个线性操作。</p>
+<h3 id="逐层的线性模型"><a href="#逐层的线性模型" class="headerlink" title="逐层的线性模型"></a>逐层的线性模型</h3><p>因此根据公式5可以堆叠多个基于图卷积的神经网络层，每一层之后更一个逐点的非线性层。现在我们对逐层的卷积操作进行限制，使它只关注一阶邻居，即K&#x3D;1，这样的话就是在拉普拉斯图谱上进行一个线性操作。</p>
 <p>用这种方式仍然可以通过叠加这样的层来恢复丰富的卷积滤波器函数。我们期望这种模型能够减轻在图的局部邻接关系上的过拟合问题。此外，这样的逐层线性转化使我们能够构建更深的模型。</p>
-<p>我们近似将$\lambda =2$，这样公式5就可以简化为：</p>
-<p><img src="https://i.imgur.com/LXQcZ2B.png" alt="picture 55"></p>
+<p>我们近似将$\lambda &#x3D;2$，这样公式5就可以简化为：</p>
+<p><img src="https://i.imgur.com/LXQcZ2B.png" alt="picture 55">  </p>
 <p>实际应用中我们可以限制参数的数量来解决过拟合问题，并且最小化每一层的计算量。这样我们可以得到以下公式</p>
-<p><img src="https://i.imgur.com/BNLrisG.png" alt="picture 56"></p>
-<p>其中$\theta =\theta_{1}^{‘} =-\theta_{1}^{’}$。但是重复这一操作会导致数值不稳定出现梯度消失/爆炸。为了解决这一问题，这里做了个小trick，邻接矩阵使用包含自邻接关系，度矩阵也包含自邻接关系。</p>
+<p><img src="https://i.imgur.com/BNLrisG.png" alt="picture 56">  </p>
+<p>其中$\theta &#x3D;\theta_{1}^{‘} &#x3D;-\theta_{1}^{‘}$。但是重复这一操作会导致数值不稳定出现梯度消失&#x2F;爆炸。为了解决这一问题，这里做了个小trick，邻接矩阵使用包含自邻接关系，度矩阵也包含自邻接关系。</p>
 <p>这样我们就可以将具有C个输入通道的信号矩阵$X\in R^{N\times C}$和过滤器或者特征图定义为下式</p>
-<p><img src="https://i.imgur.com/jJj90Ec.png" alt="picture 57"></p>
-<h2 id="自监督节点分类">自监督节点分类</h2>
-<h3 id="举例">举例</h3>
-<p>我们假设一个两层的GCN用于半监督节点分类。我们先在一个预处理步骤中计算出$\tilde{A}=\tilde{D}^{-\frac{1}{2}}\tilde{A}\tilde{D}^{-\frac{1}{2}}$。前向传播公式如下</p>
-<p><img src="https://i.imgur.com/h5iMkZD.png" alt="picture 58"></p>
+<p><img src="https://i.imgur.com/jJj90Ec.png" alt="picture 57">  </p>
+<h2 id="自监督节点分类"><a href="#自监督节点分类" class="headerlink" title="自监督节点分类"></a>自监督节点分类</h2><h3 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h3><p>我们假设一个两层的GCN用于半监督节点分类。我们先在一个预处理步骤中计算出$\tilde{A}&#x3D;\tilde{D}^{-\frac{1}{2}}\tilde{A}\tilde{D}^{-\frac{1}{2}}$。前向传播公式如下</p>
+<p><img src="https://i.imgur.com/h5iMkZD.png" alt="picture 58">  </p>
 <p>其中，$W^{(0)}\in R^{C\times H}$是第一个隐藏层的参数，$W^{(1)}\in R^{H\times F}$是输出层的参数。然后我们在所有的有标签样本上计算交叉熵损失</p>
-<p><img src="https://i.imgur.com/Jtsg0ac.png" alt="picture 59"></p>
+<p><img src="https://i.imgur.com/Jtsg0ac.png" alt="picture 59">  </p>
 <p>下图是图卷积层的示意图</p>
-<p><img src="https://i.imgur.com/JGUN9Vu.png" alt="picture 60"></p>
-<h2 id="文章中公式的详细理解">文章中公式的详细理解</h2>
-<p>首先我们有了一张图和他的基本信息，注意这里每个节点的向量可以是通过一些embeding方式得到的，不是重点。</p>
-<p><img src="https://i.imgur.com/ldUPSX0.png" alt="picture 61"></p>
+<p><img src="https://i.imgur.com/JGUN9Vu.png" alt="picture 60">  </p>
+<h2 id="文章中公式的详细理解"><a href="#文章中公式的详细理解" class="headerlink" title="文章中公式的详细理解"></a>文章中公式的详细理解</h2><p>首先我们有了一张图和他的基本信息，注意这里每个节点的向量可以是通过一些embeding方式得到的，不是重点。</p>
+<p><img src="https://i.imgur.com/ldUPSX0.png" alt="picture 61">  </p>
 <p>那我们怎么获取到周遭节点的信息来辅助更新本节点的信息呢？可以用邻接矩阵和全部节点的特征组成的矩阵进行乘法，下图可以直观地展示出为什么能够获得邻居节点的信息</p>
-<p><img src="https://i.imgur.com/LPPsfou.png" alt="picture 13"></p>
+<p><img src="https://i.imgur.com/LPPsfou.png" alt="picture 13">  </p>
 <p>当然，这样做还是有缺点的：</p>
 <ol>
 <li>缺少该节点本身的特征信息</li>
@@ -356,14 +350,14 @@
 </ol>
 <p>对于问题一解决办法很简单，邻接矩阵包含自邻接信息就可以了。</p>
 <p>对于问题二，一般做矩阵的缩放是乘以一个对角阵实现的。自然而然我们会想到使用度矩阵来实现。这里的度矩阵同样应该是包含自邻接关系的。使用度矩阵的逆，就可以实现邻接节点特征求和之后的取平均了。如下图所示</p>
-<p><img src="https://i.imgur.com/ZqluyWD.png" alt="picture 63"></p>
+<p><img src="https://i.imgur.com/ZqluyWD.png" alt="picture 63">  </p>
 <p>但是我们会发现，因为对角阵是在邻接矩阵左边乘的，所以实际上，只是用了$D_{ii}$对邻接矩阵的行进行了缩放，而没有对列进行。如下图所示</p>
-<p><img src="https://i.imgur.com/rDiJJK0.png" alt="picture 64"></p>
+<p><img src="https://i.imgur.com/rDiJJK0.png" alt="picture 64">  </p>
 <p>既然如此，我们可以尝试在右边再乘一个度矩阵的逆，这样不就行列都能得到缩放了吗？但是需要注意这里的原理是邻接矩阵是一个对称阵，所以其第i行和第i列是一样的，因此才可以这么做。</p>
-<p><img src="https://i.imgur.com/qYMvgrE.png" alt="picture 65"></p>
+<p><img src="https://i.imgur.com/qYMvgrE.png" alt="picture 65">  </p>
 <p>新的缩放方法给出了一个平均的权重，我们做的改进就是让他对邻接关系少的节点赋予更高的权重，这样能够减少邻接关系多的节点的影响。</p>
 <p>需要注意，我们对缩放矩阵进行归一化的时候一般做两次，一次对行一次对列，这是最常用的方式。也是文中作者使用的方式。</p>
-<p><img src="https://i.imgur.com/kphpELZ.png" alt="picture 66"></p>
+<p><img src="https://i.imgur.com/kphpELZ.png" alt="picture 66">  </p>
 <p>卷积层的数量意味着一个节点的特征能够传播的距离。假如我们只有一层的话，那只能获取到邻居的信息，所有节点同时聚合自己邻居的信息。但如果我们堆叠多层，一个节点的邻居就能够包含其自身邻居的信息，经过聚合后当前节点就能够获得更远的节点的信息。</p>
 <p>但是一般我们不希望有太多层，经过6-7次跳跃，我们几乎已经可以聚合整张图的信息了。</p>
 

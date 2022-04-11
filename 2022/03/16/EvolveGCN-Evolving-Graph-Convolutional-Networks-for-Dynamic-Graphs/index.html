@@ -24,12 +24,12 @@
   <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"weirdozz.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
-<meta name="description" content="摘要 归功于对于欧几里得数据（排列整齐，能够很容易找到邻居节点，就在旁边不偏不倚，如图片、视频、语音等）的深度学习的广泛使用，在非欧几里得领域出现了许多有创造性的神经网络，作为其中的代表，图表示学习慢慢回到主流研究方向。随着图神经网络在静态场景下应用的成功，作者更进一步接近实际应用场景，其中的图是动态变化的。现存的方法主要是应用节点嵌入并且用RNN来规范嵌入从而学习时间动态性。这些方法需要知道节点">
+<meta name="description" content="摘要归功于对于欧几里得数据（排列整齐，能够很容易找到邻居节点，就在旁边不偏不倚，如图片、视频、语音等）的深度学习的广泛使用，在非欧几里得领域出现了许多有创造性的神经网络，作为其中的代表，图表示学习慢慢回到主流研究方向。随着图神经网络在静态场景下应用的成功，作者更进一步接近实际应用场景，其中的图是动态变化的。现存的方法主要是应用节点嵌入并且用RNN来规范嵌入从而学习时间动态性。这些方法需要知道节点在">
 <meta property="og:type" content="article">
 <meta property="og:title" content="EvolveGCN:Evolving Graph Convolutional Networks for Dynamic Graphs">
 <meta property="og:url" content="https://weirdozz.github.io/2022/03/16/EvolveGCN-Evolving-Graph-Convolutional-Networks-for-Dynamic-Graphs/index.html">
 <meta property="og:site_name" content="Weirdo">
-<meta property="og:description" content="摘要 归功于对于欧几里得数据（排列整齐，能够很容易找到邻居节点，就在旁边不偏不倚，如图片、视频、语音等）的深度学习的广泛使用，在非欧几里得领域出现了许多有创造性的神经网络，作为其中的代表，图表示学习慢慢回到主流研究方向。随着图神经网络在静态场景下应用的成功，作者更进一步接近实际应用场景，其中的图是动态变化的。现存的方法主要是应用节点嵌入并且用RNN来规范嵌入从而学习时间动态性。这些方法需要知道节点">
+<meta property="og:description" content="摘要归功于对于欧几里得数据（排列整齐，能够很容易找到邻居节点，就在旁边不偏不倚，如图片、视频、语音等）的深度学习的广泛使用，在非欧几里得领域出现了许多有创造性的神经网络，作为其中的代表，图表示学习慢慢回到主流研究方向。随着图神经网络在静态场景下应用的成功，作者更进一步接近实际应用场景，其中的图是动态变化的。现存的方法主要是应用节点嵌入并且用RNN来规范嵌入从而学习时间动态性。这些方法需要知道节点在">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://i.imgur.com/JWHAXje.png">
 <meta property="og:image" content="https://i.imgur.com/fpWN55x.png">
@@ -180,7 +180,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-count">29</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -297,12 +297,10 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h2 id="摘要">摘要</h2>
-<p>归功于对于欧几里得数据（排列整齐，能够很容易找到邻居节点，就在旁边不偏不倚，如图片、视频、语音等）的深度学习的广泛使用，在非欧几里得领域出现了许多有创造性的神经网络，作为其中的代表，图表示学习慢慢回到主流研究方向。随着图神经网络在静态场景下应用的成功，作者更进一步接近实际应用场景，其中的图是动态变化的。现存的方法主要是应用节点嵌入并且用RNN来规范嵌入从而学习时间动态性。这些方法需要知道节点在整个时间跨度上的信息而且不能用于频繁变化的节点集。在一些极端场景下，节点集在不同的时间步上可能是完全不同的。</p>
+        <h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>归功于对于欧几里得数据（排列整齐，能够很容易找到邻居节点，就在旁边不偏不倚，如图片、视频、语音等）的深度学习的广泛使用，在非欧几里得领域出现了许多有创造性的神经网络，作为其中的代表，图表示学习慢慢回到主流研究方向。随着图神经网络在静态场景下应用的成功，作者更进一步接近实际应用场景，其中的图是动态变化的。现存的方法主要是应用节点嵌入并且用RNN来规范嵌入从而学习时间动态性。这些方法需要知道节点在整个时间跨度上的信息而且不能用于频繁变化的节点集。在一些极端场景下，节点集在不同的时间步上可能是完全不同的。</p>
 <p>为了解决这个问题，作者提出EvolveGCN，跟着时间维度调节图卷积网络而不需要使用节点嵌入。该方法通过RNN来获取图序列的动态从而调整GCN的参数。参数的调整考虑到了两种结构。</p>
 <p>作者在连接预测、边分类和节点分类三个任务上评估了提出的方法，效果相当好。<a target="_blank" rel="noopener" href="https://github.com/IBM/EvolveGCN">github开源代码链接</a></p>
-<h2 id="引言">引言</h2>
-<p>图是无处不在的数据结构，用于对实体间的成对交互进行建模。相较于欧几里得数据，通过图进行学习会遭遇很多独特的问题，包括他们的组合性质和可扩展性瓶颈。</p>
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>图是无处不在的数据结构，用于对实体间的成对交互进行建模。相较于欧几里得数据，通过图进行学习会遭遇很多独特的问题，包括他们的组合性质和可扩展性瓶颈。</p>
 <p>目前使用图学习的神经网络主要集中于给定的静态图。而在现实应用中，图结构通常是动态的（比如一个人的社交网络是会随着时间不断改变的）。这种情况下需要更新节点嵌入来获取其变化。</p>
 <p>作者基于用于静态图的图神经网络，通过引入循环机制来更新网络参数从而应用于动态场景。<strong>大量的 GNN 通过递归地聚合来自单跳邻域的节点嵌入来执行信息融合</strong>。网络的大部分参数是每一层中节点嵌入的线性变换。</p>
 <p>许多相近的方法都是使用GNN来提取特征然后使用RNN来学习提取到的特征（节点嵌入）中的序列信息。最后为时间轴上所有的图学习到一个单一的GNN模型。这些模型的缺点在于他们需要获取节点在整个时间跨度上的信息并且难以保证在未来某个新节点上的表现。</p>
@@ -310,63 +308,53 @@
 <p>为了解决这些问题，作者提出了在每一个时间步上使用RNN来调节GCN模型的参数。这个方法能够高效地执行模型调整，集中于模型本身而非节点嵌入。因此，不限制节点位置的改变。此外，对于未来图中会出现的新节点EvolceGCN仍然很敏感。</p>
 <p>注意，GCN的参数是不训练的，他们是根据RNN得来的，因此只有RNN的参数是训练得来的。通过这种方式，参数的数量不会随着时间增加而增加而且模型就像一个经典RNN一样可控。</p>
 <span id="more"></span>
-<h2 id="方法">方法</h2>
-<p>作者用下标$t$作为时间索引，上标$l$作为GCN层索引。为了避免符号混乱，作者假设所有的图都有n个节点。在时间步$t$上，输入数据由一对$(A_t \in R^{n \times n},X_t \in R^{n \times d})$组成，其中前者是图邻接矩阵，后者是输入节点的特征矩阵。$X_t$的每一行都是一个相应节点的d维特征向量。</p>
-<h3 id="图卷积神经网络（GCN）">图卷积神经网络（GCN）</h3>
-<p>一个GCN由多个图卷积层构成，和感知器类似，但是额外多一个由频谱卷积驱动的邻域聚合步骤。在时间步t时，第l层获取到邻接矩阵$A_t$和节点嵌入矩阵$H_t^{(l)}$作为输入，然后使用权重矩阵$W_t^{(l)}$来更新节点嵌入矩阵，使其变为$H_t^{(l+1)}$作为输出。数学上可以表示为</p>
-<p><img src="https://i.imgur.com/JWHAXje.png" alt="picture 19"></p>
+
+<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><p>作者用下标$t$作为时间索引，上标$l$作为GCN层索引。为了避免符号混乱，作者假设所有的图都有n个节点。在时间步$t$上，输入数据由一对$(A_t \in R^{n \times n},X_t \in R^{n \times d})$组成，其中前者是图邻接矩阵，后者是输入节点的特征矩阵。$X_t$的每一行都是一个相应节点的d维特征向量。</p>
+<h3 id="图卷积神经网络（GCN）"><a href="#图卷积神经网络（GCN）" class="headerlink" title="图卷积神经网络（GCN）"></a>图卷积神经网络（GCN）</h3><p>一个GCN由多个图卷积层构成，和感知器类似，但是额外多一个由频谱卷积驱动的邻域聚合步骤。在时间步t时，第l层获取到邻接矩阵$A_t$和节点嵌入矩阵$H_t^{(l)}$作为输入，然后使用权重矩阵$W_t^{(l)}$来更新节点嵌入矩阵，使其变为$H_t^{(l+1)}$作为输出。数学上可以表示为</p>
+<p><img src="https://i.imgur.com/JWHAXje.png" alt="picture 19">  </p>
 <p>其中$\widehat{A}_{t}$是$A_t$的正规化，其定义为</p>
-<p>$$<br>
-\widehat{A}=\widetilde{D}^{-\frac{1}{2} } \widetilde{A} \widetilde{D}^{-\frac{1}{2} }, \quad \widetilde{A}=A+I, \quad \widetilde{D}=\operatorname{diag}\left(\sum_{j} \widetilde{A}_{i j}\right)<br>
-$$</p>
-<p>$\sigma$是激活函数（比如ReLU），要添加到除了输出层之外的所有层。嵌入矩阵的初始值维节点特征，比如（$H_t^{(0)}$=X_t）。如果存在L个图卷积层，对于输出层而言，$\sigma$是恒等函数，不做任何变换，此时$H_t^{(L)}$包含了图节点从初始特征开始的变换的高级表示；或者也可以是softmax函数，$H_t^{(L)}$是预测概率。</p>
+<p>$$<br>\widehat{A}&#x3D;\widetilde{D}^{-\frac{1}{2} } \widetilde{A} \widetilde{D}^{-\frac{1}{2} }, \quad \widetilde{A}&#x3D;A+I, \quad \widetilde{D}&#x3D;\operatorname{diag}\left(\sum_{j} \widetilde{A}_{i j}\right)<br>$$</p>
+<p>$\sigma$是激活函数（比如ReLU），要添加到除了输出层之外的所有层。嵌入矩阵的初始值维节点特征，比如（$H_t^{(0)}$&#x3D;X_t）。如果存在L个图卷积层，对于输出层而言，$\sigma$是恒等函数，不做任何变换，此时$H_t^{(L)}$包含了图节点从初始特征开始的变换的高级表示；或者也可以是softmax函数，$H_t^{(L)}$是预测概率。</p>
 <p>下图是EvolveGCN的示意图，每一个时间步都包含一个由时间索引的GCN。GCN的参数是权重矩阵$W_t^{(l)}$，不同时间步t和不同层其值会不同。</p>
-<p><img src="https://i.imgur.com/fpWN55x.png" alt="picture 1"></p>
+<p><img src="https://i.imgur.com/fpWN55x.png" alt="picture 1">  </p>
 <p>图卷积会在特定时间发生但是会沿着卷积层生成新的信息。下图解释了每一层的计算过程。$H_t^{(l)}$,$W_t^{(l)}$和$H_t{(l+1)}$的关系在图的中间部分有解释。</p>
-<p><img src="https://i.imgur.com/rT6G3TJ.png" alt="picture 2"></p>
-<h3 id="GCN参数的调节">GCN参数的调节</h3>
-<p>本文方法的核心在于GCN的参数（也就是变换矩阵$W_t^{(l)}$）在时间步t上基于现在和历史信息的更新。为了实现这个目标，有两种使用RNN的选择：</p>
+<p><img src="https://i.imgur.com/rT6G3TJ.png" alt="picture 2">  </p>
+<h3 id="GCN参数的调节"><a href="#GCN参数的调节" class="headerlink" title="GCN参数的调节"></a>GCN参数的调节</h3><p>本文方法的核心在于GCN的参数（也就是变换矩阵$W_t^{(l)}$）在时间步t上基于现在和历史信息的更新。为了实现这个目标，有两种使用RNN的选择：</p>
 <ol>
 <li>将$W_t^{l}$视为动态系统的隐藏层。作者使用GRU来更新隐藏层。输入信息是节点嵌入矩阵$H_t^{l}$。可以解释为：</li>
 </ol>
-<p><img src="https://i.imgur.com/p6Tx3VC.png" alt="picture 21"></p>
+<p><img src="https://i.imgur.com/p6Tx3VC.png" alt="picture 21">  </p>
 <p>这里的GRU可以替换为其他的RNN结构，只要对于$W_t^{l}$,$H_t^{l}$和$W_{t-1}^{(l)}$的定义是清晰的就可以。上图中的-H版本就是这个方法。</p>
 <ol start="2">
 <li>将$W_t^{(l)}$作为动态系统的输出（在下一个时间步又会变成输入）。作者在这里使用的是LSTM。LSTM通过使用context cell本身就包含了系统信息，类似于GRU中的隐藏层。在这个RNN结构中，节点嵌入矩阵是用不到的，可以解释为：</li>
 </ol>
-<p><img src="https://i.imgur.com/CBDoEIg.png" alt="picture 22"></p>
+<p><img src="https://i.imgur.com/CBDoEIg.png" alt="picture 22">  </p>
 <p>同样这里LSTM也可以替换成别的结构。</p>
-<h3 id="进化图卷积单元">进化图卷积单元</h3>
-<p>将上面两小节的结构相结合就得到最总的EGCU。基于GCN中变换矩阵的变化方式，可以有两种版本：</p>
-<p><img src="https://i.imgur.com/QtUQb8v.png" alt="picture 3"></p>
+<h3 id="进化图卷积单元"><a href="#进化图卷积单元" class="headerlink" title="进化图卷积单元"></a>进化图卷积单元</h3><p>将上面两小节的结构相结合就得到最总的EGCU。基于GCN中变换矩阵的变化方式，可以有两种版本：</p>
+<p><img src="https://i.imgur.com/QtUQb8v.png" alt="picture 3">  </p>
 <p>将这些EGCU从下至上地进行连接，就能获得一个时间步上多层的GCN。之后随着时间变化再水平铺开，这些EGCU就会形成一个$H_t^{(l)}$和$W_t^{(l)}$的变化信息流。</p>
-<h3 id="GRU版本的实现">GRU版本的实现</h3>
-<p>可以使用标准GRU实现，但是需要做两个扩展：</p>
+<h3 id="GRU版本的实现"><a href="#GRU版本的实现" class="headerlink" title="GRU版本的实现"></a>GRU版本的实现</h3><p>可以使用标准GRU实现，但是需要做两个扩展：</p>
 <ol>
 <li>将输入从向量扩展为矩阵（因为隐藏层是GCN的参数）</li>
 <li>将输入的列数和隐藏层的列数相匹配</li>
 </ol>
 <p>扩展为矩阵很直接：只需要简单地将列向量一个接一个排在一起形成矩阵。换句话说，用相同的GRU来处理GCN参数的每一列。作者通过以下算法实现这个功能，其中所有的变量都是局部变量。</p>
-<p><img src="https://i.imgur.com/lHkt56O.png" alt="picture 4"></p>
+<p><img src="https://i.imgur.com/lHkt56O.png" alt="picture 4">  </p>
 <p>假设隐状态的列数为k，作者的方法是将所有节点嵌入向量汇总为k个代表向量。下方的算法给出了一个比较常用的汇总方法。通过这个方法将矩阵$X_t$视为输入并且产生一个只有k行的矩阵$Z_t$。该方法需要一个参数向量p，并且要独立于时间轴t。这个向量用于计算行的权重，其中有着最高权重的k行被选为输出</p>
-<p><img src="https://i.imgur.com/VEr6QwK.png" alt="picture 3"></p>
+<p><img src="https://i.imgur.com/VEr6QwK.png" alt="picture 3">  </p>
 <p>通过上面两个函数g和summarize我们就可以总结出RNN结构的具体工作内容</p>
-<p><img src="https://i.imgur.com/KDVVeck.png" alt="picture 23"></p>
-<h4 id="GRU基本原理">GRU基本原理</h4>
-<p><img src="https://i.imgur.com/oLQtJQv.png" alt="picture 12"></p>
+<p><img src="https://i.imgur.com/KDVVeck.png" alt="picture 23">  </p>
+<h4 id="GRU基本原理"><a href="#GRU基本原理" class="headerlink" title="GRU基本原理"></a>GRU基本原理</h4><p><img src="https://i.imgur.com/oLQtJQv.png" alt="picture 12">  </p>
 <p>如上图所示是一个基本的GRU工作中的一环，GRU本身有两个门重置门和更新门。</p>
 <p>可以这么理解，每个门中有三个参数，对当前输入做变换的变换矩阵$W_1$，对上一时刻传过来的隐状态做变换的变换矩阵$W_2$,和一个偏置值。此外还有一个候选隐状态的控制参数，也是由这三个类型的数据组成的。</p>
 <p>经过这两个门的转换之后，可以得到两个矩阵重置门矩阵R和更新门矩阵U。</p>
 <p>然后对于重置门矩阵，再将他放到候选隐状态参数中做一个变换，得到一个和应该要输出的隐状态相同的候选隐状态。</p>
 <p>然后结合上一层的隐状态和这一层的候选隐状态得到这一层真正传递下去的隐状态。这时结合就需要用到更新门矩阵Z了，本质上Z是一个行向量或者说列向量，公式为：</p>
 <p><img src="https://i.imgur.com/e1U0iWX.png" alt="picture 2"></p>
-<h3 id="LSTM版本的实现">LSTM版本的实现</h3>
-<p>该版本的实现基本与上面是相同的，见下面的伪代码</p>
-<p><img src="https://i.imgur.com/n9qGXgg.png" alt="picture 4"></p>
-<h3 id="版本的选用">版本的选用</h3>
-<p>实际应用中需要根据数据集选用不同的版本。如果节点特征矩阵包含很多信息，GRU版本就会更加有效，因为他在rnn结构中包含了额外的节点嵌入；相反，如果节点特征包含信息较少而图结构相对而言比较重要的话，LSTM版本就会更加有效。</p>
-<h2 id="个人理解">个人理解</h2>
-<p>本质上就是每个时刻的GCN每层的模型作为一个序列，这样就可以用RNN学习这个序列的变化，所以本文的重点就是GCN模型中的各层权重W的学习和演化。</p>
+<h3 id="LSTM版本的实现"><a href="#LSTM版本的实现" class="headerlink" title="LSTM版本的实现"></a>LSTM版本的实现</h3><p>该版本的实现基本与上面是相同的，见下面的伪代码</p>
+<p><img src="https://i.imgur.com/n9qGXgg.png" alt="picture 4">  </p>
+<h3 id="版本的选用"><a href="#版本的选用" class="headerlink" title="版本的选用"></a>版本的选用</h3><p>实际应用中需要根据数据集选用不同的版本。如果节点特征矩阵包含很多信息，GRU版本就会更加有效，因为他在rnn结构中包含了额外的节点嵌入；相反，如果节点特征包含信息较少而图结构相对而言比较重要的话，LSTM版本就会更加有效。</p>
+<h2 id="个人理解"><a href="#个人理解" class="headerlink" title="个人理解"></a>个人理解</h2><p>本质上就是每个时刻的GCN每层的模型作为一个序列，这样就可以用RNN学习这个序列的变化，所以本文的重点就是GCN模型中的各层权重W的学习和演化。</p>
 <p>而两个版本的不同之处在于，GRU同时需要两个矩阵：当前的节点嵌入矩阵和当前时刻GCN的权重W。而LSTM只需要权重W不需要考虑节点嵌入矩阵的信息。</p>
 
     </div>

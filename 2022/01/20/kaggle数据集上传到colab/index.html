@@ -166,7 +166,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-count">29</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -285,6 +285,7 @@
     <div class="post-body" itemprop="articleBody">
         <p>在colab上依次运行下面的命令</p>
 <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">!pip install kaggle</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line">token=&#123;<span class="string">&quot;username&quot;</span>:<span class="string">&quot;xxxxx&quot;</span>,<span class="string">&quot;key&quot;</span>:<span class="string">&quot;xxxxx&quot;</span>&#125;</span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./content/kaggle.json&#x27;</span>,<span class="string">&#x27;w&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">    json.dump(token,file)</span><br></pre></td></tr></table></figure>
+
 <p>token中的键值对对应的是自己的账号内容，具体操作：</p>
 <ol>
 <li>进入kaggle，点击头像，点击myaccount</li>
@@ -293,6 +294,7 @@
 </ol>
 <p>接下来，依次运行下面的代码</p>
 <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-mkdir -p ~/.kaggle</span><br><span class="line">!cp /content/kaggle.json ~/.kaggle</span><br><span class="line">!chmod <span class="number">600</span> ~/.kaggle/kaggle.json</span><br><span class="line">!kaggle config <span class="built_in">set</span> -n path -v /content</span><br></pre></td></tr></table></figure>
+
 <p>找到我们需要的kaggle数据集的API后，复制执行</p>
 
     </div>

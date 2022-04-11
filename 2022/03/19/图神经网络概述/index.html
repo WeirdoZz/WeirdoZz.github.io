@@ -24,12 +24,12 @@
   <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"weirdozz.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
-<meta name="description" content="状态更新与输出 最早的图神经网络的理论基础是不动点理论。给定一张图$G$，每个节点都有其自身特征$X_v$，每个边也有其自身特征$X_{(u,v)}$。GNN的学习目标就是获得每个结点的图感知的隐藏状态，即：对于每个节点，其隐藏状态包含来自邻居节点的信息。那如何让每个节点都能感知到图上的其他节点呢？GNN通过迭代式更新所有节点的隐藏状态来实现，在t+1时刻，节点的隐藏状态按照如下方式更新：  其中">
+<meta name="description" content="状态更新与输出最早的图神经网络的理论基础是不动点理论。给定一张图$G$，每个节点都有其自身特征$X_v$，每个边也有其自身特征$X_{(u,v)}$。GNN的学习目标就是获得每个结点的图感知的隐藏状态，即：对于每个节点，其隐藏状态包含来自邻居节点的信息。那如何让每个节点都能感知到图上的其他节点呢？GNN通过迭代式更新所有节点的隐藏状态来实现，在t+1时刻，节点的隐藏状态按照如下方式更新：    其">
 <meta property="og:type" content="article">
 <meta property="og:title" content="图神经网络概述">
 <meta property="og:url" content="https://weirdozz.github.io/2022/03/19/%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/index.html">
 <meta property="og:site_name" content="Weirdo">
-<meta property="og:description" content="状态更新与输出 最早的图神经网络的理论基础是不动点理论。给定一张图$G$，每个节点都有其自身特征$X_v$，每个边也有其自身特征$X_{(u,v)}$。GNN的学习目标就是获得每个结点的图感知的隐藏状态，即：对于每个节点，其隐藏状态包含来自邻居节点的信息。那如何让每个节点都能感知到图上的其他节点呢？GNN通过迭代式更新所有节点的隐藏状态来实现，在t+1时刻，节点的隐藏状态按照如下方式更新：  其中">
+<meta property="og:description" content="状态更新与输出最早的图神经网络的理论基础是不动点理论。给定一张图$G$，每个节点都有其自身特征$X_v$，每个边也有其自身特征$X_{(u,v)}$。GNN的学习目标就是获得每个结点的图感知的隐藏状态，即：对于每个节点，其隐藏状态包含来自邻居节点的信息。那如何让每个节点都能感知到图上的其他节点呢？GNN通过迭代式更新所有节点的隐藏状态来实现，在t+1时刻，节点的隐藏状态按照如下方式更新：    其">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://i.imgur.com/2vgW7gB.png">
 <meta property="og:image" content="https://i.imgur.com/AdE1gjq.png">
@@ -181,7 +181,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-count">29</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -298,53 +298,44 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h2 id="状态更新与输出">状态更新与输出</h2>
-<p>最早的图神经网络的理论基础是不动点理论。给定一张图$G$，每个节点都有其自身特征$X_v$，每个边也有其自身特征$X_{(u,v)}$。GNN的学习目标就是获得每个结点的图感知的隐藏状态，即：对于每个节点，其隐藏状态包含来自邻居节点的信息。那如何让每个节点都能感知到图上的其他节点呢？GNN通过迭代式更新所有节点的隐藏状态来实现，在t+1时刻，节点的隐藏状态按照如下方式更新：</p>
-<p><img src="https://i.imgur.com/2vgW7gB.png" alt="picture 8"></p>
+        <h2 id="状态更新与输出"><a href="#状态更新与输出" class="headerlink" title="状态更新与输出"></a>状态更新与输出</h2><p>最早的图神经网络的理论基础是不动点理论。给定一张图$G$，每个节点都有其自身特征$X_v$，每个边也有其自身特征$X_{(u,v)}$。GNN的学习目标就是获得每个结点的图感知的隐藏状态，即：对于每个节点，其隐藏状态包含来自邻居节点的信息。那如何让每个节点都能感知到图上的其他节点呢？GNN通过迭代式更新所有节点的隐藏状态来实现，在t+1时刻，节点的隐藏状态按照如下方式更新：</p>
+<p><img src="https://i.imgur.com/2vgW7gB.png" alt="picture 8">  </p>
 <p>其中f就是隐藏状态的更新函数，$x_co[v]$是与节点v相邻的边的特征，$x_ne[v]$是节点v的邻居节点的特征，$h_n^te[v]$是邻居节点在t时刻的隐藏状态。神经网络需要做的就是拟合这个函数f。</p>
 <span id="more"></span>
+
 <p>显然对于不同的节点，他们相邻的边或者点的个数不一定是相同的，那这个f函数的输入就是不定长的，怎么解决这个问题呢？我们可以在f的内部先将不定长的参数转变成一个固定的参数，比如说所有隐状态的和作为隐状态的代表。举个例子：</p>
-<p><img src="https://i.imgur.com/AdE1gjq.png" alt="picture 45"></p>
+<p><img src="https://i.imgur.com/AdE1gjq.png" alt="picture 45">  </p>
 <p>假设节点5是中心节点，隐藏状态更新的公式如图所示。公式的中心思想：不断利用当前时刻邻居节点的隐藏状态作为部分输入来生成下一时刻中心节点的隐藏状态，直到每个节点的隐藏状态变化幅度很小。</p>
 <p>但是状态更新公式仅仅描述了如何获取每个节点的隐状态，我们还需要一个函数g来描述如何适应下游任务。比如，下游任务是判断各节点是否为水军账号</p>
-<p>$$<br>
-o_v=g(h_v,x_v)<br>
-$$</p>
+<p>$$<br>o_v&#x3D;g(h_v,x_v)<br>$$</p>
 <p>整个流程可以使用下面这张图表达</p>
-<p><img src="https://i.imgur.com/JV7M8Ow.png" alt="picture 46"></p>
+<p><img src="https://i.imgur.com/JV7M8Ow.png" alt="picture 46">  </p>
 <p>直到$T_n$时刻各个节点的隐藏状态收敛，每个节点后面接一个g就可以得到节点的输出。对于不同的图，节点的收敛时刻可能不同，收敛是通过两个时刻的p-范数差值和某个阈值$\epsilon$。</p>
-<p><img src="https://i.imgur.com/xxyvPCL.png" alt="picture 47"></p>
-<h2 id="不动点理论">不动点理论</h2>
-<p>这里的不动点理论专指巴纳赫不动点理论(Banach’s Fixed Point Theorem)。首先我们用F表示若干个f堆叠得到的一个函数，那么图上所有节点的状态更新公式可以写成</p>
-<p><img src="https://i.imgur.com/IF5e2Zf.png" alt="picture 48"></p>
+<p><img src="https://i.imgur.com/xxyvPCL.png" alt="picture 47">  </p>
+<h2 id="不动点理论"><a href="#不动点理论" class="headerlink" title="不动点理论"></a>不动点理论</h2><p>这里的不动点理论专指巴纳赫不动点理论(Banach’s Fixed Point Theorem)。首先我们用F表示若干个f堆叠得到的一个函数，那么图上所有节点的状态更新公式可以写成</p>
+<p><img src="https://i.imgur.com/IF5e2Zf.png" alt="picture 48">  </p>
 <p>不动点定理指的就是，不论$H^0$是什么，只要F是个压缩映射，$H^0$经过不断迭代都会收敛到某一个固定的点，称之为不动点。</p>
-<h3 id="压缩映射">压缩映射</h3>
-<p><img src="https://i.imgur.com/ryRG4FY.png" alt="picture 3"></p>
+<h3 id="压缩映射"><a href="#压缩映射" class="headerlink" title="压缩映射"></a>压缩映射</h3><p><img src="https://i.imgur.com/ryRG4FY.png" alt="picture 3">  </p>
 <p>上图的实线就是映射F，任意两个点x，y经过映射后变成F(x),F(y)。经过F变换后的空间一定比原空间小，这样经过不断的迭代压缩，最终原空间上的所有点都会被映射到同一个点上。</p>
 <p>那既然f是由神经网络实现的，如何实现才能保证他是个压缩映射呢？</p>
-<h2 id="具体实现">具体实现</h2>
-<p>具体实现中，f可以是意见简单前馈神经网络实现，比如只是简单地将f的几个参数凭借在一起然后做个加和。</p>
-<p><img src="https://i.imgur.com/bYmBx17.png" alt="picture 10"></p>
+<h2 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h2><p>具体实现中，f可以是意见简单前馈神经网络实现，比如只是简单地将f的几个参数凭借在一起然后做个加和。</p>
+<p><img src="https://i.imgur.com/bYmBx17.png" alt="picture 10">  </p>
 <p>但如何保证f是个压缩映射呢？只需要限制f对H的偏导数矩阵的大小就可以了，本质上是通过对雅可比矩阵的惩罚项来实现的。代数中有个定理：f为压缩映射的等价条件是f的梯度（也就是对H的导数）要小于1。</p>
 <p>我们使用$\left|x\right|$表示x在这个空间上的范数。范数是一个标量是向量的长度或者模。这里我们将x简化为1维的，左边间的差值可以看作向量在空间中的距离，可以推导出：</p>
-<p><img src="https://i.imgur.com/JGORo9H.png" alt="picture 11"></p>
+<p><img src="https://i.imgur.com/JGORo9H.png" alt="picture 11">  </p>
 <p>推广一下，即得到雅可比矩阵的罚项需要满足其范数小于等于c等价于压缩映射的条件。根据拉格朗日乘子法，将有约束问题变成带罚项的无约束优化问题，训练的目标可表示成如下形式：</p>
-<p>$$<br>
-J=\operatorname{Loss}+\lambda \cdot \max \left(\frac{|\partial F N N|}{|\partial \mathbf{h}|}-c, 0\right), c \in(0,1)<br>
-$$</p>
-<h2 id="模型学习">模型学习</h2>
-<p>虽然每个节点都会有隐藏状态和输出，但并不是每个节点都有监督信号。比如，社交网络中只有部分用户被明确标记为水军，这就构成了典型的节点二分类问题。</p>
+<p>$$<br>J&#x3D;\operatorname{Loss}+\lambda \cdot \max \left(\frac{|\partial F N N|}{|\partial \mathbf{h}|}-c, 0\right), c \in(0,1)<br>$$</p>
+<h2 id="模型学习"><a href="#模型学习" class="headerlink" title="模型学习"></a>模型学习</h2><p>虽然每个节点都会有隐藏状态和输出，但并不是每个节点都有监督信号。比如，社交网络中只有部分用户被明确标记为水军，这就构成了典型的节点二分类问题。</p>
 <p>模型的损失就可以由这些有监督的信号的节点得到。假设监督节点由p个，模型损失可以形式化为：</p>
-<p><img src="https://i.imgur.com/6LVIkvo.png" alt="picture 12"></p>
+<p><img src="https://i.imgur.com/6LVIkvo.png" alt="picture 12">  </p>
 <p>反向传播计算梯度的过程：</p>
 <ol>
 <li>调用f若干次，比如$T_n$次，直到$h_v^{T_n}$收敛。</li>
 <li>此时每个结点的隐藏状态接近不动点的解。</li>
 <li>对于有监督信号的结点，将其隐藏状态通过 g 得到输出，进而算出模型的损失</li>
 </ol>
-<h2 id="GNN与RNN">GNN与RNN</h2>
-<p>大家可以发现，GNN与RNN的不论是前向还是反向传播的算法，都是非常相似的。实际上确实如此，我们用下图来解释两者设计上的不同：</p>
-<p><img src="https://i.imgur.com/fOPCggK.png" alt="picture 49"></p>
+<h2 id="GNN与RNN"><a href="#GNN与RNN" class="headerlink" title="GNN与RNN"></a>GNN与RNN</h2><p>大家可以发现，GNN与RNN的不论是前向还是反向传播的算法，都是非常相似的。实际上确实如此，我们用下图来解释两者设计上的不同：</p>
+<p><img src="https://i.imgur.com/fOPCggK.png" alt="picture 49">  </p>
 <p>假设在GNN上存在三个节点x1,x2,x3,同样RNN中存在一个序列（x1,x2,x3），他们的区别主要在于：</p>
 <ol>
 <li>GNN的基础理论是不动点，所以其沿时间展开的长度是动态的，根据收敛条件决定，RNN沿时间展开的长度就等于序列本身的长度。</li>
@@ -352,18 +343,15 @@ $$</p>
 <li>GNN采用AP算法反向传播优化，RNN使用BPTT优化。前者对收敛性有要求，后者没有。</li>
 <li>GNN循环调用f是为了得到每个节点稳定的隐状态，因此只有在隐状态收敛之后才能输出；RNN在每个时间步上都可以输出，比如语言模型。</li>
 </ol>
-<h2 id="GNN的局限性">GNN的局限性</h2>
-<ul>
+<h2 id="GNN的局限性"><a href="#GNN的局限性" class="headerlink" title="GNN的局限性"></a>GNN的局限性</h2><ul>
 <li>GNN只将边作为了一种传播手段，并未区分不同边的功能。虽然我们可以在特征构造阶段$(X_{(u,v)})$为不同类型的边赋予不同的特征，但相比于其他输入，边对节点隐藏状态的影响实在有限。GNN没有为边设置独立的可学习参数，就意味着无法通过模型学习到边的某些特性。</li>
 <li>如果把GNN应用在图表示的场景中，使用不动点理论并不合适。主要因为基于不动点的收敛会导致节点之间的隐藏状态之间存在较多的信息共享，导致节点状态太过于光滑，属于节点自身的特征信息匮乏。</li>
 </ul>
 <p>下面这张来自维基百科的图可以形象地解释什么是 Over Smooth，其中我们把整个布局视作一张图，每个像素点与其上下左右以及斜上下左右8个像素点相邻，这决定了信息在图上的流动路径。初始时，蓝色表示没有信息量，如果用向量的概念表达即为空向量；绿色，黄色与红色各自有一部分信息量，表达为非空的特征向量。在图上，信息主要从三块有明显特征的区域向其邻接的像素点流动。一开始不同像素点的区分非常明显，但在向不动点过渡的过程中，所有像素点都取向一致，最终整个系统形成均匀分布。这样，虽然每个像素点都感知到了全局的信息，但我们无法根据它们最终的隐藏状态区分它们。比如说，根据最终的状态，我们是无法得知哪些像素点最开始时在绿色区域。</p>
 <p><img src="https://images.cnblogs.com/cnblogs_com/SivilTaram/1510485/o_image-9-over-smooth.gif" alt="picture 5"></p>
-<h2 id="门控图神经网络">门控图神经网络</h2>
-<p>既然RNN和GNN存在如此多的相似点，是否可以用类似RNN的方法定义GNN呢？于是，门控图神经网络（GGNN）出现了。虽然类似，但实际上差别很大，最核心点在于门控神经网络不以不动点理论为基础。意味着：f不再需要是一个压缩映射；迭代不需要达到收敛才可以输出，可以固定迭代步长；优化算法也从AP算法转向BPTT。</p>
-<h3 id="状态更新">状态更新</h3>
-<p>与图神经网络定义的范式一致，GGNN也有两个过程：状态更新与输出。相比GNN而言，它主要的区别来源于状态更新阶段。GGNN参考了GRU的设计，把邻居节点的信息视为输入，节点本身状态视为隐藏状态，状态更新函数如下：</p>
-<p><img src="https://i.imgur.com/OxrJiqQ.png" alt="picture 13"></p>
+<h2 id="门控图神经网络"><a href="#门控图神经网络" class="headerlink" title="门控图神经网络"></a>门控图神经网络</h2><p>既然RNN和GNN存在如此多的相似点，是否可以用类似RNN的方法定义GNN呢？于是，门控图神经网络（GGNN）出现了。虽然类似，但实际上差别很大，最核心点在于门控神经网络不以不动点理论为基础。意味着：f不再需要是一个压缩映射；迭代不需要达到收敛才可以输出，可以固定迭代步长；优化算法也从AP算法转向BPTT。</p>
+<h3 id="状态更新"><a href="#状态更新" class="headerlink" title="状态更新"></a>状态更新</h3><p>与图神经网络定义的范式一致，GGNN也有两个过程：状态更新与输出。相比GNN而言，它主要的区别来源于状态更新阶段。GGNN参考了GRU的设计，把邻居节点的信息视为输入，节点本身状态视为隐藏状态，状态更新函数如下：</p>
+<p><img src="https://i.imgur.com/OxrJiqQ.png" alt="picture 13">  </p>
 <p>观察上式，除了GRU式的设计之外，GGNN还针对不同类型的边引入了可学习的参数W。每种edge对应一个$W_{edge}$，这样就可以处理异构图。</p>
 <p>但是，GNN中需要作为输入的节点特征$X_v$没有出现在GGNN公式中，但是这个特征对于预测非常重要！</p>
 <p>为了解决这个问题，GGNN将节点特征作为隐藏状态初始化的一部分。重新回顾GGNN的流程：</p>
@@ -372,14 +360,15 @@ $$</p>
 <li>对整张图按照上述状态更新公式固定迭代若干步</li>
 <li>对部分有监督信号的节点求得模型损失，利用BPTT算法反向传播求得$W_edge$和GRU参数梯度</li>
 </ol>
-<h3 id="实例1：到达判断">实例1：到达判断</h3>
-<p>比如说给定一张图G，开始结点 S，对于任意一个结点 E，模型判断开始结点是否可以通过图游走至该结点。同样地，这也可以转换成一个对结点的二分类问题，即可以到达和不能到达。下图即描述了这样的过程：</p>
-<p><img src="https://i.imgur.com/9v9XVfd.png" alt="picture 50"></p>
+<h3 id="实例1：到达判断"><a href="#实例1：到达判断" class="headerlink" title="实例1：到达判断"></a>实例1：到达判断</h3><p>比如说给定一张图G，开始结点 S，对于任意一个结点 E，模型判断开始结点是否可以通过图游走至该结点。同样地，这也可以转换成一个对结点的二分类问题，即可以到达和不能到达。下图即描述了这样的过程：</p>
+<p><img src="https://i.imgur.com/9v9XVfd.png" alt="picture 50">  </p>
 <p>图中的黄色结点即开始结点S，绿色结点是我们希望判断的结点E，我们这里称其为结束结点。那么相比于其他结点，这两个结点具有一定特殊性。那我们就可以使用第1维为1来表示开始结点，第2维为1来表示结束结点。最后在对结束结点分类时，如果其隐藏状态的第1维被赋予得到了一个非0的实数值，那意味着它可以到达。</p>
 <p>从初始化的流程我们也可以看出GNN与GGNN的区别：GNN依赖于不动点理论，所以每个结点的隐藏状态即使使用随机初始化都会收敛到不动点；GGNN则不同，不同的初始化对GGNN最终的结果影响很大。</p>
 <p>下一篇博客中会继续介绍图卷积神经网络，摆脱了基于循环的方法，开始走向多层神经网络。</p>
 <a href="/2022/03/19/%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/" title="图神经网络概述">图神经网络概述</a>
+
 <a href="/2022/03/19/%E5%9B%BE%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%A6%82%E8%BF%B0/" title="图卷积神经网络概述">图卷积神经网络概述</a>
+
 <a href="/2022/03/19/%E8%8A%82%E7%82%B9%E8%A1%A8%E7%A4%BA%E5%A6%82%E4%BD%95%E7%94%9F%E6%88%90%E5%9B%BE%E8%A1%A8%E7%A4%BA/" title="节点表示如何生成图表示">节点表示如何生成图表示</a>
     </div>
 

@@ -24,12 +24,12 @@
   <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"weirdozz.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
-<meta name="description" content="1.http包默认客户端 使用http包实现http客户端最简单的方法如下 1234esp, err :&#x3D; http.Get(&quot;http:&#x2F;&#x2F;example.com&#x2F;&quot;)...resp, err :&#x3D; http.Post(&quot;http:&#x2F;&#x2F;example.com&#x2F;upload&quot;, &quot;image&#x2F;jpeg&quot;, &amp;buf)... 不要忘">
+<meta name="description" content="1.http包默认客户端使用http包实现http客户端最简单的方法如下 1234esp, err :&#x3D; http.Get(&quot;http:&#x2F;&#x2F;example.com&#x2F;&quot;)...resp, err :&#x3D; http.Post(&quot;http:&#x2F;&#x2F;example.com&#x2F;upload&quot;, &quot;image&#x2F;jpeg&quot;, &amp;buf)...  不要忘">
 <meta property="og:type" content="article">
 <meta property="og:title" content="http.Client连接行为控制">
 <meta property="og:url" content="https://weirdozz.github.io/2022/02/21/http-Client%E8%BF%9E%E6%8E%A5%E8%A1%8C%E4%B8%BA%E6%8E%A7%E5%88%B6/index.html">
 <meta property="og:site_name" content="Weirdo">
-<meta property="og:description" content="1.http包默认客户端 使用http包实现http客户端最简单的方法如下 1234esp, err :&#x3D; http.Get(&quot;http:&#x2F;&#x2F;example.com&#x2F;&quot;)...resp, err :&#x3D; http.Post(&quot;http:&#x2F;&#x2F;example.com&#x2F;upload&quot;, &quot;image&#x2F;jpeg&quot;, &amp;buf)... 不要忘">
+<meta property="og:description" content="1.http包默认客户端使用http包实现http客户端最简单的方法如下 1234esp, err :&#x3D; http.Get(&quot;http:&#x2F;&#x2F;example.com&#x2F;&quot;)...resp, err :&#x3D; http.Post(&quot;http:&#x2F;&#x2F;example.com&#x2F;upload&quot;, &quot;image&#x2F;jpeg&quot;, &amp;buf)...  不要忘">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://i.imgur.com/Ts3HKpV.png">
 <meta property="og:image" content="https://i.imgur.com/wSLiAHr.png">
@@ -170,7 +170,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-count">29</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -287,37 +287,38 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h2 id="1-http包默认客户端">1.http包默认客户端</h2>
-<p>使用http包实现http客户端最简单的方法如下</p>
+        <h2 id="1-http包默认客户端"><a href="#1-http包默认客户端" class="headerlink" title="1.http包默认客户端"></a>1.http包默认客户端</h2><p>使用http包实现http客户端最简单的方法如下</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">esp, err := http.Get(<span class="string">&quot;http://example.com/&quot;</span>)</span><br><span class="line">...</span><br><span class="line">resp, err := http.Post(<span class="string">&quot;http://example.com/upload&quot;</span>, <span class="string">&quot;image/jpeg&quot;</span>, &amp;buf)</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
 <p><strong>不要忘记在后面调用 <code>defer resp.Nody.Close()</code></strong></p>
 <p>但是在底层，完成http客户端操作的是http包内置的DefaultClient。客户端在默认情况下是不会等待应答回来的，所以如果服务器暂时没有给出回答的话，客户端就会尝试建立新的连接发送新的http请求，但是环境最大允许建立的连接数是有限的，所以当发送连接次数过多的时候会发生报错<code>socket: too many open files</code>。</p>
 <span id="more"></span>
-<h2 id="2-定义一个只在小范围内生效的client实例">2.定义一个只在小范围内生效的client实例</h2>
-<p>遇到上述情况我们就需要控制客户端避免在资源受到限制的时候仍然继续发送请求，这可以通过设置<code>http.DefaultClient</code>的属性来实现，但是这是一个包级变量，其作用域是整个程序，其他使用默认client的包也会受到影响，所以我们可以定义一个在小范围中应用的http客户端实例。</p>
+
+<h2 id="2-定义一个只在小范围内生效的client实例"><a href="#2-定义一个只在小范围内生效的client实例" class="headerlink" title="2.定义一个只在小范围内生效的client实例"></a>2.定义一个只在小范围内生效的client实例</h2><p>遇到上述情况我们就需要控制客户端避免在资源受到限制的时候仍然继续发送请求，这可以通过设置<code>http.DefaultClient</code>的属性来实现，但是这是一个包级变量，其作用域是整个程序，其他使用默认client的包也会受到影响，所以我们可以定义一个在小范围中应用的http客户端实例。</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">client := &amp;http.Client&#123;&#125; <span class="comment">// 自定义一个http客户端实例</span></span><br><span class="line">resp, err := client.Get(<span class="string">&quot;http://example.com/&quot;</span>)</span><br><span class="line">...</span><br><span class="line">resp, err := client.Post(<span class="string">&quot;http://example.com/upload&quot;</span>, <span class="string">&quot;image/jpeg&quot;</span>, &amp;buf)</span><br><span class="line">..</span><br></pre></td></tr></table></figure>
+
 <p>上面这段代码和1中的代码时相同的。唯一不同的地方在于这段代码的应用范围仅限于上述的范围，不会对其他调用默认http包的程序产生任何影响。</p>
-<h2 id="3-自定义连接某host的最大限制">3.自定义连接某host的最大限制</h2>
-<p>http包的client结构如下</p>
+<h2 id="3-自定义连接某host的最大限制"><a href="#3-自定义连接某host的最大限制" class="headerlink" title="3.自定义连接某host的最大限制"></a>3.自定义连接某host的最大限制</h2><p>http包的client结构如下</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//$GOROOT/src/net/http/client.go</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Client <span class="keyword">struct</span> &#123;</span><br><span class="line">        <span class="comment">// Transport specifies the mechanism by which individual</span></span><br><span class="line">        <span class="comment">// HTTP requests are made.</span></span><br><span class="line">        <span class="comment">// If nil, DefaultTransport is used.</span></span><br><span class="line">        Transport RoundTripper</span><br><span class="line"></span><br><span class="line">    CheckRedirect <span class="function"><span class="keyword">func</span><span class="params">(req *Request, via []*Request)</span> <span class="title">error</span></span></span><br><span class="line">    Jar CookieJar</span><br><span class="line">    Timeout time.Duration</span><br></pre></td></tr></table></figure>
+
 <p>其中一共4个字段，控制Client连接行为的Transport字段，如果为nil的话就是默认设置</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// $GOROOT/src/net/http/transport.go</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> DefaultTransport RoundTripper = &amp;Transport&#123;</span><br><span class="line">        Proxy: ProxyFromEnvironment,</span><br><span class="line">        DialContext: (&amp;net.Dialer&#123;</span><br><span class="line">                Timeout:   <span class="number">30</span> * time.Second,</span><br><span class="line">                KeepAlive: <span class="number">30</span> * time.Second,</span><br><span class="line">        &#125;).DialContext,</span><br><span class="line">        ForceAttemptHTTP2:     <span class="literal">true</span>,</span><br><span class="line">        MaxIdleConns:          <span class="number">100</span>,</span><br><span class="line">        IdleConnTimeout:       <span class="number">90</span> * time.Second,</span><br><span class="line">        TLSHandshakeTimeout:   <span class="number">10</span> * time.Second,</span><br><span class="line">        ExpectContinueTimeout: <span class="number">1</span> * time.Second,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>但是上述的配置中并没有控制连接某个host的最大数的设置，因为在Transport结构体中起这个作用的字段是<code>MaxConnsPerHost</code></p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// $GOROOT/src/net/http/transport.go</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Transport <span class="keyword">struct</span> &#123;</span><br><span class="line">    ... ...</span><br><span class="line"></span><br><span class="line">    <span class="comment">// MaxConnsPerHost optionally limits the total number of</span></span><br><span class="line">        <span class="comment">// connections per host, including connections in the dialing,</span></span><br><span class="line">        <span class="comment">// active, and idle states. On limit violation, dials will block.</span></span><br><span class="line">        <span class="comment">//</span></span><br><span class="line">        <span class="comment">// Zero means no limit.</span></span><br><span class="line">        MaxConnsPerHost <span class="keyword">int</span></span><br><span class="line">    ... ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>http.Transport维护了到每个server host的计数器connsPerHost的请求等待队列</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// $GOROOT/src/net/http/transport.go</span></span><br><span class="line"><span class="keyword">type</span> Transport <span class="keyword">struct</span> &#123;</span><br><span class="line">    ... ...</span><br><span class="line">        connsPerHostMu   sync.Mutex</span><br><span class="line">        connsPerHost     <span class="keyword">map</span>[connectMethodKey]<span class="keyword">int</span></span><br><span class="line">        connsPerHostWait <span class="keyword">map</span>[connectMethodKey]wantConnQueue <span class="comment">// waiting getConns</span></span><br><span class="line">    ... ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">type</span> connectMethodKey <span class="keyword">struct</span> &#123;</span><br><span class="line">        proxy, scheme, addr <span class="keyword">string</span></span><br><span class="line">        onlyH1              <span class="keyword">bool</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>这个结构体中的<code>connectMethodKey</code>使用一个四元组(proxy,scheme,addr,onlyH1)来唯一地标识一个host。</p>
 <p>但是对于一个Client来说，通常只有addr(ip+port)是不同的，也就是说实际上是按照addr区分host的。</p>
-<p><img src="https://i.imgur.com/Ts3HKpV.png" alt="picture 1"></p>
-<h2 id="4-设定idle池的大小">4.设定idle池的大小</h2>
-<p>但是如果一直维持这些连接的话，会有点资源浪费。比如某些Client空闲的时候其实可以适当减少连接。这可以通过Transport中的MaxIdleConnsPerHost字段实现。</p>
+<p><img src="https://i.imgur.com/Ts3HKpV.png" alt="picture 1">  </p>
+<h2 id="4-设定idle池的大小"><a href="#4-设定idle池的大小" class="headerlink" title="4.设定idle池的大小"></a>4.设定idle池的大小</h2><p>但是如果一直维持这些连接的话，会有点资源浪费。比如某些Client空闲的时候其实可以适当减少连接。这可以通过Transport中的MaxIdleConnsPerHost字段实现。</p>
 <p>具体就是忙时建立的多条连接在闲时会被kill到这个设定的个数。之后再与服务器交流的话，就只会用这些没有kill掉的连接。</p>
-<p><img src="https://i.imgur.com/wSLiAHr.png" alt="picture 2"></p>
+<p><img src="https://i.imgur.com/wSLiAHr.png" alt="picture 2">  </p>
 <p>此外，结构体中还有一个字段MaxIdleConns，它针对的是整个Client中的所有的idle池中的连接数总和。</p>
-<h2 id="5-清理idle池中的连接">5.清理idle池中的连接</h2>
-<p>如果没有其他设定的话，上面保留下来的连接会一直存在，即便没有使用。这也是一种资源浪费。对于这个问题，Transport提供了IdleConnTimeout清理超时的连接。可以通过它设置超时清理的时间。</p>
-<h2 id="6-其他控制项">6.其他控制项</h2>
-<p>如果觉得超时清理也会占用资源的话，可以利用Transport的DisableKeepAlive使得每个请求都要建立一个新的连接。但是这样的方法在忙的时候效果不如前者。</p>
+<h2 id="5-清理idle池中的连接"><a href="#5-清理idle池中的连接" class="headerlink" title="5.清理idle池中的连接"></a>5.清理idle池中的连接</h2><p>如果没有其他设定的话，上面保留下来的连接会一直存在，即便没有使用。这也是一种资源浪费。对于这个问题，Transport提供了IdleConnTimeout清理超时的连接。可以通过它设置超时清理的时间。</p>
+<h2 id="6-其他控制项"><a href="#6-其他控制项" class="headerlink" title="6.其他控制项"></a>6.其他控制项</h2><p>如果觉得超时清理也会占用资源的话，可以利用Transport的DisableKeepAlive使得每个请求都要建立一个新的连接。但是这样的方法在忙的时候效果不如前者。</p>
 <p>另外，有些服务器可能暂时没法回应，这种时候要限制client等待应答的时间，超时的话要自动返回失败。</p>
 
     </div>

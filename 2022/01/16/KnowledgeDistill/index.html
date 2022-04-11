@@ -24,12 +24,12 @@
   <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"weirdozz.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
-<meta name="description" content="摘要 提升机器学习算法性能的最简单方式就是在相同数据集上训练足够多的模型然后对他们的预测取平均值。但是使用多个模型的组合相当繁琐，而且对于大部分使用者来说其计算代价太大，尤其是每个模型都是大型的神经网络的时候。Caruana提出可以将集合模型的知识压缩到一个单独模型中，这会使得知识更容易使用。Hinton使用了一个不同的压缩技术对这一方法进行了改进发展。该方法在MNIST数据集上获取了很好的表现，">
+<meta name="description" content="摘要提升机器学习算法性能的最简单方式就是在相同数据集上训练足够多的模型然后对他们的预测取平均值。但是使用多个模型的组合相当繁琐，而且对于大部分使用者来说其计算代价太大，尤其是每个模型都是大型的神经网络的时候。Caruana提出可以将集合模型的知识压缩到一个单独模型中，这会使得知识更容易使用。Hinton使用了一个不同的压缩技术对这一方法进行了改进发展。该方法在MNIST数据集上获取了很好的表现，并">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Distilling the Knowledge in a Neural Network">
 <meta property="og:url" content="https://weirdozz.github.io/2022/01/16/KnowledgeDistill/index.html">
 <meta property="og:site_name" content="Weirdo">
-<meta property="og:description" content="摘要 提升机器学习算法性能的最简单方式就是在相同数据集上训练足够多的模型然后对他们的预测取平均值。但是使用多个模型的组合相当繁琐，而且对于大部分使用者来说其计算代价太大，尤其是每个模型都是大型的神经网络的时候。Caruana提出可以将集合模型的知识压缩到一个单独模型中，这会使得知识更容易使用。Hinton使用了一个不同的压缩技术对这一方法进行了改进发展。该方法在MNIST数据集上获取了很好的表现，">
+<meta property="og:description" content="摘要提升机器学习算法性能的最简单方式就是在相同数据集上训练足够多的模型然后对他们的预测取平均值。但是使用多个模型的组合相当繁琐，而且对于大部分使用者来说其计算代价太大，尤其是每个模型都是大型的神经网络的时候。Caruana提出可以将集合模型的知识压缩到一个单独模型中，这会使得知识更容易使用。Hinton使用了一个不同的压缩技术对这一方法进行了改进发展。该方法在MNIST数据集上获取了很好的表现，并">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-01-16T07:55:05.000Z">
 <meta property="article:modified_time" content="2022-03-16T14:38:03.591Z">
@@ -152,7 +152,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%91%98%E8%A6%81-2"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E8%A8%80-2"><span class="nav-number">2.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%92%B8%E9%A6%8F"><span class="nav-number">3.</span> <span class="nav-text">蒸馏</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AF%94%E8%BE%83logits%E6%98%AF%E8%92%B8%E9%A6%8F%E7%9A%84%E4%B8%80%E4%B8%AA%E7%89%B9%E4%BE%8B"><span class="nav-number">3.1.</span> <span class="nav-text">比较logits是蒸馏的一个特例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8%E9%9D%9E%E5%B8%B8%E5%A4%A7%E7%9A%84%E6%95%B0%E6%8D%AE%E9%9B%86%E4%B8%8A%E8%AE%AD%E7%BB%83%E4%B8%93%E5%AE%B6%E6%A8%A1%E5%9E%8B%E9%9B%86%E5%90%88"><span class="nav-number">4.</span> <span class="nav-text">在非常大的数据集上训练专家模型集合</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#JFT%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="nav-number">4.1.</span> <span class="nav-text">JFT数据集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%93%E5%AE%B6%E6%A8%A1%E5%9E%8B"><span class="nav-number">4.2.</span> <span class="nav-text">专家模型</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%91%98%E8%A6%81"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E8%A8%80"><span class="nav-number">2.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%92%B8%E9%A6%8F"><span class="nav-number">3.</span> <span class="nav-text">蒸馏</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AF%94%E8%BE%83logits%E6%98%AF%E8%92%B8%E9%A6%8F%E7%9A%84%E4%B8%80%E4%B8%AA%E7%89%B9%E4%BE%8B"><span class="nav-number">3.1.</span> <span class="nav-text">比较logits是蒸馏的一个特例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8%E9%9D%9E%E5%B8%B8%E5%A4%A7%E7%9A%84%E6%95%B0%E6%8D%AE%E9%9B%86%E4%B8%8A%E8%AE%AD%E7%BB%83%E4%B8%93%E5%AE%B6%E6%A8%A1%E5%9E%8B%E9%9B%86%E5%90%88"><span class="nav-number">4.</span> <span class="nav-text">在非常大的数据集上训练专家模型集合</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#JFT%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="nav-number">4.1.</span> <span class="nav-text">JFT数据集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%93%E5%AE%B6%E6%A8%A1%E5%9E%8B"><span class="nav-number">4.2.</span> <span class="nav-text">专家模型</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -167,7 +167,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-count">29</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -284,45 +284,31 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h2 id="摘要-2">摘要</h2>
-<p>提升机器学习算法性能的最简单方式就是在相同数据集上训练足够多的模型然后对他们的预测取平均值。但是使用多个模型的组合相当繁琐，而且对于大部分使用者来说其计算代价太大，尤其是每个模型都是大型的神经网络的时候。Caruana提出可以将集合模型的知识压缩到一个单独模型中，这会使得知识更容易使用。Hinton使用了一个不同的压缩技术对这一方法进行了改进发展。该方法在MNIST数据集上获取了很好的表现，并且Hinton证明了通过蒸馏一组模型中的知识到一个单独模型中，能够极大提升大量应用在商业系统中传统模型的性能。Hinton还提出了由一个或者多个完整模型和专家模型组合而成的集合，该集合能够分辨更细的类，这是完整模型所无法做到的。这些专家模型可以快速并行训练</p>
+        <h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>提升机器学习算法性能的最简单方式就是在相同数据集上训练足够多的模型然后对他们的预测取平均值。但是使用多个模型的组合相当繁琐，而且对于大部分使用者来说其计算代价太大，尤其是每个模型都是大型的神经网络的时候。Caruana提出可以将集合模型的知识压缩到一个单独模型中，这会使得知识更容易使用。Hinton使用了一个不同的压缩技术对这一方法进行了改进发展。该方法在MNIST数据集上获取了很好的表现，并且Hinton证明了通过蒸馏一组模型中的知识到一个单独模型中，能够极大提升大量应用在商业系统中传统模型的性能。Hinton还提出了由一个或者多个完整模型和专家模型组合而成的集合，该集合能够分辨更细的类，这是完整模型所无法做到的。这些专家模型可以快速并行训练</p>
 <span id="more"></span>
-<h2 id="引言-2">引言</h2>
-<p>许多昆虫在年幼时为了获取营养往往是一种形态，而成年后为了繁殖和迁徙往往又是另外一种形态。在大规模机器学习中，我们在训练和部署阶段往往会使用非常相似的模型，即便他们的需求不同：对于语音和目标识别任务，训练过程必须在相当大的、高度冗余的数据集中提取结构，但他不必进行实时处理并且有很大的计算量。但是，在部署到大量的用户阶段，就会在计算资源和一些潜在方面由更严格的限制。从昆虫中可以得到启发，我们在训练阶段可以用一个非常复杂的模型，它可以是多个模型的组合也可以本身是一个强正则化的大模型。一旦模型训练好了之后，我们就可以通过以中心的训练方法：蒸馏，来讲繁琐模型中的知识转移到更适合部署的小模型上。</p>
+
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>许多昆虫在年幼时为了获取营养往往是一种形态，而成年后为了繁殖和迁徙往往又是另外一种形态。在大规模机器学习中，我们在训练和部署阶段往往会使用非常相似的模型，即便他们的需求不同：对于语音和目标识别任务，训练过程必须在相当大的、高度冗余的数据集中提取结构，但他不必进行实时处理并且有很大的计算量。但是，在部署到大量的用户阶段，就会在计算资源和一些潜在方面由更严格的限制。从昆虫中可以得到启发，我们在训练阶段可以用一个非常复杂的模型，它可以是多个模型的组合也可以本身是一个强正则化的大模型。一旦模型训练好了之后，我们就可以通过以中心的训练方法：蒸馏，来讲繁琐模型中的知识转移到更适合部署的小模型上。</p>
 <p>阻挡这一有前景的方法继续深入的一大问题是我们往往使用模型中参数的值来定义知识，而这时的我们很难去知道如何才能改变模型的结构而不改变其中的知识。将知识从任何实例化中解放出来的更加抽象的观点是它知识一个输入向量到输出向量的映射关系。对于大型的分类模型，正常的目标是去最大化正确类别的平均对数概率，但是这样的副作用是其他类的可能性的值差距不大（比如正确答案是猫，而预测成老虎的概率理应比海豚的概率大的多，但是在这种情况下，会使得这两者差距很小）。</p>
-<p>目前一个广泛接受的观点是，用于训练的目标函数应当尽可能地反映使用者真实的目的。尽管如此，当真实目标是更好地泛化到新数据的时候，训练模型通常是为了优化在训练集上的性能。训练模型以很好地泛化显然会更好，但这需要有关正确泛化方法的信息，而这种信息往往是比较难以获取到的。但是，当我们将大模型中的知识蒸馏到小模型中的时候，我们能够训练小模型以大模型的方式进行泛化。</p>
-<p>一个简单的将繁琐模型的繁华能力转移到小模型中的方法是使用大模型产生的类别概率作为“软目标”训练小模型。在转移阶段，我们可以使用相同的训练集或者转移集。如果繁琐模型是由许多简单模型组成的，可以去这些小模型的算术或者集合平均值作为软目标。当软目标有着较高的熵的时候，每一个训练样本都会比硬目标提供更多的信息，并且每个样本之间的梯度变化较小，因此小模型可以在一个更少的数据集上用更大的学习率进行训练。</p>
-<p>对于MNIST这种繁琐模型能够获得超高准确率的分类任务来说，有许多信息是藏在模型学习到的函数中的。比如，某一种2的写法被预测成3的概率是 $10^{-6}$ 而预测成3的概率是 $10^{-9}$ 而另一种写法可能由另外一种概率。这是一个能够定义数据上更加丰富的相似度结构的信息，但是在转移阶段他对交叉熵损失函数的影响非常小因为它的值非常接近于0。Hinton提出的蒸馏方法通过不断提高最终softmax层的temperature参数直到繁琐模型产生一个合适的软目标输出。然后在训练小模型的时候使用相同的温度参数来匹配软目标。</p>
-<p>用来训练小模型的转移集可以完全由无标签数据组成，当然我们也可以使用原始数据集。Hinton发现使用原始训练集效果也不错，尤其是当我们在目标函数中加一小项，使小模型同时利用真实标签和软目标进行预测的时候。</p>
-<h2 id="蒸馏">蒸馏</h2>
-<p>神经网络通过softmax层将logits $z_i$ 计算转变为一个类别概率 $q_i$，计算公式如下：</p>
-<p>$$<br>
-q_{i}=\frac{\exp \left(z_{i} / T\right)}{\sum_{j} \exp \left(z_{j} / T\right)} \tag{1}<br>
-$$</p>
+<p> 目前一个广泛接受的观点是，用于训练的目标函数应当尽可能地反映使用者真实的目的。尽管如此，当真实目标是更好地泛化到新数据的时候，训练模型通常是为了优化在训练集上的性能。训练模型以很好地泛化显然会更好，但这需要有关正确泛化方法的信息，而这种信息往往是比较难以获取到的。但是，当我们将大模型中的知识蒸馏到小模型中的时候，我们能够训练小模型以大模型的方式进行泛化。</p>
+<p> 一个简单的将繁琐模型的繁华能力转移到小模型中的方法是使用大模型产生的类别概率作为“软目标”训练小模型。在转移阶段，我们可以使用相同的训练集或者转移集。如果繁琐模型是由许多简单模型组成的，可以去这些小模型的算术或者集合平均值作为软目标。当软目标有着较高的熵的时候，每一个训练样本都会比硬目标提供更多的信息，并且每个样本之间的梯度变化较小，因此小模型可以在一个更少的数据集上用更大的学习率进行训练。</p>
+<p> 对于MNIST这种繁琐模型能够获得超高准确率的分类任务来说，有许多信息是藏在模型学习到的函数中的。比如，某一种2的写法被预测成3的概率是 $10^{-6}$ 而预测成3的概率是 $10^{-9}$ 而另一种写法可能由另外一种概率。这是一个能够定义数据上更加丰富的相似度结构的信息，但是在转移阶段他对交叉熵损失函数的影响非常小因为它的值非常接近于0。Hinton提出的蒸馏方法通过不断提高最终softmax层的temperature参数直到繁琐模型产生一个合适的软目标输出。然后在训练小模型的时候使用相同的温度参数来匹配软目标。</p>
+<p> 用来训练小模型的转移集可以完全由无标签数据组成，当然我们也可以使用原始数据集。Hinton发现使用原始训练集效果也不错，尤其是当我们在目标函数中加一小项，使小模型同时利用真实标签和软目标进行预测的时候。</p>
+<h2 id="蒸馏"><a href="#蒸馏" class="headerlink" title="蒸馏"></a>蒸馏</h2><p>神经网络通过softmax层将logits $z_i$ 计算转变为一个类别概率 $q_i$，计算公式如下：</p>
+<p>$$<br>q_{i}&#x3D;\frac{\exp \left(z_{i} &#x2F; T\right)}{\sum_{j} \exp \left(z_{j} &#x2F; T\right)} \tag{1}<br>$$</p>
 <p>其中T是温度参数，默认为1。使用较高的温度参数会在类别概率上形成较为平滑的分布。</p>
 <p>在最简单的蒸馏形式中，通过在转移集上训练模型并且使用繁琐模型在高温度下产生的softmax作为软目标来转移知识。在训练小模型的时候，温度参数不便。但是训练过后在使用模型的时候要将温度设回默认值。</p>
-<p>当转移集中所有或者部分样本的标签是已知的情况下，这种方法可以通过同时训练小模型来产生正确标签来获得巨大提升。一个方法是使用真实标签来调整软目标，但是Hinton发现了一个更好的方法，只需要给不同的目标函数加上一个权重。第一个目标函数是软目标的交叉熵并且这个交叉熵的计算是用相同温度的小模型的softmax和繁琐模型生成的软目标计算得来的。第二个目标函数是和真实标签的交叉熵损失函数。Hinton发现将第二个函数的权重设的比较低能够获得较好的结果。由于软目标产生梯度幅度为 $1/T^2$ ，在使用硬、软目标的时候都需要乘以 $T^2$ 。这能够保证在用元参数进行实验时候的温度变化不会影响软、硬目标的影响。</p>
-<h3 id="比较logits是蒸馏的一个特例">比较logits是蒸馏的一个特例</h3>
-<p>转移集中的每一个样本在小模型中的logit $z_i$ 都会贡献一个交叉熵梯度，$dC/dz_i$ 。如果繁琐模型的logits是 $v_i$ ，会产生概率 $p_i$ ，并且转移训练的过程是在温度T下进行的话，梯度如下：</p>
-<p>$$<br>
-\frac{\partial C}{\partial z_{i}}=\frac{1}{T}\left(q_{i}-p_{i}\right)=\frac{1}{T}\left(\frac{e^{z_{i} / T}}{\sum_{j} e^{z_{j} / T}}-\frac{e^{v_{i} / T}}{\sum_{j} e^{v_{j} / T}}\right) \tag{2}<br>
-$$</p>
+<p>当转移集中所有或者部分样本的标签是已知的情况下，这种方法可以通过同时训练小模型来产生正确标签来获得巨大提升。一个方法是使用真实标签来调整软目标，但是Hinton发现了一个更好的方法，只需要给不同的目标函数加上一个权重。第一个目标函数是软目标的交叉熵并且这个交叉熵的计算是用相同温度的小模型的softmax和繁琐模型生成的软目标计算得来的。第二个目标函数是和真实标签的交叉熵损失函数。Hinton发现将第二个函数的权重设的比较低能够获得较好的结果。由于软目标产生梯度幅度为 $1&#x2F;T^2$ ，在使用硬、软目标的时候都需要乘以 $T^2$ 。这能够保证在用元参数进行实验时候的温度变化不会影响软、硬目标的影响。</p>
+<h3 id="比较logits是蒸馏的一个特例"><a href="#比较logits是蒸馏的一个特例" class="headerlink" title="比较logits是蒸馏的一个特例"></a>比较logits是蒸馏的一个特例</h3><p>转移集中的每一个样本在小模型中的logit $z_i$ 都会贡献一个交叉熵梯度，$dC&#x2F;dz_i$ 。如果繁琐模型的logits是 $v_i$ ，会产生概率 $p_i$ ，并且转移训练的过程是在温度T下进行的话，梯度如下：</p>
+<p>$$<br>\frac{\partial C}{\partial z_{i}}&#x3D;\frac{1}{T}\left(q_{i}-p_{i}\right)&#x3D;\frac{1}{T}\left(\frac{e^{z_{i} &#x2F; T}}{\sum_{j} e^{z_{j} &#x2F; T}}-\frac{e^{v_{i} &#x2F; T}}{\sum_{j} e^{v_{j} &#x2F; T}}\right) \tag{2}<br>$$</p>
 <p>如果温度足够高的话可以近似如下：</p>
-<p>$$<br>
-\frac{\partial C}{\partial z_{i}} \approx \frac{1}{T}\left(\frac{1+z_{i} / T}{N+\sum_{j} z_{j} / T}-\frac{1+v_{i} / T}{N+\sum_{j} v_{j} / T}\right) \tag{3}<br>
-$$</p>
+<p>$$<br>\frac{\partial C}{\partial z_{i}} \approx \frac{1}{T}\left(\frac{1+z_{i} &#x2F; T}{N+\sum_{j} z_{j} &#x2F; T}-\frac{1+v_{i} &#x2F; T}{N+\sum_{j} v_{j} &#x2F; T}\right) \tag{3}<br>$$</p>
 <p>此时如果我们假设logits对于每个样本都是零均值分布的，则上式可以简化为：</p>
-<p>$$<br>
-\frac{\partial C}{\partial z_{i}} \approx \frac{1}{N T^{2}}\left(z_{i}-v_{i}\right) \tag{4}<br>
-$$</p>
-<p><strong>因此在高温度的情况下，蒸馏就等价于最小化 $1/2(z_i-v_i)^2$（logits是零均值分布的情况下）。在低温情况下，蒸馏不会过于注重比平均负标签负得多得多的logits的匹配。这是有潜在优势的，因为这些logits几乎完全不受繁琐模型使用的损失函数的限制，因此他们非常嘈杂。另一方面，这些有很多负数的logits可能会传递繁琐模型获取到的知识的有用信息。对于这些不同影响的掌握是一个经验问题。Hinton表明当小模型太小而不能够获取繁琐模型的全部知识的情况下，中等的温度作用最好，因为它会忽略过大的负数logits。</strong> （这段我也不是很理解）</p>
-<h2 id="在非常大的数据集上训练专家模型集合">在非常大的数据集上训练专家模型集合</h2>
-<p>训练模型的集合是一个很简单的利用并行计算的方法，并且集合在测试阶段需要太多计算的问题可以通过蒸馏来解决。但是模型集合另一个重要的问题是：如果单独的一个模型是超大的神经网络并且数据集也非常大的情况下，即便是用并行计算，其计算消耗也是非常大的。</p>
+<p>$$<br>\frac{\partial C}{\partial z_{i}} \approx \frac{1}{N T^{2}}\left(z_{i}-v_{i}\right) \tag{4}<br>$$</p>
+<p><strong>因此在高温度的情况下，蒸馏就等价于最小化 $1&#x2F;2(z_i-v_i)^2$（logits是零均值分布的情况下）。在低温情况下，蒸馏不会过于注重比平均负标签负得多得多的logits的匹配。这是有潜在优势的，因为这些logits几乎完全不受繁琐模型使用的损失函数的限制，因此他们非常嘈杂。另一方面，这些有很多负数的logits可能会传递繁琐模型获取到的知识的有用信息。对于这些不同影响的掌握是一个经验问题。Hinton表明当小模型太小而不能够获取繁琐模型的全部知识的情况下，中等的温度作用最好，因为它会忽略过大的负数logits。</strong> （这段我也不是很理解）</p>
+<h2 id="在非常大的数据集上训练专家模型集合"><a href="#在非常大的数据集上训练专家模型集合" class="headerlink" title="在非常大的数据集上训练专家模型集合"></a>在非常大的数据集上训练专家模型集合</h2><p>训练模型的集合是一个很简单的利用并行计算的方法，并且集合在测试阶段需要太多计算的问题可以通过蒸馏来解决。但是模型集合另一个重要的问题是：如果单独的一个模型是超大的神经网络并且数据集也非常大的情况下，即便是用并行计算，其计算消耗也是非常大的。</p>
 <p>在这一节中，Hinton给出了这样的一个数据集的例子，并且展示学习集中于类的不同可混淆子集专家模型是如何减少计算总量的。集中于做细粒度分类的专家模型的主要问题就是他们非常容易过拟合而Hinton展示这种问题是如何通过使用软目标避免的。</p>
-<h3 id="JFT数据集">JFT数据集</h3>
-<p>JFT是一个google内部数据集有1亿张图像，15000个类。</p>
-<h3 id="专家模型">专家模型</h3>
-<p>当类别数量非常多的情况下，繁琐模型做成一个集合是非常有意义的，这个集合中以当包含一个在所有数据上训练的通才模型和在一些高度相似易混淆的子类上训练的专家模型（比如蘑菇的不同种类）。这种专家模型的softmax输出可以更小，通过将其他类统一视作一个单独的垃圾类。</p>
+<h3 id="JFT数据集"><a href="#JFT数据集" class="headerlink" title="JFT数据集"></a>JFT数据集</h3><p>JFT是一个google内部数据集有1亿张图像，15000个类。</p>
+<h3 id="专家模型"><a href="#专家模型" class="headerlink" title="专家模型"></a>专家模型</h3><p>当类别数量非常多的情况下，繁琐模型做成一个集合是非常有意义的，这个集合中以当包含一个在所有数据上训练的通才模型和在一些高度相似易混淆的子类上训练的专家模型（比如蘑菇的不同种类）。这种专家模型的softmax输出可以更小，通过将其他类统一视作一个单独的垃圾类。</p>
 <p>为了减少过拟合和分担学习低级特征检测器的任务，每一个专家模型都用通才模型的权重初始化。这些权重在之后训练专家模型的时候进行调整，训练集一半是该专家模型的特定子集一半是从完整训练集中随机取样。在训练过后，我们能够通过以专家模型过采样的比例的log来增加垃圾类的logit以修正偏差训练集。</p>
 
     </div>

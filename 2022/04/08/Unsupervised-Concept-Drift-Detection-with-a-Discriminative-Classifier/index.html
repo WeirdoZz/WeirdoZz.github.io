@@ -24,12 +24,12 @@
   <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"weirdozz.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
-<meta name="description" content="摘要 作者提出了一个无监督的方法D3，它使用一个带有滑动窗口的分类器通过监视特征空间的变化来检测概念漂移。这个方法可以和已有的分类器一起使用，即便该分类器本身并没有漂移适应机制。">
+<meta name="description" content="摘要作者提出了一个无监督的方法D3，它使用一个带有滑动窗口的分类器通过监视特征空间的变化来检测概念漂移。这个方法可以和已有的分类器一起使用，即便该分类器本身并没有漂移适应机制。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Unsupervised Concept Drift Detection with a Discriminative Classifier">
 <meta property="og:url" content="https://weirdozz.github.io/2022/04/08/Unsupervised-Concept-Drift-Detection-with-a-Discriminative-Classifier/index.html">
 <meta property="og:site_name" content="Weirdo">
-<meta property="og:description" content="摘要 作者提出了一个无监督的方法D3，它使用一个带有滑动窗口的分类器通过监视特征空间的变化来检测概念漂移。这个方法可以和已有的分类器一起使用，即便该分类器本身并没有漂移适应机制。">
+<meta property="og:description" content="摘要作者提出了一个无监督的方法D3，它使用一个带有滑动窗口的分类器通过监视特征空间的变化来检测概念漂移。这个方法可以和已有的分类器一起使用，即便该分类器本身并没有漂移适应机制。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://i.imgur.com/OiEohiL.png">
 <meta property="og:image" content="https://i.imgur.com/dK9AnlV.png">
@@ -171,7 +171,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-count">29</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -288,32 +288,28 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h2 id="摘要">摘要</h2>
-<p>作者提出了一个无监督的方法D3，它使用一个带有滑动窗口的分类器通过监视特征空间的变化来检测概念漂移。这个方法可以和已有的分类器一起使用，即便该分类器本身并没有漂移适应机制。</p>
+        <h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>作者提出了一个无监督的方法D3，它使用一个带有滑动窗口的分类器通过监视特征空间的变化来检测概念漂移。这个方法可以和已有的分类器一起使用，即便该分类器本身并没有漂移适应机制。</p>
 <span id="more"></span>
-<h2 id="引言">引言</h2>
-<p>漂移检测主要有两种类型：有监督和无监督。无监督要求数据到了之后标签就要到，有监督则不需要。大多数情况下，有监督方法是检测分类器的表现，当表现下降的时候就说明要发生概念漂移了。而无监督方法主要研究特征的属性。</p>
+
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>漂移检测主要有两种类型：有监督和无监督。无监督要求数据到了之后标签就要到，有监督则不需要。大多数情况下，有监督方法是检测分类器的表现，当表现下降的时候就说明要发生概念漂移了。而无监督方法主要研究特征的属性。</p>
 <p>本文提出的方法中，通过周期性地训练测试一个分类器来使它能够分别新样本的分布是否和就样本差不多。在批处理设置中与之相类似的问题是训练和测试分布不同的协变量移位适应，用的和本文相近的方法来检测和更正协变量移位。在流处理设置中，本文是第一个提出使用分类器来做漂移检测任务的。</p>
-<h2 id="问题定义">问题定义</h2>
-<p>流分类是发生在数据流中，在时间和内存限制下的监督学习问题。数据流由按序到来的数据$D=\left{(X_0,y_0),(X_1,y_1),\dots,(X_t,y_t),\dots \right}$组成。其中数据的类别$y_t$只有在测试之后才能获取。</p>
+<h2 id="问题定义"><a href="#问题定义" class="headerlink" title="问题定义"></a>问题定义</h2><p>流分类是发生在数据流中，在时间和内存限制下的监督学习问题。数据流由按序到来的数据$D&#x3D;\left{(X_0,y_0),(X_1,y_1),\dots,(X_t,y_t),\dots \right}$组成。其中数据的类别$y_t$只有在测试之后才能获取。</p>
 <p>t时刻的概念表示为$p_t(X,y)$，这样漂移检测就变成了一个判断输入X和标签y的联合分布是否和上一个时间步不一样。</p>
-<p><img src="https://i.imgur.com/OiEohiL.png" alt="picture 1"></p>
+<p><img src="https://i.imgur.com/OiEohiL.png" alt="picture 1">  </p>
 <p>漂移检测的初始目标是设计一个能够和分类模型合作的方法，根据检测到的漂移改进模型，从而提供对于数据分布变化的适应性，最终提升模型的分类表现。</p>
-<h2 id="D3（Discriminative-Drift-Detector）方法">D3（Discriminative Drift Detector）方法</h2>
-<p><img src="https://i.imgur.com/dK9AnlV.png" alt="picture 2"></p>
+<h2 id="D3（Discriminative-Drift-Detector）方法"><a href="#D3（Discriminative-Drift-Detector）方法" class="headerlink" title="D3（Discriminative Drift Detector）方法"></a>D3（Discriminative Drift Detector）方法</h2><p><img src="https://i.imgur.com/dK9AnlV.png" alt="picture 2">  </p>
 <p>使用一个固定尺寸的滑动窗口，包含俩个集合，一个为旧数据，一个为新数据。训练一个简单分类器来区分这些集合，然后根据分类表现来判断是否发生漂移。</p>
 <p>理想状态下，可以通过估计他们的分布和计算他们之间的变化（如kl散度）来观察是否发生漂移。但是这在流数据模式下代价很大，因为需要不断重复估计且我们想要即时的结果。我们想要的仅仅是观察新旧集合是否连续不同，而不是估计他们的分布。学习分布之间的差异其实就足够检测概念漂移了。</p>
 <p>作者使用滑动窗口W，旧数据数量为w，新数据数量为wp，其中p是旧数据占新数据的比例。在初始化阶段，整个窗口为空，我们等待它装满。然后开始第一次检查，引入一个自由变量s，旧样本标记为old并且赋值为0，剩下的样本标记为new并且赋值为1。然后用s作为标签训练一个逻辑回归模型作为分类器来分辨old和new。</p>
 <p>使用AUC作为散度的度量，表示模型能分别两个类的能力。如果能很好分辨两个类的话说明发生了漂移，否则说明没有发生。为此，对AUC设置一个阈值$\tau$作为发生漂移的分界。</p>
-<p><img src="https://i.imgur.com/6TMAow7.png" alt="picture 3"></p>
+<p><img src="https://i.imgur.com/6TMAow7.png" alt="picture 3">  </p>
 <p>如前面的过程图所示，分类器分类之后会有两个结果：</p>
 <ol>
 <li>AUC大于等于阈值，这时说明发生漂移，然后就需要丢弃所有旧样本，放入新的样本。</li>
 <li>AUC小于等于阈值，这时说明没漂移，丢弃wp(也就是新样本数量)个旧样本，然后放入新样本。</li>
 </ol>
 <p>虽然新旧样本的数量是超参数，我们总会把旧样本数量设的更大。因为需要这一部分数据足够描述当前的分布并且尽量能够覆盖多的特征空间。但是也不能太大，否则可能包含多个不同的概念。由于新数据相对来说很少，因此选择一个在类不均衡场景下能够有效工作的度量是非常有必要的，为此作者选择了AUC，因为它适用于这种场景。</p>
-<h2 id="个人感觉这个方法的缺点">个人感觉这个方法的缺点</h2>
-<p>使用滑动窗口的方法存在一个共同缺点就是窗口的选择，窗口过大可能永远不会检测到漂移，过小可能一直检测到漂移。</p>
+<h2 id="个人感觉这个方法的缺点"><a href="#个人感觉这个方法的缺点" class="headerlink" title="个人感觉这个方法的缺点"></a>个人感觉这个方法的缺点</h2><p>使用滑动窗口的方法存在一个共同缺点就是窗口的选择，窗口过大可能永远不会检测到漂移，过小可能一直检测到漂移。</p>
 
     </div>
 
@@ -332,6 +328,9 @@
                 </a>
             </div>
             <div class="post-nav-item">
+                <a href="/2022/04/11/Dynamic-Adapting-Window-Independence-Drift-Detection-DAWIDD/" rel="next" title="Dynamic Adapting Window Independence Drift Detection(DAWIDD)">
+                  Dynamic Adapting Window Independence Drift Detection(DAWIDD) <i class="fa fa-chevron-right"></i>
+                </a>
             </div>
           </div>
     </footer>

@@ -24,12 +24,12 @@
   <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"weirdozz.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
-<meta name="description" content="从服务器上下载文件 1scp &lt;用户名&gt;@&lt;ssh服务器地址&gt;:&lt;文件路径&gt; &lt;本地文件名&gt; 比如下载文件到桌面 1scp root@127.0.0.1:~&#x2F;test.txt ~&#x2F;Desktop&#x2F;test.txt 上传文件到服务器 1scp &lt;本地文件名&gt; &lt;用户名&gt;@&lt;ssh服务器地址&gt;:&lt;上传保存路径即文">
+<meta name="description" content="从服务器上下载文件1scp &lt;用户名&gt;@&lt;ssh服务器地址&gt;:&lt;文件路径&gt; &lt;本地文件名&gt;  比如下载文件到桌面 1scp root@127.0.0.1:~&#x2F;test.txt ~&#x2F;Desktop&#x2F;test.txt  上传文件到服务器1scp &lt;本地文件名&gt; &lt;用户名&gt;@&lt;ssh服务器地址&gt;:&lt;上传保存路径即文">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用ssh传输文件&#x2F;文件夹">
 <meta property="og:url" content="https://weirdozz.github.io/2022/02/16/%E4%BD%BF%E7%94%A8ssh%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6-%E6%96%87%E4%BB%B6%E5%A4%B9/index.html">
 <meta property="og:site_name" content="Weirdo">
-<meta property="og:description" content="从服务器上下载文件 1scp &lt;用户名&gt;@&lt;ssh服务器地址&gt;:&lt;文件路径&gt; &lt;本地文件名&gt; 比如下载文件到桌面 1scp root@127.0.0.1:~&#x2F;test.txt ~&#x2F;Desktop&#x2F;test.txt 上传文件到服务器 1scp &lt;本地文件名&gt; &lt;用户名&gt;@&lt;ssh服务器地址&gt;:&lt;上传保存路径即文">
+<meta property="og:description" content="从服务器上下载文件1scp &lt;用户名&gt;@&lt;ssh服务器地址&gt;:&lt;文件路径&gt; &lt;本地文件名&gt;  比如下载文件到桌面 1scp root@127.0.0.1:~&#x2F;test.txt ~&#x2F;Desktop&#x2F;test.txt  上传文件到服务器1scp &lt;本地文件名&gt; &lt;用户名&gt;@&lt;ssh服务器地址&gt;:&lt;上传保存路径即文">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-02-16T09:50:58.000Z">
 <meta property="article:modified_time" content="2022-03-16T14:38:03.594Z">
@@ -167,7 +167,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-count">29</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -284,15 +284,15 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h2 id="从服务器上下载文件">从服务器上下载文件</h2>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp &lt;用户名&gt;@&lt;ssh服务器地址&gt;:&lt;文件路径&gt; &lt;本地文件名&gt;</span><br></pre></td></tr></table></figure>
+        <h2 id="从服务器上下载文件"><a href="#从服务器上下载文件" class="headerlink" title="从服务器上下载文件"></a>从服务器上下载文件</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp &lt;用户名&gt;@&lt;ssh服务器地址&gt;:&lt;文件路径&gt; &lt;本地文件名&gt;</span><br></pre></td></tr></table></figure>
+
 <p>比如下载文件到桌面</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp root@127.0.0.1:~/test.txt ~/Desktop/test.txt</span><br></pre></td></tr></table></figure>
-<h2 id="上传文件到服务器">上传文件到服务器</h2>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp &lt;本地文件名&gt; &lt;用户名&gt;@&lt;ssh服务器地址&gt;:&lt;上传保存路径即文件名&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="上传文件到服务器"><a href="#上传文件到服务器" class="headerlink" title="上传文件到服务器"></a>上传文件到服务器</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp &lt;本地文件名&gt; &lt;用户名&gt;@&lt;ssh服务器地址&gt;:&lt;上传保存路径即文件名&gt;</span><br></pre></td></tr></table></figure>
+
 <p>这里需要注意：只能将文件上传到用户目录下，如果需要上传到其他地方需要之后再自行移动文件</p>
-<h2 id="对于文件夹的操作">对于文件夹的操作</h2>
-<p>只需要加个-r操作就可以了</p>
+<h2 id="对于文件夹的操作"><a href="#对于文件夹的操作" class="headerlink" title="对于文件夹的操作"></a>对于文件夹的操作</h2><p>只需要加个-r操作就可以了</p>
 
     </div>
 
