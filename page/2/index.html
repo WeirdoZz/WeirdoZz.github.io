@@ -280,7 +280,8 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="GRU的输入输出结构"><a href="#GRU的输入输出结构" class="headerlink" title="GRU的输入输出结构"></a>GRU的输入输出结构</h2><p>它的输入是当前时刻的输入$x^t$和上一时刻传递过来的隐状态$h^{t-1}$，通过对这两个数据的结合进行操作，会得到当前节点的输出$y^t$和传递给下一个节点的隐状态$h^t$</p>
+          <h2 id="GRU的输入输出结构">GRU的输入输出结构</h2>
+<p>它的输入是当前时刻的输入$x^t$和上一时刻传递过来的隐状态$h^{t-1}$，通过对这两个数据的结合进行操作，会得到当前节点的输出$y^t$和传递给下一个节点的隐状态$h^t$</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2022/03/23/%E7%AE%80%E5%8D%95%E6%98%93%E6%87%82%E5%9C%B0%E7%90%86%E8%A7%A3GRU/#more" rel="contents">
@@ -381,9 +382,10 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>文章主要围绕对仅有少部分节点存在标签的图节点进行分类任务。这个问题可以被认为是基于图的半监督学习，通过某种基于图的正则化来平滑图上的标签信息，比如在损失函数中增加一个图拉普拉斯正则化。</p>
-<p><img src="https://i.imgur.com/q31vbLg.png" alt="picture 44">  </p>
-<p>其中$L_0$是有标签部分的损失项，函数f是一个可微函数，$\lambda$是一个权重参数，X是节点的特征向量矩阵，$\delta &#x3D;D-A$是一个未归一化的图拉普拉斯矩阵，A是邻接矩阵，D是度矩阵。<strong>公式一是居于相邻节点可能会共享相同标签的假设下的。</strong>然而这种假设会限制模型的能力，因为图的边不一定是表示节点相似性的，可能是不相似性！</p>
+          <h2 id="引言-8">引言</h2>
+<p>文章主要围绕对仅有少部分节点存在标签的图节点进行分类任务。这个问题可以被认为是基于图的半监督学习，通过某种基于图的正则化来平滑图上的标签信息，比如在损失函数中增加一个图拉普拉斯正则化。</p>
+<p><img src="https://i.imgur.com/q31vbLg.png" alt="picture 44"></p>
+<p>其中$L_0$是有标签部分的损失项，函数f是一个可微函数，$\lambda$是一个权重参数，X是节点的特征向量矩阵，$\delta =D-A$是一个未归一化的图拉普拉斯矩阵，A是邻接矩阵，D是度矩阵。**公式一是居于相邻节点可能会共享相同标签的假设下的。**然而这种假设会限制模型的能力，因为图的边不一定是表示节点相似性的，可能是不相似性！</p>
 <p>文中作者直接使用神经网络模型$f(X,A)$来编码整个图结构并且在所有有监督的节点上获取loss进行训练，因此就避免了损失函数中基于图的显示正则化。在图的邻接矩阵上调节函数f会使得模型能够从监督损失中分配梯度信息并且使它既能学习有标签也能学习无标签节点的表示。</p>
 <p>主要贡献有两点：</p>
 <ol>
@@ -490,9 +492,10 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="图读出操作"><a href="#图读出操作" class="headerlink" title="图读出操作"></a>图读出操作</h2><p>顾名思义，图读出操作就是用来生成图表示的。它的核心要义在于：操作本身要对节点顺序不敏感。</p>
+          <h2 id="图读出操作">图读出操作</h2>
+<p>顾名思义，图读出操作就是用来生成图表示的。它的核心要义在于：操作本身要对节点顺序不敏感。</p>
 <p>为什么是这样呢？因为在欧氏空间中如果一张图片旋转了，那么他就是新的图片了；但在非欧氏空间中，如果一个图旋转一下，比如重新编号，形成的图仍然是原图。这就是典型的图重构问题。下面两个图是等价的</p>
-<p><img src="https://i.imgur.com/1lrMMsW.png" alt="picture 35">  </p>
+<p><img src="https://i.imgur.com/1lrMMsW.png" alt="picture 35"></p>
 <p>为了使得同构图能够保持一致，图读出的操作就需要对节点顺序不敏感。数学上能表达这种操作的函数称为对称函数。</p>
 <p>接下来介绍两中方法实现图读出操作：<strong>基于统计的方法</strong>和<strong>基于学习的方法</strong></p>
           <!--noindex-->
@@ -595,8 +598,9 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="图卷积缘起"><a href="#图卷积缘起" class="headerlink" title="图卷积缘起"></a>图卷积缘起</h2><p>我们要思考：为什么研究者们要设计图卷积，直接在图上不能应用传统的卷积吗？要理解这个，我们首先要理解应用传统卷积的图像（欧氏空间）和图（非欧式空间的区别）。如下图，是在两种不同结构上应用卷积的场景</p>
-<p><img src="https://i.imgur.com/PrBt36X.png" alt="picture 6">  </p>
+          <h2 id="图卷积缘起">图卷积缘起</h2>
+<p>我们要思考：为什么研究者们要设计图卷积，直接在图上不能应用传统的卷积吗？要理解这个，我们首先要理解应用传统卷积的图像（欧氏空间）和图（非欧式空间的区别）。如下图，是在两种不同结构上应用卷积的场景</p>
+<p><img src="https://i.imgur.com/PrBt36X.png" alt="picture 6"></p>
 <p>图卷积真正的难点在于 <strong>邻居节点数量不固定</strong>。目前有两中主流的研究方向</p>
 <ul>
 <li>将非欧式空间转换为欧式空间</li>
@@ -702,8 +706,9 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="状态更新与输出"><a href="#状态更新与输出" class="headerlink" title="状态更新与输出"></a>状态更新与输出</h2><p>最早的图神经网络的理论基础是不动点理论。给定一张图$G$，每个节点都有其自身特征$X_v$，每个边也有其自身特征$X_{(u,v)}$。GNN的学习目标就是获得每个结点的图感知的隐藏状态，即：对于每个节点，其隐藏状态包含来自邻居节点的信息。那如何让每个节点都能感知到图上的其他节点呢？GNN通过迭代式更新所有节点的隐藏状态来实现，在t+1时刻，节点的隐藏状态按照如下方式更新：</p>
-<p><img src="https://i.imgur.com/2vgW7gB.png" alt="picture 8">  </p>
+          <h2 id="状态更新与输出">状态更新与输出</h2>
+<p>最早的图神经网络的理论基础是不动点理论。给定一张图$G$，每个节点都有其自身特征$X_v$，每个边也有其自身特征$X_{(u,v)}$。GNN的学习目标就是获得每个结点的图感知的隐藏状态，即：对于每个节点，其隐藏状态包含来自邻居节点的信息。那如何让每个节点都能感知到图上的其他节点呢？GNN通过迭代式更新所有节点的隐藏状态来实现，在t+1时刻，节点的隐藏状态按照如下方式更新：</p>
+<p><img src="https://i.imgur.com/2vgW7gB.png" alt="picture 8"></p>
 <p>其中f就是隐藏状态的更新函数，$x_co[v]$是与节点v相邻的边的特征，$x_ne[v]$是节点v的邻居节点的特征，$h_n^te[v]$是邻居节点在t时刻的隐藏状态。神经网络需要做的就是拟合这个函数f。</p>
           <!--noindex-->
             <div class="post-button">
@@ -807,7 +812,7 @@
     <div class="post-body" itemprop="articleBody">
           <p>如果在使用git命令的时候出现<code>ssh: connect to host github.com port 22: Connection timed out</code>,可能是host文件配置错误，我们打开host文件（win10一般在C:\Windows\System32\drivers\etc）。在最下方添加github ip。</p>
 <ul>
-<li>查看github的ip地址，进入网址：<a target="_blank" rel="noopener" href="https://github.com.ipaddress.com/">https://github.com.ipaddress.com</a></li>
+<li>查看github的ip地址，进入网址：<a target="_blank" rel="noopener" href="https://github.com.ipaddress.com">https://github.com.ipaddress.com</a></li>
 <li>确定域名ip，进入网址：<a target="_blank" rel="noopener" href="https://fastly.net.ipaddress.com/github.global.ssl.fastly.net">https://fastly.net.ipaddress.com/github.global.ssl.fastly.net</a></li>
 <li>确定静态资源ip（应该是有4个），进入网址：<a target="_blank" rel="noopener" href="https://github.com.ipaddress.com/assets-cdn.github.com">https://github.com.ipaddress.com/assets-cdn.github.com</a></li>
 </ul>
@@ -905,10 +910,12 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>归功于对于欧几里得数据（排列整齐，能够很容易找到邻居节点，就在旁边不偏不倚，如图片、视频、语音等）的深度学习的广泛使用，在非欧几里得领域出现了许多有创造性的神经网络，作为其中的代表，图表示学习慢慢回到主流研究方向。随着图神经网络在静态场景下应用的成功，作者更进一步接近实际应用场景，其中的图是动态变化的。现存的方法主要是应用节点嵌入并且用RNN来规范嵌入从而学习时间动态性。这些方法需要知道节点在整个时间跨度上的信息而且不能用于频繁变化的节点集。在一些极端场景下，节点集在不同的时间步上可能是完全不同的。</p>
+          <h2 id="摘要-2">摘要</h2>
+<p>归功于对于欧几里得数据（排列整齐，能够很容易找到邻居节点，就在旁边不偏不倚，如图片、视频、语音等）的深度学习的广泛使用，在非欧几里得领域出现了许多有创造性的神经网络，作为其中的代表，图表示学习慢慢回到主流研究方向。随着图神经网络在静态场景下应用的成功，作者更进一步接近实际应用场景，其中的图是动态变化的。现存的方法主要是应用节点嵌入并且用RNN来规范嵌入从而学习时间动态性。这些方法需要知道节点在整个时间跨度上的信息而且不能用于频繁变化的节点集。在一些极端场景下，节点集在不同的时间步上可能是完全不同的。</p>
 <p>为了解决这个问题，作者提出EvolveGCN，跟着时间维度调节图卷积网络而不需要使用节点嵌入。该方法通过RNN来获取图序列的动态从而调整GCN的参数。参数的调整考虑到了两种结构。</p>
 <p>作者在连接预测、边分类和节点分类三个任务上评估了提出的方法，效果相当好。<a target="_blank" rel="noopener" href="https://github.com/IBM/EvolveGCN">github开源代码链接</a></p>
-<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>图是无处不在的数据结构，用于对实体间的成对交互进行建模。相较于欧几里得数据，通过图进行学习会遭遇很多独特的问题，包括他们的组合性质和可扩展性瓶颈。</p>
+<h2 id="引言-2">引言</h2>
+<p>图是无处不在的数据结构，用于对实体间的成对交互进行建模。相较于欧几里得数据，通过图进行学习会遭遇很多独特的问题，包括他们的组合性质和可扩展性瓶颈。</p>
 <p>目前使用图学习的神经网络主要集中于给定的静态图。而在现实应用中，图结构通常是动态的（比如一个人的社交网络是会随着时间不断改变的）。这种情况下需要更新节点嵌入来获取其变化。</p>
 <p>作者基于用于静态图的图神经网络，通过引入循环机制来更新网络参数从而应用于动态场景。<strong>大量的 GNN 通过递归地聚合来自单跳邻域的节点嵌入来执行信息融合</strong>。网络的大部分参数是每一层中节点嵌入的线性变换。</p>
 <p>许多相近的方法都是使用GNN来提取特征然后使用RNN来学习提取到的特征（节点嵌入）中的序列信息。最后为时间轴上所有的图学习到一个单一的GNN模型。这些模型的缺点在于他们需要获取节点在整个时间跨度上的信息并且难以保证在未来某个新节点上的表现。</p>
@@ -1015,12 +1022,14 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="web基础"><a href="#web基础" class="headerlink" title="web基础"></a>web基础</h2><h3 id="web工作方式"><a href="#web工作方式" class="headerlink" title="web工作方式"></a>web工作方式</h3><h4 id="http请求包"><a href="#http请求包" class="headerlink" title="http请求包"></a>http请求包</h4><p>Request 包分为 3 部分，第一部分叫 Request line（请求行）, 第二部分叫 Request header（请求头）, 第三部分是 body（主体）。header 和 body 之间有个空行，请求包的例子所示:</p>
+          <h2 id="web基础">web基础</h2>
+<h3 id="web工作方式">web工作方式</h3>
+<h4 id="http请求包">http请求包</h4>
+<p>Request 包分为 3 部分，第一部分叫 Request line（请求行）, 第二部分叫 Request header（请求头）, 第三部分是 body（主体）。header 和 body 之间有个空行，请求包的例子所示:</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">GET /domains/example/ HTTP/1.1      // 请求行: 请求方法 请求 URI HTTP 协议/协议版本</span><br><span class="line">Host：www.iana.org               // 服务端的主机名</span><br><span class="line">User-Agent：Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.94 Safari/537.4          // 浏览器信息</span><br><span class="line">Accept：text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8  // 客户端能接收的 mine</span><br><span class="line">Accept-Encoding：gzip,deflate,sdch       // 是否支持流压缩</span><br><span class="line">Accept-Charset：UTF-8,*;q=0.5        // 客户端字符编码集</span><br><span class="line">// 空行,用于分割请求头和消息体</span><br><span class="line">// 消息体,请求资源参数,例如 POST 传递的参数</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://i.imgur.com/uTPJIPq.png" alt="picture 1">  </p>
+<p><img src="https://i.imgur.com/uTPJIPq.png" alt="picture 1"></p>
 <p>fiddler抓取的GET信息</p>
-<p><img src="https://i.imgur.com/1ZOWDms.png" alt="picture 3">  </p>
+<p><img src="https://i.imgur.com/1ZOWDms.png" alt="picture 3"></p>
 <p>fiddler抓取的POST信息</p>
 <p>可以看出GET请求体为空，POST请求体存在内容。</p>
 <ul>
@@ -1128,13 +1137,12 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="使用docker快速创建MySql实例"><a href="#使用docker快速创建MySql实例" class="headerlink" title="使用docker快速创建MySql实例"></a>使用docker快速创建MySql实例</h2><p>首先需要安装docker，具体安装方法已经在<a href="https://weirdozz.github.io/2022/01/28/%E4%BD%BF%E7%94%A8golang+postgres+docker%E8%BF%9B%E8%A1%8C%E5%BC%80%E5%8F%91/">使用golang+postgres+docker进行开发</a>中进行过讲述了。</p>
+          <h2 id="使用docker快速创建MySql实例">使用docker快速创建MySql实例</h2>
+<p>首先需要安装docker，具体安装方法已经在<a href="https://weirdozz.github.io/2022/01/28/%E4%BD%BF%E7%94%A8golang+postgres+docker%E8%BF%9B%E8%A1%8C%E5%BC%80%E5%8F%91/">使用golang+postgres+docker进行开发</a>中进行过讲述了。</p>
 <p>用如下命令创建一个容器环境</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --name mysql8019 -p 13306:3306 -e MYSQL_ROOT_PASSWORD=root1234 -d mysql:8.0.19</span><br></pre></td></tr></table></figure>
-
 <p>然后再启动一个<code>MySQL Client</code>连接到上面的环境</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -it --network host --rm mysql mysql -h127.0.0.1 -P13306 --default-character-set=utf8mb4 -uroot -p</span><br></pre></td></tr></table></figure>
-
 <p>然后在环境中创建一个数据库</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE DATABASE db1;</span><br></pre></td></tr></table></figure>
           <!--noindex-->
@@ -1237,9 +1245,9 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="1-http包默认客户端"><a href="#1-http包默认客户端" class="headerlink" title="1.http包默认客户端"></a>1.http包默认客户端</h2><p>使用http包实现http客户端最简单的方法如下</p>
+          <h2 id="1-http包默认客户端">1.http包默认客户端</h2>
+<p>使用http包实现http客户端最简单的方法如下</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">esp, err := http.Get(<span class="string">&quot;http://example.com/&quot;</span>)</span><br><span class="line">...</span><br><span class="line">resp, err := http.Post(<span class="string">&quot;http://example.com/upload&quot;</span>, <span class="string">&quot;image/jpeg&quot;</span>, &amp;buf)</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-
 <p><strong>不要忘记在后面调用 <code>defer resp.Nody.Close()</code></strong></p>
 <p>但是在底层，完成http客户端操作的是http包内置的DefaultClient。客户端在默认情况下是不会等待应答回来的，所以如果服务器暂时没有给出回答的话，客户端就会尝试建立新的连接发送新的http请求，但是环境最大允许建立的连接数是有限的，所以当发送连接次数过多的时候会发生报错<code>socket: too many open files</code>。</p>
           <!--noindex-->

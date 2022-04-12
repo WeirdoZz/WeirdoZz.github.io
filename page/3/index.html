@@ -280,15 +280,15 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="从服务器上下载文件"><a href="#从服务器上下载文件" class="headerlink" title="从服务器上下载文件"></a>从服务器上下载文件</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp &lt;用户名&gt;@&lt;ssh服务器地址&gt;:&lt;文件路径&gt; &lt;本地文件名&gt;</span><br></pre></td></tr></table></figure>
-
+          <h2 id="从服务器上下载文件">从服务器上下载文件</h2>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp &lt;用户名&gt;@&lt;ssh服务器地址&gt;:&lt;文件路径&gt; &lt;本地文件名&gt;</span><br></pre></td></tr></table></figure>
 <p>比如下载文件到桌面</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp root@127.0.0.1:~/test.txt ~/Desktop/test.txt</span><br></pre></td></tr></table></figure>
-
-<h2 id="上传文件到服务器"><a href="#上传文件到服务器" class="headerlink" title="上传文件到服务器"></a>上传文件到服务器</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp &lt;本地文件名&gt; &lt;用户名&gt;@&lt;ssh服务器地址&gt;:&lt;上传保存路径即文件名&gt;</span><br></pre></td></tr></table></figure>
-
+<h2 id="上传文件到服务器">上传文件到服务器</h2>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp &lt;本地文件名&gt; &lt;用户名&gt;@&lt;ssh服务器地址&gt;:&lt;上传保存路径即文件名&gt;</span><br></pre></td></tr></table></figure>
 <p>这里需要注意：只能将文件上传到用户目录下，如果需要上传到其他地方需要之后再自行移动文件</p>
-<h2 id="对于文件夹的操作"><a href="#对于文件夹的操作" class="headerlink" title="对于文件夹的操作"></a>对于文件夹的操作</h2><p>只需要加个-r操作就可以了</p>
+<h2 id="对于文件夹的操作">对于文件夹的操作</h2>
+<p>只需要加个-r操作就可以了</p>
 
       
     </div>
@@ -383,11 +383,11 @@
     
     <div class="post-body" itemprop="articleBody">
           <p><a target="_blank" rel="noopener" href="https://dev.to/techschoolguru/design-db-schema-and-generate-sql-code-with-dbdiagram-io-4ko5">课程官方文档地址</a></p>
-<h2 id="docker的下载"><a href="#docker的下载" class="headerlink" title="docker的下载"></a>docker的下载</h2><p><a target="_blank" rel="noopener" href="https://docs.docker.com/engine/install/ubuntu/">ubuntu的docker下载地址</a></p>
+<h2 id="docker的下载">docker的下载</h2>
+<p><a target="_blank" rel="noopener" href="https://docs.docker.com/engine/install/ubuntu/">ubuntu的docker下载地址</a></p>
 <p>照着上述地址的步骤进行下载安装docker</p>
 <p>为了不用每次都要sudo权限运行docker，进行以下步骤使我们当前用户具有启用docker权限</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo groupadd docker //创建docker组 通常来说安装万docker就已经自动创建好了</span><br><span class="line">sudo usermod -aG docker $USER //将当前用户添加到组中</span><br><span class="line">newgrp docker  //刷新一下对group的更改</span><br><span class="line">docker run hello-world //测试不用sudo是否可以进行使用docker</span><br></pre></td></tr></table></figure>
-
 <p><code>image</code>和<code>container</code>的区别在于，container是image的一个实例，通过<code>docker run</code>来启动，我们可以根据一个镜像启动多个container。</p>
           <!--noindex-->
             <div class="post-button">
@@ -489,9 +489,11 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h2><p>在模型、损失函数和数据后面添加<code>.cuda()</code></p>
-<h2 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h2><p>对上述数据使用<code>.to(device)</code>，device需要提前设置好，利用<code>torch.device(&quot;cuda:i&quot;)</code>其中i是你想用那一块显卡</p>
-<p><code>device=torch.device(&#39;cuda&#39; if torch.cuda.is_available() else &#39;cpu&#39;)</code></p>
+          <h2 id="方法一">方法一</h2>
+<p>在模型、损失函数和数据后面添加<code>.cuda()</code></p>
+<h2 id="方法二">方法二</h2>
+<p>对上述数据使用<code>.to(device)</code>，device需要提前设置好，利用<code>torch.device(&quot;cuda:i&quot;)</code>其中i是你想用那一块显卡</p>
+<p><code>device=torch.device('cuda' if torch.cuda.is_available() else 'cpu')</code></p>
 
       
     </div>
@@ -585,8 +587,10 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="Deep-Learning"><a href="#Deep-Learning" class="headerlink" title="Deep Learning"></a>Deep Learning</h2><h3 id="tqdm"><a href="#tqdm" class="headerlink" title="tqdm"></a>tqdm</h3><ul>
-<li>使用tqdm对迭代对象时，如果出现<code>&#39;module&#39; object is not callable</code>则将<code>import tqdm</code>改为<code>tqdm</code></li>
+          <h2 id="Deep-Learning">Deep Learning</h2>
+<h3 id="tqdm">tqdm</h3>
+<ul>
+<li>使用tqdm对迭代对象时，如果出现<code>'module' object is not callable</code>则将<code>import tqdm</code>改为<code>tqdm</code></li>
 </ul>
 
       
@@ -683,7 +687,6 @@
     <div class="post-body" itemprop="articleBody">
           <p>在colab上依次运行下面的命令</p>
 <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">!pip install kaggle</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line">token=&#123;<span class="string">&quot;username&quot;</span>:<span class="string">&quot;xxxxx&quot;</span>,<span class="string">&quot;key&quot;</span>:<span class="string">&quot;xxxxx&quot;</span>&#125;</span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./content/kaggle.json&#x27;</span>,<span class="string">&#x27;w&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">    json.dump(token,file)</span><br></pre></td></tr></table></figure>
-
 <p>token中的键值对对应的是自己的账号内容，具体操作：</p>
 <ol>
 <li>进入kaggle，点击头像，点击myaccount</li>
@@ -692,7 +695,6 @@
 </ol>
 <p>接下来，依次运行下面的代码</p>
 <figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-mkdir -p ~/.kaggle</span><br><span class="line">!cp /content/kaggle.json ~/.kaggle</span><br><span class="line">!chmod <span class="number">600</span> ~/.kaggle/kaggle.json</span><br><span class="line">!kaggle config <span class="built_in">set</span> -n path -v /content</span><br></pre></td></tr></table></figure>
-
 <p>找到我们需要的kaggle数据集的API后，复制执行</p>
 
       
@@ -787,7 +789,8 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="决策树和梯度提升树简介"><a href="#决策树和梯度提升树简介" class="headerlink" title="决策树和梯度提升树简介"></a>决策树和梯度提升树简介</h2><p>以下是表格数据的一个样例。其中列出了5个人物的信息，包括年龄、性别、职业、是否每天使用电脑这4个维度，我们希望利用这些信息构建机器学习模型，来预测一个人是否喜欢电脑游戏。因此，这4个维度的信息即是数据的特征，而是否喜欢电脑游戏则是数据的标签。每一行的数据是一个样本。</p>
+          <h2 id="决策树和梯度提升树简介">决策树和梯度提升树简介</h2>
+<p>以下是表格数据的一个样例。其中列出了5个人物的信息，包括年龄、性别、职业、是否每天使用电脑这4个维度，我们希望利用这些信息构建机器学习模型，来预测一个人是否喜欢电脑游戏。因此，这4个维度的信息即是数据的特征，而是否喜欢电脑游戏则是数据的标签。每一行的数据是一个样本。</p>
 <p>表1</p>
 <table>
 <thead>
@@ -799,7 +802,8 @@
 <th>是否喜欢电脑游戏</th>
 </tr>
 </thead>
-<tbody><tr>
+<tbody>
+<tr>
 <td>12</td>
 <td>男</td>
 <td>学生</td>
@@ -834,7 +838,8 @@
 <td>否</td>
 <td>否</td>
 </tr>
-</tbody></table>
+</tbody>
+</table>
 <p>表格数据的特征类型可大致归为数值特征与类别特征这两大类。其中，数值特征的数值大小具有意义，不同特征值之间可以进行大小的比较，表1中的年龄就属于数值特征。而类别特征的不能比较大小，而是表示样本的一种属性，例如表1中的职业、性别等等。</p>
           <!--noindex-->
             <div class="post-button">
@@ -936,7 +941,8 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>提升机器学习算法性能的最简单方式就是在相同数据集上训练足够多的模型然后对他们的预测取平均值。但是使用多个模型的组合相当繁琐，而且对于大部分使用者来说其计算代价太大，尤其是每个模型都是大型的神经网络的时候。Caruana提出可以将集合模型的知识压缩到一个单独模型中，这会使得知识更容易使用。Hinton使用了一个不同的压缩技术对这一方法进行了改进发展。该方法在MNIST数据集上获取了很好的表现，并且Hinton证明了通过蒸馏一组模型中的知识到一个单独模型中，能够极大提升大量应用在商业系统中传统模型的性能。Hinton还提出了由一个或者多个完整模型和专家模型组合而成的集合，该集合能够分辨更细的类，这是完整模型所无法做到的。这些专家模型可以快速并行训练</p>
+          <h2 id="摘要-5">摘要</h2>
+<p>提升机器学习算法性能的最简单方式就是在相同数据集上训练足够多的模型然后对他们的预测取平均值。但是使用多个模型的组合相当繁琐，而且对于大部分使用者来说其计算代价太大，尤其是每个模型都是大型的神经网络的时候。Caruana提出可以将集合模型的知识压缩到一个单独模型中，这会使得知识更容易使用。Hinton使用了一个不同的压缩技术对这一方法进行了改进发展。该方法在MNIST数据集上获取了很好的表现，并且Hinton证明了通过蒸馏一组模型中的知识到一个单独模型中，能够极大提升大量应用在商业系统中传统模型的性能。Hinton还提出了由一个或者多个完整模型和专家模型组合而成的集合，该集合能够分辨更细的类，这是完整模型所无法做到的。这些专家模型可以快速并行训练</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2022/01/16/KnowledgeDistill/#more" rel="contents">
@@ -1037,7 +1043,9 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="入门"><a href="#入门" class="headerlink" title="入门"></a>入门</h2><h3 id="命令行参数"><a href="#命令行参数" class="headerlink" title="命令行参数"></a>命令行参数</h3><p><code>os</code>包提供了一些与餐佐系统交互的函数和变量。命令行参数可以从os包的Args变量中获取；os包外部使用os.Args访问该变量。</p>
+          <h2 id="入门">入门</h2>
+<h3 id="命令行参数">命令行参数</h3>
+<p><code>os</code>包提供了一些与餐佐系统交互的函数和变量。命令行参数可以从os包的Args变量中获取；os包外部使用os.Args访问该变量。</p>
 <p>os.Args变量是一个字符串(string)的切片(slice)。os.Args[0]是命令本身的名字，其他元素是程序启动时传给他的参数。</p>
 <p>下面是echo命令的一个实现，其作用是将命令行参数打印成一行。</p>
 <figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> main</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> (</span><br><span class="line">    <span class="string">&quot;fmt&quot;</span></span><br><span class="line">    <span class="string">&quot;os&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">var</span> s, sep <span class="keyword">string</span></span><br><span class="line">    <span class="keyword">for</span> i := <span class="number">1</span>; i &lt; <span class="built_in">len</span>(os.Args); i++ &#123;</span><br><span class="line">        <span class="comment">//连接sep（为空或者为空格）和命令行参数</span></span><br><span class="line">        s += sep + os.Args[i]</span><br><span class="line">        sep = <span class="string">&quot; &quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">    fmt.Println(s)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>

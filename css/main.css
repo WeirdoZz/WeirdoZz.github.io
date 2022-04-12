@@ -2886,7 +2886,7 @@ mjx-container[display='true'] + br {
   }
 }
 body {
-  background-image: url("/image/SovietFlagOnGerman.jpg");
+  background-image: url("/image/bg.jpg");
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
