@@ -44,7 +44,7 @@
 <meta property="og:image" content="https://i.imgur.com/XkiqMMU.png">
 <meta property="og:image" content="https://i.imgur.com/5caxUkX.png">
 <meta property="article:published_time" content="2022-03-28T11:11:59.000Z">
-<meta property="article:modified_time" content="2022-03-31T10:55:32.133Z">
+<meta property="article:modified_time" content="2022-04-12T04:20:02.488Z">
 <meta property="article:author" content="Weirdo">
 <meta property="article:tag" content="WeirdoBlog">
 <meta name="twitter:card" content="summary">
@@ -261,7 +261,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-03-31 18:55:32" itemprop="dateModified" datetime="2022-03-31T18:55:32+08:00">2022-03-31</time>
+      <time title="修改时间：2022-04-12 12:20:02" itemprop="dateModified" datetime="2022-04-12T12:20:02+08:00">2022-04-12</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -306,16 +306,16 @@
 <p>本文注重于预测未来的数据分布，使用DDG-DA方法来预测下个时间步的数据分布，这样模型的下游学习任务能够在预测分布的数据样本上训练而不仅仅是知道要发生概念漂移。在实操中，DDG-DA被设计成一个动态的数据生成器，能够从过去数据中生成服从分布的数据。但是在现实中训练一个这样的能够最大化预测数据和真实数据相似度的数据生成器是难度很大的。为了解决这个问题，作者首先通过在数据分布下学习一个模型来表示数据分布，然后创建一个可微的分布距离来训练数据生成器。为了验证方法的有效性，作者还做了一个完整的理论分析来证明传统分布距离（比如kl散度）和本方法的等价。</p>
 <h2 id="方法设计"><a href="#方法设计" class="headerlink" title="方法设计"></a>方法设计</h2><p><img src="https://i.imgur.com/M59yAlD.png" alt="picture 1">  </p>
 <h3 id="总体设计"><a href="#总体设计" class="headerlink" title="总体设计"></a>总体设计</h3><p>在上图中，训练数据和测试数据随着时间发生改变。对于每一个时间步t，任务$task^{(t)}:&#x3D;(D_{train}^{(t)},D_{test}^{(t)})$目的是学习一个新的模型以调整当前在历史数据上训练的模型并且最小化$D_{test}^{(t)}$上的损失。模型可以根据内存大小在时间步t使用一个有限的$D_{train}^{(t)}$，它是从训练分布为$p_{train}^{t}(x,y)$的训练数据中取样来的，$D_{test}^{(t)}$是从分布为$p_{test}^{(t)}$的测试数据中取样来的。这两个分布可能是不同的，因此会对预测精度有不好的影响。</p>
-<p><strong>DDG-DA学习</strong>。 为了减小这种差距，DDG-DA(表示为$M_{\Theta}$)尝试对概念漂移建模并且预测测试数据的分布$p_{test}^{(t)}(x,y)$。DDG-DA的框架已经在上图中解释了。DDG-DA就像一个甲醛数据采样器在$D_{train}^{(t)}$上进行重新采样并且创建一个新的训练数据集$D_{resam}^{(t)}(\Theta)$，它的数据分布为$p_{resam}^{(t)}(x,y;\Theta)$（也就是我们假设的测试集的数据分布）。DDG-DA会去最小化这个分布和真实的测试分布之间的差距。</p>
-<p>在DDG-DA的训练过程中，$M_{\Theta}$在$task^{(t)} \in Task_{train}$通过最小化预测分布和实际分布的差距来进行学习。从$Task_{train}$中学来的知识是用于转变成$task_{Test}$中的新任务的。</p>
+<p><strong>DDG-DA学习</strong>。 为了减小这种差距，DDG-DA(表示为$M_{\Theta}$)尝试对概念漂移建模并且预测测试数据的分布$p_{test}^{(t)}(x,y)$。DDG-DA的框架已经在上图中解释了。DDG-DA就像一个加权数据采样器在$D_{train}^{(t)}$上进行重新采样并且创建一个新的训练数据集$D_{resam}^{(t)}(\Theta)$，它的数据分布为$p_{resam}^{(t)}(x,y;\Theta)$（也就是我们假设的测试集的数据分布）。DDG-DA会去最小化这个分布和真实的测试分布之间的差距。</p>
+<p>在DDG-DA的训练过程中，$M_{\Theta}$在$task^{(t)} \in Task_{train}$通过最小化预测分布和实际分布的差距来进行学习。从$Task_{train}$中学来的知识是用于转变成$Task_{Test}$中的新任务的。</p>
 <p><strong>DDG-DA预测</strong>。 预测模型是在训练数据上重新采样后的数据集上训练的，然后放到测试数据集上进行测试。训练集分布概率对于这个模型的精度是至关重要的，由于我们前面DDG-DA已经学到了一个最小化测试数据和重新采样数据分布之间差距的模式，所以该重新采样的数据相比于训练集应该更像测试集，所以在测试集上会有一个比较好的结果。</p>
 <p><strong>一个例子</strong>。作者举了一个股价趋势预测的场景。为了解决概念漂移，每个月都基于过去两年的历史数据重新训练一个模型。每次重新训练模型以解决概念漂移被称作一个task。比如，第一个任务$task^{(2011&#x2F;01)}$包含了训练数据$D_{train}^{(2011&#x2F;01)}$（包含2009&#x2F;01-2010&#x2F;12的数据）和一个月的测试数据$D_{test}^{(2011&#x2F;01)}$。DDG-DA会在$D_{train}^{(2011&#x2F;01)}$基础上创建一个$D_{resam}^{(2011&#x2F;01)}(\Theta)$用于训练预测模型。每个月都会产生一个新的task，这些task按照时间顺序排序并且以2016年作为分割，前面的相当于训练集，后面的相当于测试集。</p>
 <h3 id="模型设计和学习过程"><a href="#模型设计和学习过程" class="headerlink" title="模型设计和学习过程"></a>模型设计和学习过程</h3><p><img src="https://i.imgur.com/CiLLHSG.png" alt="picture 2">  </p>
-<h4 id="特征设计"><a href="#特征设计" class="headerlink" title="特征设计"></a>特征设计</h4><p>历史数据的分布信息对于预测$D_{test}^{(t)}$的分布是很有用的，因此将他作为DDG-DA的分布。DDG-DA可以表示为$q_{train}^{(t)}&#x3D;M_{\Theta}(g(D_{train}^{(t)}))$。g是一个特征提取器，它将$D_{train}^{(t)}$作为输入并且输出历史数据分布信息。$M_{\Theta}$使用提取后的信息然后输出重新采样的分布概率用于在$D_{train}^(t)$上采样。</p>
+<h4 id="特征设计"><a href="#特征设计" class="headerlink" title="特征设计"></a>特征设计</h4><p>历史数据的分布信息对于预测$D_{test}^{(t)}$的分布是很有用的，因此将他作为DDG-DA的输入。DDG-DA可以表示为$q_{train}^{(t)}&#x3D;M_{\Theta}(g(D_{train}^{(t)}))$。g是一个特征提取器，它将$D_{train}^{(t)}$作为输入并且输出历史数据分布信息。$M_{\Theta}$使用提取后的信息然后输出重新采样的分布概率用于在$D_{train}^{(t)}$上采样。</p>
 <h4 id="目标函数"><a href="#目标函数" class="headerlink" title="目标函数"></a>目标函数</h4><p>$M_{\Theta}$接收提取后的特征然后输出分布概率。DDG-DA的学习目的就是最小化预测分布和真实分布差距。作者注重于最重要的漂移主体$p(y|x)$并且认为测试数据分布和重新采样的数据分布的差距次之。DDG-DA的损失可以表示为：</p>
 <p><img src="https://i.imgur.com/D4vfGYw.png" alt="picture 3">  </p>
 <p>其中$D_{KL}$是KL散度。</p>
-<p>对于未知变量假设正态分布是合理的并且经常用于最大似然估计。在这种估计下，$p_{test}^{(t)}(y|x)&#x3D;\Nu(y_{test}^{(t)}(x),\sigma)$并且$p_{resam}^{(t)}(y|x)&#x3D;\Nu(y_{resam}^{(t)}(x;\Theta),\sigma)$，其中$\sigma$是常量。</p>
+<p>对于未知变量假设正态分布是合理的并且经常用于最大似然估计。在这种估计下，$p_{test}^{(t)}(y|x)&#x3D;\N (y_{test}^{(t)}(x),\sigma)$并且$p_{resam}^{(t)}(y|x)&#x3D;\N (y_{resam}^{(t)}(x;\Theta),\sigma)$，其中$\sigma$是常量。</p>
 <p>公式1中的resample的数据集的估计期望可以描述为</p>
 <p><img src="https://i.imgur.com/cUcBhVS.png" alt="picture 4">  </p>
 <p>结合所有的训练任务的损失，DDG-DA的优化目标能够描述为</p>
@@ -326,7 +326,7 @@
 <p>DDG-DA的总体双层优化公式：</p>
 <p><img src="https://i.imgur.com/NDZeZhZ.png" alt="picture 7">  </p>
 <p>其中$\Theta$是DDG-DA的参数。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">对于这里公式我的理解是：首先在重新采样的数据上面对我们的代理模型进行优化，找到一个损失总和最小时候的参数，作为他在下一层的参数。</span><br><span class="line">然后在下一层使用测试集上的数据对模型进行优化，找到在测试集上的损失最小的模型参数。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">对于上面这些公式，其感性的理解就是，我们有一个DDG-DA模型，从已有的训练集中抽取一部分样本用它们的分布表示测试集的分布，然后怎么判断这个模型抽取的样本是不是准确呢？这时候就需要第二个模型，它学习我们重采样的数据的x-y的映射关系，这样将测试集中的所有的x输入得到y_hat，然后用y_hat和y放入损失函数，求得损失，再进行反向传播优化。</span><br></pre></td></tr></table></figure>
 
 <p>优化公式2的阻碍主要在于公式4的下级部分无法以封闭的形式解决。argmin通常来说是不可微的，这使得许多的优化算法（比如梯度下降）无法在公式4上进行优化。</p>
 <p>DDG-DA采用了一个使用封闭式解法的模型作为$y_{proxy}(x;\phi)^{(t)}$。为了简单，作者选用了线性模型$h(x;\phi_{(t)})&#x3D;x\phi^{(t)}$。$M_\Theta$输出的$q_{train}^{(t)}$可以被视为学习预测模型时的重采样权重。公式4的损失函数就可以描述为：</p>
