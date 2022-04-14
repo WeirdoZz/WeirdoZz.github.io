@@ -24,16 +24,17 @@
   <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"weirdozz.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
-<meta name="description" content="摘要 许多线上学习方法都包含漂移检测模块来对数据的变化做出检测和反应。但是，可靠的漂移检测算法存在一个具有挑战性的问题，不断变化的漂移特征和缺少反应漂移的参数化模型，这一问题在数据维度较高时更加明显。本文作者提出了DAWIDD的漂移检测方法，旨在对各种漂移特征进行非参的漂移检测。为此，作者在相应的漂移过程中建立了漂移发生与特定随机变量的依赖性的数学等价。这使得漂移检测无需依赖参数化模型，可以进行独">
+<meta name="description" content="摘要许多线上学习方法都包含漂移检测模块来对数据的变化做出检测和反应。但是，可靠的漂移检测算法存在一个具有挑战性的问题，不断变化的漂移特征和缺少反应漂移的参数化模型，这一问题在数据维度较高时更加明显。本文作者提出了DAWIDD的漂移检测方法，旨在对各种漂移特征进行非参的漂移检测。为此，作者在相应的漂移过程中建立了漂移发生与特定随机变量的依赖性的数学等价。这使得漂移检测无需依赖参数化模型，可以进行独立">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Dynamic Adapting Window Independence Drift Detection(DAWIDD)">
 <meta property="og:url" content="https://weirdozz.github.io/2022/04/11/Dynamic-Adapting-Window-Independence-Drift-Detection-DAWIDD/index.html">
 <meta property="og:site_name" content="Weirdo">
-<meta property="og:description" content="摘要 许多线上学习方法都包含漂移检测模块来对数据的变化做出检测和反应。但是，可靠的漂移检测算法存在一个具有挑战性的问题，不断变化的漂移特征和缺少反应漂移的参数化模型，这一问题在数据维度较高时更加明显。本文作者提出了DAWIDD的漂移检测方法，旨在对各种漂移特征进行非参的漂移检测。为此，作者在相应的漂移过程中建立了漂移发生与特定随机变量的依赖性的数学等价。这使得漂移检测无需依赖参数化模型，可以进行独">
+<meta property="og:description" content="摘要许多线上学习方法都包含漂移检测模块来对数据的变化做出检测和反应。但是，可靠的漂移检测算法存在一个具有挑战性的问题，不断变化的漂移特征和缺少反应漂移的参数化模型，这一问题在数据维度较高时更加明显。本文作者提出了DAWIDD的漂移检测方法，旨在对各种漂移特征进行非参的漂移检测。为此，作者在相应的漂移过程中建立了漂移发生与特定随机变量的依赖性的数学等价。这使得漂移检测无需依赖参数化模型，可以进行独立">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://i.imgur.com/Jwr26yo.png">
+<meta property="og:image" content="https://i.imgur.com/i4eyB9C.png">
 <meta property="article:published_time" content="2022-04-11T04:13:06.000Z">
-<meta property="article:modified_time" content="2022-04-11T07:27:59.128Z">
+<meta property="article:modified_time" content="2022-04-14T04:36:59.735Z">
 <meta property="article:author" content="Weirdo">
 <meta property="article:tag" content="WeirdoBlog">
 <meta name="twitter:card" content="summary">
@@ -154,7 +155,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%91%98%E8%A6%81-8"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E8%A8%80-7"><span class="nav-number">2.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5%E6%BC%82%E7%A7%BB%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-number">3.</span> <span class="nav-text">概念漂移的定义</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%891"><span class="nav-number">3.1.</span> <span class="nav-text">定义1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%892"><span class="nav-number">3.2.</span> <span class="nav-text">定义2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%86%E6%8D%9F%E5%A4%B1%E7%9A%84%E6%94%B9%E5%8F%98%E4%BD%9C%E4%B8%BA%E6%BC%82%E7%A7%BB%E7%9A%84%E9%A2%84%E6%B5%8B"><span class="nav-number">3.3.</span> <span class="nav-text">将损失的改变作为漂移的预测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%893"><span class="nav-number">3.4.</span> <span class="nav-text">定义3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DAWIDD"><span class="nav-number">3.5.</span> <span class="nav-text">DAWIDD</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%91%98%E8%A6%81"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E8%A8%80"><span class="nav-number">2.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5%E6%BC%82%E7%A7%BB%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-number">3.</span> <span class="nav-text">概念漂移的定义</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%891"><span class="nav-number">3.1.</span> <span class="nav-text">定义1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%892"><span class="nav-number">3.2.</span> <span class="nav-text">定义2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%86%E6%8D%9F%E5%A4%B1%E7%9A%84%E6%94%B9%E5%8F%98%E4%BD%9C%E4%B8%BA%E6%BC%82%E7%A7%BB%E7%9A%84%E9%A2%84%E6%B5%8B"><span class="nav-number">3.3.</span> <span class="nav-text">将损失的改变作为漂移的预测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%893"><span class="nav-number">3.4.</span> <span class="nav-text">定义3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DAWIDD"><span class="nav-number">3.5.</span> <span class="nav-text">DAWIDD</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -169,7 +170,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-count">30</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -242,9 +243,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2022-04-11 12:13:06 / 修改时间：15:27:59" itemprop="dateCreated datePublished" datetime="2022-04-11T12:13:06+08:00">2022-04-11</time>
+      <time title="创建时间：2022-04-11 12:13:06" itemprop="dateCreated datePublished" datetime="2022-04-11T12:13:06+08:00">2022-04-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-04-14 12:36:59" itemprop="dateModified" datetime="2022-04-14T12:36:59+08:00">2022-04-14</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -280,38 +287,33 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h2 id="摘要-8">摘要</h2>
-<p>许多线上学习方法都包含漂移检测模块来对数据的变化做出检测和反应。但是，可靠的漂移检测算法存在一个具有挑战性的问题，不断变化的漂移特征和缺少反应漂移的参数化模型，这一问题在数据维度较高时更加明显。本文作者提出了DAWIDD的漂移检测方法，旨在对各种漂移特征进行非参的漂移检测。为此，作者在相应的漂移过程中建立了漂移发生与特定随机变量的依赖性的数学等价。这使得漂移检测无需依赖参数化模型，可以进行独立测试，这样的方案对于检测不同类型的漂移足够鲁棒。</p>
+        <h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>许多线上学习方法都包含漂移检测模块来对数据的变化做出检测和反应。但是，可靠的漂移检测算法存在一个具有挑战性的问题，不断变化的漂移特征和缺少反应漂移的参数化模型，这一问题在数据维度较高时更加明显。本文作者提出了DAWIDD的漂移检测方法，旨在对各种漂移特征进行非参的漂移检测。为此，作者在相应的漂移过程中建立了漂移发生与特定随机变量的依赖性的数学等价。这使得漂移检测无需依赖参数化模型，可以进行独立测试，这样的方案对于检测不同类型的漂移足够鲁棒。</p>
 <span id="more"></span>
-<h2 id="引言-7">引言</h2>
-<p>作者的贡献点在于：</p>
+
+<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>作者的贡献点在于：</p>
 <ol>
 <li>对用于文献中的两种不同的漂移的概念进行了形式化，即作为概率变化的漂移和作为损失函数变化的漂移，并且对他们的等价性做了证明。</li>
 <li>根据漂移过程中随机变量的独立性提供了一个新的漂移的数学表征，并且证明了这种形式化与文献中使用的漂移概念的等价。</li>
 </ol>
-<h2 id="概念漂移的定义">概念漂移的定义</h2>
-<h3 id="定义1">定义1</h3>
-<p>漂移过程 $(p_t,P_T)$ 是由一个[0,1]上的概率测度和 $R^d$ 上的测度集合 $p_t,t\in [0,1]$构成，这样从t到 $p_t(A)$ 的映射对于每一个 $A \subset R^d$，都是可测量的。</p>
+<h2 id="概念漂移的定义"><a href="#概念漂移的定义" class="headerlink" title="概念漂移的定义"></a>概念漂移的定义</h2><h3 id="定义1"><a href="#定义1" class="headerlink" title="定义1"></a>定义1</h3><p>漂移过程 $(p_t,P_T)$ 是由一个[0,1]上的概率测度和 $R^d$ 上的测度集合 $p_t,t\in [0,1]$构成，这样从t到 $p_t(A)$ 的映射对于每一个 $A \subset R^d$，都是可测量的。</p>
 <p>对于每一个漂移过程(p_t,P_T)，存在一个在 $R^d\times [0,1]$ 上的概率测度P，定义为：</p>
-<p><img src="https://i.imgur.com/Jwr26yo.png" alt="picture 1"></p>
+<p><img src="https://i.imgur.com/Jwr26yo.png" alt="picture 1">  </p>
 <p>其中 $B \subset [0,1],A \subset R^d$ 。在后面我们将这个定义表示为 $p_t \otimes P_T$ 。</p>
-<h3 id="定义2">定义2</h3>
-<p>如果 $p_t \neq p_s$ 仅在 $P_T$ 为空集情况下成立，则称 $p_t$ 没有发生漂移。</p>
+<h3 id="定义2"><a href="#定义2" class="headerlink" title="定义2"></a>定义2</h3><p>如果 $p_t \neq p_s$ 仅在 $P_T$ 为空集情况下成立，则称 $p_t$ 没有发生漂移。</p>
 <p><strong>引理1.</strong> (p_t,P_T)是漂移过程，则以下三点等价：</p>
 <ul>
 <li>$p_t$ 没有漂移</li>
-<li>在 $P_T$ 中存在 $P_X=P_t$</li>
-<li>存在 $P_X$ 使得 $p_t \otimes P_T = P_X \times P_T$</li>
+<li>在 $P_T$ 中存在 $P_X&#x3D;P_t$</li>
+<li>存在 $P_X$ 使得 $p_t \otimes P_T &#x3D; P_X \times P_T$</li>
 </ul>
-<h3 id="将损失的改变作为漂移的预测">将损失的改变作为漂移的预测</h3>
-<p>作者想要通过说明在哪些场景下损失变化作为预测和上述定义的漂移是等价的来证实基于损失的预测方法。</p>
-<h3 id="定义3">定义3</h3>
-<p>H作为假设类， $R^d$ 作为测度空间。</p>
+<h3 id="将损失的改变作为漂移的预测"><a href="#将损失的改变作为漂移的预测" class="headerlink" title="将损失的改变作为漂移的预测"></a>将损失的改变作为漂移的预测</h3><p>作者想要通过说明在哪些场景下损失变化作为预测和上述定义的漂移是等价的来证实基于损失的预测方法。</p>
+<h3 id="定义3"><a href="#定义3" class="headerlink" title="定义3"></a>定义3</h3><p>H作为假设类， $R^d$ 作为测度空间。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">证明看不懂，直接跳过，总而言之作者就是证明了其提出的概念漂移的定义和传统的概念漂移检测方法检测到漂移时的情况是一样的。</span><br></pre></td></tr></table></figure>
-<h3 id="DAWIDD">DAWIDD</h3>
-<p>将漂移检测设计为一个依赖测试：给定 $X_1,\dots ,X_n$ 作为样本，增加一个时间的随机变量 $T_i$ ，就变成了 $(X_1,T_1),\dots,(X_n,T_n)$ 。通过对于 $X_i$ 和 $T_i$ 之间的独立性测试我们能够获得一个漂移检测器。</p>
+
+<h3 id="DAWIDD"><a href="#DAWIDD" class="headerlink" title="DAWIDD"></a>DAWIDD</h3><p>将漂移检测设计为一个依赖测试：给定 $X_1,\dots ,X_n$ 作为样本，增加一个时间的随机变量 $T_i$ ，就变成了 $(X_1,T_1),\dots,(X_n,T_n)$ 。通过对于 $X_i$ 和 $T_i$ 之间的独立性测试我们能够获得一个漂移检测器。</p>
 <p>执行独立性测试我们需要一个固定数量的样本，可以通过一个滑窗来实现。如果检测到漂移，将样本从窗口中移除达到最小值；如果没有，当窗口超微指定大小时，随机移除样本。这样做比数据流上的滑窗在数据上更稳定。比如说移除掉的旧样本恰好能够很好地表示一个渐进漂移。随机移除样本的合理性由下面的引理给出：</p>
-<p><strong>引理2.</strong> $(p_t,P_T)$ 和 $q_t,Q_T$ 是漂移过程。假设 $P_T(A)=0 =&gt; Q_T(A)$</p>
+<p><strong>引理2.</strong> $(p_t,P_T)$ 和 $q_t,Q_T$ 是漂移过程。假设 $P_T(A)&#x3D;0 &#x3D;&gt; Q_T(A)&#x3D;0$ 对于任意 $A\subset[0,1]$ 成立且 $p_t&#x3D;q_t$ 对于所有 $t\in [0,1]$ 成立，则若 $p_t$ 没有漂移那么 $q_t$ 也没有漂移。</p>
+<p><img src="https://i.imgur.com/i4eyB9C.png" alt="picture 1">  </p>
 
     </div>
 
@@ -330,6 +332,9 @@
                 </a>
             </div>
             <div class="post-nav-item">
+                <a href="/2022/04/14/Hellinger-Distance-Based-Drift-Detection-for-Nonstationary-Environments/" rel="next" title="Hellinger Distance Based Drift Detection for Nonstationary Environments">
+                  Hellinger Distance Based Drift Detection for Nonstationary Environments <i class="fa fa-chevron-right"></i>
+                </a>
             </div>
           </div>
     </footer>

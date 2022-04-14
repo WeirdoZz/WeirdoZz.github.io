@@ -24,28 +24,36 @@
   <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"weirdozz.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
-<meta name="description" content="怕什么真理无穷，进一步有进一步的欢喜">
+<meta name="description" content="引言本文作者将改变决策边界的突然的数据分布变化定义为concept change，逐渐的数据分布的变化定义为概念漂移。但是如果在不需要仔细区分两者的情况下，使用概念漂移作为其统一名称，因为概念漂移更难检测一点。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="桃子你好">
-<meta property="og:url" content="https://weirdozz.github.io/2022/01/10/%E6%A1%83%E5%AD%90%E4%BD%A0%E5%A5%BD/index.html">
+<meta property="og:title" content="Hellinger Distance Based Drift Detection for Nonstationary Environments">
+<meta property="og:url" content="https://weirdozz.github.io/2022/04/14/Hellinger-Distance-Based-Drift-Detection-for-Nonstationary-Environments/index.html">
 <meta property="og:site_name" content="Weirdo">
-<meta property="og:description" content="怕什么真理无穷，进一步有进一步的欢喜">
+<meta property="og:description" content="引言本文作者将改变决策边界的突然的数据分布变化定义为concept change，逐渐的数据分布的变化定义为概念漂移。但是如果在不需要仔细区分两者的情况下，使用概念漂移作为其统一名称，因为概念漂移更难检测一点。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-01-10T12:38:37.000Z">
-<meta property="article:modified_time" content="2022-03-16T14:38:03.594Z">
+<meta property="og:image" content="https://i.imgur.com/I3YriW6.png">
+<meta property="og:image" content="https://i.imgur.com/TzQxK4a.png">
+<meta property="og:image" content="https://i.imgur.com/hEeGsF1.png">
+<meta property="og:image" content="https://i.imgur.com/5tmN1Qh.png">
+<meta property="og:image" content="https://i.imgur.com/u2P1ZQM.png">
+<meta property="og:image" content="https://i.imgur.com/zF90WCy.png">
+<meta property="og:image" content="https://i.imgur.com/HlZK3EK.png">
+<meta property="article:published_time" content="2022-04-14T04:03:34.000Z">
+<meta property="article:modified_time" content="2022-04-14T09:51:13.236Z">
 <meta property="article:author" content="Weirdo">
 <meta property="article:tag" content="WeirdoBlog">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/I3YriW6.png">
 
 
-<link rel="canonical" href="https://weirdozz.github.io/2022/01/10/%E6%A1%83%E5%AD%90%E4%BD%A0%E5%A5%BD/">
+<link rel="canonical" href="https://weirdozz.github.io/2022/04/14/Hellinger-Distance-Based-Drift-Detection-for-Nonstationary-Environments/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://weirdozz.github.io/2022/01/10/%E6%A1%83%E5%AD%90%E4%BD%A0%E5%A5%BD/","path":"2022/01/10/桃子你好/","title":"桃子你好"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://weirdozz.github.io/2022/04/14/Hellinger-Distance-Based-Drift-Detection-for-Nonstationary-Environments/","path":"2022/04/14/Hellinger-Distance-Based-Drift-Detection-for-Nonstationary-Environments/","title":"Hellinger Distance Based Drift Detection for Nonstationary Environments"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>桃子你好 | Weirdo</title>
+<title>Hellinger Distance Based Drift Detection for Nonstationary Environments | Weirdo</title>
   
 
 
@@ -139,7 +147,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           文章目录
@@ -152,6 +160,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E6%9C%BA"><span class="nav-number">2.1.</span> <span class="nav-text">动机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%81%87%E8%AE%BE"><span class="nav-number">2.2.</span> <span class="nav-text">假设</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%82%E7%A7%BB%E6%A3%80%E6%B5%8B%E7%AE%97%E6%B3%95"><span class="nav-number">2.3.</span> <span class="nav-text">漂移检测算法</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -216,7 +225,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/01/10/%E6%A1%83%E5%AD%90%E4%BD%A0%E5%A5%BD/">
+    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/04/14/Hellinger-Distance-Based-Drift-Detection-for-Nonstationary-Environments/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/weirdo.jpg">
@@ -229,7 +238,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          桃子你好
+          Hellinger Distance Based Drift Detection for Nonstationary Environments
         </h1>
 
         <div class="post-meta-container">
@@ -239,15 +248,18 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
+      
 
-      <time title="创建时间：2022-01-10 20:38:37" itemprop="dateCreated datePublished" datetime="2022-01-10T20:38:37+08:00">2022-01-10</time>
+      <time title="创建时间：2022-04-14 12:03:34 / 修改时间：17:51:13" itemprop="dateCreated datePublished" datetime="2022-04-14T12:03:34+08:00">2022-04-14</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
+        <i class="far fa-folder"></i>
       </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-03-16 22:38:03" itemprop="dateModified" datetime="2022-03-16T22:38:03+08:00">2022-03-16</time>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BC%82%E5%B8%B8%E6%A3%80%E6%B5%8B/" itemprop="url" rel="index"><span itemprop="name">异常检测</span></a>
+        </span>
     </span>
 
   
@@ -259,8 +271,8 @@
       </span>
       <span class="post-meta-item-text">Disqus：</span>
     
-    <a title="disqus" href="/2022/01/10/%E6%A1%83%E5%AD%90%E4%BD%A0%E5%A5%BD/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/01/10/桃子你好/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2022/04/14/Hellinger-Distance-Based-Drift-Detection-for-Nonstationary-Environments/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/04/14/Hellinger-Distance-Based-Drift-Detection-for-Nonstationary-Environments/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -274,7 +286,49 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        
+        <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>本文作者将改变决策边界的突然的数据分布变化定义为concept change，逐渐的数据分布的变化定义为概念漂移。但是如果在不需要仔细区分两者的情况下，使用概念漂移作为其统一名称，因为概念漂移更难检测一点。</p>
+<span id="more"></span>
+
+<p>流式数据中有两种漂移检测方法：</p>
+<ul>
+<li>被动检测：每次获取到新数据的时候，学习器都假设漂移已经发生，然后根据现有的数据分布更新分类器，不管是否真的发生漂移。</li>
+<li>主动检测：持续显式地监视数据以检测是否发生漂移，只有发生漂移的时候，算法才会采取行动，比如用最近的数据更新分类器或者创建一个新的分类器来学习当前的数据。</li>
+</ul>
+<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><p>HDDDM的总体特征：</p>
+<ul>
+<li>数据块：基于批的</li>
+<li>使用的信息：原始特征（不依赖于分类的准确率）</li>
+<li>检测漂移的模式：显式</li>
+<li>指定分类器还是不限分类器：不限分类器</li>
+</ul>
+<h3 id="动机"><a href="#动机" class="headerlink" title="动机"></a>动机</h3><p>该检测方法的动机是检测在一系列的批数据中是否发生了漂移。选择Hellinger距离作为衡量依据是因为没有对数据的分布进行假设并且Hellinger距离使该方法能够测量两个顺序时间戳上数据分布的变化。</p>
+<p>HDDDM使用当前数据分布和参考分布（就是最新的一些数据）之间的距离Hellinger距离。该距离和KL散度相似，都是f散度的一个实例，不同点在于Hellinger散度是对称度量。此外，H散度是一个有界距离度量：对于两个概率密度函数为P和Q的分布，H散度是 $\delta_H(P,Q)\in[0,\sqrt{2}]$ 。如果 $\delta_H(P,Q)&#x3D;0$ ，说明两个概率密度函数是完全相同的；如果 $\delta_H(P,Q)&#x3D;\sqrt{2}$ ，说明两个概率密度函数是完全不同的。</p>
+<p>举个例子说，考虑具有类中心以圆形模式移动的高斯的两类旋转混合，其中每一个分布都表示一个不同的类（下图所示）。类均值可以通过参数化方程给出 $\mu_1^{(t)}&#x3D;[cos\theta_t,sin\theta_t]^T,\mu_2^{(t)}&#x3D;-\mu_1^(t),\theta_t&#x3D;\frac{2\pi c}{N}t$ ，固定的类协方差矩阵为 $\epsilon_1&#x3D;\epsilon_2&#x3D;0.5*I$ ，其中c是圆的数量，t是时间戳（从0到N-1），I是一个2x2的单位矩阵。</p>
+<p><img src="https://i.imgur.com/I3YriW6.png" alt="picture 2">  </p>
+<p>Hellinger距离能够展示新数据集 $D_k$ 和基准数据集 $D_1$ 之间的相似度。下图给出了类1、类2和整个数据集上的散度的Hellinger距离。我们发现Hellinger距离随着 $\theta$ 的变化而变得不同。并且当 $\theta_1$ 和 $\theta_k$ 相近的时候，H距离就很小（t&#x3D;0，200，400，600）。</p>
+<p><img src="https://i.imgur.com/TzQxK4a.png" alt="picture 3">  </p>
+<p>另外，如果控制不同时间的数据分布是相同的话，不同时间的数据H距离就会是一个很小的常数，但是不是0。这是因为类均值的一些不同和采样出来的随机性导致的。</p>
+<h3 id="假设"><a href="#假设" class="headerlink" title="假设"></a>假设</h3><p>该方法做出了三个假设：</p>
+<ul>
+<li>有标签的训练数据集是以批形式送入漂移检测算法的，H距离是在两个数据分布的直方图上计算的。如果只能一条一条地获取数据的话，可以积累数据来形成直方图以供计算。</li>
+<li>数据分布具有有限的范围： 当 $x\leq T_1$ ，$P(X\leq x)&#x3D;0$；当 $x\geq T_2$ ， $P(X \geq x)$ , 其中 $T_1&lt;T_2$ 是有限实数（前面描述的就是数据的分布范围是有限的不是无限的）。我们将直方图中用于计算H距离的bin的数量固定为 $\lfloor \sqrt{N} \rfloor$ ，其中N是每一个时间步上获取到的数据的数量。当然，这个值可以根据先前经验来设置，但是如果对这方面不熟悉的话，就用 $\sqrt{N}$ 就可以了。</li>
+<li>为了服从真实的增量学习的设置，每个样本都只会被算法获取一次。</li>
+</ul>
+<h3 id="漂移检测算法"><a href="#漂移检测算法" class="headerlink" title="漂移检测算法"></a>漂移检测算法</h3><p>下图是HDDDM的伪代码</p>
+<p><img src="https://i.imgur.com/hEeGsF1.png" alt="picture 4">  </p>
+<p>算法初始化 $\lambda &#x3D;1,D_\lambda &#x3D;D_1$ 其中 $\lambda$ 是上一次发生漂移的时间步。 $D_1$ 是D的初始化，后续的 $D_\lambda$ 的更新如下所述。</p>
+<p>算法先根据 $D_t,D_\lambda$ 构建直方图P和Q，他们的bin都为 $\lfloor \sqrt{N} \rfloor$，N是当前batch的数据数量。两个直方图的H距离会通过下面的公式进行计算。先单独计算每一个特征的H距离，然后所有特征的距离的平均值作为最终的距离。</p>
+<p><img src="https://i.imgur.com/5tmN1Qh.png" alt="picture 5">  </p>
+<p>其中d是数据的维数，$P_{i,k}(Q_{i,k})$  是在直方图中关于特征k的第i个bin的数值。然后计算 $\epsilon(t)$ ，即当前时间步的H散度和上一时间步的H散度。将这两个之间的差距和一个阈值进行比较，来决定差距是否足够大到称之为一个漂移。这里的阈值采用了一个自适应的方法，能够跟着时间步自动调整。其实就是将基准数据集的时间步开始到当前时间步的前一时间步的 $\epsilon(t)$ 求一个平均值，然后再求其标准差。</p>
+<p>真实的阈值 $\beta(t)$ 就是用下面的公式求。作者这里提出了两种方法来求，一种基于标准差，另一种基于置信度。</p>
+<p>第一种的计算公式如下</p>
+<p><img src="https://i.imgur.com/u2P1ZQM.png" alt="picture 6">  </p>
+<p>其中 $\gamma$ 是一个正实数，表示标准差改变多少就认为足够多了。</p>
+<p>第二种的计算公式如下，</p>
+<p><img src="https://i.imgur.com/zF90WCy.png" alt="picture 7">  </p>
+<p>如果检测到漂移的话，我们需要对基准数据分布进行重置，重置为当前批次；如果没有检测到漂移的话，就将当前数据信息放到基准数据分布中，如下所示：</p>
+<p><img src="https://i.imgur.com/HlZK3EK.png" alt="picture 8">  </p>
+
     </div>
 
     
@@ -287,11 +341,11 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
+                <a href="/2022/04/11/Dynamic-Adapting-Window-Independence-Drift-Detection-DAWIDD/" rel="prev" title="Dynamic Adapting Window Independence Drift Detection(DAWIDD)">
+                  <i class="fa fa-chevron-left"></i> Dynamic Adapting Window Independence Drift Detection(DAWIDD)
+                </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2022/01/15/go%E8%AF%AD%E8%A8%80%E5%9C%A3%E7%BB%8F%E5%AD%A6%E4%B9%A0/" rel="next" title="go语言圣经学习">
-                  go语言圣经学习 <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
     </footer>
