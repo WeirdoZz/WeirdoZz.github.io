@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="-jCet6qPD7nML4-W6IY2HZwfSblJyWta_Jx7_AGHgIk">
+  <meta name="baidu-site-verification" content="f349dc627a72ee616d62ed513574025d">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/orange/pace-theme-center-circle.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"weirdozz.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="gRPC如何生成代码 客户端上会有一个存根，提供和服务器上相同的方法，由gRPC自动生成。当调用其中方法的时候，存根会在后台调用gRPC框架，通过网络与服务器交换信息。  为了服务器和客户端能够生成存根，我们首先需要写一个API的契约，在一个protocol buffer中编写服务及其有效负载的描述 123456789101112131415161718syntax&#x3D;&quot;proto3&amp;qu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="gRPC基础学习">
+<meta property="og:url" content="https://weirdozz.github.io/2022/04/26/gRPC%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="Weirdo">
+<meta property="og:description" content="gRPC如何生成代码 客户端上会有一个存根，提供和服务器上相同的方法，由gRPC自动生成。当调用其中方法的时候，存根会在后台调用gRPC框架，通过网络与服务器交换信息。  为了服务器和客户端能够生成存根，我们首先需要写一个API的契约，在一个protocol buffer中编写服务及其有效负载的描述 123456789101112131415161718syntax&#x3D;&quot;proto3&amp;qu">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.imgur.com/CpGtllp.png">
+<meta property="article:published_time" content="2022-04-26T10:53:06.000Z">
+<meta property="article:modified_time" content="2022-04-26T13:28:25.369Z">
+<meta property="article:author" content="Weirdo">
+<meta property="article:tag" content="RPC框架">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/CpGtllp.png">
+
+
+<link rel="canonical" href="https://weirdozz.github.io/2022/04/26/gRPC%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://weirdozz.github.io/2022/04/26/gRPC%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/","path":"2022/04/26/gRPC基础学习/","title":"gRPC基础学习"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>gRPC基础学习 | Weirdo</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Weirdo</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-movies"><a href="/movies/" rel="section"><i class="fa fa-film fa-fw"></i>电影</a></li>
+        <li class="menu-item menu-item-books"><a href="/books/" rel="section"><i class="fa fa-book fa-fw"></i>书籍</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#gRPC%E5%A6%82%E4%BD%95%E7%94%9F%E6%88%90%E4%BB%A3%E7%A0%81"><span class="nav-number">1.</span> <span class="nav-text">gRPC如何生成代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gRPC%E7%9A%84%E7%A7%98%E5%AF%86%E6%AD%A6%E5%99%A8"><span class="nav-number">2.</span> <span class="nav-text">gRPC的秘密武器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%80%89%E6%8B%A9HTTP-2"><span class="nav-number">2.1.</span> <span class="nav-text">为什么选择HTTP&#x2F;2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP-2%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-number">2.2.</span> <span class="nav-text">HTTP&#x2F;2工作原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP-2%E5%92%8CHTTP-1-1"><span class="nav-number">2.3.</span> <span class="nav-text">HTTP&#x2F;2和HTTP&#x2F;1.1</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gRPC%E5%92%8CREST%EF%BC%8C%E4%BD%95%E6%97%B6%E4%BD%BF%E7%94%A8gRPC"><span class="nav-number">3.</span> <span class="nav-text">gRPC和REST，何时使用gRPC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89protobuf%E5%B9%B6%E4%B8%94%E7%94%9F%E6%88%90go%E4%BB%A3%E7%A0%81"><span class="nav-number">4.</span> <span class="nav-text">定义protobuf并且生成go代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89CPU%E6%B6%88%E6%81%AF"><span class="nav-number">4.1.</span> <span class="nav-text">定义CPU消息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E5%86%99Makefile"><span class="nav-number">4.2.</span> <span class="nav-text">编写Makefile</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%8F%E8%AE%AE%E7%BC%93%E5%86%B2%E5%8C%BA%E6%B7%B1%E5%85%A5%E7%A0%94%E7%A9%B6"><span class="nav-number">5.</span> <span class="nav-text">协议缓冲区深入研究</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%B8%AA%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E5%A4%9A%E6%9D%A1%E6%B6%88%E6%81%AF"><span class="nav-number">5.1.</span> <span class="nav-text">一个文件中的多条消息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B1%BB%E5%9E%8B%EF%BC%9A%E6%B6%88%E6%81%AF%E5%92%8C%E6%9E%9A%E4%B8%BE"><span class="nav-number">5.2.</span> <span class="nav-text">自定义类型：消息和枚举</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E5%AD%98%E5%82%A8%E6%B6%88%E6%81%AF"><span class="nav-number">5.3.</span> <span class="nav-text">定义存储消息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E9%94%AE%E7%9B%98%E6%B6%88%E6%81%AF"><span class="nav-number">5.4.</span> <span class="nav-text">定义键盘消息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E5%B1%8F%E5%B9%95%E6%B6%88%E6%81%AF"><span class="nav-number">5.5.</span> <span class="nav-text">定义屏幕消息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E7%AC%94%E8%AE%B0%E6%9C%AC%E7%94%B5%E8%84%91%E6%B6%88%E6%81%AF"><span class="nav-number">5.6.</span> <span class="nav-text">定义笔记本电脑消息</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Weirdo"
+      src="/images/weirdo.jpg">
+  <p class="site-author-name" itemprop="name">Weirdo</p>
+  <div class="site-description" itemprop="description">怕什么真理无穷，进一步有进一步的欢喜</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">33</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/04/26/gRPC%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/weirdo.jpg">
+      <meta itemprop="name" content="Weirdo">
+      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Weirdo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          gRPC基础学习
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-04-26 18:53:06 / 修改时间：21:28:25" itemprop="dateCreated datePublished" datetime="2022-04-26T18:53:06+08:00">2022-04-26</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/go/" itemprop="url" rel="index"><span itemprop="name">go</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/04/26/gRPC%E5%9F%BA%E7%A1%80%E5%AD%A6%E4%B9%A0/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/04/26/gRPC基础学习/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="gRPC如何生成代码">gRPC如何生成代码</h2>
+<p>客户端上会有一个存根，提供和服务器上相同的方法，由gRPC自动生成。当调用其中方法的时候，存根会在后台调用gRPC框架，通过网络与服务器交换信息。</p>
+<p><img src="https://i.imgur.com/CpGtllp.png" alt="picture 1"></p>
+<p>为了服务器和客户端能够生成存根，我们首先需要写一个API的契约，在一个protocol buffer中编写服务及其有效负载的描述</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">syntax=&quot;proto3&quot;;</span><br><span class="line"></span><br><span class="line">package proto;</span><br><span class="line"></span><br><span class="line">service Greeter&#123;</span><br><span class="line">  rpc SayHello (HelloRequest) returns (HelloReply) &#123;&#125;;</span><br><span class="line">  rpc SayList (HelloRequest) returns (stream HelloReply) &#123;&#125;;</span><br><span class="line">  rpc SayRecord (stream HelloRequest) returns (HelloReply) &#123;&#125;;</span><br><span class="line">  rpc SayRoute(stream HelloRequest) returns (stream HelloReply);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">message HelloRequest&#123;</span><br><span class="line">  string name=1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">message HelloReply&#123;</span><br><span class="line">  string message=1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这个proto文件中，服务器和客户端的存根通过协议缓冲区编译器（protoc）生成。根据编程语言的不同，需要告诉编译器使用正确的gRPC插件。</p>
+<h2 id="gRPC的秘密武器">gRPC的秘密武器</h2>
+<h3 id="为什么选择HTTP-2">为什么选择HTTP/2</h3>
+<p>gRPC 使用 HTTP/2 作为其传输协议，因此它继承了 HTTP/2 提供的一些强大功能，例如二进制帧，与其他基于文本的协议相比，它具有高性能和健壮、传输更轻、解码更安全。而且因为它是二进制的，所以它与协议缓冲区是一个很好的组合。</p>
+<p>在 HTTP/2 中可以进行多路复用，这意味着客户端和服务器可以通过单个 TCP 连接并行发送多个请求和响应。这将有助于减少延迟并提高网络利用率。</p>
+<p>HTTP/2 还使用 HPACK 压缩标头，这将降低开销成本并提高性能。</p>
+<p>最后，HTTP/2 允许服务器推送，其中来自客户端的 1 个请求，服务器可以发送回多个响应。在许多情况下，当服务器确切地知道客户端需要什么资源并在它们被请求之前发送它们时，这对于减少客户端和服务器之间的往返延迟非常有价值。</p>
+<p>可以用这个演示来看HTTP/2比1.1快多少<a target="_blank" rel="noopener" href="http://www.http2demo.io/">速度比较链接</a></p>
+<h3 id="HTTP-2工作原理">HTTP/2工作原理</h3>
+<p>有一个 TCP 连接可以承载多个双向流。每个流都有一个唯一的标识符，并携带多个双向消息。</p>
+<p>每条消息，可以是请求或响应，都被分解成多个二进制帧。帧是承载不同类型数据的最小单位，例如 HEADERS、SETTINGS、PRIORITY、DATA 等。</p>
+<p>事实上，这些流实际上并没有单独流动，而是它们的帧在连接上交错，到达另一端时会重新组合。多亏了这个二进制成帧层，HTTP/2 中的流多路复用成为可能。</p>
+<h3 id="HTTP-2和HTTP-1-1">HTTP/2和HTTP/1.1</h3>
+<ul>
+<li>2是二进制协议，1是文本协议</li>
+<li>2中会压缩标头，1中是纯文本</li>
+<li>2允许多路复用，1不允许</li>
+<li>2中可以在单个连接中发多个请求和响应，1中只能一个</li>
+<li>服务器推送可以用2，但不能用1</li>
+</ul>
+<h2 id="gRPC和REST，何时使用gRPC">gRPC和REST，何时使用gRPC</h2>
+<p>gRPC 使用 Protocol Buffer 来序列化有效载荷数据，它是二进制的，更小，而 REST 使用 JSON，它是文本，更大。</p>
+<p>gRPC 中的 API 契约是严格的，需要在 proto 文件中明确定义。在 REST 中，它通常是松散的和可选的。如果需要，我们可以通过 OpenAPI 定义它，但这不是强制性的。</p>
+<p>gRPC 和 REST 通信都使用 TLS/SSL 保护。</p>
+<p>流式传输在 gRPC 中是双向的，而在 REST 中只有一种方式从客户端到服务器的请求。</p>
+<p>因此，对于我们迄今为止提到的大多数事情，gRPC 都比 REST 更好。然而，有一件事是 REST 还是更好的，</p>
+<p>那是浏览器支持。虽然所有浏览器都完全支持 REST，但对 gRPC 的支持是有限的，并且需要带有代理层的gRPC-web在 HTTP/1 和 HTTP/2 之间进行转换。</p>
+<p>微服务是 gRPC 真正闪耀的地方，因为它支持低延迟和高吞吐量的通信，以及强大的 API 合约。</p>
+<p>gRPC 也适用于多语言环境，因为它为许多编程语言提供了开箱即用的代码生成。</p>
+<p>点对点实时通信也是 gRPC 的一个好地方，因为它对双向流有很好的支持。</p>
+<p>最后，gRPC 是移动应用程序 (android/ios) 等网络受限环境的绝佳选择，因为它具有轻量级的消息格式。</p>
+<h2 id="定义protobuf并且生成go代码">定义protobuf并且生成go代码</h2>
+<p>注意消息的名字应该是UpperCamelCase，字段的名字应该是lower_snake_case。</p>
+<p>我们可以使用许多内置的标量值数据类型，例如：string、bool、byte、float、double和许多其他整数类型。我们还可以使用我们自己的数据类型，例如枚举或其他消息。</p>
+<p>每个消息字段都应该分配一个唯一的标签。并且标签比字段名更重要，因为 protobuf 将使用它来序列化消息。</p>
+<p>标记只是一个任意整数，最小值为 1，最大值为 2 29 - 1，但从 19000 到 19999 的数字除外，因为它们是为内部协议缓冲区实现保留的。</p>
+<p>请注意，从 1 到 15 的标签只需要 1 个字节进行编码，而从 16 到 2047 的标签需要 2 个字节。所以你应该明智地使用它们，比如：为非常频繁出现的字段保存从 1 到 15 的标签。</p>
+<p>请记住，标签不需要是有序的（或连续的），但对于消息的同级字段，它们必须是唯一的。</p>
+<h3 id="定义CPU消息">定义CPU消息</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// /proto/processor_message.proto</span><br><span class="line"></span><br><span class="line">syntax = &quot;proto3&quot;;</span><br><span class="line"></span><br><span class="line">option go_package=&quot;../pb&quot;;</span><br><span class="line"></span><br><span class="line">message CPU &#123;</span><br><span class="line">  string brand = 1;</span><br><span class="line">  string name = 2;</span><br><span class="line">  uint32 number_cores = 3;</span><br><span class="line">  uint32 number_threads = 4;</span><br><span class="line">  double min_ghz = 5;</span><br><span class="line">  double max_ghz = 6;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>首先安装protoc-gen-go和gRPC库</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">go get -u google.golang.org/grpc</span><br><span class="line">go get -u github.com/golang/protobuf/protoc-gen-go@v1.3.2</span><br></pre></td></tr></table></figure>
+<p>之后可以执行此命令,生成go代码</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">protoc --go_out=plugins=grpc:pb proto/*.proto</span><br></pre></td></tr></table></figure>
+<p>此时的项目目录为</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">pcbook</span><br><span class="line">├── proto</span><br><span class="line">│   └── processor_message.proto</span><br><span class="line">├── pb</span><br><span class="line">│   └── processor_message.pb.go</span><br><span class="line">└── main.go</span><br></pre></td></tr></table></figure>
+<h3 id="编写Makefile">编写Makefile</h3>
+<p>我们用来生成代码的命令很长，所以当我们更新proto文件并想重新生成代码时，输​​入不是很方便。因此，让我们使用一个简短的命令创建一个 Makefile 来执行此操作。</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">gen:</span></span><br><span class="line">    protoc --proto_path=proto proto/*.proto --go_out=plugins=grpc:pb</span><br><span class="line"></span><br><span class="line"><span class="section">clean:</span></span><br><span class="line">    rm pb/*.go </span><br><span class="line"></span><br><span class="line"><span class="section">run:</span></span><br><span class="line">    go run main.go</span><br></pre></td></tr></table></figure>
+<h2 id="协议缓冲区深入研究">协议缓冲区深入研究</h2>
+<h3 id="一个文件中的多条消息">一个文件中的多条消息</h3>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">syntax = &quot;proto3&quot;;</span><br><span class="line">import &quot;memory_message.proto&quot;;</span><br><span class="line"></span><br><span class="line">message CPU &#123;</span><br><span class="line">  string brand = 1;</span><br><span class="line">  string name = 2;</span><br><span class="line">  uint32 number_cores = 3;</span><br><span class="line">  uint32 number_threads = 4;</span><br><span class="line">  double min_ghz = 5;</span><br><span class="line">  double max_ghz = 6;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">message GPU &#123;</span><br><span class="line">  string brand = 1;</span><br><span class="line">  string name = 2;</span><br><span class="line">  double min_ghz = 3;</span><br><span class="line">  double max_ghz = 4;</span><br><span class="line">  Memory memory=5;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="自定义类型：消息和枚举">自定义类型：消息和枚举</h3>
+<p>内存是一个非常流行的术语，可以在其他地方使用，例如 RAM 或存储（持久驱动器）。它有许多不同的度量单位，例如千字节、兆字节、千兆字节或太字节。所以我将它定义为自定义类型，在一个单独的memory_message.proto文件中，以便我们以后可以重用它。</p>
+<p>首先，我们需要定义测量单位。为此，我们将使用枚举。因为这个单元应该只存在于内存的上下文中，所以我们应该将它定义为内存消息中的嵌套类型。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">syntax = &quot;proto3&quot;;</span><br><span class="line"></span><br><span class="line">message Memory &#123;</span><br><span class="line">  enum Unit &#123;</span><br><span class="line">    UNKNOWN = 0;</span><br><span class="line">    BIT = 1;</span><br><span class="line">    BYTE = 2;</span><br><span class="line">    KILOBYTE = 3;</span><br><span class="line">    MEGABYTE = 4;</span><br><span class="line">    GIGABYTE = 5;</span><br><span class="line">    TERABYTE = 6;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  uint64 value = 1;</span><br><span class="line">  Unit unit = 2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>惯例是，始终使用特殊值作为枚举的默认值并为其分配标签 0。然后我们添加其他单位，从 BIT 到 TERABYTE。</p>
+<p>内存消息将有 2 个字段：一个用于值，另一个用于单位。</p>
+<h3 id="定义存储消息">定义存储消息</h3>
+<p>让我们继续我们的项目。我将为storage_message.proto文件中的存储创建一条新消息。</p>
+<p>存储可以是硬盘驱动器或固态驱动器。所以我们应该Driver用这两个值定义一个枚举。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">syntax =&quot;proto3&quot;;</span><br><span class="line"></span><br><span class="line">option go_package=&quot;../pb&quot;;</span><br><span class="line"></span><br><span class="line">import &quot;proto/memory_message.proto&quot;;</span><br><span class="line"></span><br><span class="line">message Storage&#123;</span><br><span class="line">  enum Drive&#123;</span><br><span class="line">    UNKNOWN=0;</span><br><span class="line">    HDD=1;</span><br><span class="line">    SSD=2;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  Drive driver=1;</span><br><span class="line">  Memory memory=2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="定义键盘消息">定义键盘消息</h3>
+<p>接下来，我们将定义键盘消息。它可以具有 QWERTY、QWERTZ 或 AZERTY 布局。供您参考，QWERTZ 在德国被广泛使用。在法国，AZERTY 更受欢迎。</p>
+<p>键盘可以背光或不背光，因此我们使用布尔字段。很简单，对吧？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">syntax=&quot;proto3&quot;;</span><br><span class="line"></span><br><span class="line">option go_package=&quot;../pb&quot;;</span><br><span class="line"></span><br><span class="line">message Keyboard&#123;</span><br><span class="line">  enum Layout&#123;</span><br><span class="line">    UNKONWN=0;</span><br><span class="line">    QWERTY=1;</span><br><span class="line">    QWERTZ=2;</span><br><span class="line">    AZERTY=3;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  Layout layout=1;</span><br><span class="line">  bool backlit=2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="定义屏幕消息">定义屏幕消息</h3>
+<p>现在让我们写一个更复杂的信息：屏幕。它有一个嵌套的消息类型：Resolution. 我们这里使用嵌套类型的原因是：分辨率是一个与屏幕有着紧密联系的实体，它单独存在时没有任何意义。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">syntax=&quot;proto3&quot;;</span><br><span class="line"></span><br><span class="line">option go_package=&quot;../pb&quot;;</span><br><span class="line"></span><br><span class="line">message Screen&#123;</span><br><span class="line">  message Resolution&#123;</span><br><span class="line">    uint32 width=1;</span><br><span class="line">    uint32 height=2;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  enum Panel&#123;</span><br><span class="line">    UNKNOWN=0;</span><br><span class="line">    IPS=1;</span><br><span class="line">    OLED=2;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  float size_inch=1;</span><br><span class="line">  Resolution resolution =2;</span><br><span class="line">  Panel panel =3;</span><br><span class="line">  bool multitouch=4;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>同样，我们有一个屏幕面板的枚举，可以是 IPS 或 OLED。然后屏幕尺寸以英寸为单位。最后是一个布尔字段来判断它是否是多点触控屏幕。</p>
+<h3 id="定义笔记本电脑消息">定义笔记本电脑消息</h3>
+<p>我想基本上我们已经定义了笔记本电脑的所有必要组件。现在让我们定义笔记本电脑消息。</p>
+<p>它有一个字符串类型的唯一标识符。此 ID 将由服务器自动生成。它有一个品牌和一个名字。然后是CPU和RAM。我们需要导入其他 proto 文件来使用这些类型。</p>
+<p>一台笔记本电脑可以有多个 GPU，所以我们使用repeated关键字告诉 protoc 这是一个 GPU 列表。</p>
+<p>同样，笔记本电脑有多个存储也是正常的，所以这个字段也应该重复。</p>
+<p>笔记本的重量如何？比方说，我们允许以千克或磅为单位指定它。为了做到这一点，我们可以使用一个新的关键字：oneof.</p>
+<p>在这个块中，我们定义了 2 个字段，一个用于公斤，另一个用于磅。请记住，当您使用oneof字段组时，只有最后分配的字段才会保留其值。</p>
+<p>然后我们再添加 2 个字段：美元价格和笔记本电脑的发布年份。最后，我们需要一个时间戳字段来存储我们系统中记录的最后更新时间。</p>
+<p>Timestamp 是 Google 已经定义好的众所周知的类型之一，所以我们只需要导入包并使用它。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">syntax=&quot;proto3&quot;;</span><br><span class="line"></span><br><span class="line">option go_package=&quot;../pb&quot;;</span><br><span class="line"></span><br><span class="line">import &quot;proto/memory_message.proto&quot;;</span><br><span class="line">import &quot;proto/processor_message.proto&quot;;</span><br><span class="line">import &quot;proto/storage_message.proto&quot;;</span><br><span class="line">import &quot;proto/screen_message.proto&quot;;</span><br><span class="line">import &quot;proto/keyboard_message.proto&quot;;</span><br><span class="line">import &quot;google/protobuf/timestamp.proto&quot;;</span><br><span class="line"></span><br><span class="line">message Laptop&#123;</span><br><span class="line">  string id=1;</span><br><span class="line">  string brand=2;</span><br><span class="line">  string name=3;</span><br><span class="line">  CPU cpu=4;</span><br><span class="line">  Memory ram=5;</span><br><span class="line">  repeated GPU gpus=6;</span><br><span class="line">  repeated Storage storages=7;</span><br><span class="line">  Screen screen=8;</span><br><span class="line">  Keyboard keyboard=9;</span><br><span class="line">  oneof weight&#123;</span><br><span class="line">    double weight_kg=10;</span><br><span class="line">    double weight_lb=11;</span><br><span class="line">  &#125;</span><br><span class="line">  double price_usd=12;</span><br><span class="line">  uint32 release_year=13;</span><br><span class="line">  google.protobuf.Timestamp updated_at=14;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>之后就可以一并生成go文件了</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/RPC%E6%A1%86%E6%9E%B6/" rel="tag"># RPC框架</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/04/22/Know-GNN-An-Explainable-Knowledge-Guided-Graph-Neural-Network-for-Fraud-Detection/" rel="prev" title="Know-GNN: An Explainable Knowledge-Guided Graph Neural Network for Fraud Detection">
+                  <i class="fa fa-chevron-left"></i> Know-GNN: An Explainable Knowledge-Guided Graph Neural Network for Fraud Detection
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Weirdo</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"weirdoblog","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>
