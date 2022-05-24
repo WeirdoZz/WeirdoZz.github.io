@@ -24,28 +24,32 @@
   <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"weirdozz.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
-<meta name="description" content="方法一 在模型、损失函数和数据后面添加.cuda() 方法二 对上述数据使用.to(device)，device需要提前设置好，利用torch.device(&quot;cuda:i&quot;)其中i是你想用那一块显卡 device&#x3D;torch.device(&#39;cuda&#39; if torch.cuda.is_available() else &#39;cpu&#39;)">
+<meta name="description" content="摘要 作者提出了一个基于模型的强化学习方法，通过生成对抗网络对用户-代理交互建模进行离线策略学习。为了减少模型和策略的偏差，作者使用了一个鉴别器来评估生成的数据的质量并且衡量生成的奖励。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="利用GPU进行训练的方法">
-<meta property="og:url" content="https://weirdozz.github.io/2022/01/26/%E5%88%A9%E7%94%A8GPU%E8%BF%9B%E8%A1%8C%E8%AE%AD%E7%BB%83%E7%9A%84%E6%96%B9%E6%B3%95/index.html">
+<meta property="og:title" content="Model-Based Reinforcement Learning with Adversarial Training for Online Recommendation">
+<meta property="og:url" content="https://weirdozz.github.io/2022/05/24/Model-Based-Reinforcement-Learning-with-Adversarial-Training-for-Online-Recommendation/index.html">
 <meta property="og:site_name" content="Weirdo">
-<meta property="og:description" content="方法一 在模型、损失函数和数据后面添加.cuda() 方法二 对上述数据使用.to(device)，device需要提前设置好，利用torch.device(&quot;cuda:i&quot;)其中i是你想用那一块显卡 device&#x3D;torch.device(&#39;cuda&#39; if torch.cuda.is_available() else &#39;cpu&#39;)">
+<meta property="og:description" content="摘要 作者提出了一个基于模型的强化学习方法，通过生成对抗网络对用户-代理交互建模进行离线策略学习。为了减少模型和策略的偏差，作者使用了一个鉴别器来评估生成的数据的质量并且衡量生成的奖励。">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-01-26T07:46:24.000Z">
-<meta property="article:modified_time" content="2022-02-19T22:33:06.754Z">
+<meta property="og:image" content="https://i.imgur.com/2CY7O8w.png">
+<meta property="og:image" content="https://i.imgur.com/d4nK6tF.png">
+<meta property="og:image" content="https://i.imgur.com/O5Afg1m.png">
+<meta property="article:published_time" content="2022-05-24T08:53:16.000Z">
+<meta property="article:modified_time" content="2022-05-24T12:50:03.899Z">
 <meta property="article:author" content="Weirdo">
-<meta property="article:tag" content="GPU">
+<meta property="article:tag" content="强化学习">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/2CY7O8w.png">
 
 
-<link rel="canonical" href="https://weirdozz.github.io/2022/01/26/%E5%88%A9%E7%94%A8GPU%E8%BF%9B%E8%A1%8C%E8%AE%AD%E7%BB%83%E7%9A%84%E6%96%B9%E6%B3%95/">
+<link rel="canonical" href="https://weirdozz.github.io/2022/05/24/Model-Based-Reinforcement-Learning-with-Adversarial-Training-for-Online-Recommendation/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://weirdozz.github.io/2022/01/26/%E5%88%A9%E7%94%A8GPU%E8%BF%9B%E8%A1%8C%E8%AE%AD%E7%BB%83%E7%9A%84%E6%96%B9%E6%B3%95/","path":"2022/01/26/利用GPU进行训练的方法/","title":"利用GPU进行训练的方法"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://weirdozz.github.io/2022/05/24/Model-Based-Reinforcement-Learning-with-Adversarial-Training-for-Online-Recommendation/","path":"2022/05/24/Model-Based-Reinforcement-Learning-with-Adversarial-Training-for-Online-Recommendation/","title":"Model-Based Reinforcement Learning with Adversarial Training for Online Recommendation"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>利用GPU进行训练的方法 | Weirdo</title>
+<title>Model-Based Reinforcement Learning with Adversarial Training for Online Recommendation | Weirdo</title>
   
 
 
@@ -152,7 +156,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%B8%80"><span class="nav-number">1.</span> <span class="nav-text">方法一</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E4%BA%8C"><span class="nav-number">2.</span> <span class="nav-text">方法二</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%91%98%E8%A6%81"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E8%A8%80"><span class="nav-number">2.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0"><span class="nav-number">3.</span> <span class="nav-text">问题描述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98"><span class="nav-number">3.1.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%81%87%E8%AE%BE"><span class="nav-number">3.2.</span> <span class="nav-text">假设</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E6%A1%86%E6%9E%B6"><span class="nav-number">3.3.</span> <span class="nav-text">学习框架</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8%E4%BA%8E%E6%8E%A8%E8%8D%90%E7%9A%84%E4%BA%A4%E4%BA%92%E6%A8%A1%E5%9E%8B"><span class="nav-number">4.</span> <span class="nav-text">用于推荐的交互模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E8%A1%8C%E4%B8%BA%E6%A8%A1%E5%9E%8B"><span class="nav-number">4.1.</span> <span class="nav-text">用户行为模型</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -217,7 +221,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/01/26/%E5%88%A9%E7%94%A8GPU%E8%BF%9B%E8%A1%8C%E8%AE%AD%E7%BB%83%E7%9A%84%E6%96%B9%E6%B3%95/">
+    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/05/24/Model-Based-Reinforcement-Learning-with-Adversarial-Training-for-Online-Recommendation/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/weirdo.jpg">
@@ -230,7 +234,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          利用GPU进行训练的方法
+          Model-Based Reinforcement Learning with Adversarial Training for Online Recommendation
         </h1>
 
         <div class="post-meta-container">
@@ -240,15 +244,9 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
+      
 
-      <time title="创建时间：2022-01-26 15:46:24" itemprop="dateCreated datePublished" datetime="2022-01-26T15:46:24+08:00">2022-01-26</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-02-20 06:33:06" itemprop="dateModified" datetime="2022-02-20T06:33:06+08:00">2022-02-20</time>
+      <time title="创建时间：2022-05-24 16:53:16 / 修改时间：20:50:03" itemprop="dateCreated datePublished" datetime="2022-05-24T16:53:16+08:00">2022-05-24</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -256,7 +254,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/DeepLearning/" itemprop="url" rel="index"><span itemprop="name">DeepLearning</span></a>
+          <a href="/categories/%E5%BA%8F%E5%88%97%E6%8E%A8%E8%8D%90/" itemprop="url" rel="index"><span itemprop="name">序列推荐</span></a>
         </span>
     </span>
 
@@ -269,8 +267,8 @@
       </span>
       <span class="post-meta-item-text">Disqus：</span>
     
-    <a title="disqus" href="/2022/01/26/%E5%88%A9%E7%94%A8GPU%E8%BF%9B%E8%A1%8C%E8%AE%AD%E7%BB%83%E7%9A%84%E6%96%B9%E6%B3%95/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/01/26/利用GPU进行训练的方法/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2022/05/24/Model-Based-Reinforcement-Learning-with-Adversarial-Training-for-Online-Recommendation/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/05/24/Model-Based-Reinforcement-Learning-with-Adversarial-Training-for-Online-Recommendation/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -284,11 +282,51 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h2 id="方法一">方法一</h2>
-<p>在模型、损失函数和数据后面添加<code>.cuda()</code></p>
-<h2 id="方法二">方法二</h2>
-<p>对上述数据使用<code>.to(device)</code>，device需要提前设置好，利用<code>torch.device(&quot;cuda:i&quot;)</code>其中i是你想用那一块显卡</p>
-<p><code>device=torch.device('cuda' if torch.cuda.is_available() else 'cpu')</code></p>
+        <h2 id="摘要">摘要</h2>
+<p>作者提出了一个基于模型的强化学习方法，通过生成对抗网络对用户-代理交互建模进行离线策略学习。为了减少模型和策略的偏差，作者使用了一个鉴别器来评估生成的数据的质量并且衡量生成的奖励。</p>
+<span id="more"></span>
+<h2 id="引言">引言</h2>
+<p>由于用户多样的兴趣和行为模式，只有小部分商品展示给了用户，并且用户的反馈记录则更少。对于如此大的状态和操作空间，这提供了相对较少的关于用户系统交互的信息，因此也给构建基于历史交互的有效的推荐策略带来了大量的挑战。</p>
+<p>如果不与真正的用户进行互动，推荐系统就不能轻易地在状态和行动空间中探索之前未探索过的区域。但是与真实用户交互以获取奖励并更新模型代价是很高的，因为探索阶段可能会让用户对这个推荐系统的表现不满意导致弃用。这种情况下需要利用用户的历史数据来先学习一个策略。为此，作者基于模型的学习方法，其中作者从用户的离线数据中评估一个模型，并且用它来和学习器进行交互以获取一个推荐策略。</p>
+<p>基于模型的RL具有高效采样和降低离线数据噪声的优势。但是这种优势很容易由于其模型近似真实环境的固有偏差而减弱，并且在随后的策略更新中产生的剧烈变化可能会增加降低用户满意度的风险。</p>
+<p>为了解决这一问题，作者在推荐学习策略中引入了对抗训练。训练器被训练用来分辨分辨模仿的交互轨迹和真实的，以此来消除用户行为模型的偏差和改进策略学习。该工作的主要贡献如下：</p>
+<ul>
+<li>为了解决交互代价高的问题，提出了一个同一的解决办法来更高效地利用历史数据，同时引入对抗训练。使该策略学习的鲁棒性更强</li>
+<li>提出的模型通过了理论和经验的验证。试验结果表明该方法有更好的采样效率。</li>
+</ul>
+<h2 id="问题描述">问题描述</h2>
+<p>本文的问题是从离线数据中学习一个策略，这样当部署到线上的时候能够最大化从用户交互中得来的奖励积累。</p>
+<h3 id="问题">问题</h3>
+<p>推荐器就是一个学习代理，它根据策略来生成行动，每个行动会给出一个推荐列表。每次代理和环境发生交互时（比如用户的购买、点击等），会记录一个n个序列的集合$\Omega={\tau_1,…,\tau_n}$，其中$\tau_i$时包含了代理的行动、用户行为和奖励的第i个序列，即$\tau_i={(a_0^i,c_0^i,r_0^i),…,(a_t^i,c_t^i,r_t^i)}$，其中$r_t^i$表示行动$a_t^i$（比如购买某个商品）的奖励，$c_t^i$是根据代理行动$a_t^i$做出的用户行为（比如点击推荐的商品）。为了讨论起来简单，之后会去掉上标i以表示整体的序列$\tau$。基于观测到的序列，会学习一个策略$\pi$以最大化期望累计奖励。</p>
+<h3 id="假设">假设</h3>
+<p>为了缩小讨论范围，作者研究的是经典的用户行为类型（比如点击），并且做出以下假设：</p>
+<ol>
+<li>在每个时间步上，每个用户必须从推荐列表中点击一个商品</li>
+<li>推荐列表中未被点击的商品不会影响用户未来的表现。</li>
+<li>奖励只和被点击的商品相关。</li>
+</ol>
+<p>比如说，当以用户的购买作为奖励的时候，用户指挥购买点击的商品。</p>
+<h3 id="学习框架">学习框架</h3>
+<p>本文中环境建模为一个用户行为模型U。S由时间t之前的交互历史决定。同时按照上面的假设，在时间步t，环境会在由$a_t$中的一个代理A推荐的商品中生成一个用户的点击$c_t$，然后奖励函数会根据该次点击生成一个奖励。</p>
+<h2 id="用于推荐的交互模型">用于推荐的交互模型</h2>
+<p>以下展示用于推荐的交互模型，包括两个部分：</p>
+<ol>
+<li>用户行为模型U，在推荐商品上生成用户用户点击</li>
+<li>代理A根据策略生成推荐商品序列</li>
+</ol>
+<p>U和A相互交互生成用户序列以用于对抗策略的学习。</p>
+<h3 id="用户行为模型">用户行为模型</h3>
+<p>根据给定的用户点击${c_0,…,c_{t-1}}$，用户行为模型U首先将每个时间点点击的商品投射到一个嵌入向量$e^u$上。状态$s_t^u$表示为点击历史的总和，比如说$s_t^u=h_u(e_0^u,…,e_{t-1}^u)$。作者使用RNN来对状态转换P进行建模，因此对于状态$s_t^u$，有：</p>
+<p>$$<br>
+s_t^u=h^u(s_{t-1}^u,e_{t-1}^u)<br>
+$$</p>
+<p>给定行动$a_t={a_{t(1)},…,a_{t(k)}}$，比如时间t时刻的topk个推荐，作者通过softmax计算推荐商品的点击概率</p>
+<p><img src="https://i.imgur.com/2CY7O8w.png" alt="picture 1"></p>
+<p>其中$V^c\in R^k$是转换向量，表示每个推荐商品$a_{t(i)}$在状态$s_t^u$的评估质量。$E_t^u$是推荐商品的嵌入矩阵，$W^e$是点击权重矩阵，$b^e$是对应的偏置值。奖励状态-行动组$s_t^u,a_t$的奖励$r_t$计算如下：</p>
+<p><img src="https://i.imgur.com/d4nK6tF.png" alt="picture 3"></p>
+<p>基于上面的公式1和公式2，采用明确的奖励，用户行为模型U能够从离线数据$\Omega$中根据最大似然估计获得：</p>
+<p><img src="https://i.imgur.com/O5Afg1m.png" alt="picture 4"></p>
+<p>其中$\lambda_p$是一个超参数，用于平衡两个损失，$T_i$是观测序列$\tau_i$的长度。</p>
 
     </div>
 
@@ -298,21 +336,18 @@
 
     <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/GPU/" rel="tag"># GPU</a>
+              <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" rel="tag"># 强化学习</a>
           </div>
 
         
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2022/01/25/%E5%B8%B8%E8%A7%81%E7%9A%84%E6%8A%A5%E9%94%99%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E5%BC%8F/" rel="prev" title="常见的报错以及解决方式">
-                  <i class="fa fa-chevron-left"></i> 常见的报错以及解决方式
+                <a href="/2022/05/15/Streaming-GNN/" rel="prev" title="Streaming GNN(DGNN)">
+                  <i class="fa fa-chevron-left"></i> Streaming GNN(DGNN)
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2022/01/28/%E4%BD%BF%E7%94%A8golang+postgres+docker%E8%BF%9B%E8%A1%8C%E5%BC%80%E5%8F%91/" rel="next" title="使用golang+postgres+docker进行开发">
-                  使用golang+postgres+docker进行开发 <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
     </footer>
