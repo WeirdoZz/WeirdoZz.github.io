@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://weirdozz.github.io/2022/04/29/KERL-A-Knowledge-Guided-Reinforcement-Learning-Model-for-Sequential-Recommendation/</loc>
+    
+    <lastmod>2022-05-25</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://weirdozz.github.io/2022/05/24/Model-Based-Reinforcement-Learning-with-Adversarial-Training-for-Online-Recommendation/</loc>
     
     <lastmod>2022-05-25</lastmod>
@@ -50,15 +59,6 @@
     <loc>https://weirdozz.github.io/2022/03/06/GORM%E5%AD%A6%E4%B9%A0/</loc>
     
     <lastmod>2022-05-15</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://weirdozz.github.io/2022/04/29/KERL-A-Knowledge-Guided-Reinforcement-Learning-Model-for-Sequential-Recommendation/</loc>
-    
-    <lastmod>2022-05-01</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
