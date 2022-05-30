@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="-jCet6qPD7nML4-W6IY2HZwfSblJyWta_Jx7_AGHgIk">
+  <meta name="baidu-site-verification" content="f349dc627a72ee616d62ed513574025d">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/orange/pace-theme-center-circle.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"weirdozz.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="摘要 对于序列推荐来说,获取并预测用户未来的偏好来生成准确的推荐是很重要的。为了增强这一能力,作者采用了强化学习。但是用户-商品的交互数据可能会比较稀疏、复杂并且随时间变化。直接使用RL来改善推荐能力没那么简单。 受到知识图谱的启发,作者提出了一个KERL模型来将知识图谱的信息聚合到序列推荐的强化学习框架中。作者将序列推荐任务描述为一个马尔可夫决策过程,在框架中做出了三个主要的技术扩展,包括状态表">
+<meta property="og:type" content="article">
+<meta property="og:title" content="KERL:A Knowledge-Guided Reinforcement Learning Model for Sequential Recommendation">
+<meta property="og:url" content="https://weirdozz.github.io/2022/04/29/KERL-A-Knowledge-Guided-Reinforcement-Learning-Model-for-Sequential-Recommendation/index.html">
+<meta property="og:site_name" content="Weirdo">
+<meta property="og:description" content="摘要 对于序列推荐来说,获取并预测用户未来的偏好来生成准确的推荐是很重要的。为了增强这一能力,作者采用了强化学习。但是用户-商品的交互数据可能会比较稀疏、复杂并且随时间变化。直接使用RL来改善推荐能力没那么简单。 受到知识图谱的启发,作者提出了一个KERL模型来将知识图谱的信息聚合到序列推荐的强化学习框架中。作者将序列推荐任务描述为一个马尔可夫决策过程,在框架中做出了三个主要的技术扩展,包括状态表">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.imgur.com/8eNPC92.png">
+<meta property="og:image" content="https://i.imgur.com/cxVktdj.png">
+<meta property="og:image" content="https://i.imgur.com/Ls6w3TV.png">
+<meta property="og:image" content="https://i.imgur.com/lmrP1MY.png">
+<meta property="og:image" content="https://i.imgur.com/gsWakRx.png">
+<meta property="og:image" content="https://i.imgur.com/uDI88Ru.png">
+<meta property="og:image" content="https://i.imgur.com/mMkbAKP.png">
+<meta property="og:image" content="https://i.imgur.com/TkGQNzH.png">
+<meta property="og:image" content="https://i.imgur.com/06HqE4H.png">
+<meta property="og:image" content="https://i.imgur.com/p6QSNSa.png">
+<meta property="og:image" content="https://i.imgur.com/MLkzZVu.png">
+<meta property="og:image" content="https://i.imgur.com/6FDP29y.png">
+<meta property="og:image" content="https://i.imgur.com/gRPDcc3.png">
+<meta property="og:image" content="https://i.imgur.com/y5MYxEs.png">
+<meta property="og:image" content="https://i.imgur.com/ySnQiLz.png">
+<meta property="og:image" content="https://i.imgur.com/Hl8fujR.png">
+<meta property="article:published_time" content="2022-04-28T21:05:11.000Z">
+<meta property="article:modified_time" content="2022-05-30T11:19:44.199Z">
+<meta property="article:author" content="Weirdo">
+<meta property="article:tag" content="序列推荐">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/8eNPC92.png">
+
+
+<link rel="canonical" href="https://weirdozz.github.io/2022/04/29/KERL-A-Knowledge-Guided-Reinforcement-Learning-Model-for-Sequential-Recommendation/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://weirdozz.github.io/2022/04/29/KERL-A-Knowledge-Guided-Reinforcement-Learning-Model-for-Sequential-Recommendation/","path":"2022/04/29/KERL-A-Knowledge-Guided-Reinforcement-Learning-Model-for-Sequential-Recommendation/","title":"KERL:A Knowledge-Guided Reinforcement Learning Model for Sequential Recommendation"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>KERL:A Knowledge-Guided Reinforcement Learning Model for Sequential Recommendation | Weirdo</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Weirdo</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-movies"><a href="/movies/" rel="section"><i class="fa fa-film fa-fw"></i>电影</a></li>
+        <li class="menu-item menu-item-books"><a href="/books/" rel="section"><i class="fa fa-book fa-fw"></i>书籍</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%91%98%E8%A6%81-3"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E8%A8%80-3"><span class="nav-number">2.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E6%9C%9F%E5%87%86%E5%A4%87"><span class="nav-number">3.</span> <span class="nav-text">前期准备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%A6%E5%8F%B7"><span class="nav-number">3.1.</span> <span class="nav-text">符号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%BB%E5%8A%A1%E5%AE%9A%E4%B9%89"><span class="nav-number">3.2.</span> <span class="nav-text">任务定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A9%AC%E5%B0%94%E5%8F%AF%E5%A4%AB%E5%86%B3%E7%AD%96%E8%BF%87%E7%A8%8B-MDP"><span class="nav-number">3.3.</span> <span class="nav-text">马尔可夫决策过程(MDP)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E6%B3%95-3"><span class="nav-number">4.</span> <span class="nav-text">方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MDP%E5%85%AC%E5%BC%8F"><span class="nav-number">4.1.</span> <span class="nav-text">MDP公式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E7%9F%A5%E8%AF%86%E5%A2%9E%E5%BC%BA%E7%8A%B6%E6%80%81%E8%A1%A8%E7%A4%BA"><span class="nav-number">4.2.</span> <span class="nav-text">学习知识增强状态表示</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BA%8F%E5%88%97%E7%BA%A7%E7%9A%84%E7%8A%B6%E6%80%81%E8%A1%A8%E7%A4%BA"><span class="nav-number">4.2.1.</span> <span class="nav-text">序列级的状态表示</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%BA%A7%E7%9A%84%E7%8A%B6%E6%80%81%E8%A1%A8%E7%A4%BA"><span class="nav-number">4.2.2.</span> <span class="nav-text">知识级的状态表示</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E6%9C%80%E7%BB%88%E7%9A%84%E7%8A%B6%E6%80%81%E8%A1%A8%E7%A4%BA"><span class="nav-number">4.2.3.</span> <span class="nav-text">获取最终的状态表示</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A9%E7%94%A8%E7%9F%A5%E8%AF%86%E4%BF%A1%E6%81%AF%E8%AE%BE%E7%BD%AE%E5%A5%96%E5%8A%B1"><span class="nav-number">4.3.</span> <span class="nav-text">利用知识信息设置奖励</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A5%96%E5%8A%B1%E5%88%86%E8%A7%A3"><span class="nav-number">4.3.1.</span> <span class="nav-text">奖励分解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BA%8F%E5%88%97%E7%BA%A7%E5%A5%96%E5%8A%B1"><span class="nav-number">4.3.2.</span> <span class="nav-text">序列级奖励</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E7%BA%A7%E5%A5%96%E5%8A%B1"><span class="nav-number">4.3.3.</span> <span class="nav-text">知识级奖励</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E8%BF%87%E7%A8%8B"><span class="nav-number">4.4.</span> <span class="nav-text">学习过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%88%AA%E6%96%AD%E7%AD%96%E7%95%A5%E6%A2%AF%E5%BA%A6"><span class="nav-number">4.4.1.</span> <span class="nav-text">使用截断策略梯度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%AD%E7%BB%83%E6%84%9F%E5%BA%94%E7%BD%91%E7%BB%9C"><span class="nav-number">4.4.2.</span> <span class="nav-text">训练感应网络</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Weirdo"
+      src="/images/weirdo.jpg">
+  <p class="site-author-name" itemprop="name">Weirdo</p>
+  <div class="site-description" itemprop="description">怕什么真理无穷，进一步有进一步的欢喜</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">39</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/04/29/KERL-A-Knowledge-Guided-Reinforcement-Learning-Model-for-Sequential-Recommendation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/weirdo.jpg">
+      <meta itemprop="name" content="Weirdo">
+      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Weirdo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          KERL:A Knowledge-Guided Reinforcement Learning Model for Sequential Recommendation
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-04-29 05:05:11" itemprop="dateCreated datePublished" datetime="2022-04-29T05:05:11+08:00">2022-04-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-05-30 19:19:44" itemprop="dateModified" datetime="2022-05-30T19:19:44+08:00">2022-05-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">强化学习</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/04/29/KERL-A-Knowledge-Guided-Reinforcement-Learning-Model-for-Sequential-Recommendation/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/04/29/KERL-A-Knowledge-Guided-Reinforcement-Learning-Model-for-Sequential-Recommendation/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="摘要-3">摘要</h2>
+<p>对于序列推荐来说,获取并预测用户未来的偏好来生成准确的推荐是很重要的。为了增强这一能力,作者采用了强化学习。但是用户-商品的交互数据可能会比较稀疏、复杂并且随时间变化。直接使用RL来改善推荐能力没那么简单。</p>
+<p>受到知识图谱的启发,作者提出了一个KERL模型来将知识图谱的信息聚合到序列推荐的强化学习框架中。作者将序列推荐任务描述为一个马尔可夫决策过程,在框架中做出了三个主要的技术扩展,包括状态表示、奖励函数和学习算法。</p>
+<span id="more"></span>
+<p>首先,作者提出在考虑开发和探索的情况下利用知识图谱信息增强状态表示。其次,作者设计了一个组合奖励函数,能够计算序列级和知识级的奖励。最后,作者提出了一个新的算法来更加高效地训练所提出的模型。</p>
+<h2 id="引言-3">引言</h2>
+<p>序列推荐的一些传统的方法比如矩阵分解方法、循环神经网络等都是使用最大似然估计来一步步拟合用户的交互序列。但是这些研究对于优化目标的整体有效性没有进行很好刻画。强化学习通过考虑最大化长期表现提供了一个有前景的方法。</p>
+<p>虽然在理论上很有吸引力,但在实际应用中,如何优化序列推荐的长期奖励是一个大问题。首先用户的行为数据可能比较少,这样去学习一个更复杂的优化目标的困难就更大了。其次,RL的一个核心机制是探索过程,用一个随机的探索策略来获取用户兴趣的变化并不可靠。将RL算法应用到序列推荐中需要一个更加可控的学习过程。受到知识图谱的启发,作者采用启发式的知识图谱数据来指导基于强化学习的方法进行序列推荐。</p>
+<p>之前的研究主要是将知识图谱用于开发过程,很少考虑其在探索过程中的效果。因此,他们无法获取到用户喜好的潜在漂移。如下图所示,用户按序看了五部电影。总体的顺序可以分为两个连续的反映不同电影喜好的阶段。直观上,知识图谱数据能够在每个阶段帮助提高推荐表现,因为同阶段中的电影有相同的知识图谱特征,但是两个阶段中的电影在许多方面有着本质上的不同,现有的知识感知的顺序推荐器很可能在第一阶段被“困住”,不能有效地捕获两个阶段之间的偏好漂移。这样的问题本质上就是开发和探索之间的权衡问题。考虑到这两个因素,为了更好地利用知识信息,需要开发一种更原则性的顺序推荐方法。</p>
+<h2 id="前期准备">前期准备</h2>
+<h3 id="符号">符号</h3>
+<p>U表示用户的集合,I表示商品的集合。对于每一个用户$u\in U$,用$i_{1:n}^u = i_1^u \rightarrow i_2^u \rightarrow \dots \rightarrow i_n^u$表示用户u的交互序列,同样用$i_{j:k}^u$表示其中的一个子序列。知识图谱G中的每一条记录都是一个包含了两个实体和一些关系的知识三元组。</p>
+<h3 id="任务定义">任务定义</h3>
+<p>基于上述符号,序列推荐的任务旨在预测用户u在给定$i_{1:n}^u$和 G的情况下下一个会选择的商品。</p>
+<h3 id="马尔可夫决策过程-MDP">马尔可夫决策过程(MDP)</h3>
+<p>MDP可以表述为一个五元组$&lt;S,A,T,R,\pi&gt;$:</p>
+<ul>
+<li>S是状态的集合,每一个$s\in S$都表示环境的信息状态</li>
+<li>A是行为的集合,每一个$a\in A$都表示客户可以执行的行为</li>
+<li>T是状态转换函数,根据行为和当前状态来更新状态,比如$s_{t+1}=T(s_t,a_t)$</li>
+<li>R是奖励函数,$r=R(s,a)$<br>
+-$\pi (a|s)$描述用户的行为,通常是通过可能行为的概率分布建模的</li>
+</ul>
+<h2 id="方法-3">方法</h2>
+<h3 id="MDP公式">MDP公式</h3>
+<p>在MDP中,有客户会在离散的时间步上和环境进行交互。在每一个时间步t,过程处于某个状态$s_t\in S$。在本任务中,环境的状态可以认为是包含了所有对序列推荐有用的信息,包括交互历史信息和知识图谱。本例中,只考虑这两个主要部分</p>
+<p><img src="https://i.imgur.com/8eNPC92.png" alt="picture 1"></p>
+<p>初始状态设置为$s_0=[\emptyset,G]$。我们可以使用嵌入向量$v_{s_t} \in R^{L_s}$来对状态信息进行编码。</p>
+<p>根据状态$s_t$,客户会执行一个行为$a_t\in A$,从商品集I中选出$i_{t+1}$作为推荐。该行为通过策略$\pi (s_t)$建模,即一个函数以$s_t$为输入,输出一个可能的商品的概率分布。在本文中使用softmax计算概率：</p>
+<p><img src="https://i.imgur.com/cxVktdj.png" alt="picture 2"></p>
+<p>其中$q_j\in R^{L_I}$表示第j个商品的嵌入向量,$W_1$是双线性映射的参数,$v_{s_t}$是状态$s_t$的嵌入向量。</p>
+<p>每个行为过后,客户会收到一个数字中间奖励,比如$r_{t+1}=R(s_t,a_t)$。奖励函数可以反映我们任务所需要的推荐表现。此外,还使用了转换函数$T(T:S\times T \rightarrow S)$来更新状态</p>
+<p><img src="https://i.imgur.com/Ls6w3TV.png" alt="picture 3"></p>
+<p>下图是整个KERL的总体架构</p>
+<p><img src="https://i.imgur.com/lmrP1MY.png" alt="picture 4"></p>
+<h3 id="学习知识增强状态表示">学习知识增强状态表示</h3>
+<p>基于MDP的算法的一个关键点就在于建模并且学习一个好的状态表示,因为它保存了状态的必要信息特征。作者提出联合知识信息来增强状态标识,并且设置了两种状态表示,即序列级别的和知识级别的。用这种方式,能够使用启发式的知识图谱数据来引导序列级的RL学习算法。</p>
+<h4 id="序列级的状态表示">序列级的状态表示</h4>
+<p>采用标准循环神经网络对历史交互序列进行编码</p>
+<p><img src="https://i.imgur.com/gsWakRx.png" alt="picture 5"></p>
+<p>其中$q_{i_t}$是商品的嵌入向量,$\Phi_{gru}$是GRU网络中的所有相关参数。这个表示主要获取用户喜好的顺序特征,不使用知识信息来做衍生。</p>
+<h4 id="知识级的状态表示">知识级的状态表示</h4>
+<p>遗忘的研究主要利用知识图谱数据拟合用户的短期行为,并没有用于探索过程去优化长期目标。为了在开发和探索之间权衡,作者想到对两种基于知识的喜好进行建模即当前喜好和未来喜好。</p>
+<p><strong>学习当前喜好</strong>。基于历史数据获取当前的知识特征非常简单。每一个商品i和知识图G中的实体$e_i$相关联。作者使用TransE作为嵌入方法来获取商品$i_t$的嵌入向量,表示为$v_{e_{i_t}} \in R^{L_E}$。此外,使用一个简单的平均池化方法来聚合所有的用户选择的历史商品的知识图嵌入：</p>
+<p><img src="https://i.imgur.com/uDI88Ru.png" alt="picture 1"></p>
+<p>我们在上面并没有考虑到时序信息或者注意力机制,因为经过实验发现那些方法并没有比上面这个式子有改进。</p>
+<p><strong>预测未来喜好</strong>。直观上,知道未来的喜好对于序列推荐是有帮助的。基于当前的喜好,我们的想法是建立一个感应网络来直接预测未来喜好。这里作者使用的是多层感知机,在时间步t,以当前的喜好表示$c_t$作为输入预测一个k步未来喜好表示：</p>
+<p><img src="https://i.imgur.com/mMkbAKP.png" alt="picture 2"></p>
+<p>其中$f_{t:t+k}$表示t时刻的未来k步喜好,$\Phi_{mlp}$表示网络中的所有参数。作者假设在连续的时间步上基于知识的喜好是不会有太大改变的。</p>
+<h4 id="获取最终的状态表示">获取最终的状态表示</h4>
+<p>对于状态$s_t$,它的表示$v_{s_t}$是三个表示向量的结合：</p>
+<p><img src="https://i.imgur.com/TkGQNzH.png" alt="picture 3"></p>
+<p>其中$\oplus$是向量的拼接操作,$h_t$是序列等级的状态向量(公式4),$c_t$是当前基于知识的喜好(公式5),$f_{t:t+k}$是未来基于知识的喜好(公式6)。通过结合这三者,本方法自然地将知识图谱数据用到了MDP框架的状态表示种,在开发和探索间做了一个不错的权衡。</p>
+<h3 id="利用知识信息设置奖励">利用知识信息设置奖励</h3>
+<p>定义一个合适的奖励函数对于强化学习算法至关重要。在序列推荐中,最终的表现通常是基于商品id的准确匹配衡量的。但是,交互序列是由用户根据其对商品属性或简介的喜好生成的。因此,除了商品层面的表现,衡量推断出的知识层面的质量也很重要。</p>
+<h4 id="奖励分解">奖励分解</h4>
+<p>在时间步t,通过整合两个不同的奖励函数定义k步奖励函数：</p>
+<p><img src="https://i.imgur.com/06HqE4H.png" alt="picture 4"></p>
+<p>其中$R_{seq}$和$R_{kg}$分别衡量序列级和知识级的奖励,以真实子序列$i_{t:t+k}$和推荐子序列$\hat{i}_{t:t+k}$的信息为输入。</p>
+<h4 id="序列级奖励">序列级奖励</h4>
+<p>序列推荐中一个好的奖励函数不应该只考虑独立时间步的表现,也要衡量总体的表现。受到机器翻译评估的启发,作者使用了BLEU的衡量方法。给定真实的交互子序列$i_{t:t+k}$和推荐子序列$\hat{i}_{t:t+k}$,定义了一个奖励函数：</p>
+<p><img src="https://i.imgur.com/p6QSNSa.png" alt="picture 5"></p>
+<p>其中$prec_m$是改进后的精度,通过下式计算：</p>
+<p><img src="https://i.imgur.com/MLkzZVu.png" alt="picture 6"></p>
+<p>其中$p_m$是$i_{t:t+k}$的一个m-gram子序列,$# (p_m,i_{t:t+k})$是$p_m$在$i_{t:t+k}$中出现的次数,M决定使用多少的m-gram精度得分。由此可以看出,这样一个奖励机制更偏向于让推荐算法生成更多连续的m-gram序列。</p>
+<h4 id="知识级奖励">知识级奖励</h4>
+<p>在这个奖励函数中我们不关注商品id的准确匹配,而是更多地关注反映在序列中的知识级的特征。给定真实的和预测的子序列$i_{t:t+k}$和$\hat{i}<em>{t:t+k}$,我们仍然使用像公式5那样的简单方法来聚合TransE嵌入以获取子序列级的而知识表示,记为$c</em>{t:t+k}$和$\hat{c}_{t:t+k}$。为了衡量两个向量之间的差异,采用了余弦相似度作为奖励函数：</p>
+<p><img src="https://i.imgur.com/6FDP29y.png" alt="picture 7"></p>
+<p>这里可以将余弦函数换成其他相似度度量函数。</p>
+<h3 id="学习过程">学习过程</h3>
+<p>本模型中的一个关键点在于如何学习一个高效的知识级的状态表示。作者首先使用了蒙特卡洛算法采样一组子序列来训练MDP。基于这些子序列,提出一对排序机制来学习感应网络。整体的算法在下面给出,然后我们给出训练细节。</p>
+<p><img src="https://i.imgur.com/gRPDcc3.png" alt="picture 8"></p>
+<h4 id="使用截断策略梯度">使用截断策略梯度</h4>
+<p>本文的任务是学习一个随机策略$\pi$能够最大化期望积累奖励$J(\Theta)$。$J(\Theta)$的计算公式如下：</p>
+<p><img src="https://i.imgur.com/y5MYxEs.png" alt="picture 9"></p>
+<p>其中$\gamma$是用于平衡当前奖励和未来奖励的因子,$\Theta$是所有需要学习的参数。作者使用截断策略梯度来学习参数。具体来说,对于每一个状态$s_t$,KERL根据公式2的策略函数模仿一个截断k步子序列$\hat{i}<em>{t:t+k}^{(l)}$。给定$\hat{i}</em>{t:t+k}^{(l)}$,学习过程如下：</p>
+<p><img src="https://i.imgur.com/ySnQiLz.png" alt="picture 10"></p>
+<p>重复这个过程L次以获取一个最佳值。</p>
+<h4 id="训练感应网络">训练感应网络</h4>
+<p>感知网络是本模型重要组成部分,用于基于当前喜好预测未来的喜好。为了训练这样的一个网络,一个比较直接的方法是用真实喜好去拟合（比图用公式6计算真实喜好）。但是知识图谱信息可能会包含噪声或者不相关信息。此外,在本文的场景中真实向量回归的监督信号很稀疏,因为根据一个子序列只能获得一个单一的真实喜好向量$f_{t:t+k}$。为了更好地学习感应网络,作者提出了一对排序策略来改进训练过程。</p>
+<p>对于状态$s_t$可以用公式6获得他们对应的知识表示,表示为$\hat{f}<em>{t:t+k}^{(1)},\hat{f}</em>{t:t+k}^{(2)},\dots,\hat{f}<em>{t:t+k}^{(L)}$。通过公式10计算他们的奖励值,能够形成一组比较作为额外的限制来改进学习。具体来说,给定$\hat{f}</em>{t:t+k}^{(l)},\hat{f}<em>{t:t+k}^{(l’)}$我们首先利用他们的奖励值在L个子序列上构建喜好顺序,然后增加一对约束项以训练感应网络,其中对于$1\leq l,l’\leq L$,如果$R</em>{kg}(i_{t:t+k},\hat{i}<em>{t:t+k}^{(l)}) &gt; R</em>{kg}(i_{t:t+k},\hat{i}<em>{t:t+k}^{(l’)})$,则$MLP(\hat{f}</em>{t:t+k}^{(l)}) &gt; MLP(\hat{f}_{t:t+k}^{(l’)})$。</p>
+<p><img src="https://i.imgur.com/Hl8fujR.png" alt="picture 10"></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%BA%8F%E5%88%97%E6%8E%A8%E8%8D%90/" rel="tag"># 序列推荐</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/04/28/ubuntu%E4%B8%8B%E6%9F%90%E4%B8%AAapt%E7%9A%84%E5%8C%85%E6%89%80%E5%9C%A8%E8%B7%AF%E5%BE%84/" rel="prev" title="ubuntu下某个apt的包所在路径">
+                  <i class="fa fa-chevron-left"></i> ubuntu下某个apt的包所在路径
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/05/13/gormv2-%E5%AD%A6%E4%B9%A0/" rel="next" title="gormv2 学习">
+                  gormv2 学习 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Weirdo</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"weirdoblog","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

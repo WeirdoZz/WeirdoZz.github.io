@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="-jCet6qPD7nML4-W6IY2HZwfSblJyWta_Jx7_AGHgIk">
+  <meta name="baidu-site-verification" content="f349dc627a72ee616d62ed513574025d">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/orange/pace-theme-center-circle.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"weirdozz.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="摘要 作者提出了一个基于模型的强化学习方法，通过生成对抗网络对用户-代理交互建模进行离线策略学习。为了减少模型和策略的偏差，作者使用了一个鉴别器来评估生成的数据的质量并且衡量生成的奖励。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Model-Based Reinforcement Learning with Adversarial Training for Online Recommendation">
+<meta property="og:url" content="https://weirdozz.github.io/2022/05/24/Model-Based-Reinforcement-Learning-with-Adversarial-Training-for-Online-Recommendation/index.html">
+<meta property="og:site_name" content="Weirdo">
+<meta property="og:description" content="摘要 作者提出了一个基于模型的强化学习方法，通过生成对抗网络对用户-代理交互建模进行离线策略学习。为了减少模型和策略的偏差，作者使用了一个鉴别器来评估生成的数据的质量并且衡量生成的奖励。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.imgur.com/2CY7O8w.png">
+<meta property="og:image" content="https://i.imgur.com/d4nK6tF.png">
+<meta property="og:image" content="https://i.imgur.com/O5Afg1m.png">
+<meta property="og:image" content="https://i.imgur.com/Urzff1q.png">
+<meta property="og:image" content="https://i.imgur.com/g2voodP.png">
+<meta property="og:image" content="https://i.imgur.com/86Vu7as.png">
+<meta property="og:image" content="https://i.imgur.com/HHsrbid.png">
+<meta property="og:image" content="https://i.imgur.com/22PYa7R.png">
+<meta property="article:published_time" content="2022-05-24T08:53:16.000Z">
+<meta property="article:modified_time" content="2022-05-30T11:19:44.199Z">
+<meta property="article:author" content="Weirdo">
+<meta property="article:tag" content="强化学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/2CY7O8w.png">
+
+
+<link rel="canonical" href="https://weirdozz.github.io/2022/05/24/Model-Based-Reinforcement-Learning-with-Adversarial-Training-for-Online-Recommendation/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://weirdozz.github.io/2022/05/24/Model-Based-Reinforcement-Learning-with-Adversarial-Training-for-Online-Recommendation/","path":"2022/05/24/Model-Based-Reinforcement-Learning-with-Adversarial-Training-for-Online-Recommendation/","title":"Model-Based Reinforcement Learning with Adversarial Training for Online Recommendation"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Model-Based Reinforcement Learning with Adversarial Training for Online Recommendation | Weirdo</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Weirdo</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-movies"><a href="/movies/" rel="section"><i class="fa fa-film fa-fw"></i>电影</a></li>
+        <li class="menu-item menu-item-books"><a href="/books/" rel="section"><i class="fa fa-book fa-fw"></i>书籍</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%91%98%E8%A6%81-4"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E8%A8%80-4"><span class="nav-number">2.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0"><span class="nav-number">3.</span> <span class="nav-text">问题描述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98"><span class="nav-number">3.1.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%81%87%E8%AE%BE"><span class="nav-number">3.2.</span> <span class="nav-text">假设</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E6%A1%86%E6%9E%B6"><span class="nav-number">3.3.</span> <span class="nav-text">学习框架</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8%E4%BA%8E%E6%8E%A8%E8%8D%90%E7%9A%84%E4%BA%A4%E4%BA%92%E6%A8%A1%E5%9E%8B"><span class="nav-number">4.</span> <span class="nav-text">用于推荐的交互模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E8%A1%8C%E4%B8%BA%E6%A8%A1%E5%9E%8B"><span class="nav-number">4.1.</span> <span class="nav-text">用户行为模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A3%E7%90%86"><span class="nav-number">4.2.</span> <span class="nav-text">代理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E6%8A%97%E7%AD%96%E7%95%A5%E5%AD%A6%E4%B9%A0"><span class="nav-number">5.</span> <span class="nav-text">对抗策略学习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E6%8A%97%E8%AE%AD%E7%BB%83"><span class="nav-number">5.1.</span> <span class="nav-text">对抗训练</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AD%96%E7%95%A5%E5%AD%A6%E4%B9%A0"><span class="nav-number">5.2.</span> <span class="nav-text">策略学习</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Weirdo"
+      src="/images/weirdo.jpg">
+  <p class="site-author-name" itemprop="name">Weirdo</p>
+  <div class="site-description" itemprop="description">怕什么真理无穷，进一步有进一步的欢喜</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">39</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/05/24/Model-Based-Reinforcement-Learning-with-Adversarial-Training-for-Online-Recommendation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/weirdo.jpg">
+      <meta itemprop="name" content="Weirdo">
+      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Weirdo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Model-Based Reinforcement Learning with Adversarial Training for Online Recommendation
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-05-24 16:53:16" itemprop="dateCreated datePublished" datetime="2022-05-24T16:53:16+08:00">2022-05-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-05-30 19:19:44" itemprop="dateModified" datetime="2022-05-30T19:19:44+08:00">2022-05-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BA%8F%E5%88%97%E6%8E%A8%E8%8D%90/" itemprop="url" rel="index"><span itemprop="name">序列推荐</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/05/24/Model-Based-Reinforcement-Learning-with-Adversarial-Training-for-Online-Recommendation/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/05/24/Model-Based-Reinforcement-Learning-with-Adversarial-Training-for-Online-Recommendation/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="摘要-4">摘要</h2>
+<p>作者提出了一个基于模型的强化学习方法，通过生成对抗网络对用户-代理交互建模进行离线策略学习。为了减少模型和策略的偏差，作者使用了一个鉴别器来评估生成的数据的质量并且衡量生成的奖励。</p>
+<span id="more"></span>
+<h2 id="引言-4">引言</h2>
+<p>由于用户多样的兴趣和行为模式，只有小部分商品展示给了用户，并且用户的反馈记录则更少。对于如此大的状态和操作空间，这提供了相对较少的关于用户系统交互的信息，因此也给构建基于历史交互的有效的推荐策略带来了大量的挑战。</p>
+<p>如果不与真正的用户进行互动，推荐系统就不能轻易地在状态和行动空间中探索之前未探索过的区域。但是与真实用户交互以获取奖励并更新模型代价是很高的，因为探索阶段可能会让用户对这个推荐系统的表现不满意导致弃用。这种情况下需要利用用户的历史数据来先学习一个策略。为此，作者基于模型的学习方法，其中作者从用户的离线数据中评估一个模型，并且用它来和学习器进行交互以获取一个推荐策略。</p>
+<p>基于模型的RL具有高效采样和降低离线数据噪声的优势。但是这种优势很容易由于其模型近似真实环境的固有偏差而减弱，并且在随后的策略更新中产生的剧烈变化可能会增加降低用户满意度的风险。</p>
+<p>为了解决这一问题，作者在推荐学习策略中引入了对抗训练。训练器被训练用来分辨分辨模仿的交互轨迹和真实的，以此来消除用户行为模型的偏差和改进策略学习。该工作的主要贡献如下：</p>
+<ul>
+<li>为了解决交互代价高的问题，提出了一个同一的解决办法来更高效地利用历史数据，同时引入对抗训练。使该策略学习的鲁棒性更强</li>
+<li>提出的模型通过了理论和经验的验证。试验结果表明该方法有更好的采样效率。</li>
+</ul>
+<h2 id="问题描述">问题描述</h2>
+<p>本文的问题是从离线数据中学习一个策略，这样当部署到线上的时候能够最大化从用户交互中得来的奖励积累。</p>
+<h3 id="问题">问题</h3>
+<p>推荐器就是一个学习代理，它根据策略来生成行动，每个行动会给出一个推荐列表。每次代理和环境发生交互时（比如用户的购买、点击等），会记录一个n个序列的集合$\Omega={\tau_1,…,\tau_n}$，其中$\tau_i$时包含了代理的行动、用户行为和奖励的第i个序列，即$\tau_i={(a_0^i,c_0^i,r_0^i),…,(a_t^i,c_t^i,r_t^i)}$，其中$r_t^i$表示行动$a_t^i$（比如购买某个商品）的奖励，$c_t^i$是根据代理行动$a_t^i$做出的用户行为（比如点击推荐的商品）。为了讨论起来简单，之后会去掉上标i以表示整体的序列$\tau$。基于观测到的序列，会学习一个策略$\pi$以最大化期望累计奖励。</p>
+<h3 id="假设">假设</h3>
+<p>为了缩小讨论范围，作者研究的是经典的用户行为类型（比如点击），并且做出以下假设：</p>
+<ol>
+<li>在每个时间步上，每个用户必须从推荐列表中点击一个商品</li>
+<li>推荐列表中未被点击的商品不会影响用户未来的表现。</li>
+<li>奖励只和被点击的商品相关。</li>
+</ol>
+<p>比如说，当以用户的购买作为奖励的时候，用户指挥购买点击的商品。</p>
+<h3 id="学习框架">学习框架</h3>
+<p>本文中环境建模为一个用户行为模型U。S由时间t之前的交互历史决定。同时按照上面的假设，在时间步t，环境会在由$a_t$中的一个代理A推荐的商品中生成一个用户的点击$c_t$，然后奖励函数会根据该次点击生成一个奖励。</p>
+<h2 id="用于推荐的交互模型">用于推荐的交互模型</h2>
+<p>以下展示用于推荐的交互模型，包括两个部分：</p>
+<ol>
+<li>用户行为模型U，在推荐商品上生成用户用户点击</li>
+<li>代理A根据策略生成推荐商品序列</li>
+</ol>
+<p>U和A相互交互生成用户序列以用于对抗策略的学习。</p>
+<h3 id="用户行为模型">用户行为模型</h3>
+<p>根据给定的用户点击${c_0,…,c_{t-1}}$，用户行为模型U首先将每个时间点点击的商品投射到一个嵌入向量$e^u$上。状态$s_t^u$表示为点击历史的总和，比如说$s_t^u=h_u(e_0^u,…,e_{t-1}^u)$。作者使用RNN来对状态转换P进行建模，因此对于状态$s_t^u$，有：</p>
+<p>$$<br>
+s_t^u=h^u(s_{t-1}^u,e_{t-1}^u)<br>
+$$</p>
+<p>给定行动$a_t={a_{t(1)},…,a_{t(k)}}$，比如时间t时刻的topk个推荐，作者通过softmax计算推荐商品的点击概率</p>
+<p><img src="https://i.imgur.com/2CY7O8w.png" alt="picture 1"></p>
+<p>其中$V^c\in R^k$是转换向量，表示每个推荐商品$a_{t(i)}$在状态$s_t^u$的评估质量。$E_t^u$是推荐商品的嵌入矩阵，$W^e$是点击权重矩阵，$b^e$是对应的偏置值。奖励状态-行动组$s_t^u,a_t$的奖励$r_t$计算如下：</p>
+<p><img src="https://i.imgur.com/d4nK6tF.png" alt="picture 3"></p>
+<p>基于上面的公式1和公式2，采用明确的奖励，用户行为模型U能够从离线数据$\Omega$中根据最大似然估计获得：</p>
+<p><img src="https://i.imgur.com/O5Afg1m.png" alt="picture 4"></p>
+<p>其中$\lambda_p$是一个超参数，用于平衡两个损失，$T_i$是观测序列$\tau_i$的长度。</p>
+<h3 id="代理">代理</h3>
+<p>代理应该按照环境所提供的状态采取行动，但是实际应用中，用户的状态是看不到的。此外，代理采取行动的状态和用户点击时的状态可能是不同的。因此，作者构建了一个代理端的状态模型来学习状态。与用户端的状态模型类似，给定投射的点击向量$e_0^u,…,e_{t-1}^u$，在代理端通过$s_t^a=h^a(s_{t-1}^a,e_t-1^a)$构建状态模型，其中$s_t^a$表示t时刻代理维护的状态。初始状态$s_0^a$是从分布p中得来的首个推荐，将其简单表示为$s_0$。</p>
+<p>基于当前的状态$s_t^a$，代理根据整个项目集生成一个长度k的推荐列表作为其行动$a_t$，策略$\pi$下商品i的概率由下面的式子得出：</p>
+<p><img src="https://i.imgur.com/Urzff1q.png" alt="picture 5"></p>
+<p>其中$W_i^a$是权重矩阵$W^a$的第i行，C是整个推荐候选的集合，$b_i^a$是对应的偏置值。</p>
+<h2 id="对抗策略学习">对抗策略学习</h2>
+<p>生成$\hat{\tau}_t={(\hat{a}_0,\hat{c}_0,\hat{r}_0),…,(\hat{a}_t,\hat{c}_t,\hat{r}_t)}$时，对于t&gt;0，我们可以根据公式4获得$\hat{a}<em>t=A(\hat{\tau}</em>{0:t-1}^c)$，根据公式2获得$\hat{c}<em>t=U_c(\hat{\tau}</em>{0:t-1}^c,\hat{a}_t)$，根据公式1获得$\hat{r}<em>t=U_r(\hat{\tau}</em>{0:t-1}^c,\hat{c}_t)$。$\tau^c$表示序列$\tau$中的点击，$(\hat{a}_0,\hat{c}_0,\hat{r}<em>0)$是根据$s_0^a$和$s_0^u$产生的。当$\hat{c}<em>t=c</em>{end}$的时候，序列的生成就结束了，$c</em>{end}$是结束标志。生成的数据和真实离线的数据分别表示为g和data，在接下来不会再显示地区分$\tau,\hat{\tau}$，可以根据器分布的名称区别。</p>
+<h3 id="对抗训练">对抗训练</h3>
+<p>作者利用对抗训练使得IRecGAN模型生成高质量的序列，其能够捕获真实数据分布中的内在模式。一个鉴别器用于给出序列$\tau$的评估，$D(\tau)$表示$\tau$从真实推荐环境中被生成的概率。鉴别器的评估可以通过最小化目标函数实现：</p>
+<p><img src="https://i.imgur.com/g2voodP.png" alt="picture 6"></p>
+<p>但是D只能评估一个完整的序列，因此不能够直接评估时间t时生成的部分序列。作者为此使用蒙特卡洛树搜索算法和由U和A生成的roll-out策略来获取策略生成的得分。时间步t上序列生成的分定义为:</p>
+<p><img src="https://i.imgur.com/86Vu7as.png" alt="picture 7"></p>
+<p>其中$MC^{U,A}(\tau_{0:t};N)$是从U和A之间交互采样的N个序列。给定观测到的离线数据，U应当能够生成反映真实数据分布的点击和奖励。为了能够更好的学到一个U，可以设置真实的序列得分为1，最小化生成序列的得分和1的差距就可以了。因此，基于公式1和2，U的目标函数的梯度如下：</p>
+<p><img src="https://i.imgur.com/HHsrbid.png" alt="picture 8"></p>
+<p>其中$\Theta_u,\Theta_a$分别表示模型U和A的参数。为了使得A能够提供我们需要的推荐序列，我们也将$q_D(\tau_{0:t})$作为时间步t的序列生成奖励。而由于$q_D(\tau_{0:t})$评估的是0:t的序列质量，不关注t时刻之后的。为了能够评估整个序列，让A去最大化积累的奖励值。A的梯度表示为：</p>
+<p><img src="https://i.imgur.com/22PYa7R.png" alt="picture 9"></p>
+<h3 id="策略学习">策略学习</h3>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" rel="tag"># 强化学习</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/05/15/Streaming-GNN/" rel="prev" title="Streaming GNN(DGNN)">
+                  <i class="fa fa-chevron-left"></i> Streaming GNN(DGNN)
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/05/30/What-Happens-Next-Event-Prediction-Using-a-Compositional-Neural-Network-Model/" rel="next" title="What Happens Next? Event Prediction Using a Compositional Neural Network Model">
+                  What Happens Next? Event Prediction Using a Compositional Neural Network Model <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Weirdo</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"weirdoblog","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>
