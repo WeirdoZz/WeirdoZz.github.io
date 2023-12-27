@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="-jCet6qPD7nML4-W6IY2HZwfSblJyWta_Jx7_AGHgIk">
+  <meta name="baidu-site-verification" content="f349dc627a72ee616d62ed513574025d">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/orange/pace-theme-center-circle.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"weirdozz.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="目前的大规模神经网络难以到达人脑生物神经网络连接的规模，在多通道协同处理、知识存储和迁移、持续学习方面表现不佳。作者构建一种启发于人脑功能机制的大规模神经网络模型，以脑区划分和脑区功能机制为启发，借鉴脑功能分区来模块化构建大规模神经网络模型，根据场景输入和目标, 自动构建神经网络通路, 设计神经网络模型来获得输出。该神经网络模型关注输入到输出空间的关系构建, 通过不断学习, 提升模型的关系映射能力">
+<meta property="og:type" content="article">
+<meta property="og:title" content="类脑超大规模深度神经网络系统">
+<meta property="og:url" content="https://weirdozz.github.io/2023/02/06/%E7%B1%BB%E8%84%91%E8%B6%85%E5%A4%A7%E8%A7%84%E6%A8%A1%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%B3%BB%E7%BB%9F/index.html">
+<meta property="og:site_name" content="Weirdo">
+<meta property="og:description" content="目前的大规模神经网络难以到达人脑生物神经网络连接的规模，在多通道协同处理、知识存储和迁移、持续学习方面表现不佳。作者构建一种启发于人脑功能机制的大规模神经网络模型，以脑区划分和脑区功能机制为启发，借鉴脑功能分区来模块化构建大规模神经网络模型，根据场景输入和目标, 自动构建神经网络通路, 设计神经网络模型来获得输出。该神经网络模型关注输入到输出空间的关系构建, 通过不断学习, 提升模型的关系映射能力">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.imgur.com/KtQg9Yq.png">
+<meta property="og:image" content="https://i.imgur.com/fgm2Orh.png">
+<meta property="og:image" content="https://i.imgur.com/lpr0ZlI.png">
+<meta property="og:image" content="https://i.imgur.com/y9jRJKV.png">
+<meta property="og:image" content="https://i.imgur.com/nTnPPkg.png">
+<meta property="og:image" content="https://i.imgur.com/Isaj0cy.png">
+<meta property="og:image" content="https://i.imgur.com/x9x6IGL.png">
+<meta property="og:image" content="https://i.imgur.com/a1UnH8Q.png">
+<meta property="og:image" content="https://i.imgur.com/GyXp1RI.png">
+<meta property="og:image" content="https://i.imgur.com/TDqFbuD.png">
+<meta property="og:image" content="https://i.imgur.com/aLDSp2S.png">
+<meta property="article:published_time" content="2023-02-06T01:48:42.000Z">
+<meta property="article:modified_time" content="2023-12-27T12:42:30.265Z">
+<meta property="article:author" content="Weirdo">
+<meta property="article:tag" content="WeirdoBlog">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/KtQg9Yq.png">
+
+
+<link rel="canonical" href="https://weirdozz.github.io/2023/02/06/%E7%B1%BB%E8%84%91%E8%B6%85%E5%A4%A7%E8%A7%84%E6%A8%A1%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%B3%BB%E7%BB%9F/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://weirdozz.github.io/2023/02/06/%E7%B1%BB%E8%84%91%E8%B6%85%E5%A4%A7%E8%A7%84%E6%A8%A1%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%B3%BB%E7%BB%9F/","path":"2023/02/06/类脑超大规模深度神经网络系统/","title":"类脑超大规模深度神经网络系统"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>类脑超大规模深度神经网络系统 | Weirdo</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Weirdo</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-movies"><a href="/movies/" rel="section"><i class="fa fa-film fa-fw"></i>电影</a></li>
+        <li class="menu-item menu-item-books"><a href="/books/" rel="section"><i class="fa fa-book fa-fw"></i>书籍</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E8%84%91%E5%A4%A7%E8%A7%84%E6%A8%A1%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B%E8%AE%BE%E8%AE%A1"><span class="nav-number">2.</span> <span class="nav-text">类脑大规模神经网络模型设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B1%BB%E8%84%91%E7%A0%94%E7%A9%B6%E5%9F%BA%E7%A1%80"><span class="nav-number">2.1.</span> <span class="nav-text">类脑研究基础</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B1%BB%E8%84%91%E5%8A%9F%E8%83%BD%E5%8C%BA%E8%AE%BE%E8%AE%A1"><span class="nav-number">2.2.</span> <span class="nav-text">类脑功能区设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B1%BB%E8%84%91%E5%8A%9F%E8%83%BD%E5%8C%BA%E5%8D%8F%E5%90%8C%E5%B7%A5%E4%BD%9C"><span class="nav-number">2.3.</span> <span class="nav-text">类脑功能区协同工作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B1%BB%E8%84%91%E5%8A%9F%E8%83%BD%E5%8C%BA%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E5%92%8C%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F"><span class="nav-number">2.4.</span> <span class="nav-text">类脑功能区数据存储和管理系统</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E5%B9%B3%E5%8F%B0%E4%B8%AD%E9%97%B4%E4%BB%B6"><span class="nav-number">3.</span> <span class="nav-text">算法平台中间件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E8%AE%BE%E8%AE%A1%E7%BB%84%E4%BB%B6"><span class="nav-number">3.1.</span> <span class="nav-text">模型设计组件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%9A%84%E6%A8%A1%E5%9E%8B%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%B3%95"><span class="nav-number">3.1.1.</span> <span class="nav-text">基于强化学习的模型设计方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E5%8F%AF%E5%BE%AE%E6%A2%AF%E5%BA%A6%E7%9A%84%E6%A8%A1%E5%9E%8B%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%B3%95"><span class="nav-number">3.1.2.</span> <span class="nav-text">基于可微梯度的模型设计方法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9F%A5%E8%AF%86%E5%AD%98%E5%82%A8%E4%B8%8E%E5%AD%A6%E4%B9%A0%E7%BB%84%E4%BB%B6"><span class="nav-number">3.2.</span> <span class="nav-text">知识存储与学习组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E8%AE%AD%E7%BB%83%E7%BB%84%E4%BB%B6"><span class="nav-number">3.3.</span> <span class="nav-text">分布式训练组件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E5%A4%9A%E8%8A%82%E7%82%B9%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E8%AE%AD%E7%BB%83%E5%B9%B3%E5%8F%B0"><span class="nav-number">3.3.1.</span> <span class="nav-text">基于多节点的分布式训练平台</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%A7%E8%A7%84%E6%A8%A1%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E5%88%86%E5%B8%83%E5%BC%8F%E8%AE%AD%E7%BB%83%E7%AE%97%E6%B3%95"><span class="nav-number">3.3.2.</span> <span class="nav-text">大规模神经网络分布式训练算法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF-2"><span class="nav-number">4.</span> <span class="nav-text">应用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%95%E6%A8%A1%E6%80%81%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF%E7%A0%94%E7%A9%B6"><span class="nav-number">4.1.</span> <span class="nav-text">单模态应用场景研究</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%83%8C%E6%99%AF-2"><span class="nav-number">4.1.1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E8%AE%BE%E8%AE%A1"><span class="nav-number">4.1.2.</span> <span class="nav-text">实验设计</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E6%A8%A1%E6%80%81%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF%E7%A0%94%E7%A9%B6"><span class="nav-number">4.2.</span> <span class="nav-text">多模态应用场景研究</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%83%8C%E6%99%AF-3"><span class="nav-number">4.2.1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8E%E7%B1%BB%E8%84%91%E6%A8%A1%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E6%A8%A1%E5%9E%8B%E7%9A%84%E5%A4%9A%E6%A8%A1%E6%80%81%E5%BA%94%E7%94%A8"><span class="nav-number">4.2.2.</span> <span class="nav-text">基于类脑模神经网络模型的多模态应用</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Weirdo"
+      src="/images/weirdo.jpg">
+  <p class="site-author-name" itemprop="name">Weirdo</p>
+  <div class="site-description" itemprop="description">怕什么真理无穷，进一步有进一步的欢喜</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">57</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2023/02/06/%E7%B1%BB%E8%84%91%E8%B6%85%E5%A4%A7%E8%A7%84%E6%A8%A1%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%B3%BB%E7%BB%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/weirdo.jpg">
+      <meta itemprop="name" content="Weirdo">
+      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Weirdo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          类脑超大规模深度神经网络系统
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-02-06 09:48:42" itemprop="dateCreated datePublished" datetime="2023-02-06T09:48:42+08:00">2023-02-06</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-12-27 20:42:30" itemprop="dateModified" datetime="2023-12-27T20:42:30+08:00">2023-12-27</time>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2023/02/06/%E7%B1%BB%E8%84%91%E8%B6%85%E5%A4%A7%E8%A7%84%E6%A8%A1%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%B3%BB%E7%BB%9F/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2023/02/06/类脑超大规模深度神经网络系统/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>目前的大规模神经网络难以到达人脑生物神经网络连接的规模，在多通道协同处理、知识存储和迁移、持续学习方面表现不佳。作者构建一种启发于人脑功能机制的大规模神经网络模型，以脑区划分和脑区功能机制为启发，借鉴脑功能分区来模块化构建大规模神经网络模型，根据场景输入和目标, 自动构建神经网络通路, 设计神经网络模型来获得输出。该神经网络模型关注输入到输出空间的关系构建, 通过不断学习, 提升模型的关系映射能力, 目标在于让该模型具备多通道协同处理能力, 实现知识存储和持续学习。</p>
+<span id="more"></span>
+<h2 id="背景">背景</h2>
+<p>神经网络规模大小与识别精度之间存在很强的关联性，神经网络模型越大, 任务处理表现就越好。人脑生物神经网络的复杂程度远超目前的人工神经网络模型，并且大规模神经网络的训练需要消耗巨大的计算资源和时间。因此, 大规模神经网络模型需要一种新的组织方式, 以实现自身的高效训练和灵活使用。</p>
+<p>目前的神经网络的局限性：</p>
+<ul>
+<li>由于特定任务确定了输入/输出空间的边界,任务相关的大规模输入数据为大规模神经网络学习提供了条件, 使得大规模神经网络展现出强大的端到端表示能力和非线性函数的无限逼近能力。但当输入/输出空间的边界不确定, 或者输入空间发生变化, 人工神经网络模型往往难以适应, 表现出较低的迁移性, 无法直接迁移到不同任务中并取得较好的结果。</li>
+<li>同时, 与大脑学习机制不同, 神经网络不具有持续学习能力。当任务发生变化, 输入/输出空间的相关关系随之改变, 神经网络难以持续学习更新已学习到的空间映射应对任务变化。</li>
+<li>神经网络如何存储知识是存在争议的, 神经网络映射能否实现知识迁移, 怎么样去实现, 还在探索之中。</li>
+</ul>
+<p>人脑生物神经网络的复杂性, 使得大规模神经网络模型设计存在瓶颈,需要一种新的类脑机制指导大规模神经网络设计和学习。</p>
+<p>本文提出一种启发于脑功能机制的超大规模深度神经网络模型，该模型以脑功能和神经网络研究为基础, 集成海量数据集和预训练模型, 借鉴类脑功能的协同机制, 利用模型设计组件, 完成针对不同任务场景的神经网络模型设计。<code>关注如何构建输入/输出的映射关系, 而不是神经网络连接细节</code>。目标在于使神经网络模型具备多通道协同处理能力, 提升输入/输出关系的映射能力, 实现知识存储, 让模型具备可持续学习能力应对任务的变化。</p>
+<p>具体研究内容：</p>
+<ul>
+<li>基于人脑功能研究成果, 研究如何基于大脑功能机制构建类脑神经网络功能区。</li>
+<li>构建类脑功能区, 设计数据库系统, 实现类脑功能区灵活管理。</li>
+<li>基于脑功能协同工作机制研究模型设计组件平台, 完成针对特定场景的神经网络模型设计, 构建分布式训练组件提供算法和分布式训练支持。</li>
+<li>完成超大规模神经网络模型构建, 研究从场景输入到构建神经网络模型作为输出的通路, 并在多个不同模态任务进行可行性验证。</li>
+</ul>
+<h2 id="类脑大规模神经网络模型设计">类脑大规模神经网络模型设计</h2>
+<p>整个模型包含4层架构(研究基础、类脑功能区、算法平台、应用平台)的解决方案, 如图1所示, 所有数据和类脑功能区通过数据库系统进行管理。</p>
+<p><img src="https://i.imgur.com/KtQg9Yq.png" alt="picture 1"></p>
+<h3 id="类脑研究基础">类脑研究基础</h3>
+<p>脑功能和脑区存在多对多的关系, 即一个脑功能涉及多个脑区, 一个脑区可能服务多种功能。</p>
+<h3 id="类脑功能区设计">类脑功能区设计</h3>
+<p>视觉、听觉、语言、情感这4个功能覆盖的脑区较多, 这也和目前神经网络研究的主要领域相符. 所以, 目前我们构建的超大规模的类脑网络模型主要包括了视觉功能区、听觉功能区和语言功能区以及情感功能区。</p>
+<p>以视觉脑功能区为例, 介绍如何依据脑区的功能特点构建类脑功能区, 如图2所示. 根据目前掌握的数据, 视觉功能和30多个脑区相关, 与其相关的二级功能可以细分为动作、颜色、形状和其他。</p>
+<p><img src="https://i.imgur.com/fgm2Orh.png" alt="picture 2"></p>
+<h3 id="类脑功能区协同工作">类脑功能区协同工作</h3>
+<p>模型借鉴大脑脑区协作机制指导类脑功能区协同工作, 实现多通道数据处理。在特定应用场景下, 对脑区活动进行监测, 分析脑区的在特定任务场景下的结构关联和功能关联, 并以此作为类脑功能区协作的基础。</p>
+<p><img src="https://i.imgur.com/lpr0ZlI.png" alt="picture 3"></p>
+<h3 id="类脑功能区数据存储和管理系统">类脑功能区数据存储和管理系统</h3>
+<p>将目前开源或者可用的神经网络结构和预训练模型以及依赖的数据集进行整理和归纳, 按照类脑功能区的构建原则, 将所有神经网络模型映射到对应的脑功能区中。为了实现类脑功能区的高效管理和使用. 我们设计了一套“人工编码”对神经网络模型重新进行描述。</p>
+<p><img src="https://i.imgur.com/y9jRJKV.png" alt="picture 4"></p>
+<p>设计了一个完整的信息管理系统实现类脑功能区的管理: 首先, 将脑功能区的字典进行单独存储与维护, 作为基本模型的属性之一; 其次, 对于模型本身, 拆分成基本网络模型和预训练模型两个部分,其中, 基本模型包含模型本身的各种属性, 包括所归属的子功能区、网络结构特征、评价指标、以及拥有的关键层等, 而针对预训练模型则记录其训练平台、数据集、优化器等信息; 最后, 对上传的神经网络模型和预训练模型分类存储。</p>
+<p><img src="https://i.imgur.com/nTnPPkg.png" alt="picture 5"></p>
+<h2 id="算法平台中间件">算法平台中间件</h2>
+<p>该算法平台中间件主要功能是基于现有类脑功能区中的数据和模型, 根据应用场景需求完成新的神经网络模型设计. 目前主要包括3个组件：</p>
+<ul>
+<li>神经网络模型设计组件, 构建面向任务的网络模型</li>
+<li>知识储存和学习组件, 实现预训练模型的存储和更新. 引入注意机制, 持续学习优化模型设计组件的性能</li>
+<li>分布式训练组件, 为神经网络模型的分布式训练和存储提供算法支撑</li>
+</ul>
+<h3 id="模型设计组件">模型设计组件</h3>
+<p>演化计算是一种基于种群的优化算法, 借鉴生物界自然选择和自然遗传机制而发展起来的通用问题求解方法. 它一般包括基因编码、种群初始化、交叉变异算子、选择保留等基本操作。进化计算是一种成熟的具有高鲁棒性和广泛适用性的全局优化方法, 具有自组织、自适应、自学习的特性, 能够不受问题性质的限制。</p>
+<p>基因1和基因2分别对两个模态的类脑功能区进行编码, 每个基因有3个部分组成, 分别用来编码优化器、网络结构特征、网络规模大小.基因1和基因2构成一个个体, 多个个体构成种群。</p>
+<p><img src="https://i.imgur.com/Isaj0cy.png" alt="picture 6"></p>
+<p>首先是设计一种整数编码, 对神经网络模型特征进行编码, 例如优化器、网络结构特征、模型规模. 给定一个整数编码, 即可解码出一个神经网络模型. 当涉及到多个模态的网络, 根据多个功能区协同工作的机制, 分别对多个类脑功能区进行编码, 然后将多个编码信息组成一条基因, 即对应到一个个体. 个体通过解码可以得到多个不同模态的神经网络模型, 多个网络融合后可以用于解决多模态的问题. 一个种群往往包含多个个体. 其次, 用个体在多模态目标任务上的性能指标作为个体的适应度值. 最后, 通过演化算法的演化操作: 选择、变异、交叉生成新的种群, 通过不断的演化, 最终找出适应度值最高的个体, 即是针对当前应用场景最佳的神经网络模型设计。</p>
+<h4 id="基于强化学习的模型设计方法">基于强化学习的模型设计方法</h4>
+<p>结合强化学习的强大能力, 我们也可以用来搜索模型的网络结构。整个流程大概分为控制器以一定的概率生成结构A, 训练模型结构A得到模型A的精度, 然后用强化学习的技术去计算梯度, 更新我们的控制器RNN. 如此循环往复, 直到达到某个终止条件结束搜索。</p>
+<p>神经网络的结构和连接可以表示为可变长度的字符编码, 所以我们可以利用如RNN来生成这样的字符串, 用来表征不同的网络结构。</p>
+<p><img src="https://i.imgur.com/x9x6IGL.png" alt="picture 7"></p>
+<h4 id="基于可微梯度的模型设计方法">基于可微梯度的模型设计方法</h4>
+<p>基于梯度的网络结构搜索方法是把离散的网络结构搜索空间转化为连续的搜索空间表示. 这样, 在进行搜索和优化的时候, 能够加快搜索效率和节约搜索所消耗的资源。</p>
+<p>其中, 通过编码器可以把离散的网络结构编码成连续的空间表示, 性能预测器则可以输出更好的网络结构嵌入表示. 最后就是解码器,是把搜索得到的更好的网络结构嵌入表示解码为最终的结构。该方法通过编码器得到连续的空间表示后是直接通过梯度优化, 得到我们想要更好的网络结构表示。</p>
+<p><img src="https://i.imgur.com/a1UnH8Q.png" alt="picture 8"></p>
+<h3 id="知识存储与学习组件">知识存储与学习组件</h3>
+<p>为了实现神经网络的知识存储, 进而达到语义分析和推理, 我们认为: 除了脑启发的神经网络架构之外, 还需要大量训练数据和大规模网络结构将学习到的知识存储到神经网络中。</p>
+<p>主要功能是对已有知识进行存储和学习、辅助类脑功能区在特定任务场景下的神经网模型设计. 该组件要存储的是经过预训练的、专门用于感知的(如视觉分类、听觉分类、自然语言处理)预训练模型, 并能通过新的数据对预训练模型进行更新。</p>
+<p>在类脑神经网络模型应对新任务进行神经网络模型设计时, 如何选择预训练模块也非常关键, 决定了新神经网络模型对输入/输出空间的映射能力. 为了更好地利用这些预训练模型, 该组件引入人脑注意力机制, 在不同应用场景下, 选择一些关键的信息输入进行处理, 选出最佳的预训练模型, 辅助模型设计组件构建新的神经网络模型。</p>
+<h3 id="分布式训练组件">分布式训练组件</h3>
+<h4 id="基于多节点的分布式训练平台">基于多节点的分布式训练平台</h4>
+<p>在模型设计组件中, 每个多模态网络需要在目标数据集上进行验证, 得到的性能指标将作为反馈继续指导类脑功能区的协同工作。</p>
+<p>整个集群由两类节点组成: 服务节点和计算节点, 所有节点通过TCP/IP网络连接. 在我们构建的分布式集群中, 有1个服务器节点, 该节点主要负责集群的管理以及类脑功能区的管理. 多个计算节点主要负责多模态网络在数据集上进行验证, 所有节点异步向服务器节点发起任务请求. 该平台的特点是对计算节点性能没有一致性要求, 任何性能的计算节点都可以加入该集群, 提升分布式计算能力。</p>
+<p><img src="https://i.imgur.com/GyXp1RI.png" alt="picture 9"></p>
+<h4 id="大规模神经网络分布式训练算法">大规模神经网络分布式训练算法</h4>
+<ul>
+<li>模型并行：神经网络的每个层可以被分配给不同计算节点进行训练, 整个训练过程如流水线. 该方法的优势在于神经网络模型可以分布式存储, 减小存储压力; 缺点在于神经网络在训练过程中, 各个节点间需要通信开销, 且实现困难, 模型一致性难以保证。</li>
+<li>数据并行：不同计算节点具有完整的模型副本和目标数据集的部分子集. 每个计算节点基于分配的子数据集对神经网络进行训练, 参数服务器收集各个计算节点的神经网络参数或者梯度, 并计算新的参数, 最后分发新参数给每个计算节点。</li>
+</ul>
+<h2 id="应用场景-2">应用场景</h2>
+<h3 id="单模态应用场景研究">单模态应用场景研究</h3>
+<p>介绍基于视觉功能区的单模态应用场景的构建. 我们构建的单模态应用场景为多目标跟踪, 并且这里的多目标追踪特指基于检测的多目标跟踪。</p>
+<h4 id="背景-2">背景</h4>
+<p>基于检测的多目标跟踪实现流程(以检测视频中的多目标为例)如下：</p>
+<ul>
+<li>（1）给定视频的原始帧</li>
+<li>（2）运行目标检测模型获得给定视频原始帧中对象的边界框</li>
+<li>（3）对于每个检测到的物体，计算不同特征</li>
+<li>（4）对不同特征进行相似度计算</li>
+<li>（5）对不同帧的对象进行关联，为每个对象分配数字id</li>
+</ul>
+<p>本节介绍的这种基于检测的多目标跟踪方法并不是一个端到端的过程.我们可以将其看成是一个two-stage的过程: 第1步, 利用目标检测模型进行物体检测, 即上述实现流程中的步骤(1)、步骤(2); 第2步, 将检测到的物体进行联, 即上述实现流程中的步骤(3)步骤(5)。我们可以使用某种搜索算法去搜索视觉功能区中的目标检测模型来替换多目标追踪框架的第一步中的目标检测模型。</p>
+<h4 id="实验设计">实验设计</h4>
+<p>其中, 检测这一层级中有Faster R-CNN, SSD, YOLOv3等目标检测模型. 这些模型的源文件和预训练好的参数都已经存储在我们的视觉功能区中. 实验选取的多目标跟踪框架为deep-sort。实验使用算法平台从视觉功能区中的检测子功能区中选择出一个目标检测模型, 用于构成deep-sort算法中的目标检测模块。</p>
+<p><img src="https://i.imgur.com/TDqFbuD.png" alt="picture 10"></p>
+<p>对检测子功能区中的目标检测模型进行简单编码作为视觉功能区的搜索空间</p>
+<p><img src="https://i.imgur.com/aLDSp2S.png" alt="picture 11"></p>
+<h3 id="多模态应用场景研究">多模态应用场景研究</h3>
+<h4 id="背景-3">背景</h4>
+<p>对于同一个事物有不同角度的观察, 每一个角度成为一个模态; 多个角度构成多个模态。单个模态对于事物的描述是有偏的, 通过多个模态来描述该事物能够减少这种偏移。</p>
+<p>事物的统一表示有联合表示(joint representation)和协同表示(coordinate representation)两种方法. 通常, 构建联合表示的核心问题之一即为如何将多个模态的数据进行融合. 一般可采用的数据融合操作为向量的连接、加权和、多线性池化和基于注意力机制的融合等, 然而不同的融合操作有不同性质, 这些性质影响着不同任务的最终表现. 而协同表示则类似于坐标系下的坐标, 用单个模态的表示作为多模态表示的一个分量. 协同表示的各个模态分量一般需要通过结构或者相似性约束来建模各个模态之间的内在联系.最新的研究表明, 多模态数据融合可以通过网络结构搜索完成。</p>
+<h4 id="基于类脑模神经网络模型的多模态应用">基于类脑模神经网络模型的多模态应用</h4>
+<p>一般的, 多模态数据都选取高层特征来进行融合, 例如卷积神经网络(convolution neural network)的特征<br>
+图(feature map)或者循环神经网络(recurrent neural network)的特征向量等。</p>
+<p>MFAS利用不同特征提取器构建不同模态的高层特征, 并从这些特征提取器中搜索了不同模态的特征组合来完成多次多模态特征融合。</p>
+<p>提出的类脑模型中, 特征提取器, 即模型组件由类脑网络模型的算法中间件提供.同时, 每个模型组件都会进行单模态数据的预训练. 最后, 自动化地完成多模态融合网络的构建.</p>
+<p>类脑神经网络模型的多模态问题的应用过程如下：</p>
+<ul>
+<li>算法平台中间件提供单模态的模型组件设计</li>
+<li>对单模态模型进行预训练</li>
+<li>采用预训练模型组件进行多模态融合网络的自动化构建</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/12/19/BERT/" rel="prev" title="BERT">
+                  <i class="fa fa-chevron-left"></i> BERT
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/04/01/docker%E5%90%AF%E5%8A%A8mysql%E9%95%9C%E5%83%8F/" rel="next" title="docker启动mysql镜像">
+                  docker启动mysql镜像 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Weirdo</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"weirdoblog","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

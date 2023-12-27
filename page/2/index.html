@@ -164,18 +164,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">39</span>
+          <span class="site-state-item-count">57</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-count">32</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -213,7 +213,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/04/11/Dynamic-Adapting-Window-Independence-Drift-Detection-DAWIDD/">
+    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/11/27/%E8%84%9A%E6%9C%AC%E4%BA%8B%E4%BB%B6%E9%A2%84%E6%B5%8B%E5%BC%95%E5%85%A5%E5%A4%96%E9%83%A8%E7%9F%A5%E8%AF%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/weirdo.jpg">
@@ -226,7 +226,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/04/11/Dynamic-Adapting-Window-Independence-Drift-Detection-DAWIDD/" class="post-title-link" itemprop="url">Dynamic Adapting Window Independence Drift Detection(DAWIDD)</a>
+          <a href="/2022/11/27/%E8%84%9A%E6%9C%AC%E4%BA%8B%E4%BB%B6%E9%A2%84%E6%B5%8B%E5%BC%95%E5%85%A5%E5%A4%96%E9%83%A8%E7%9F%A5%E8%AF%86/" class="post-title-link" itemprop="url">脚本事件预测引入外部知识</a>
         </h2>
 
         <div class="post-meta-container">
@@ -237,23 +237,14 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2022-04-11 12:13:06" itemprop="dateCreated datePublished" datetime="2022-04-11T12:13:06+08:00">2022-04-11</time>
+      <time title="创建时间：2022-11-27 13:32:39" itemprop="dateCreated datePublished" datetime="2022-11-27T13:32:39+08:00">2022-11-27</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-04-14 12:36:59" itemprop="dateModified" datetime="2022-04-14T12:36:59+08:00">2022-04-14</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%A6%82%E5%BF%B5%E6%BC%82%E7%A7%BB/" itemprop="url" rel="index"><span itemprop="name">概念漂移</span></a>
-        </span>
+      <time title="修改时间：2023-12-27 20:42:30" itemprop="dateModified" datetime="2023-12-27T20:42:30+08:00">2023-12-27</time>
     </span>
 
   
@@ -265,8 +256,8 @@
       </span>
       <span class="post-meta-item-text">Disqus：</span>
     
-    <a title="disqus" href="/2022/04/11/Dynamic-Adapting-Window-Independence-Drift-Detection-DAWIDD/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/04/11/Dynamic-Adapting-Window-Independence-Drift-Detection-DAWIDD/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2022/11/27/%E8%84%9A%E6%9C%AC%E4%BA%8B%E4%BB%B6%E9%A2%84%E6%B5%8B%E5%BC%95%E5%85%A5%E5%A4%96%E9%83%A8%E7%9F%A5%E8%AF%86/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/11/27/脚本事件预测引入外部知识/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -280,734 +271,25 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>许多线上学习方法都包含漂移检测模块来对数据的变化做出检测和反应。但是，可靠的漂移检测算法存在一个具有挑战性的问题，不断变化的漂移特征和缺少反应漂移的参数化模型，这一问题在数据维度较高时更加明显。本文作者提出了DAWIDD的漂移检测方法，旨在对各种漂移特征进行非参的漂移检测。为此，作者在相应的漂移过程中建立了漂移发生与特定随机变量的依赖性的数学等价。这使得漂移检测无需依赖参数化模型，可以进行独立测试，这样的方案对于检测不同类型的漂移足够鲁棒。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/04/11/Dynamic-Adapting-Window-Independence-Drift-Detection-DAWIDD/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/04/08/Unsupervised-Concept-Drift-Detection-with-a-Discriminative-Classifier/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/weirdo.jpg">
-      <meta itemprop="name" content="Weirdo">
-      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Weirdo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/04/08/Unsupervised-Concept-Drift-Detection-with-a-Discriminative-Classifier/" class="post-title-link" itemprop="url">Unsupervised Concept Drift Detection with a Discriminative Classifier</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-04-08 12:33:14" itemprop="dateCreated datePublished" datetime="2022-04-08T12:33:14+08:00">2022-04-08</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-04-09 12:15:54" itemprop="dateModified" datetime="2022-04-09T12:15:54+08:00">2022-04-09</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%A6%82%E5%BF%B5%E6%BC%82%E7%A7%BB/" itemprop="url" rel="index"><span itemprop="name">概念漂移</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2022/04/08/Unsupervised-Concept-Drift-Detection-with-a-Discriminative-Classifier/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/04/08/Unsupervised-Concept-Drift-Detection-with-a-Discriminative-Classifier/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="摘要-7">摘要</h2>
-<p>作者提出了一个无监督的方法D3，它使用一个带有滑动窗口的分类器通过监视特征空间的变化来检测概念漂移。这个方法可以和已有的分类器一起使用，即便该分类器本身并没有漂移适应机制。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/04/08/Unsupervised-Concept-Drift-Detection-with-a-Discriminative-Classifier/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/04/01/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%88%86%E5%B8%83%E5%BC%8F%E7%BC%93%E5%AD%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/weirdo.jpg">
-      <meta itemprop="name" content="Weirdo">
-      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Weirdo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/04/01/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%88%86%E5%B8%83%E5%BC%8F%E7%BC%93%E5%AD%98/" class="post-title-link" itemprop="url">从零开始实现一个分布式缓存</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-04-01 15:50:27" itemprop="dateCreated datePublished" datetime="2022-04-01T15:50:27+08:00">2022-04-01</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-04-04 13:10:40" itemprop="dateModified" datetime="2022-04-04T13:10:40+08:00">2022-04-04</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/go/" itemprop="url" rel="index"><span itemprop="name">go</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2022/04/01/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%88%86%E5%B8%83%E5%BC%8F%E7%BC%93%E5%AD%98/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/04/01/从零开始实现一个分布式缓存/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="前言">前言</h2>
-<h3 id="分布式缓存">分布式缓存</h3>
-<p>第一次请求时将一些耗时操作的结果暂存，以后遇到相同请求就直接返回暂存的数据。这是大部分人对于缓存的理解。比如我们访问一个网页，网页和引用的JS/CSS等静态文件，根据不同的策略会缓存在本地或者CDN服务器，下次访问就会觉得很快了</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/04/01/%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E5%88%86%E5%B8%83%E5%BC%8F%E7%BC%93%E5%AD%98/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/03/28/DDG-DA-Data-Distribution-Generation-for-Predictable-Concept-Drift-Adaptation/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/weirdo.jpg">
-      <meta itemprop="name" content="Weirdo">
-      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Weirdo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/03/28/DDG-DA-Data-Distribution-Generation-for-Predictable-Concept-Drift-Adaptation/" class="post-title-link" itemprop="url">DDG-DA:Data Distribution Generation for Predictable Concept Drift Adaptation</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-03-28 19:11:59" itemprop="dateCreated datePublished" datetime="2022-03-28T19:11:59+08:00">2022-03-28</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-04-12 15:34:46" itemprop="dateModified" datetime="2022-04-12T15:34:46+08:00">2022-04-12</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%A6%82%E5%BF%B5%E6%BC%82%E7%A7%BB/" itemprop="url" rel="index"><span itemprop="name">概念漂移</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2022/03/28/DDG-DA-Data-Distribution-Generation-for-Predictable-Concept-Drift-Adaptation/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/03/28/DDG-DA-Data-Distribution-Generation-for-Predictable-Concept-Drift-Adaptation/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="摘要">摘要</h2>
-<p>文章作者并不是顺着前人的思路做漂移检测和漂移适应，而是提出一个DDG-DA方法直接预测数据分布的变化并且改善模型的表现。具体来说就是，先训练一个预测器来估计未来的数据分布，然后使用它来生成样本，最后在生成的数据集上训练模型。</p>
-<p><a target="_blank" rel="noopener" href="https://github.com/microsoft/qlib/tree/main/examples/benchmarks_dynamic/DDG-DA">github链接</a></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/03/28/DDG-DA-Data-Distribution-Generation-for-Predictable-Concept-Drift-Adaptation/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/03/28/Learning-with-drift-detection/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/weirdo.jpg">
-      <meta itemprop="name" content="Weirdo">
-      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Weirdo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/03/28/Learning-with-drift-detection/" class="post-title-link" itemprop="url">Learning with drift detection</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-03-28 15:32:42" itemprop="dateCreated datePublished" datetime="2022-03-28T15:32:42+08:00">2022-03-28</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-04-11 12:42:46" itemprop="dateModified" datetime="2022-04-11T12:42:46+08:00">2022-04-11</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%A6%82%E5%BF%B5%E6%BC%82%E7%A7%BB/" itemprop="url" rel="index"><span itemprop="name">概念漂移</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2022/03/28/Learning-with-drift-detection/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/03/28/Learning-with-drift-detection/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="摘要-6">摘要</h2>
-<p>机器学习中的大部分工作都是假设样本是根据静态概率分布随机生成的。本文作者主要研究了学习生成样本的类别概率分布从何时开始随着时间变化，提出了一个检测样本概率分布变化的方法。文章的一个中心点就是上下文的概念：一组静态分布的连续样本。本文主要通过控制在线错误率来进行漂移检测。统计学的理论保证了分布是静态是，错误率会下降，分布是动态时，错误率会上涨。对于现实环境，作者还定义了一个警告等级和漂移等级。如果在一系列样本中错误率升高达到了这两个等级，那么就会定义一个新的环境。算法会仅用达到警告等级的那个样本之前的样本作为数据集新训练一个模型。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/03/28/Learning-with-drift-detection/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/03/27/%E4%BB%8E%E9%9B%B6%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AAgo-web%E6%A1%86%E6%9E%B6%EF%BC%9AGee/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/weirdo.jpg">
-      <meta itemprop="name" content="Weirdo">
-      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Weirdo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/03/27/%E4%BB%8E%E9%9B%B6%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AAgo-web%E6%A1%86%E6%9E%B6%EF%BC%9AGee/" class="post-title-link" itemprop="url">从零实现一个go web框架：Gee</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-03-27 15:55:51" itemprop="dateCreated datePublished" datetime="2022-03-27T15:55:51+08:00">2022-03-27</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-04-01 15:49:01" itemprop="dateModified" datetime="2022-04-01T15:49:01+08:00">2022-04-01</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/go/" itemprop="url" rel="index"><span itemprop="name">go</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2022/03/27/%E4%BB%8E%E9%9B%B6%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AAgo-web%E6%A1%86%E6%9E%B6%EF%BC%9AGee/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/03/27/从零实现一个go-web框架：Gee/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="http-Handler">http.Handler</h2>
-<h3 id="实现http-Handler接口">实现http.Handler接口</h3>
-<p>首先我们看<code>net/http</code>源码中对Handler的定义，发现只要实现了ServeHTTP方法就Handler</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> http</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Handler <span class="keyword">interface</span> &#123;</span><br><span class="line">    ServeHTTP(w ResponseWriter, r *Request)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">ListenAndServe</span><span class="params">(address <span class="keyword">string</span>, h Handler)</span> <span class="title">error</span></span></span><br></pre></td></tr></table></figure>
-<p>那接下来我们用自己的方法实现</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/03/27/%E4%BB%8E%E9%9B%B6%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AAgo-web%E6%A1%86%E6%9E%B6%EF%BC%9AGee/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/03/26/Learning-under-Concept-Drift-A-Review/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/weirdo.jpg">
-      <meta itemprop="name" content="Weirdo">
-      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Weirdo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/03/26/Learning-under-Concept-Drift-A-Review/" class="post-title-link" itemprop="url">Learning under Concept Drift : A Review</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-03-26 20:42:56" itemprop="dateCreated datePublished" datetime="2022-03-26T20:42:56+08:00">2022-03-26</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-04-12 13:55:40" itemprop="dateModified" datetime="2022-04-12T13:55:40+08:00">2022-04-12</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%A6%82%E5%BF%B5%E6%BC%82%E7%A7%BB/" itemprop="url" rel="index"><span itemprop="name">概念漂移</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2022/03/26/Learning-under-Concept-Drift-A-Review/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/03/26/Learning-under-Concept-Drift-A-Review/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="摘要-3">摘要</h2>
-<p>概念漂移描述的是数据流随时间的潜在分布的不可预见的变化。概念漂移研究的包括漂移检测、理解和适应的方法技术。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/03/26/Learning-under-Concept-Drift-A-Review/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/03/26/%E6%A6%82%E5%BF%B5%E6%BC%82%E7%A7%BB%E5%85%A5%E9%97%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/weirdo.jpg">
-      <meta itemprop="name" content="Weirdo">
-      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Weirdo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/03/26/%E6%A6%82%E5%BF%B5%E6%BC%82%E7%A7%BB%E5%85%A5%E9%97%A8/" class="post-title-link" itemprop="url">概念漂移入门</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-03-26 16:30:44" itemprop="dateCreated datePublished" datetime="2022-03-26T16:30:44+08:00">2022-03-26</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-03-27 11:39:06" itemprop="dateModified" datetime="2022-03-27T11:39:06+08:00">2022-03-27</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%A6%82%E5%BF%B5%E6%BC%82%E7%A7%BB/" itemprop="url" rel="index"><span itemprop="name">概念漂移</span></a>
-        </span>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2022/03/26/%E6%A6%82%E5%BF%B5%E6%BC%82%E7%A7%BB%E5%85%A5%E9%97%A8/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/03/26/概念漂移入门/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>数据可能会随着时间的变化而变化，这会使得预测模型中预测变差并且降级，这种改变数据中潜在关系的问题在机器学习领域中被称为概念漂移。</p>
-<p>本文主要注重于三点：</p>
+          <!-- ## Improving Distributional Similarity with Lessons Learned from Word Embeddings -->
+<h2 id="ConceptNet">ConceptNet</h2>
+<p>一个连接自然语言中单词和短语的知识图谱，其中的边是有标签的。比如&quot;a dog has a tail&quot;表现在图中就是(dog,HasA,tail)。ConceptNet使用所选中的关系的封闭类，例如IsA、UsedFor和CapableOf，用于表示独立于语言或其连接的术语来源的关系。这些关系中也分对称的(RelatedTo,Antonym等)和非对称的(LocatedAt,CreatedBy等)。ConceptNet中的节点是一个单词或者短语。</p>
+<p>作者先用PPMI方法搭配SVD获取每个单词的嵌入，然后对这些嵌入再进行一次改进生成既考虑ConceptNet也考虑分布式词嵌入的向量。</p>
 <ul>
-<li>数据随时间的变化问题</li>
-<li>什么是概念漂移及其定义方式</li>
-<li>如何在自己的预测建模问题中处理概念偏差</li>
+<li>PPMI方法：PMI方法建立一个矩阵M，每一行代表一个词w，每一列代表一个上下文c，$M_{ij}$表示$w_i$和$c_j$的关联程度。PMI值可以表示为：</li>
 </ul>
+<p><img src="https://i.imgur.com/NFIUs6z.png" alt="picture 1"></p>
+<p>其中的$D$表示全部的(w,c)集合，$# (w,c)$表示该对在其中出现的次数。如果矩阵中的$M_ij$所表示的(w,c)对在全局中都没有出现，那么其PMI值就为log0即$-\inf$,因此有人提出新的方法即PPMI，公式如下：</p>
+<p><img src="https://i.imgur.com/AMNMVyK.png" alt="picture 2"></p>
+<p>但是PPMI存在的问题就是对于不频繁事件会打高分，比如某一对(w,c)只出现了一次，根据公式，他的得分也会很大。</p>
+<p>然后SVD将M分解为$U\times \Sigma \times V^T$，其中UV是正规的，$\Sigma$是特征值降序的对角矩阵。只保留top d个元素可以得到$M_d=U_d\times \Sigma_d \times V^T_d$,这样就可以对embedding做降维，即$W^{SVD}=U_d\times \Sigma_d , C^{SVD}=V_d$</p>
+<ul>
+<li>改进embedding方法：提出一个新的embedding$q_i$来尽可能接近其原始embedding$\hat{q}_i$和相关边，表示为：</li>
+</ul>
+<p><img src="https://i.imgur.com/1nXWAtu.png" alt="picture 3"></p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/03/26/%E6%A6%82%E5%BF%B5%E6%BC%82%E7%A7%BB%E5%85%A5%E9%97%A8/#more" rel="contents">
+              <a class="btn" href="/2022/11/27/%E8%84%9A%E6%9C%AC%E4%BA%8B%E4%BB%B6%E9%A2%84%E6%B5%8B%E5%BC%95%E5%85%A5%E5%A4%96%E9%83%A8%E7%9F%A5%E8%AF%86/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1038,7 +320,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/03/25/Human-level-concept-learning-through-probabilistic-program-induction/">
+    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/11/15/CLIP/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/weirdo.jpg">
@@ -1051,7 +333,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/03/25/Human-level-concept-learning-through-probabilistic-program-induction/" class="post-title-link" itemprop="url">Human-level concept learning through probabilistic program induction</a>
+          <a href="/2022/11/15/CLIP/" class="post-title-link" itemprop="url">CLIP</a>
         </h2>
 
         <div class="post-meta-container">
@@ -1062,14 +344,23 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2022-03-25 13:18:32" itemprop="dateCreated datePublished" datetime="2022-03-25T13:18:32+08:00">2022-03-25</time>
+      <time title="创建时间：2022-11-15 16:34:15" itemprop="dateCreated datePublished" datetime="2022-11-15T16:34:15+08:00">2022-11-15</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-03-27 11:39:06" itemprop="dateModified" datetime="2022-03-27T11:39:06+08:00">2022-03-27</time>
+      <time title="修改时间：2023-12-27 20:42:30" itemprop="dateModified" datetime="2023-12-27T20:42:30+08:00">2023-12-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI%E7%BB%98%E7%94%BB/" itemprop="url" rel="index"><span itemprop="name">AI绘画</span></a>
+        </span>
     </span>
 
   
@@ -1081,8 +372,8 @@
       </span>
       <span class="post-meta-item-text">Disqus：</span>
     
-    <a title="disqus" href="/2022/03/25/Human-level-concept-learning-through-probabilistic-program-induction/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/03/25/Human-level-concept-learning-through-probabilistic-program-induction/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2022/11/15/CLIP/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/11/15/CLIP/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -1097,18 +388,10 @@
     
     <div class="post-body" itemprop="articleBody">
           <h2 id="摘要-4">摘要</h2>
-<p>人类学习一个新的概念通常只需要从极其少量的实例中就能进行概括归纳，但是机器学习算法则需要大量的样本才能达到相同的精度。</p>
-<p>此外人类学习的比机器学习的具有更丰富更广泛的拓展，人类可以基于现有的类创建新的抽象对象类别，而机器分类器不会执行这些额外的功能，即便要执行，也会需要一个专门的新算法。</p>
-<p><img src="https://i.imgur.com/eytNsjy.png" alt="picture 1"></p>
-<p>对于这些新算法面临的挑战在于：</p>
-<ul>
-<li>人们如何从少量例子学习新的概念？</li>
-<li>人们如何学习抽象、丰富、灵活的表示？</li>
-<li>如何从稀疏的数据中成功学习，同时产生如此丰富的表示？</li>
-</ul>
+<p>最新的计算机视觉系统训练用于预测一个固定的目标类。这种严格的监督格式限制了泛化性和实用性，因为需要额外的标记数据来指定其他视觉概念。直接从图像的源相关文本是一个很好的替代方法，能够利用更广泛的监督源。我们证明了预测哪个标题与哪个图像对应的简单预训练任务是一种有效且可扩展的方式，可以在从互联网收集的 4 亿（图像、文本）对数据集上从头开始学习 SOTA 图像表示。在预训练之后，使用自然语言来引用学习过的视觉概念(或描述新的概念)，从而实现模型到下游任务的零帧转移。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/03/25/Human-level-concept-learning-through-probabilistic-program-induction/#more" rel="contents">
+              <a class="btn" href="/2022/11/15/CLIP/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1139,7 +422,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/03/23/%E7%AE%80%E5%8D%95%E6%98%93%E6%87%82%E5%9C%B0%E7%90%86%E8%A7%A3LSTM/">
+    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/11/14/GAN/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/weirdo.jpg">
@@ -1152,7 +435,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/03/23/%E7%AE%80%E5%8D%95%E6%98%93%E6%87%82%E5%9C%B0%E7%90%86%E8%A7%A3LSTM/" class="post-title-link" itemprop="url">简单易懂地理解LSTM</a>
+          <a href="/2022/11/14/GAN/" class="post-title-link" itemprop="url">GAN</a>
         </h2>
 
         <div class="post-meta-container">
@@ -1163,14 +446,14 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2022-03-23 17:45:40" itemprop="dateCreated datePublished" datetime="2022-03-23T17:45:40+08:00">2022-03-23</time>
+      <time title="创建时间：2022-11-14 14:40:37" itemprop="dateCreated datePublished" datetime="2022-11-14T14:40:37+08:00">2022-11-14</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2022-03-27 11:39:06" itemprop="dateModified" datetime="2022-03-27T11:39:06+08:00">2022-03-27</time>
+      <time title="修改时间：2023-12-27 20:42:30" itemprop="dateModified" datetime="2023-12-27T20:42:30+08:00">2023-12-27</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1178,7 +461,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/DeepLearning/" itemprop="url" rel="index"><span itemprop="name">DeepLearning</span></a>
+          <a href="/categories/%E5%AF%B9%E6%8A%97%E7%94%9F%E6%88%90%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">对抗生成网络</span></a>
         </span>
     </span>
 
@@ -1191,8 +474,8 @@
       </span>
       <span class="post-meta-item-text">Disqus：</span>
     
-    <a title="disqus" href="/2022/03/23/%E7%AE%80%E5%8D%95%E6%98%93%E6%87%82%E5%9C%B0%E7%90%86%E8%A7%A3LSTM/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/03/23/简单易懂地理解LSTM/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2022/11/14/GAN/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/11/14/GAN/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -1206,12 +489,740 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="lstm结构">lstm结构</h2>
-<p><img src="https://i.imgur.com/YTwGUXM.png" alt="picture 5"></p>
-<p>相较于传统的RNN只有一个状态值传递，lstm传递了两个状态，其中c(cell state)变化地比较慢，而h(hidden state)则在不同节点下往往有很大的区别</p>
+          <h2 id="摘要-6">摘要</h2>
+<p>作者通过对抗过程对评估生成模型提出了一个新的框架，其中作者同时训练了两个模型：获取数据分布的生成模型$G$和一个判别模型$D$来估计样本是来自训练数据而非生成模型的概率。G的训练过程是以最大化D的错误率为目标。</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/03/23/%E7%AE%80%E5%8D%95%E6%98%93%E6%87%82%E5%9C%B0%E7%90%86%E8%A7%A3LSTM/#more" rel="contents">
+              <a class="btn" href="/2022/11/14/GAN/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/11/08/Meta-ADD-A-meta-learning-based-pre-trained-model-for-concept-drift-active-detection/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/weirdo.jpg">
+      <meta itemprop="name" content="Weirdo">
+      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Weirdo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/11/08/Meta-ADD-A-meta-learning-based-pre-trained-model-for-concept-drift-active-detection/" class="post-title-link" itemprop="url">Meta-ADD：A meta-learning based pre-trained model for concept drift active detection</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-11-08 15:22:09" itemprop="dateCreated datePublished" datetime="2022-11-08T15:22:09+08:00">2022-11-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-12-27 20:42:30" itemprop="dateModified" datetime="2023-12-27T20:42:30+08:00">2023-12-27</time>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/11/08/Meta-ADD-A-meta-learning-based-pre-trained-model-for-concept-drift-active-detection/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/11/08/Meta-ADD-A-meta-learning-based-pre-trained-model-for-concept-drift-active-detection/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="摘要-7">摘要</h2>
+<p>以往的概念漂移检测方法都需要依赖假设测试并且没法检测出漂移的类型信息，无法分析是什么导致了概念漂移的发生。本文中，为了摆脱假设并且获取到概念漂移的类型，我们提出了基于元学习的主动漂移检测，能够学习通过线下预训练一个模型来对概念漂移分类，并且在线上微调模型以改进检测的精度。具体来说，在预训练阶段，我们提取基于不同概念漂移的错误率元特征，之后通过将不同的概念漂移表示为对应的样例得到一个范例网络并以此训练一个元检测器。在检测阶段，元检测器通过一个简单的流式学习对自身进行微调以适应真实数据流。因此，Meta-ADD不需要假设测试来检测概念漂移并且能够识别漂移类型，能够直接支持漂移理解。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/11/08/Meta-ADD-A-meta-learning-based-pre-trained-model-for-concept-drift-active-detection/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/11/03/ARL-Knowledge-Graph-Reasoning-with-Analogy-based-Reinforcement-Learning/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/weirdo.jpg">
+      <meta itemprop="name" content="Weirdo">
+      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Weirdo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/11/03/ARL-Knowledge-Graph-Reasoning-with-Analogy-based-Reinforcement-Learning/" class="post-title-link" itemprop="url">ARL: Knowledge Graph Reasoning with Analogy-based Reinforcement Learning</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-11-03 10:24:09" itemprop="dateCreated datePublished" datetime="2022-11-03T10:24:09+08:00">2022-11-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-12-27 20:42:30" itemprop="dateModified" datetime="2023-12-27T20:42:30+08:00">2023-12-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/" itemprop="url" rel="index"><span itemprop="name">知识图谱</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/11/03/ARL-Knowledge-Graph-Reasoning-with-Analogy-based-Reinforcement-Learning/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/11/03/ARL-Knowledge-Graph-Reasoning-with-Analogy-based-Reinforcement-Learning/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="摘要">摘要</h2>
+<p>强化学习知识图谱推理旨在通过现有的关系路径预测未知的尾实体。这能够极大地提升预测的效率，因为基于强化学习的方法不会向表征推理那样遍历全部的尾实体。同时，这种方法提升了推理的可解释性。但是由于存在极大的探索空间，基于强化学习的模型必须限制每个路径的检索空间，这可能会导致丢失正确答案。此外，对于一些连接稀疏的比较孤立的尾实体，这种基于路径的推理会丢弃这些孤立的节点。为了解决这一问题，作者提出了基于类比的强化学习模型————类比强化学习网络，融入了LSTM，图注意力网络和虚拟连接生成机制。它将实体类比信息注入到模型的推理过程中并且使用虚拟连接生成，不仅提高了路径获得奖励的概率，而且增加了路径连接的宽度同时使孤立节点被遍历到的概率更高。同时，作者分析比较了不同的类比方法。实验结果表明ARL的表现在多个数据集上优于多跳方法。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/11/03/ARL-Knowledge-Graph-Reasoning-with-Analogy-based-Reinforcement-Learning/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/10/31/%E8%84%9A%E6%9C%AC%E4%BA%8B%E4%BB%B6%E9%A2%84%E6%B5%8B%E6%95%B0%E6%8D%AE%E9%9B%86%E7%9B%B8%E5%85%B3%E4%BB%8B%E7%BB%8D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/weirdo.jpg">
+      <meta itemprop="name" content="Weirdo">
+      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Weirdo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/10/31/%E8%84%9A%E6%9C%AC%E4%BA%8B%E4%BB%B6%E9%A2%84%E6%B5%8B%E6%95%B0%E6%8D%AE%E9%9B%86%E7%9B%B8%E5%85%B3%E4%BB%8B%E7%BB%8D/" class="post-title-link" itemprop="url">脚本事件预测数据集相关介绍</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-10-31 16:56:26" itemprop="dateCreated datePublished" datetime="2022-10-31T16:56:26+08:00">2022-10-31</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-12-27 20:42:30" itemprop="dateModified" datetime="2023-12-27T20:42:30+08:00">2023-12-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%BA%8B%E4%BB%B6%E9%A2%84%E6%B5%8B/" itemprop="url" rel="index"><span itemprop="name">事件预测</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/10/31/%E8%84%9A%E6%9C%AC%E4%BA%8B%E4%BB%B6%E9%A2%84%E6%B5%8B%E6%95%B0%E6%8D%AE%E9%9B%86%E7%9B%B8%E5%85%B3%E4%BB%8B%E7%BB%8D/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/10/31/脚本事件预测数据集相关介绍/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="两个基本数据集">两个基本数据集</h2>
+<h3 id="NYT-Finance">NYT&amp;Finance</h3>
+<p>本文采用中英文两个数据集验证模型效果，其中英文数据来源为纽约时报，使用C&amp;C工具进行词性标注与依赖性分析，基于OpenNLP对句子进行句法分析与共指消解。构造的数据集每条事件链有8个已知事件，5个候选后续事件，其中一个为正确事件。</p>
+<p><img src="https://i.imgur.com/7E8Hxiv.png" alt="picture 1"></p>
+<p>截图所示为一条训练样本数据，数据结构为由2个列表及一个标签组成的列表，第一个列表包含8个元组，每个元组为一个事件表示，元组中的第一个元素为句中动词，第二个元素为句中动词原型，第三个元素为主语和动词的关系，第四个元素为主语，第五个元素为宾语，第六个元素为宾语补足语。第二个列表中包含5个元组，为5个候选事件表示，元组内容和已知事件中的元组内容相同。最后一个标签为候选事件中正确事件的下标，下标从0开始。<br>
+数据集的统计信息如表。</p>
+<table>
+<thead>
+<tr>
+<th>表头</th>
+<th>金融数据集</th>
+<th>NYT数据集</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>document</td>
+<td>373310</td>
+<td>830643</td>
+</tr>
+<tr>
+<td>事件链</td>
+<td>2341</td>
+<td>140331</td>
+</tr>
+<tr>
+<td>事件关联网络关系</td>
+<td>4038</td>
+<td>6187046</td>
+</tr>
+</tbody>
+</table>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/10/31/%E8%84%9A%E6%9C%AC%E4%BA%8B%E4%BB%B6%E9%A2%84%E6%B5%8B%E6%95%B0%E6%8D%AE%E9%9B%86%E7%9B%B8%E5%85%B3%E4%BB%8B%E7%BB%8D/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/10/23/CircEvent/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/weirdo.jpg">
+      <meta itemprop="name" content="Weirdo">
+      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Weirdo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/10/23/CircEvent/" class="post-title-link" itemprop="url">CircEvent</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-10-23 14:39:05" itemprop="dateCreated datePublished" datetime="2022-10-23T14:39:05+08:00">2022-10-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-12-27 20:42:30" itemprop="dateModified" datetime="2023-12-27T20:42:30+08:00">2023-12-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%BA%8B%E4%BB%B6%E9%A2%84%E6%B5%8B/" itemprop="url" rel="index"><span itemprop="name">事件预测</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/10/23/CircEvent/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/10/23/CircEvent/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="摘要-3">摘要</h2>
+<p>目前的研究注重于挖掘时间内在关系，我们称之为环境。但是环境本身隐式地包含了事件发生的规律，这对于叙述性事件预测非常重要。作者将环境融入到叙述性事件预测里面，提出了CircEvent，采用多头注意力机制在局部和全局检索环境。作者还引入了注意力权重的冠以话来利用对齐的事件和局部环境。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/10/23/CircEvent/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/06/13/Human-level-control-through-deep-reinforcement-learning/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/weirdo.jpg">
+      <meta itemprop="name" content="Weirdo">
+      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Weirdo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/06/13/Human-level-control-through-deep-reinforcement-learning/" class="post-title-link" itemprop="url">Human-level control through deep reinforcement learning</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-06-13 19:55:39" itemprop="dateCreated datePublished" datetime="2022-06-13T19:55:39+08:00">2022-06-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-12-27 20:42:30" itemprop="dateModified" datetime="2023-12-27T20:42:30+08:00">2023-12-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">强化学习</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/06/13/Human-level-control-through-deep-reinforcement-learning/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/06/13/Human-level-control-through-deep-reinforcement-learning/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="摘要-8">摘要</h2>
+<p>为了能够将强化学习应用到现实难度的场景下，代理端就会面临一个困难的任务：从高维传感其中获取高效的环境表示，并且以此来总结过去的经验应用到新的状态中。尽管强化学习已经在许多邻域获得了成功，但是其应用性局限于某些特定的邻域，这些邻域要么是能够获取有效的特征要么是有充分研究过的低维状态空间。本文中作者使用训练深度神经网络的技术来发展一个新的人工代理，称之为深度Q网络，能够直接从高维输入中学习有效的策略。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/06/13/Human-level-control-through-deep-reinforcement-learning/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/05/30/What-Happens-Next-Event-Prediction-Using-a-Compositional-Neural-Network-Model/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/weirdo.jpg">
+      <meta itemprop="name" content="Weirdo">
+      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Weirdo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/05/30/What-Happens-Next-Event-Prediction-Using-a-Compositional-Neural-Network-Model/" class="post-title-link" itemprop="url">What Happens Next? Event Prediction Using a Compositional Neural Network Model</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-05-30 19:17:31 / 修改时间：19:56:32" itemprop="dateCreated datePublished" datetime="2022-05-30T19:17:31+08:00">2022-05-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">强化学习</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/05/30/What-Happens-Next-Event-Prediction-Using-a-Compositional-Neural-Network-Model/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/05/30/What-Happens-Next-Event-Prediction-Using-a-Compositional-Neural-Network-Model/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="摘要-5">摘要</h2>
+<p>作者探讨了从文本中自动获取事件序列的知识的问题，旨在提供一个在叙述性生成系统中能够使用的预测模型。提出了一个神经网络能够同时学习描述时间的单词嵌入，将嵌入组合成事件表示的函数和预测事件相关性强度的相关函数。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/30/What-Happens-Next-Event-Prediction-Using-a-Compositional-Neural-Network-Model/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/05/24/Model-Based-Reinforcement-Learning-with-Adversarial-Training-for-Online-Recommendation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/weirdo.jpg">
+      <meta itemprop="name" content="Weirdo">
+      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Weirdo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2022/05/24/Model-Based-Reinforcement-Learning-with-Adversarial-Training-for-Online-Recommendation/" class="post-title-link" itemprop="url">Model-Based Reinforcement Learning with Adversarial Training for Online Recommendation</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-05-24 16:53:16" itemprop="dateCreated datePublished" datetime="2022-05-24T16:53:16+08:00">2022-05-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2022-05-30 19:19:44" itemprop="dateModified" datetime="2022-05-30T19:19:44+08:00">2022-05-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BA%8F%E5%88%97%E6%8E%A8%E8%8D%90/" itemprop="url" rel="index"><span itemprop="name">序列推荐</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/05/24/Model-Based-Reinforcement-Learning-with-Adversarial-Training-for-Online-Recommendation/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/05/24/Model-Based-Reinforcement-Learning-with-Adversarial-Training-for-Online-Recommendation/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="摘要-4">摘要</h2>
+<p>作者提出了一个基于模型的强化学习方法，通过生成对抗网络对用户-代理交互建模进行离线策略学习。为了减少模型和策略的偏差，作者使用了一个鉴别器来评估生成的数据的质量并且衡量生成的奖励。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/24/Model-Based-Reinforcement-Learning-with-Adversarial-Training-for-Online-Recommendation/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1235,7 +1246,7 @@
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 </div>
@@ -1247,7 +1258,7 @@
 
 <div class="copyright">
   &copy; 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

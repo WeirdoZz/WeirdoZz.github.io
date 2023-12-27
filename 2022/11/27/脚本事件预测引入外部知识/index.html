@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="-jCet6qPD7nML4-W6IY2HZwfSblJyWta_Jx7_AGHgIk">
+  <meta name="baidu-site-verification" content="f349dc627a72ee616d62ed513574025d">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/orange/pace-theme-center-circle.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"weirdozz.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="ConceptNet 一个连接自然语言中单词和短语的知识图谱，其中的边是有标签的。比如&quot;a dog has a tail&quot;表现在图中就是(dog,HasA,tail)。ConceptNet使用所选中的关系的封闭类，例如IsA、UsedFor和CapableOf，用于表示独立于语言或其连接的术语来源的关系。这些关系中也分对称的(RelatedTo,Antonym等)和非对称的(">
+<meta property="og:type" content="article">
+<meta property="og:title" content="脚本事件预测引入外部知识">
+<meta property="og:url" content="https://weirdozz.github.io/2022/11/27/%E8%84%9A%E6%9C%AC%E4%BA%8B%E4%BB%B6%E9%A2%84%E6%B5%8B%E5%BC%95%E5%85%A5%E5%A4%96%E9%83%A8%E7%9F%A5%E8%AF%86/index.html">
+<meta property="og:site_name" content="Weirdo">
+<meta property="og:description" content="ConceptNet 一个连接自然语言中单词和短语的知识图谱，其中的边是有标签的。比如&quot;a dog has a tail&quot;表现在图中就是(dog,HasA,tail)。ConceptNet使用所选中的关系的封闭类，例如IsA、UsedFor和CapableOf，用于表示独立于语言或其连接的术语来源的关系。这些关系中也分对称的(RelatedTo,Antonym等)和非对称的(">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.imgur.com/NFIUs6z.png">
+<meta property="og:image" content="https://i.imgur.com/AMNMVyK.png">
+<meta property="og:image" content="https://i.imgur.com/1nXWAtu.png">
+<meta property="og:image" content="https://i.imgur.com/RRvWOuM.png">
+<meta property="og:image" content="https://i.imgur.com/rDJbGxu.png">
+<meta property="og:image" content="https://i.imgur.com/Ppxy1EP.png">
+<meta property="og:image" content="https://i.imgur.com/MvCWNDL.png">
+<meta property="og:image" content="https://i.imgur.com/TWuZTN7.png">
+<meta property="og:image" content="https://i.imgur.com/C4nmyPA.png">
+<meta property="og:image" content="https://i.imgur.com/AqrlmgK.png">
+<meta property="og:image" content="https://i.imgur.com/yzArINM.png">
+<meta property="og:image" content="https://i.imgur.com/78yZFuu.png">
+<meta property="og:image" content="https://i.imgur.com/9qBF85A.png">
+<meta property="og:image" content="https://i.imgur.com/FMculZ8.png">
+<meta property="article:published_time" content="2022-11-27T05:32:39.000Z">
+<meta property="article:modified_time" content="2023-12-27T12:42:30.265Z">
+<meta property="article:author" content="Weirdo">
+<meta property="article:tag" content="WeirdoBlog">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/NFIUs6z.png">
+
+
+<link rel="canonical" href="https://weirdozz.github.io/2022/11/27/%E8%84%9A%E6%9C%AC%E4%BA%8B%E4%BB%B6%E9%A2%84%E6%B5%8B%E5%BC%95%E5%85%A5%E5%A4%96%E9%83%A8%E7%9F%A5%E8%AF%86/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://weirdozz.github.io/2022/11/27/%E8%84%9A%E6%9C%AC%E4%BA%8B%E4%BB%B6%E9%A2%84%E6%B5%8B%E5%BC%95%E5%85%A5%E5%A4%96%E9%83%A8%E7%9F%A5%E8%AF%86/","path":"2022/11/27/脚本事件预测引入外部知识/","title":"脚本事件预测引入外部知识"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>脚本事件预测引入外部知识 | Weirdo</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Weirdo</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-movies"><a href="/movies/" rel="section"><i class="fa fa-film fa-fw"></i>电影</a></li>
+        <li class="menu-item menu-item-books"><a href="/books/" rel="section"><i class="fa fa-book fa-fw"></i>书籍</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ConceptNet"><span class="nav-number">1.</span> <span class="nav-text">ConceptNet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#KagNet-Knowledge-Aware-Graph-Networks-for-Commonsense-Reasoning"><span class="nav-number">2.</span> <span class="nav-text">KagNet: Knowledge-Aware Graph Networks for Commonsense Reasoning</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8A%82%E7%82%B9embedding"><span class="nav-number">2.1.</span> <span class="nav-text">节点embedding</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E7%B3%BBembedding"><span class="nav-number">2.2.</span> <span class="nav-text">关系embedding</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ATOMIC-An-Atlas-of-Machine-Commonsense-for-If-Then-Reasoning"><span class="nav-number">3.</span> <span class="nav-text">ATOMIC: An Atlas of Machine Commonsense for If-Then Reasoning</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WordNet"><span class="nav-number">4.</span> <span class="nav-text">WordNet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Graph-Based-Reasoning-over-Heterogeneous-External-Knowledge-for-Commonsense-Question-Answering"><span class="nav-number">5.</span> <span class="nav-text">Graph-Based Reasoning over Heterogeneous External Knowledge for Commonsense Question Answering</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Using-External-Knowledge-for-Financial-Event-Prediction-Based-on-Graph-Neural-Networks"><span class="nav-number">6.</span> <span class="nav-text">Using External Knowledge for Financial Event Prediction Based on Graph Neural Networks</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Integrating-External-Event-Knowledge-for-Script-Learning"><span class="nav-number">7.</span> <span class="nav-text">Integrating External Event Knowledge for Script Learning</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Weirdo"
+      src="/images/weirdo.jpg">
+  <p class="site-author-name" itemprop="name">Weirdo</p>
+  <div class="site-description" itemprop="description">怕什么真理无穷，进一步有进一步的欢喜</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">57</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/11/27/%E8%84%9A%E6%9C%AC%E4%BA%8B%E4%BB%B6%E9%A2%84%E6%B5%8B%E5%BC%95%E5%85%A5%E5%A4%96%E9%83%A8%E7%9F%A5%E8%AF%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/weirdo.jpg">
+      <meta itemprop="name" content="Weirdo">
+      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Weirdo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          脚本事件预测引入外部知识
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-11-27 13:32:39" itemprop="dateCreated datePublished" datetime="2022-11-27T13:32:39+08:00">2022-11-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-12-27 20:42:30" itemprop="dateModified" datetime="2023-12-27T20:42:30+08:00">2023-12-27</time>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/11/27/%E8%84%9A%E6%9C%AC%E4%BA%8B%E4%BB%B6%E9%A2%84%E6%B5%8B%E5%BC%95%E5%85%A5%E5%A4%96%E9%83%A8%E7%9F%A5%E8%AF%86/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/11/27/脚本事件预测引入外部知识/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <!-- ## Improving Distributional Similarity with Lessons Learned from Word Embeddings -->
+<h2 id="ConceptNet">ConceptNet</h2>
+<p>一个连接自然语言中单词和短语的知识图谱，其中的边是有标签的。比如&quot;a dog has a tail&quot;表现在图中就是(dog,HasA,tail)。ConceptNet使用所选中的关系的封闭类，例如IsA、UsedFor和CapableOf，用于表示独立于语言或其连接的术语来源的关系。这些关系中也分对称的(RelatedTo,Antonym等)和非对称的(LocatedAt,CreatedBy等)。ConceptNet中的节点是一个单词或者短语。</p>
+<p>作者先用PPMI方法搭配SVD获取每个单词的嵌入，然后对这些嵌入再进行一次改进生成既考虑ConceptNet也考虑分布式词嵌入的向量。</p>
+<ul>
+<li>PPMI方法：PMI方法建立一个矩阵M，每一行代表一个词w，每一列代表一个上下文c，$M_{ij}$表示$w_i$和$c_j$的关联程度。PMI值可以表示为：</li>
+</ul>
+<p><img src="https://i.imgur.com/NFIUs6z.png" alt="picture 1"></p>
+<p>其中的$D$表示全部的(w,c)集合，$# (w,c)$表示该对在其中出现的次数。如果矩阵中的$M_ij$所表示的(w,c)对在全局中都没有出现，那么其PMI值就为log0即$-\inf$,因此有人提出新的方法即PPMI，公式如下：</p>
+<p><img src="https://i.imgur.com/AMNMVyK.png" alt="picture 2"></p>
+<p>但是PPMI存在的问题就是对于不频繁事件会打高分，比如某一对(w,c)只出现了一次，根据公式，他的得分也会很大。</p>
+<p>然后SVD将M分解为$U\times \Sigma \times V^T$，其中UV是正规的，$\Sigma$是特征值降序的对角矩阵。只保留top d个元素可以得到$M_d=U_d\times \Sigma_d \times V^T_d$,这样就可以对embedding做降维，即$W^{SVD}=U_d\times \Sigma_d , C^{SVD}=V_d$</p>
+<ul>
+<li>改进embedding方法：提出一个新的embedding$q_i$来尽可能接近其原始embedding$\hat{q}_i$和相关边，表示为：</li>
+</ul>
+<p><img src="https://i.imgur.com/1nXWAtu.png" alt="picture 3"></p>
+<span id="more"></span>
+<h2 id="KagNet-Knowledge-Aware-Graph-Networks-for-Commonsense-Reasoning">KagNet: Knowledge-Aware Graph Networks for Commonsense Reasoning</h2>
+<h3 id="节点embedding">节点embedding</h3>
+<p>使用的是ConceptNet,但由于该图过大，包含了太多的冗余信息，因此对于每一个问题和回答$c_i$,$c_j$，只保留这两个节点之间少于k步的路径，其余路径全部删除，生成一个ConceptNet的子图。然后先在这个生成的schema graph上进行预训练获取一个初级的embedding。然后再使用一次图卷积得到更好的embedding。</p>
+<p><img src="https://i.imgur.com/RRvWOuM.png" alt="picture 14"></p>
+<p><img src="https://i.imgur.com/rDJbGxu.png" alt="picture 15"></p>
+<h3 id="关系embedding">关系embedding</h3>
+<p>$c_i^{(q)},c_j^{(a)}$之间的第k个路径表示为$P_{i,j}[k]$，即：</p>
+<p><img src="https://i.imgur.com/Ppxy1EP.png" alt="picture 4"></p>
+<p>每个三元组可以表示成其中三个组成部分的embedding的拼接，然后使用LSTM对路径进行学习，最终输出的隐藏层状态视为$c_i^{(q)},c_j^{(a)}$之间的潜在关系。最终的q&amp;a之间的关系embedding可以表示为：</p>
+<p><img src="https://i.imgur.com/MvCWNDL.png" alt="picture 5"></p>
+<!-- ## WebChild 2.0:Fine-Grained Commonsense Knowledge Distillation
+
+使用WebChile2.0作为外部知识库。-->
+<h2 id="ATOMIC-An-Atlas-of-Machine-Commonsense-for-If-Then-Reasoning">ATOMIC: An Atlas of Machine Commonsense for If-Then Reasoning</h2>
+<p>提出了一种基于分类的if-then的推理类型：（1）if-Event-then-MentalState(eg. a 夸 b -&gt; b开心) （2）if-Event-then-Event(eg. a 拿车钥匙-&gt;a 开车) （3）if-Event-then-Persona(eg. a 报警 -&gt; a是个守法的人) 或者 （1） 原因 （2）影响 （3）状态</p>
+<p><img src="https://i.imgur.com/TWuZTN7.png" alt="picture 6"></p>
+<p>作者将事件分解为$e={e_0,e_1,\dots,e_{n-1} }$，$e_i$是其中的单词,将这组单词编码成一个h维的隐状态，然后使用GRU对一连串事件进行输入并且推断最后一个事件信息。</p>
+<h2 id="WordNet">WordNet</h2>
+<p>wordnet根据单词的语义分组，相同语义的单词组合在一起称为synset（同义词集），一个一词多义的单词将出现在它的每个语义对应的同义词集中<br>
+wordnet为每一个synset提供了简短，概要的定义，并记录不同synset之间的语义关系<br>
+在 wordnet中，名词，动词，形容词和副词各自组织成一个同义词的网络，四种不同词性的网络之间没有连接</p>
+<h2 id="Graph-Based-Reasoning-over-Heterogeneous-External-Knowledge-for-Commonsense-Question-Answering">Graph-Based Reasoning over Heterogeneous External Knowledge for Commonsense Question Answering</h2>
+<p>ConceptNet是常用的常识知识库，包含有百万级别的节点和边。ConceptNet中的三元组包括4个部分：两个节点，一个关系以及关系的权重。</p>
+<p>针对每个问题和选项，首先识别出其在给定的ConceptNet图中对应的实体。然后在图中搜索从问题中的实体到选项中的实体的路径，路径小于3。接着，将覆盖到的三元组合并到一个图中，其中节点是三元组，边表示三元组间的关系。我们将此图称为Concept-Graph。</p>
+<p>如果两个三元组有相同的实体，则为两个三元组间添加连边。为了获得ConceptNet节点的上下文词表示，我们根据ConceptNet中的关系模板，将三元组转换为自然语言序列。</p>
+<p><img src="https://i.imgur.com/C4nmyPA.png" alt="picture 8"></p>
+<p>然后根据图结构对这些能够用到推理中的证据进行排序之后和question以及answer拼接输入到XLNet中来获取相关的上下文词块表示。</p>
+<h2 id="Using-External-Knowledge-for-Financial-Event-Prediction-Based-on-Graph-Neural-Networks">Using External Knowledge for Financial Event Prediction Based on Graph Neural Networks</h2>
+<p>使用了一个自己搜集的财经新闻的相关数据对Finance数据集进行指导，每个item为(industry,verb)对，对于industry因为数量较少使用了onehot编码，使用预训练好的BERT对verb获取embedding，然后将两个embedding进行拼接。由于一个事件可能会与多个新闻相关节点有关，因此再使用图注意力进行一次聚合。然后对于一个事件的表示可以用事件的表示和相关新闻的表示结合。</p>
+<h2 id="Integrating-External-Event-Knowledge-for-Script-Learning">Integrating External Event Knowledge for Script Learning</h2>
+<p>使用了ASER作为外部知识。首先从知识库中检索相关事件，然后对检索结果重新排序并且获得最佳事件。由于ASER中的事件数量非常多，因此使用了弹性搜索来对所有的事件构建索引，然后使用逆索引方式，输入一个事件就会返回topK个相关事件，由TFIDF或者BM25得分排序。</p>
+<p>但是上面的打分方法对于事件中的组成的权重是不区分的，然而事件中的动词往往包含的信息更加重要，因此设计了一个基于规则的打分机制来对给定事件和检索到的事件进行打分，动词相同就加4分，其他部分相同就加2分。然后选择打分最高的事件作为外部知识。另外，不是每个事件都能再ASER中找到相关事件，但是弹性搜索依然会返回一个事件列表，因此设置了一个阈值，如果一个脚本事件所有的相关事件得分都小于这个阈值，就不为这个事件引入外部知识。</p>
+<p><img src="https://i.imgur.com/AqrlmgK.png" alt="picture 9"></p>
+<p>作者提出了三种使用外部知识的方法：</p>
+<ul>
+<li>仅使用尾实体：使用RoBERTa-base对选取的外部知识三元组的tail获取表示，然后使用注意力机制将外部知识融入到表示中</li>
+</ul>
+<p><img src="https://i.imgur.com/yzArINM.png" alt="picture 11"></p>
+<ul>
+<li>使用事件模板：将ASER中的三元组转变成自然语言模式，然后再使用RoBERTa-base对该句子获取表示，使用注意力机制融入外部知识，比如(He does receive a call, Precedence, He departs away)-&gt;(He does receive<br>
+a call happen before he departs away)</li>
+</ul>
+<p><img src="https://i.imgur.com/78yZFuu.png" alt="picture 12"></p>
+<ul>
+<li>使用表示融合：对每个ASER中的relation使用一个向量表示，即便在不同的三元组中也使用同一个向量表示。头实体和尾实体的表示使用RoBERTa-base获取，然后将三者拼接并且做一个Linear转换，然后使用attention融合信息。</li>
+</ul>
+<p><img src="https://i.imgur.com/9qBF85A.png" alt="picture 13"></p>
+<p><img src="https://i.imgur.com/FMculZ8.png" alt="picture 10"></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/11/15/CLIP/" rel="prev" title="CLIP">
+                  <i class="fa fa-chevron-left"></i> CLIP
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/12/06/VQGAN-CLIP/" rel="next" title="VQGAN-CLIP">
+                  VQGAN-CLIP <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Weirdo</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"weirdoblog","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="-jCet6qPD7nML4-W6IY2HZwfSblJyWta_Jx7_AGHgIk">
+  <meta name="baidu-site-verification" content="f349dc627a72ee616d62ed513574025d">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/orange/pace-theme-center-circle.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"weirdozz.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="摘要 最新的计算机视觉系统训练用于预测一个固定的目标类。这种严格的监督格式限制了泛化性和实用性，因为需要额外的标记数据来指定其他视觉概念。直接从图像的源相关文本是一个很好的替代方法，能够利用更广泛的监督源。我们证明了预测哪个标题与哪个图像对应的简单预训练任务是一种有效且可扩展的方式，可以在从互联网收集的 4 亿（图像、文本）对数据集上从头开始学习 SOTA 图像表示。在预训练之后，使用自然语言来引">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CLIP">
+<meta property="og:url" content="https://weirdozz.github.io/2022/11/15/CLIP/index.html">
+<meta property="og:site_name" content="Weirdo">
+<meta property="og:description" content="摘要 最新的计算机视觉系统训练用于预测一个固定的目标类。这种严格的监督格式限制了泛化性和实用性，因为需要额外的标记数据来指定其他视觉概念。直接从图像的源相关文本是一个很好的替代方法，能够利用更广泛的监督源。我们证明了预测哪个标题与哪个图像对应的简单预训练任务是一种有效且可扩展的方式，可以在从互联网收集的 4 亿（图像、文本）对数据集上从头开始学习 SOTA 图像表示。在预训练之后，使用自然语言来引">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-11-15T08:34:15.000Z">
+<meta property="article:modified_time" content="2023-12-27T12:42:30.244Z">
+<meta property="article:author" content="Weirdo">
+<meta property="article:tag" content="WeirdoBlog">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://weirdozz.github.io/2022/11/15/CLIP/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://weirdozz.github.io/2022/11/15/CLIP/","path":"2022/11/15/CLIP/","title":"CLIP"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>CLIP | Weirdo</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Weirdo</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-movies"><a href="/movies/" rel="section"><i class="fa fa-film fa-fw"></i>电影</a></li>
+        <li class="menu-item menu-item-books"><a href="/books/" rel="section"><i class="fa fa-book fa-fw"></i>书籍</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%91%98%E8%A6%81-4"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E8%A8%80-4"><span class="nav-number">2.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E6%B3%95-3"><span class="nav-number">3.</span> <span class="nav-text">方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E7%9B%91%E7%9D%A3"><span class="nav-number">3.1.</span> <span class="nav-text">自然语言监督</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E8%B6%B3%E5%A4%9F%E5%A4%A7%E7%9A%84%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="nav-number">3.2.</span> <span class="nav-text">创建足够大的数据集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%89%E6%8B%A9%E9%AB%98%E6%95%88%E7%9A%84%E9%A2%84%E8%AE%AD%E7%BB%83%E6%96%B9%E6%B3%95"><span class="nav-number">3.3.</span> <span class="nav-text">选择高效的预训练方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%89%E6%8B%A9%E5%B9%B6%E4%B8%94%E7%BC%A9%E6%94%BE%E6%A8%A1%E5%9E%8B"><span class="nav-number">3.4.</span> <span class="nav-text">选择并且缩放模型</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Weirdo"
+      src="/images/weirdo.jpg">
+  <p class="site-author-name" itemprop="name">Weirdo</p>
+  <div class="site-description" itemprop="description">怕什么真理无穷，进一步有进一步的欢喜</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">57</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/11/15/CLIP/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/weirdo.jpg">
+      <meta itemprop="name" content="Weirdo">
+      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Weirdo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CLIP
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-11-15 16:34:15" itemprop="dateCreated datePublished" datetime="2022-11-15T16:34:15+08:00">2022-11-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-12-27 20:42:30" itemprop="dateModified" datetime="2023-12-27T20:42:30+08:00">2023-12-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI%E7%BB%98%E7%94%BB/" itemprop="url" rel="index"><span itemprop="name">AI绘画</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/11/15/CLIP/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/11/15/CLIP/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="摘要-4">摘要</h2>
+<p>最新的计算机视觉系统训练用于预测一个固定的目标类。这种严格的监督格式限制了泛化性和实用性，因为需要额外的标记数据来指定其他视觉概念。直接从图像的源相关文本是一个很好的替代方法，能够利用更广泛的监督源。我们证明了预测哪个标题与哪个图像对应的简单预训练任务是一种有效且可扩展的方式，可以在从互联网收集的 4 亿（图像、文本）对数据集上从头开始学习 SOTA 图像表示。在预训练之后，使用自然语言来引用学习过的视觉概念(或描述新的概念)，从而实现模型到下游任务的零帧转移。</p>
+<span id="more"></span>
+<h2 id="引言-4">引言</h2>
+<p>借助互联网上这种形式的大量公开数据，我们创建了一个4亿对(图像、文本)的新数据集，并演示了一个简化版的<br>
+ConVIRT从零开始训练，我们称之为CLIP，意为Contrastive Language-Image Pre-training，是一种有效的自然语言监督学习方法。</p>
+<h2 id="方法-3">方法</h2>
+<h3 id="自然语言监督">自然语言监督</h3>
+<p>方法的核心是通过从包含在自然语言中的监督信息里学习感知。与其他训练方法相比，学习自然语言有几个潜在的优势。与标准的众包标签相比，自然语言监管在图像分类方面要容易得多，因为它不要求注释采用经典的“机器学习兼容格式”，如典型的1 / n多数票“黄金标签”。相反，研究自然语言的方法可以被动地从网络上大量文本的监督中学习。从自然语言中学习也比大多数无监督或自我监督的学习方法有一个重要的优势，它不是“仅仅”学习一个表示，而是将该表示连接到语言，从而实现灵活的零镜头迁移。</p>
+<h3 id="创建足够大的数据集">创建足够大的数据集</h3>
+<p>自然语言监督的一个主要动机是这种形式的大量数据可以在互联网上公开。由于现有的数据集没有充分反映这种可能性，只考虑这些数据集的结果将低估这一研究领域的潜力。为了解决这个问题，我们构建了一个新的数据集，包含4亿对(图像、文本)对，这些数据来自互联网上的各种公开来源。为了尝试覆盖尽可能广泛的视觉概念集，我们将搜索(图像、文本)对作为构建过程的一部分，其文本包含500,000个query集中的一个。</p>
+<h3 id="选择高效的预训练方法">选择高效的预训练方法</h3>
+<p>在我们的努力过程中，我们发现训练效率是成功扩展自然语言监督的关键，我们基于这个指标选择了最终的预训练方法。我们最初的方法类似于VirTex，从头开始联合训练图像CNN和文本转换器来预测图像的标题。然而，我们遇到了有效扩展该方法的困难。一个6300万参数的Transformer语言模型使用的计算能力是ResNet-50图像编码器的两倍，它学习识别ImageNet类的速度比预测相同文本的一词袋编码的更简单的基线慢三倍。</p>
+<p>这些方法有一个关键的相似之处,都尝试去对每个图像预测一个能与之匹配的准确的单词。但是由于图像相关的描述、评论和相关文本多种多样，这是一个困难的任务。之后，研究者们发现使用对比学习的方法比预测方法更快更好。</p>
+<p>给定一组N个(image,text)对，CLIP用于预测N*N个组合的真实发生的可能性。因此，CLIP通过联合训练一个图像编码器和一个文本编码器来最大化真实对的图像和文本的余弦相似度并且最小化虚假对的以学习一个多模型嵌入空间。</p>
+<h3 id="选择并且缩放模型">选择并且缩放模型</h3>
+<p>对于图像编码器，考虑了两种架构。第一种采用ResNet-50作为基础架构，对其中的部分内容做了改动，并且将全局池化层更换为注意力池化。注意力池化层使用一个类似于transformer的多头注意力实现，其中query以全局池化的图像表示为条件。第二种架构采用Vision Transformer，基本没有做什么改动</p>
+<p>文本编码器使用Transformer。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/11/14/GAN/" rel="prev" title="GAN">
+                  <i class="fa fa-chevron-left"></i> GAN
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/11/27/%E8%84%9A%E6%9C%AC%E4%BA%8B%E4%BB%B6%E9%A2%84%E6%B5%8B%E5%BC%95%E5%85%A5%E5%A4%96%E9%83%A8%E7%9F%A5%E8%AF%86/" rel="next" title="脚本事件预测引入外部知识">
+                  脚本事件预测引入外部知识 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Weirdo</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"weirdoblog","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>

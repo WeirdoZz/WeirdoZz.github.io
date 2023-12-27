@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.0.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="-jCet6qPD7nML4-W6IY2HZwfSblJyWta_Jx7_AGHgIk">
+  <meta name="baidu-site-verification" content="f349dc627a72ee616d62ed513574025d">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/themes/orange/pace-theme-center-circle.css">
+  <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"weirdozz.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="摘要 强化学习知识图谱推理旨在通过现有的关系路径预测未知的尾实体。这能够极大地提升预测的效率，因为基于强化学习的方法不会向表征推理那样遍历全部的尾实体。同时，这种方法提升了推理的可解释性。但是由于存在极大的探索空间，基于强化学习的模型必须限制每个路径的检索空间，这可能会导致丢失正确答案。此外，对于一些连接稀疏的比较孤立的尾实体，这种基于路径的推理会丢弃这些孤立的节点。为了解决这一问题，作者提出了基">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ARL: Knowledge Graph Reasoning with Analogy-based Reinforcement Learning">
+<meta property="og:url" content="https://weirdozz.github.io/2022/11/03/ARL-Knowledge-Graph-Reasoning-with-Analogy-based-Reinforcement-Learning/index.html">
+<meta property="og:site_name" content="Weirdo">
+<meta property="og:description" content="摘要 强化学习知识图谱推理旨在通过现有的关系路径预测未知的尾实体。这能够极大地提升预测的效率，因为基于强化学习的方法不会向表征推理那样遍历全部的尾实体。同时，这种方法提升了推理的可解释性。但是由于存在极大的探索空间，基于强化学习的模型必须限制每个路径的检索空间，这可能会导致丢失正确答案。此外，对于一些连接稀疏的比较孤立的尾实体，这种基于路径的推理会丢弃这些孤立的节点。为了解决这一问题，作者提出了基">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.imgur.com/SfdiW2y.png">
+<meta property="og:image" content="https://i.imgur.com/Xc9O3mE.png">
+<meta property="article:published_time" content="2022-11-03T02:24:09.000Z">
+<meta property="article:modified_time" content="2023-12-27T12:42:30.244Z">
+<meta property="article:author" content="Weirdo">
+<meta property="article:tag" content="知识推理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/SfdiW2y.png">
+
+
+<link rel="canonical" href="https://weirdozz.github.io/2022/11/03/ARL-Knowledge-Graph-Reasoning-with-Analogy-based-Reinforcement-Learning/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://weirdozz.github.io/2022/11/03/ARL-Knowledge-Graph-Reasoning-with-Analogy-based-Reinforcement-Learning/","path":"2022/11/03/ARL-Knowledge-Graph-Reasoning-with-Analogy-based-Reinforcement-Learning/","title":"ARL: Knowledge Graph Reasoning with Analogy-based Reinforcement Learning"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>ARL: Knowledge Graph Reasoning with Analogy-based Reinforcement Learning | Weirdo</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Weirdo</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-movies"><a href="/movies/" rel="section"><i class="fa fa-film fa-fw"></i>电影</a></li>
+        <li class="menu-item menu-item-books"><a href="/books/" rel="section"><i class="fa fa-book fa-fw"></i>书籍</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%91%98%E8%A6%81"><span class="nav-number">1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E8%A8%80"><span class="nav-number">2.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ARL%E7%9A%84%E7%BB%93%E6%9E%84"><span class="nav-number">3.1.</span> <span class="nav-text">ARL的结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BF%80%E6%B4%BB%E5%87%BA%E5%BA%A6%E9%87%87%E6%A0%B7%E7%AE%97%E6%B3%95"><span class="nav-number">3.2.</span> <span class="nav-text">激活出度采样算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B1%BB%E6%AF%94%E8%8A%82%E7%82%B9%E9%80%89%E6%8B%A9"><span class="nav-number">3.2.1.</span> <span class="nav-text">类比节点选择</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B1%BB%E6%AF%94%E8%8A%82%E7%82%B9%E6%B3%A8%E5%85%A5"><span class="nav-number">3.2.2.</span> <span class="nav-text">类比节点注入</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Weirdo"
+      src="/images/weirdo.jpg">
+  <p class="site-author-name" itemprop="name">Weirdo</p>
+  <div class="site-description" itemprop="description">怕什么真理无穷，进一步有进一步的欢喜</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">57</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2022/11/03/ARL-Knowledge-Graph-Reasoning-with-Analogy-based-Reinforcement-Learning/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/weirdo.jpg">
+      <meta itemprop="name" content="Weirdo">
+      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Weirdo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ARL: Knowledge Graph Reasoning with Analogy-based Reinforcement Learning
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-11-03 10:24:09" itemprop="dateCreated datePublished" datetime="2022-11-03T10:24:09+08:00">2022-11-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-12-27 20:42:30" itemprop="dateModified" datetime="2023-12-27T20:42:30+08:00">2023-12-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%9F%A5%E8%AF%86%E5%9B%BE%E8%B0%B1/" itemprop="url" rel="index"><span itemprop="name">知识图谱</span></a>
+        </span>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/11/03/ARL-Knowledge-Graph-Reasoning-with-Analogy-based-Reinforcement-Learning/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/11/03/ARL-Knowledge-Graph-Reasoning-with-Analogy-based-Reinforcement-Learning/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="摘要">摘要</h2>
+<p>强化学习知识图谱推理旨在通过现有的关系路径预测未知的尾实体。这能够极大地提升预测的效率，因为基于强化学习的方法不会向表征推理那样遍历全部的尾实体。同时，这种方法提升了推理的可解释性。但是由于存在极大的探索空间，基于强化学习的模型必须限制每个路径的检索空间，这可能会导致丢失正确答案。此外，对于一些连接稀疏的比较孤立的尾实体，这种基于路径的推理会丢弃这些孤立的节点。为了解决这一问题，作者提出了基于类比的强化学习模型————类比强化学习网络，融入了LSTM，图注意力网络和虚拟连接生成机制。它将实体类比信息注入到模型的推理过程中并且使用虚拟连接生成，不仅提高了路径获得奖励的概率，而且增加了路径连接的宽度同时使孤立节点被遍历到的概率更高。同时，作者分析比较了不同的类比方法。实验结果表明ARL的表现在多个数据集上优于多跳方法。</p>
+<span id="more"></span>
+<h2 id="引言">引言</h2>
+<p>现今，通过精细的神经网络设计和遍历全部实体的测试模式，基于嵌入的方法能够取得不错的效果。但是，这种方法无法做路径选取，因此它必须连续地遍历全部的实体节点以在训练和测试的过程中获取得分。这在实际应用中是不现实的，因为知识图谱往往有数以百万计的节点。此外，这些方法更注重于新型的损失函数结构来缩小正样本和负样本之间的分布差距，这种做法在单独的推理过程中缺乏可解释性。强化学习机制所代表的基于路径的方法能够通过构建一个可解释的路径来找到最终结果从而解决这一问题。但是，强化学习模型需要标准化每个路径的映射长度来进行矩阵计算，这会导致潜在实体的丢失。同时，由于知识图谱的不完整性，会存在许多的碎片化信息，即孤立数据。在有向图中，这些数据有固定的出度实体，但是没有入度信息。如同下表所示，WIN18RR数据集中22%的节点是孤立实体。使用传统的路径检索方法是无法连接到这些节点的。</p>
+<p><img src="https://i.imgur.com/SfdiW2y.png" alt="picture 1"></p>
+<p>人能够轻易地处理孤立数据问题。因为我们能够通过孤立节点的出度信息建立基于类比的推理。比如说，通过下图的先验知识</p>
+<p><img src="https://i.imgur.com/Xc9O3mE.png" alt="picture 2"></p>
+<p>我们能够根据上述的先验信息预测&quot;Joe&quot;作为&lt;Amazon,Staff,?&gt;的潜在答案，因为&lt;Jim,Mike,Joe&gt;有着相同的出度关系。同时，我们不会选择Nicholas作为最可能的选项，因为他相较于Jim和Mike只有一个出度和他们是一样的。此外，我们同样能够知道对于Amazon-Staff问题的推理，department和work location在决策中应该拥有更高的权重。这是人类使用类比信息进行推理的能力。基于相似的想法，我们希望模仿人类推理过程中类比信息的特征提升多跳推理在知识图谱上的表现。</p>
+<p>总之，在这篇文章中，作者提出了一个类比强化学习模型使用采样后的类比信息来实现人类的联想能力。由于搜索域的扩展，ARL不仅能够减轻孤立节点的问题，而且能够加快收敛和提升推理结果的精度。具体来说，首先，我们通过激活出度采样算法获取一个潜在的类比节点集合。同时，激活出度采样算法使用图注意力机制来聚合不同query下的更好的实体表示。然后，我们对于每一跳中所选择的路径上的类比节点嵌入概率，并且基于不同的先验路径记录生成虚拟类比路径作为超链接来决定是否使用类比实体。此外，这些虚拟的类比路径将会被嵌入到现存的关系集中作为虚拟关系。最后，代理端学习两个策略并且使用一个多任务机制来使优化收敛。这两个策略简单描述就是：1）是否通过一个虚拟的类比路径或真实路径继续前进；2）何时结束并且发现最终的尾实体。这两个策略是在query关系，整体路径记录和聚合关系有上限制的，在路径寻找的过程中提供。同时，该策略使用正确的答案作为自监督信息来指导虚拟路径决策，减小了类比候选集的范围，避免了奖励稀疏的问题。本方法的贡献：</p>
+<ul>
+<li>第一个在深度学习框架下使用类比信息并且为知识图谱推理构建虚拟连接</li>
+<li>提出了孤立节点的问题定义，使用ARL解决了这一问题</li>
+<li>提出了一个激活出度采样算法来正确地采样，并且在推理过程中使用类比节点集。此外，我们总结分析了最近的知识图谱推理中相似的类比方法，反映出了出度采样算法的优势。</li>
+</ul>
+<h2 id="方法">方法</h2>
+<h3 id="ARL的结构">ARL的结构</h3>
+<ul>
+<li>Environment：ARL的知识图谱不仅包含真实边，还包含虚拟关系的三元组以及会被用到激活出度采样算法中的细节。此外，用户定义的限制关系和实体都被存储在环境中，因此后续的元组能够知道何时开始何时结束。当$e=e_h$时$r=Start$,$e=e_h$时End就会生效使得该块不会向后搜寻。</li>
+<li>State：状态空间由所有的合法的实体集和和关系集合组成。初始时，代理端知道他的起始实体$E_{1x}$和query$R_x$，但是答案$E_{tx}$是不可知的。然后，代理端开始通过知识图谱搜集更多的信息，并且会遍历以获取下一个实体直到找到最终的$E_{tx}$。因此，代理端在每一步的状态应该是$(E_{1x},R_x,E_{nx},E_{tx})$，并且只有当$E_{nx}=E_{tx}$的时候整个过程才会停止。</li>
+<li>Action: 之后代理端从时间戳t时刻的(E_1,R_x,E_2,E_5)中寻找下一个action $a_t$。</li>
+<li>Transition：在ARL中，定义转移函数为$S\times X\rightarrow S$。代理端在t+1时刻的转移等同于由t时刻的状态集合计算出的联合概率和t+1时刻所有行为的概率。</li>
+<li>Reward：当代理端抵达最终的状态时，设置奖励为1，否则为0；此外，在t-1时刻，如果$r_{t-1} \in R_v$并且$E_{nx}=E_{tx}$，设置奖励为1.2来激励代理端向类比路径探索。如果虚拟和现实路径都设置为1，结果会使用更少的虚拟路径，从而造成收敛缓慢。同时，如果最终路径长度小于平均收敛时间步，奖励设置为1.2。</li>
+<li>Policy；对于有效集成的类比边集和有限视界确定性部分可观察 MDP,需要考虑两个策略函数$\pi_{ana},\pi{mdp}$。$\pi_ana$表明类比路径或者真实路径是否需要在下一个行为中被选取，$\pi_{mdp}$ 表示在下一步中可能被选取的事件的概率分布。对于这两个策略，都需要依赖历史信息$H_t$。使用一个长短期记忆网络来整合三个信息：上一时刻的H，上一时刻的选择和这一时刻的状态。<br>
+首先，对于$\pi_ana$，代理端需要决定使用从类比边集中获取到的路径还是普通边集。对于每一个实体，存在一个具体的出度实体集合和出度关系集合，定义为$O_{es},O_{rs}$。我们采用图注意力网络来对根据$h_t$得到的聚合信息分配权重。然后我们融合历史信息$h_t$，权重关系嵌入$O_{rt}$和query嵌入$r_q$来执行类比路径决策。<br>
+需要注意的是，标签的分布是基于现存的图中的无监督信息，因为当前步是否可以通过类比路径获得在训练过程中是可见的。在训练过程中，最终的答案如果在事件步t还没有被找到，我们将会人工嵌入正确答案的候选集。<br>
+其次，对于$\pi_{mdp}$，为了能够获得mdp的概率分布，除了上述的两个权重，我们同样需要开率相应的状态下的行为空间</li>
+</ul>
+<h3 id="激活出度采样算法">激活出度采样算法</h3>
+<h4 id="类比节点选择">类比节点选择</h4>
+<p>在模型训练之前，我们需要基于点集和关系集生成相应的字典。点集字典和关系集字典存储在以用于具体的数据集。</p>
+<h4 id="类比节点注入">类比节点注入</h4>
+<p>我们使用一个基于邻接矩阵的图注意力层对$R_c$进行聚合。其嵌入在分类器中以决定是否对决策建立虚拟连接。这个过程最终采用并行多任务方式训练我们的强化学习架构，并且逐步更新权重的网络参数。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%9F%A5%E8%AF%86%E6%8E%A8%E7%90%86/" rel="tag"># 知识推理</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/10/31/%E8%84%9A%E6%9C%AC%E4%BA%8B%E4%BB%B6%E9%A2%84%E6%B5%8B%E6%95%B0%E6%8D%AE%E9%9B%86%E7%9B%B8%E5%85%B3%E4%BB%8B%E7%BB%8D/" rel="prev" title="脚本事件预测数据集相关介绍">
+                  <i class="fa fa-chevron-left"></i> 脚本事件预测数据集相关介绍
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/11/08/Meta-ADD-A-meta-learning-based-pre-trained-model-for-concept-drift-active-detection/" rel="next" title="Meta-ADD：A meta-learning based pre-trained model for concept drift active detection">
+                  Meta-ADD：A meta-learning based pre-trained model for concept drift active detection <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    
+  <div class="comments" id="disqus_thread">
+    <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+  </div>
+  
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Weirdo</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+  <script src="/js/third-party/pace.js"></script>
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script class="next-config" data-name="disqus" type="application/json">{"enable":true,"shortname":"weirdoblog","count":true,"i18n":{"disqus":"disqus"}}</script>
+<script src="/js/third-party/comments/disqus.js"></script>
+
+</body>
+</html>
