@@ -170,12 +170,12 @@
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-count">24</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-count">33</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -236,9 +236,24 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2025-06-07 15:50:36 / 修改时间：17:16:00" itemprop="dateCreated datePublished" datetime="2025-06-07T15:50:36+08:00">2025-06-07</time>
+      <time title="创建时间：2025-06-07 15:50:36" itemprop="dateCreated datePublished" datetime="2025-06-07T15:50:36+08:00">2025-06-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-06-08 21:09:59" itemprop="dateModified" datetime="2025-06-08T21:09:59+08:00">2025-06-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E9%9D%A2%E8%AF%95/" itemprop="url" rel="index"><span itemprop="name">面试</span></a>
+        </span>
     </span>
 
   
@@ -265,7 +280,9 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="Kafaka-Related"><a href="#Kafaka-Related" class="headerlink" title="Kafaka-Related"></a>Kafaka-Related</h2><h3 id="详细原理"><a href="#详细原理" class="headerlink" title="详细原理"></a>详细原理</h3><ul>
+          <span id="more"></span>
+
+<h2 id="Kafaka-Related"><a href="#Kafaka-Related" class="headerlink" title="Kafaka-Related"></a>Kafaka-Related</h2><h3 id="详细原理"><a href="#详细原理" class="headerlink" title="详细原理"></a>详细原理</h3><ul>
 <li>Topic: 消息分多个主题，不同的主题进入到不同的队列中，e.g. 买入信息topic，卖出信息topic</li>
 <li>Broker: 一个独立的kafka服务器节点，多个broker保证高并发</li>
 <li>Partition: 每个topic的队列拆分成多个partition， 配合多个broker节点保证服务的高并发，多个partition部署在多个不同的broker上</li>
@@ -275,7 +292,7 @@
 <h4 id="Partition"><a href="#Partition" class="headerlink" title="Partition"></a>Partition</h4><ul>
 <li>指定了消息发送的partition编号，则发送到这个partition上</li>
 <li>未指定编号，但是存在key，根据key的hash值选择一个partition</li>
-<li>未指定编号，不存在key，轮询</li>
+<li>未指定编号，不存在key，发送满一个Batch_Size_Config后，轮询下一个partition</li>
 </ul>
 <h4 id="Replica"><a href="#Replica" class="headerlink" title="Replica"></a>Replica</h4><p>每个partition副本都是一个目录，其中包含若干个segment段文件：</p>
 <ol>
@@ -287,15 +304,57 @@
 
 <h4 id="高可用和选举机制"><a href="#高可用和选举机制" class="headerlink" title="高可用和选举机制"></a>高可用和选举机制</h4><ul>
 <li>ISR列表：只保存与leader partition数据完全一致的partition，选择ISR中最前面一个</li>
-<li>OSR列表：数据比leader严重落后或者不同步的replica，可以配置当ISR不可用时，是否选用OSR中的
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2025/06/07/%E9%9D%A2%E8%AF%95%E5%A4%8D%E4%B9%A0/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+<li>OSR列表：数据比leader严重落后或者不同步的replica，可以配置当ISR不可用时，是否选用OSR中的</li>
+</ul>
+<h4 id="消费者分组消费机制"><a href="#消费者分组消费机制" class="headerlink" title="消费者分组消费机制"></a>消费者分组消费机制</h4><ul>
+<li>本地offset管理：从服务端拉取offset信息，保存到redis或者本地，可以防止重复消费</li>
+</ul>
+<h4 id="消息序列化机制"><a href="#消息序列化机制" class="headerlink" title="消息序列化机制"></a>消息序列化机制</h4><ul>
+<li>自定义一个通用的 Serializer</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GenericJsonSerializer</span> <span class="keyword">implements</span> <span class="title">Serializer</span>&lt;<span class="title">Object</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> ObjectMapper objectMapper = <span class="keyword">new</span> ObjectMapper();</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">byte</span>[] serialize(String topic, Object data) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (data == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">            <span class="keyword">return</span> objectMapper.writeValueAsBytes(data);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (JsonProcessingException e) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> SerializationException(<span class="string">&quot;Error serializing JSON&quot;</span>, e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>配置多个 KafkaTemplate，分别使用不同的序列化器</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ProducerFactory&lt;String, User&gt; <span class="title">userProducerFactory</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Map&lt;String, Object&gt; config = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">    config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);</span><br><span class="line">    config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> DefaultKafkaProducerFactory&lt;&gt;(config);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> KafkaTemplate&lt;String, User&gt; <span class="title">userKafkaTemplate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> KafkaTemplate&lt;&gt;(userProducerFactory());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ProducerFactory&lt;String, Order&gt; <span class="title">orderProducerFactory</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Map&lt;String, Object&gt; config = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">    config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);</span><br><span class="line">    config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, AvroSerializer.class); <span class="comment">// 假设你有特殊需求</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> DefaultKafkaProducerFactory&lt;&gt;(config);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Bean</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> KafkaTemplate&lt;String, Order&gt; <span class="title">orderKafkaTemplate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> KafkaTemplate&lt;&gt;(orderProducerFactory());</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>发送时带上类型信息（例如 header 中加类名）</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ProducerRecord&lt;String, Object&gt; record = <span class="keyword">new</span> ProducerRecord&lt;&gt;(<span class="string">&quot;topic&quot;</span>, object);</span><br><span class="line">record.headers().add(<span class="string">&quot;type&quot;</span>, object.getClass().getName().getBytes());</span><br><span class="line">kafkaTemplate.send(record);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="消息分区路由机制"><a href="#消息分区路由机制" class="headerlink" title="消息分区路由机制"></a>消息分区路由机制</h4><ul>
+<li>consumer分配partition机制： range均分，轮询均分，sticky策略(尽量保持分区的均匀并与上一次分配尽量保持一致)</li>
+</ul>
+<h4 id="生产者消息缓存机制"><a href="#生产者消息缓存机制" class="headerlink" title="生产者消息缓存机制"></a>生产者消息缓存机制</h4><ul>
+<li>缓存在本地然后一批一批发送到服务端</li>
+<li>先存入到RecordAccumulator中,当大小达到配置值或者等待时间到，发送到sender中</li>
+</ul>
+<h4 id="发送应答机制"><a href="#发送应答机制" class="headerlink" title="发送应答机制"></a>发送应答机制</h4><ul>
+<li>ack&#x3D;0,1,all （不确认，leader确认，全部确认）</li>
+</ul>
+<h4 id="生产者消息幂等性"><a href="#生产者消息幂等性" class="headerlink" title="生产者消息幂等性"></a>生产者消息幂等性</h4><ul>
+<li>retries_config： 生产者发送消息重试次数</li>
+<li>发送消息时，会附加一个sequenceNumber，服务器验证为当前sequence+1才会放入队列</li>
+</ul>
+<h4 id="消息压缩算法"><a href="#消息压缩算法" class="headerlink" title="消息压缩算法"></a>消息压缩算法</h4><ul>
+<li>生产者和服务端要采用同样的压缩算法， 默认为不压缩，性能紧张时可以使用压缩</li>
+</ul>
+<h3 id="实际应用"><a href="#实际应用" class="headerlink" title="实际应用"></a>实际应用</h3><ul>
+<li>创建kafka server</li>
+</ul>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># an example of the docker compose file of creating a node cluster. Creating more ones are the same </span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">kafka-node-0:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">bitnami/kafka:latest</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">kafka-node-0</span></span><br><span class="line">    <span class="attr">hostname:</span> <span class="string">kafka-node-0</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">unless-stopped</span></span><br><span class="line">    <span class="attr">networks:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">kafka-servers-net</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;19092:9092&quot;</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/etc/timezone:/etc/timezone:ro</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/etc/localtime:/etc/localtime:ro</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">kafka0_data:/bitnami/kafka:rw</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">KAFKA_CFG_NODE_ID=0</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">KAFKA_ENABLE_KRAFT=yes</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">ALLOW_PLAINTEXT_LISTENER=yes</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">KAFKA_CFG_PROCESS_ROLES=broker,controller</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">KAFKA_KRAFT_CLUSTER_ID=weirdozhang19990615xxx</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://:9092</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka-node-0:9093,1@kafka-node-1:9093,2@kafka-node-2:9093</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>调用producer consumer</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># create topic(first time) when topic was created, user `send message `</span></span><br><span class="line">kafka-topics.sh \</span><br><span class="line">  --create \</span><br><span class="line">  --topic your-topic-name \</span><br><span class="line">  --bootstrap-server kafka-node-0:9092,kafka-node-1:9092,kafka-node-2:9092 \</span><br><span class="line">  --partitions 3 \</span><br><span class="line">  --replication-factor 2</span><br><span class="line"></span><br><span class="line"><span class="comment"># send message</span></span><br><span class="line">docker run -it --rm \</span><br><span class="line">  --network kafka-servers-net \</span><br><span class="line">  bitnami/kafka:latest \</span><br><span class="line">  kafka-console-producer.sh \</span><br><span class="line">    --bootstrap-server kafka-node-0:9092,kafka-node-1:9092,kafka-node-2:9092 \</span><br><span class="line">    --topic test-topic</span><br><span class="line"></span><br><span class="line"><span class="comment"># receive message </span></span><br><span class="line">docker run -it --rm \</span><br><span class="line">  --network kafka-servers-net \</span><br><span class="line">  bitnami/kafka:latest \</span><br><span class="line">  kafka-console-consumer.sh \</span><br><span class="line">    --bootstrap-server kafka-node-0:9092 \</span><br><span class="line">    --topic test-topic \</span><br><span class="line">    --from-beginning</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查看kafka server存储状态和信息</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it kafka-node-0 \</span><br><span class="line">  kafka-topics.sh \</span><br><span class="line">  --bootstrap-server localhost:9092 \</span><br><span class="line">  --describe \</span><br><span class="line">  --topic test-topic</span><br></pre></td></tr></table></figure>
       
     </div>
 
