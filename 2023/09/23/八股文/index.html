@@ -24,15 +24,15 @@
   <script src="https://cdn.jsdelivr.net/npm/pace-js@1.2.4/pace.min.js" integrity="sha256-gqd7YTjg/BtfqWSwsJOvndl0Bxc8gFImLEkXQT8+qj0=" crossorigin="anonymous"></script>
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"weirdozz.github.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
-<meta name="description" content="JVM、JRE和JDK JVM是java运行时的虚拟机，不同平台都有各自的虚拟机，从而支持java的跨平台 JRE是虚拟机和程序所需要的核心类库（java.lang等）。想要在机器上运行java，装一个jre就行了 JDK是给开发人员使用的，包括了JRE。其中的开发工具有编译工具（javac.exe）、打包工具（jar.exe）等">
+<meta name="description" content="JVM、JRE和JDK  JVM是java运行时的虚拟机，不同平台都有各自的虚拟机，从而支持java的跨平台 JRE是虚拟机和程序所需要的核心类库（java.lang等）。想要在机器上运行java，装一个jre就行了 JDK是给开发人员使用的，包括了JRE。其中的开发工具有编译工具（javac.exe）、打包工具（jar.exe）等">
 <meta property="og:type" content="article">
 <meta property="og:title" content="八股文">
 <meta property="og:url" content="https://weirdozz.github.io/2023/09/23/%E5%85%AB%E8%82%A1%E6%96%87/index.html">
 <meta property="og:site_name" content="Weirdo">
-<meta property="og:description" content="JVM、JRE和JDK JVM是java运行时的虚拟机，不同平台都有各自的虚拟机，从而支持java的跨平台 JRE是虚拟机和程序所需要的核心类库（java.lang等）。想要在机器上运行java，装一个jre就行了 JDK是给开发人员使用的，包括了JRE。其中的开发工具有编译工具（javac.exe）、打包工具（jar.exe）等">
+<meta property="og:description" content="JVM、JRE和JDK  JVM是java运行时的虚拟机，不同平台都有各自的虚拟机，从而支持java的跨平台 JRE是虚拟机和程序所需要的核心类库（java.lang等）。想要在机器上运行java，装一个jre就行了 JDK是给开发人员使用的，包括了JRE。其中的开发工具有编译工具（javac.exe）、打包工具（jar.exe）等">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-09-23T05:50:53.000Z">
-<meta property="article:modified_time" content="2024-01-05T09:09:03.745Z">
+<meta property="article:modified_time" content="2025-06-15T08:40:36.138Z">
 <meta property="article:author" content="Weirdo">
 <meta property="article:tag" content="八股">
 <meta name="twitter:card" content="summary">
@@ -152,7 +152,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM%E3%80%81JRE%E5%92%8CJDK"><span class="nav-number">1.</span> <span class="nav-text">JVM、JRE和JDK</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E8%8A%82%E7%A0%81%E5%92%8C%E5%85%B6%E5%A5%BD%E5%A4%84"><span class="nav-number">2.</span> <span class="nav-text">字节码和其好处</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BF%E9%97%AE%E4%BF%AE%E9%A5%B0%E7%AC%A6"><span class="nav-number">3.</span> <span class="nav-text">访问修饰符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#amp-%E5%92%8C-amp-amp"><span class="nav-number">4.</span> <span class="nav-text">&amp;和&amp;&amp;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#final%E5%85%B3%E9%94%AE%E5%AD%97"><span class="nav-number">5.</span> <span class="nav-text">final关键字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B7%B3%E5%87%BA%E5%A4%9A%E9%87%8D%E5%BE%AA%E7%8E%AF"><span class="nav-number">6.</span> <span class="nav-text">跳出多重循环</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E4%BA%94%E5%A4%A7%E5%8E%9F%E5%88%99"><span class="nav-number">7.</span> <span class="nav-text">面向对象五大原则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%BD%E8%B1%A1%E7%B1%BB%E5%92%8C%E6%8E%A5%E5%8F%A3"><span class="nav-number">8.</span> <span class="nav-text">抽象类和接口</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B8%E5%90%8C%E7%82%B9"><span class="nav-number">8.1.</span> <span class="nav-text">相同点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8D%E5%90%8C%E7%82%B9"><span class="nav-number">8.2.</span> <span class="nav-text">不同点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#x3D-x3D-%E5%92%8C-equals"><span class="nav-number">9.</span> <span class="nav-text">&#x3D;&#x3D; 和 equals()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hashCode-%E5%92%8C-equals"><span class="nav-number">10.</span> <span class="nav-text">hashCode() 和 equals()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IO%E6%B5%81"><span class="nav-number">11.</span> <span class="nav-text">IO流</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#BIO-NIO-and-AIO"><span class="nav-number">11.1.</span> <span class="nav-text">BIO,NIO and AIO</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84"><span class="nav-number">12.</span> <span class="nav-text">反射</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E5%8F%8D%E5%B0%84%E7%9A%84%E4%B8%89%E4%B8%AA%E6%96%B9%E6%B3%95"><span class="nav-number">12.1.</span> <span class="nav-text">获取反射的三个方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#String"><span class="nav-number">13.</span> <span class="nav-text">String</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#StringBuffer-and-StringBuilder"><span class="nav-number">13.1.</span> <span class="nav-text">StringBuffer and StringBuilder</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#List"><span class="nav-number">14.</span> <span class="nav-text">List</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ArrayList-and-LinkedList-%E5%8C%BA%E5%88%AB"><span class="nav-number">14.1.</span> <span class="nav-text">ArrayList and LinkedList 区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Class-forName-%E5%92%8C-classloader"><span class="nav-number">15.</span> <span class="nav-text">Class.forName 和 classloader</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IO"><span class="nav-number">16.</span> <span class="nav-text">IO</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8A%82%E7%82%B9%E6%B5%81%E5%92%8C%E5%A4%84%E7%90%86%E6%B5%81"><span class="nav-number">16.1.</span> <span class="nav-text">节点流和处理流</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8"><span class="nav-number">17.</span> <span class="nav-text">自定义类加载器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">17.1.</span> <span class="nav-text">应用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%A8%A1%E5%9E%8B%E8%BF%87%E7%A8%8B"><span class="nav-number">17.2.</span> <span class="nav-text">双亲委派模型过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Collection%E6%A1%86%E6%9E%B6%E4%B8%8B%E9%9D%A2%E5%AE%9E%E7%8E%B0%E6%AF%94%E8%BE%83"><span class="nav-number">18.</span> <span class="nav-text">Collection框架下面实现比较</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Iterator-%E5%92%8C-ListIterator%E5%8C%BA%E5%88%AB"><span class="nav-number">19.</span> <span class="nav-text">Iterator 和 ListIterator区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BF%AB%E9%80%9F%E5%A4%B1%E8%B4%A5-fail-fast-%E5%92%8C%E5%AE%89%E5%85%A8%E5%A4%B1%E8%B4%A5-fail-safe"><span class="nav-number">20.</span> <span class="nav-text">快速失败(fail-fast)和安全失败(fail-safe)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BF%AB%E9%80%9F%E5%A4%B1%E8%B4%A5"><span class="nav-number">20.1.</span> <span class="nav-text">快速失败</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E5%A4%B1%E8%B4%A5"><span class="nav-number">20.2.</span> <span class="nav-text">安全失败</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM"><span class="nav-number">21.</span> <span class="nav-text">JVM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#heap%E5%92%8Cstack%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">22.</span> <span class="nav-text">heap和stack的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%B3%E8%AF%B7%E6%96%B9%E5%BC%8F"><span class="nav-number">22.1.</span> <span class="nav-text">申请方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%B3%E8%AF%B7%E5%90%8E%E7%9A%84%E7%B3%BB%E7%BB%9F%E5%93%8D%E5%BA%94"><span class="nav-number">22.2.</span> <span class="nav-text">申请后的系统响应</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%B3%E8%AF%B7%E5%A4%A7%E5%B0%8F%E7%9A%84%E9%99%90%E5%88%B6"><span class="nav-number">22.3.</span> <span class="nav-text">申请大小的限制</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#java%E4%B8%AD%E7%9A%84%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AE%97%E6%B3%95"><span class="nav-number">23.</span> <span class="nav-text">java中的垃圾回收算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%87%E8%AE%B0%E6%B8%85%E9%99%A4%E6%B3%95"><span class="nav-number">23.1.</span> <span class="nav-text">标记清除法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%87%E8%AE%B0%E6%95%B4%E7%90%86%E6%B3%95"><span class="nav-number">23.2.</span> <span class="nav-text">标记整理法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%8D%E5%88%B6%E7%AE%97%E6%B3%95"><span class="nav-number">23.3.</span> <span class="nav-text">复制算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E4%BB%A3%E6%94%B6%E9%9B%86%E7%AE%97%E6%B3%95"><span class="nav-number">23.4.</span> <span class="nav-text">分代收集算法</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM%E3%80%81JRE%E5%92%8CJDK"><span class="nav-number">1.</span> <span class="nav-text">JVM、JRE和JDK</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E8%8A%82%E7%A0%81%E5%92%8C%E5%85%B6%E5%A5%BD%E5%A4%84"><span class="nav-number">2.</span> <span class="nav-text">字节码和其好处</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BF%E9%97%AE%E4%BF%AE%E9%A5%B0%E7%AC%A6"><span class="nav-number">3.</span> <span class="nav-text">访问修饰符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%92%8C"><span class="nav-number">4.</span> <span class="nav-text">&amp;和&amp;&amp;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#final%E5%85%B3%E9%94%AE%E5%AD%97"><span class="nav-number">5.</span> <span class="nav-text">final关键字</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B7%B3%E5%87%BA%E5%A4%9A%E9%87%8D%E5%BE%AA%E7%8E%AF"><span class="nav-number">6.</span> <span class="nav-text">跳出多重循环</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E4%BA%94%E5%A4%A7%E5%8E%9F%E5%88%99"><span class="nav-number">7.</span> <span class="nav-text">面向对象五大原则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%BD%E8%B1%A1%E7%B1%BB%E5%92%8C%E6%8E%A5%E5%8F%A3"><span class="nav-number">8.</span> <span class="nav-text">抽象类和接口</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B8%E5%90%8C%E7%82%B9"><span class="nav-number">8.1.</span> <span class="nav-text">相同点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8D%E5%90%8C%E7%82%B9"><span class="nav-number">8.2.</span> <span class="nav-text">不同点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%92%8C-equals"><span class="nav-number">9.</span> <span class="nav-text">&#x3D;&#x3D; 和 equals()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hashCode-%E5%92%8C-equals"><span class="nav-number">10.</span> <span class="nav-text">hashCode() 和 equals()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IO%E6%B5%81"><span class="nav-number">11.</span> <span class="nav-text">IO流</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#BIO-NIO-and-AIO"><span class="nav-number">11.1.</span> <span class="nav-text">BIO,NIO and AIO</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84"><span class="nav-number">12.</span> <span class="nav-text">反射</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E5%8F%8D%E5%B0%84%E7%9A%84%E4%B8%89%E4%B8%AA%E6%96%B9%E6%B3%95"><span class="nav-number">12.1.</span> <span class="nav-text">获取反射的三个方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#String"><span class="nav-number">13.</span> <span class="nav-text">String</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#StringBuffer-and-StringBuilder"><span class="nav-number">13.1.</span> <span class="nav-text">StringBuffer and StringBuilder</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#List"><span class="nav-number">14.</span> <span class="nav-text">List</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ArrayList-and-LinkedList-%E5%8C%BA%E5%88%AB"><span class="nav-number">14.1.</span> <span class="nav-text">ArrayList and LinkedList 区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Class-forName-%E5%92%8C-classloader"><span class="nav-number">15.</span> <span class="nav-text">Class.forName 和 classloader</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IO"><span class="nav-number">16.</span> <span class="nav-text">IO</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8A%82%E7%82%B9%E6%B5%81%E5%92%8C%E5%A4%84%E7%90%86%E6%B5%81"><span class="nav-number">16.1.</span> <span class="nav-text">节点流和处理流</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8"><span class="nav-number">17.</span> <span class="nav-text">自定义类加载器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">17.1.</span> <span class="nav-text">应用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8C%E4%BA%B2%E5%A7%94%E6%B4%BE%E6%A8%A1%E5%9E%8B%E8%BF%87%E7%A8%8B"><span class="nav-number">17.2.</span> <span class="nav-text">双亲委派模型过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Collection%E6%A1%86%E6%9E%B6%E4%B8%8B%E9%9D%A2%E5%AE%9E%E7%8E%B0%E6%AF%94%E8%BE%83"><span class="nav-number">18.</span> <span class="nav-text">Collection框架下面实现比较</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Iterator-%E5%92%8C-ListIterator%E5%8C%BA%E5%88%AB"><span class="nav-number">19.</span> <span class="nav-text">Iterator 和 ListIterator区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BF%AB%E9%80%9F%E5%A4%B1%E8%B4%A5-fail-fast-%E5%92%8C%E5%AE%89%E5%85%A8%E5%A4%B1%E8%B4%A5-fail-safe"><span class="nav-number">20.</span> <span class="nav-text">快速失败(fail-fast)和安全失败(fail-safe)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BF%AB%E9%80%9F%E5%A4%B1%E8%B4%A5"><span class="nav-number">20.1.</span> <span class="nav-text">快速失败</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E5%A4%B1%E8%B4%A5"><span class="nav-number">20.2.</span> <span class="nav-text">安全失败</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JVM"><span class="nav-number">21.</span> <span class="nav-text">JVM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#heap%E5%92%8Cstack%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">22.</span> <span class="nav-text">heap和stack的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%B3%E8%AF%B7%E6%96%B9%E5%BC%8F"><span class="nav-number">22.1.</span> <span class="nav-text">申请方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%B3%E8%AF%B7%E5%90%8E%E7%9A%84%E7%B3%BB%E7%BB%9F%E5%93%8D%E5%BA%94"><span class="nav-number">22.2.</span> <span class="nav-text">申请后的系统响应</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%B3%E8%AF%B7%E5%A4%A7%E5%B0%8F%E7%9A%84%E9%99%90%E5%88%B6"><span class="nav-number">22.3.</span> <span class="nav-text">申请大小的限制</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#java%E4%B8%AD%E7%9A%84%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AE%97%E6%B3%95"><span class="nav-number">23.</span> <span class="nav-text">java中的垃圾回收算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%87%E8%AE%B0%E6%B8%85%E9%99%A4%E6%B3%95"><span class="nav-number">23.1.</span> <span class="nav-text">标记清除法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%87%E8%AE%B0%E6%95%B4%E7%90%86%E6%B3%95"><span class="nav-number">23.2.</span> <span class="nav-text">标记整理法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%8D%E5%88%B6%E7%AE%97%E6%B3%95"><span class="nav-number">23.3.</span> <span class="nav-text">复制算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E4%BB%A3%E6%94%B6%E9%9B%86%E7%AE%97%E6%B3%95"><span class="nav-number">23.4.</span> <span class="nav-text">分代收集算法</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -167,7 +167,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">60</span>
+          <span class="site-state-item-count">61</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -248,7 +248,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-01-05 17:09:03" itemprop="dateModified" datetime="2024-01-05T17:09:03+08:00">2024-01-05</time>
+      <time title="修改时间：2025-06-15 16:40:36" itemprop="dateModified" datetime="2025-06-15T16:40:36+08:00">2025-06-15</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -284,114 +284,144 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h2 id="JVM、JRE和JDK"><a href="#JVM、JRE和JDK" class="headerlink" title="JVM、JRE和JDK"></a>JVM、JRE和JDK</h2><ul>
+        <h2 id="JVM、JRE和JDK">JVM、JRE和JDK</h2>
+<ul>
 <li>JVM是java运行时的虚拟机，不同平台都有各自的虚拟机，从而支持java的跨平台</li>
 <li>JRE是虚拟机和程序所需要的核心类库（java.lang等）。<strong>想要在机器上运行java，装一个jre就行了</strong></li>
 <li>JDK是给开发人员使用的，包括了JRE。其中的开发工具有编译工具（javac.exe）、打包工具（jar.exe）等</li>
 </ul>
 <span id="more"></span>
-
-<h2 id="字节码和其好处"><a href="#字节码和其好处" class="headerlink" title="字节码和其好处"></a>字节码和其好处</h2><ul>
+<h2 id="字节码和其好处">字节码和其好处</h2>
+<ul>
 <li>字节码是java代码编译后的文件(.class)，只面向虚拟机。</li>
 <li>好处： 解决了传统解释型语言执行效率低的 问题，同时又保留了解释型语言可移植的特点。无需重新编译就可以在不同系统运行。</li>
 </ul>
-<h2 id="访问修饰符"><a href="#访问修饰符" class="headerlink" title="访问修饰符"></a>访问修饰符</h2><ul>
+<h2 id="访问修饰符">访问修饰符</h2>
+<ul>
 <li>private：同一类之内可见。修饰变量、方法</li>
 <li>default：同一包内可见。修饰类、接口、变量、方法</li>
 <li>protected：同一包内的类和子类可见。修饰变量、方法</li>
 <li>public：全局可见。修饰类、接口、变量、方法</li>
 </ul>
-<h2 id="amp-和-amp-amp"><a href="#amp-和-amp-amp" class="headerlink" title="&amp;和&amp;&amp;"></a>&amp;和&amp;&amp;</h2><ul>
+<h2 id="和">&amp;和&amp;&amp;</h2>
+<ul>
 <li>&amp;：两种用法：逻辑与和按位与</li>
 <li>&amp;&amp;：短路运算符，左边false就不执行右边</li>
 </ul>
-<h2 id="final关键字"><a href="#final关键字" class="headerlink" title="final关键字"></a>final关键字</h2><p>在代码中不可被继承、重写、改变。<strong>但是final修饰的变量不可变的是引用，如果引用指向的地址变了，那这个变量的内容就变了</strong></p>
-<h2 id="跳出多重循环"><a href="#跳出多重循环" class="headerlink" title="跳出多重循环"></a>跳出多重循环</h2><p>在想跳出的循环钱加上标号，里层循环使用带有标号的break，就可以跳出外层循环。</p>
+<h2 id="final关键字">final关键字</h2>
+<p>在代码中不可被继承、重写、改变。<strong>但是final修饰的变量不可变的是引用，如果引用指向的地址变了，那这个变量的内容就变了</strong></p>
+<h2 id="跳出多重循环">跳出多重循环</h2>
+<p>在想跳出的循环钱加上标号，里层循环使用带有标号的break，就可以跳出外层循环。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"> ok:</span><br><span class="line"> <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; <span class="number">10</span>; j++) &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;i=&quot;</span> + i + <span class="string">&quot;,j=&quot;</span> + j);</span><br><span class="line">        <span class="keyword">if</span> (j == <span class="number">5</span>) &#123;</span><br><span class="line">        <span class="keyword">break</span> ok;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="面向对象五大原则"><a href="#面向对象五大原则" class="headerlink" title="面向对象五大原则"></a>面向对象五大原则</h2><ul>
+<h2 id="面向对象五大原则">面向对象五大原则</h2>
+<ul>
 <li>单一职责：类功能要单一，从而解耦合</li>
 <li>不可修改：可以拓展，不许修改</li>
 <li>里氏替换：子类可以替换父类出现在父类能够出现的地方</li>
 <li>依赖倒置：高层次的模块不依赖低层次的，应该一来一抽象。</li>
 <li>接口分离：多个功能用多个接口实现，不要做成一个通用接口</li>
 </ul>
-<h2 id="抽象类和接口"><a href="#抽象类和接口" class="headerlink" title="抽象类和接口"></a>抽象类和接口</h2><p>抽象类对类找通用性，模板设计；接口对行为进行通用，是行为的规范</p>
-<h3 id="相同点"><a href="#相同点" class="headerlink" title="相同点"></a>相同点</h3><ul>
+<h2 id="抽象类和接口">抽象类和接口</h2>
+<p>抽象类对类找通用性，模板设计；接口对行为进行通用，是行为的规范</p>
+<h3 id="相同点">相同点</h3>
+<ul>
 <li>都不能实例化</li>
 <li>都位于继承的顶端，用于被继承</li>
 <li>都包含抽象方法，子类必须覆写这些方法</li>
 </ul>
-<h3 id="不同点"><a href="#不同点" class="headerlink" title="不同点"></a>不同点</h3><ul>
+<h3 id="不同点">不同点</h3>
+<ul>
 <li>抽象类可以有构造器，接口不能有</li>
 <li>抽象类中的修饰符任意，接口默认public</li>
 <li>抽象类字段任意，接口字段默认static，final</li>
 </ul>
-<h2 id="x3D-x3D-和-equals"><a href="#x3D-x3D-和-equals" class="headerlink" title="&#x3D;&#x3D; 和 equals()"></a>&#x3D;&#x3D; 和 equals()</h2><ul>
-<li>&#x3D;&#x3D;: 基本数据类型比较值，引用数据类型比较地址是否相等</li>
-<li>equals(): 如果没有重写，与&#x3D;&#x3D;一样。否则按照重写的逻辑来</li>
-<li>String对象因为创建时会从池子中找是否有相同的值，有就给地址，所以用&#x3D;&#x3D;的话不合适</li>
+<h2 id="和-equals">== 和 equals()</h2>
+<ul>
+<li>==: 基本数据类型比较值，引用数据类型比较地址是否相等</li>
+<li>equals(): 如果没有重写，与==一样。否则按照重写的逻辑来</li>
+<li>String对象因为创建时会从池子中找是否有相同的值，有就给地址，所以用==的话不合适</li>
 </ul>
-<h2 id="hashCode-和-equals"><a href="#hashCode-和-equals" class="headerlink" title="hashCode() 和 equals()"></a>hashCode() 和 equals()</h2><p>将对象假如hashSet的时候，如果两个对象hashCode相等，会判断是否equals，如果equals，就不放了。</p>
+<h2 id="hashCode-和-equals">hashCode() 和 equals()</h2>
+<p>将对象假如hashSet的时候，如果两个对象hashCode相等，会判断是否equals，如果equals，就不放了。</p>
 <p>也就是说，euqals的对象哈希值一定相等，所以改了equals的逻辑，hashcode也要跟着改</p>
-<h2 id="IO流"><a href="#IO流" class="headerlink" title="IO流"></a>IO流</h2><ul>
-<li>InputStream&#x2F;Reader： 前者是字节流，后者是字符流</li>
-<li>OutputStream&#x2F;Writer：同上</li>
+<h2 id="IO流">IO流</h2>
+<ul>
+<li>InputStream/Reader： 前者是字节流，后者是字符流</li>
+<li>OutputStream/Writer：同上</li>
 </ul>
-<h3 id="BIO-NIO-and-AIO"><a href="#BIO-NIO-and-AIO" class="headerlink" title="BIO,NIO and AIO"></a>BIO,NIO and AIO</h3><ul>
-<li>BIO：Block IO，同步阻塞式IO，就是传统IO，简单使用，并发能力低。<strong>一个连接一个线程。</strong> 数据的读取写入必须阻塞在一个线程内等待其完成。在活动连接数不是特别高（小于单机1000）的情况下，这种模型是比较不错的，可以让每一个连接专注于自己的 I&#x2F;O 并且编程模型简单，也不用过多考虑系统的过载、限流等问题</li>
+<h3 id="BIO-NIO-and-AIO">BIO,NIO and AIO</h3>
+<ul>
+<li>BIO：Block IO，同步阻塞式IO，就是传统IO，简单使用，并发能力低。<strong>一个连接一个线程。</strong> 数据的读取写入必须阻塞在一个线程内等待其完成。在活动连接数不是特别高（小于单机1000）的情况下，这种模型是比较不错的，可以让每一个连接专注于自己的 I/O 并且编程模型简单，也不用过多考虑系统的过载、限流等问题</li>
 <li>NIO：Non IO， 同步非阻塞式IO，客户端和服务器端通过channel通讯，实现了多路复用。<strong>一个请求一个线程。</strong></li>
 <li>AIO：Asynchronous IO，实现了异步非阻塞IO，异步IO操作基于事件和回调机制。<strong>一个有效请求一个线程。</strong> 它是异步非阻塞的IO模型。异步 IO 是基于事件和回调机制实现的，也就是应用操作之后会直接返回，不会堵塞在那里，当后台处理完成，操作系统会通知相应的线程进行后续的操作。</li>
 </ul>
-<h2 id="反射"><a href="#反射" class="headerlink" title="反射"></a>反射</h2><h3 id="获取反射的三个方法"><a href="#获取反射的三个方法" class="headerlink" title="获取反射的三个方法"></a>获取反射的三个方法</h3><ul>
+<h2 id="反射">反射</h2>
+<h3 id="获取反射的三个方法">获取反射的三个方法</h3>
+<ul>
 <li>建立对象： new 对象 $\rightarrow$ 调用对象.getClass()</li>
 <li>通过路径：Class.forName(“package.Class”)</li>
 <li>通过类名: ClassName.class</li>
 </ul>
-<h2 id="String"><a href="#String" class="headerlink" title="String"></a>String</h2><p><code>String a=&quot;a&quot;</code> 和 <code>String a=new String(&quot;a&quot;)</code>是不一样的，前者放到常量池，后者放到堆内存。</p>
+<h2 id="String">String</h2>
+<p><code>String a=&quot;a&quot;</code> 和 <code>String a=new String(&quot;a&quot;)</code>是不一样的，前者放到常量池，后者放到堆内存。</p>
 <p>使用hashmap用String做key好处是：String不可变，其hashCode可以缓存下来不需要再次计算</p>
-<h3 id="StringBuffer-and-StringBuilder"><a href="#StringBuffer-and-StringBuilder" class="headerlink" title="StringBuffer and StringBuilder"></a>StringBuffer and StringBuilder</h3><p>StringBuilder 对方法加了同步锁，线程安全；StringBuffer没有加锁，线程不安全。</p>
-<h2 id="List"><a href="#List" class="headerlink" title="List"></a>List</h2><h3 id="ArrayList-and-LinkedList-区别"><a href="#ArrayList-and-LinkedList-区别" class="headerlink" title="ArrayList and LinkedList 区别"></a>ArrayList and LinkedList 区别</h3><ul>
+<h3 id="StringBuffer-and-StringBuilder">StringBuffer and StringBuilder</h3>
+<p>StringBuilder 对方法加了同步锁，线程安全；StringBuffer没有加锁，线程不安全。</p>
+<h2 id="List">List</h2>
+<h3 id="ArrayList-and-LinkedList-区别">ArrayList and LinkedList 区别</h3>
+<ul>
 <li>ArrayList是动态数组，LinkedList是双向链表</li>
 <li>前者随机访问效率高</li>
 <li>后者增加和删除的效率高</li>
 <li>后者更占内存，因为要存引用</li>
 <li>都不保证线程安全</li>
 </ul>
-<h2 id="Class-forName-和-classloader"><a href="#Class-forName-和-classloader" class="headerlink" title="Class.forName 和 classloader"></a>Class.forName 和 classloader</h2><ul>
+<h2 id="Class-forName-和-classloader">Class.forName 和 classloader</h2>
+<ul>
 <li>都可以进行类的加载</li>
 <li>前者除了将文件加载到jvm，还对类进行解释，执行其中的static</li>
 <li>前者可用参数控制是否加载static块</li>
 </ul>
-<h2 id="IO"><a href="#IO" class="headerlink" title="IO"></a>IO</h2><h3 id="节点流和处理流"><a href="#节点流和处理流" class="headerlink" title="节点流和处理流"></a>节点流和处理流</h3><ul>
+<h2 id="IO">IO</h2>
+<h3 id="节点流和处理流">节点流和处理流</h3>
+<ul>
 <li>从一个特定的IO设备（磁盘、网络等）读写数据，称为节点流</li>
 <li>对已存在的流进行连接或封装，通过封装后的流实现数据读写，成为处理流</li>
 </ul>
-<h2 id="自定义类加载器"><a href="#自定义类加载器" class="headerlink" title="自定义类加载器"></a>自定义类加载器</h2><h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><ul>
+<h2 id="自定义类加载器">自定义类加载器</h2>
+<h3 id="应用场景">应用场景</h3>
+<ul>
 <li>加密：编译后的代码加密后无法使用classloader加载，自定义加载器里面先解密，再加载</li>
 <li>从非标准的来源加载代码</li>
 </ul>
-<h3 id="双亲委派模型过程"><a href="#双亲委派模型过程" class="headerlink" title="双亲委派模型过程"></a>双亲委派模型过程</h3><ul>
+<h3 id="双亲委派模型过程">双亲委派模型过程</h3>
+<ul>
 <li>从已经加载的类中查询是否已经加载，如有，则返回已经加载的类</li>
 <li>如果没有，就让父类加载器加载，采用同样的策略，直到启动类</li>
 <li>如果启动类也加载失败了，会抛出异常，并且用当前加载器的findClass加载</li>
 </ul>
-<h2 id="Collection框架下面实现比较"><a href="#Collection框架下面实现比较" class="headerlink" title="Collection框架下面实现比较"></a>Collection框架下面实现比较</h2><ul>
+<h2 id="Collection框架下面实现比较">Collection框架下面实现比较</h2>
+<ul>
 <li>实体类实现Comparable接口，并且实现compareTo(T t)方法</li>
 <li>创建外部比较器，实现Comparator的compare(T t1, T t2)</li>
 </ul>
-<h2 id="Iterator-和-ListIterator区别"><a href="#Iterator-和-ListIterator区别" class="headerlink" title="Iterator 和 ListIterator区别"></a>Iterator 和 ListIterator区别</h2><ul>
+<h2 id="Iterator-和-ListIterator区别">Iterator 和 ListIterator区别</h2>
+<ul>
 <li>使用Iterator可以遍历所有集合，但是只能单一向前方向遍历。不能改变集合中的元素。</li>
 <li>ListIterator只能遍历List实现的对象，但是可以向前或者向后，同时ListIterator可以在遍历过程中改编List的元素，也可以获取到索引。</li>
 </ul>
-<h2 id="快速失败-fail-fast-和安全失败-fail-safe"><a href="#快速失败-fail-fast-和安全失败-fail-safe" class="headerlink" title="快速失败(fail-fast)和安全失败(fail-safe)"></a>快速失败(fail-fast)和安全失败(fail-safe)</h2><h3 id="快速失败"><a href="#快速失败" class="headerlink" title="快速失败"></a>快速失败</h3><p>使用迭代器遍历集合时，如果对内容进行了修改，会抛出错误</p>
+<h2 id="快速失败-fail-fast-和安全失败-fail-safe">快速失败(fail-fast)和安全失败(fail-safe)</h2>
+<h3 id="快速失败">快速失败</h3>
+<p>使用迭代器遍历集合时，如果对内容进行了修改，会抛出错误</p>
 <p>原理：迭代过程中使用modCount变量，如果元素发生变化，就会改变modCount值，每次使用next()的时候会检测这个值是否变化，变化了就会抛出异常</p>
 <p>场景：java.util的包下面的集合类都是快速失败的，不能多线程修改</p>
-<h3 id="安全失败"><a href="#安全失败" class="headerlink" title="安全失败"></a>安全失败</h3><p>采用安全失败的集合容器，遍历的时候不是在原本内容上遍历，而是在副本上遍历</p>
+<h3 id="安全失败">安全失败</h3>
+<p>采用安全失败的集合容器，遍历的时候不是在原本内容上遍历，而是在副本上遍历</p>
 <p>原理：迭代时对副本遍历，所以对原集合的修改不能被检测到</p>
 <p>缺点：迭代器从遍历开始时拿到副本，此时原集合发生变化不会被感知到</p>
 <p>场景：java.util.concurrent包下面的容器都是安全失败，可以多线程并发使用，并发修改</p>
-<h2 id="JVM"><a href="#JVM" class="headerlink" title="JVM"></a>JVM</h2><p>jvm五大区域：程序计数器、虚拟机栈、本地方法栈、java堆、方法区</p>
+<h2 id="JVM">JVM</h2>
+<p>jvm五大区域：程序计数器、虚拟机栈、本地方法栈、java堆、方法区</p>
 <ul>
 <li>程序计数器：线程私有，很小的内存空间，作为当前线程的行号指示器，记录当前虚拟机正在执行的线程指令地址</li>
 <li>虚拟机栈：线程私有，每个方法执行的时候都会创建一个栈帧，用于存储局部变量表、操作数、动态链接和方法返回等信息，线程请求栈深度超过虚拟机允许的最大深度时会抛出溢栈错误</li>
@@ -399,31 +429,40 @@
 <li>堆：所有线程共享的一块内存，所有对象的实例和数组都在堆上分配内存，垃圾回收常在这个区域发生</li>
 <li>方法去：存放已经被加载的类信息、常量、静态变量、即时编译器编译后的代码。jdk1.8后不存在了，被元数据区替代，方法区被分为两个部分：加载的类信息和运行时常量池。加载的类信息保存在元数据区中，运行时常量保存在堆中。</li>
 </ul>
-<h2 id="heap和stack的区别"><a href="#heap和stack的区别" class="headerlink" title="heap和stack的区别"></a>heap和stack的区别</h2><h3 id="申请方式"><a href="#申请方式" class="headerlink" title="申请方式"></a>申请方式</h3><ul>
+<h2 id="heap和stack的区别">heap和stack的区别</h2>
+<h3 id="申请方式">申请方式</h3>
+<ul>
 <li>stack： 系统自动分配，声明的局部变量系统会自动在栈中分配空间</li>
 <li>heap：需要手动申请，例如new</li>
 </ul>
-<h3 id="申请后的系统响应"><a href="#申请后的系统响应" class="headerlink" title="申请后的系统响应"></a>申请后的系统响应</h3><ul>
+<h3 id="申请后的系统响应">申请后的系统响应</h3>
+<ul>
 <li>stack： 只要栈的剩余空间足够，系统就会提供空间，否则报异常</li>
 <li>heap： 操作系统有一个记录空闲内存地址的链表，系统收到程序申请的时候，会遍历该链表，找到第一个符合申请空间的堆节点，将节点从内存中去掉，把空间分配给程序。由于找到的空间可能偏大，系统会把多余的空间收回放入空闲链表</li>
 </ul>
-<h3 id="申请大小的限制"><a href="#申请大小的限制" class="headerlink" title="申请大小的限制"></a>申请大小的限制</h3><ul>
+<h3 id="申请大小的限制">申请大小的限制</h3>
+<ul>
 <li>stack： 栈是向低地址扩展的数据结构，是连续的存储空间。栈顶地址和栈的最大容量是系统预设好的，因此如果申请的空间朝服哦栈的剩余空间，会报错，获得的空间较小</li>
 <li>heap： 堆是向高地址扩展的数据结构，不连续。堆的大小受限制于计算机系统的虚拟内存。获取堆空间灵活性较大，空间也较大</li>
 </ul>
-<h2 id="java中的垃圾回收算法"><a href="#java中的垃圾回收算法" class="headerlink" title="java中的垃圾回收算法"></a>java中的垃圾回收算法</h2><h3 id="标记清除法"><a href="#标记清除法" class="headerlink" title="标记清除法"></a>标记清除法</h3><ul>
+<h2 id="java中的垃圾回收算法">java中的垃圾回收算法</h2>
+<h3 id="标记清除法">标记清除法</h3>
+<ul>
 <li>第一步： 利用可达性去遍历内存，把存活对象和垃圾对象标记</li>
 <li>第二步： 再遍历一遍，将所有标记的对象回收掉</li>
 <li>特点： 效率不高，标记和清除后会产生大量不连续空间。</li>
 </ul>
-<h3 id="标记整理法"><a href="#标记整理法" class="headerlink" title="标记整理法"></a>标记整理法</h3><ul>
+<h3 id="标记整理法">标记整理法</h3>
+<ul>
 <li>第一步： 利用可达性去遍历内存，把存活对象和垃圾对象标记</li>
 <li>第二步： 将所有存活对象向一端移动，端边界的对象都回收</li>
 <li>特点： 适用于存活对象多，垃圾少的情况</li>
 </ul>
-<h3 id="复制算法"><a href="#复制算法" class="headerlink" title="复制算法"></a>复制算法</h3><p>将内存按照容量大小分为相等两块，每块只用一次，一块用完后，将存活对象移到另一块，再把使用过的内存空间清除</p>
+<h3 id="复制算法">复制算法</h3>
+<p>将内存按照容量大小分为相等两块，每块只用一次，一块用完后，将存活对象移到另一块，再把使用过的内存空间清除</p>
 <p>特点：不产生空间碎片，内存使用率极低</p>
-<h3 id="分代收集算法"><a href="#分代收集算法" class="headerlink" title="分代收集算法"></a>分代收集算法</h3><p>根据对象存活周期不同，将内存划分为几块。java虚拟机将内存分为新生代和老生代，新生代中大量对象死去和少量对象存活，使用复制算法；老生代中对象存活率高，采用标记清理或者标记整理。</p>
+<h3 id="分代收集算法">分代收集算法</h3>
+<p>根据对象存活周期不同，将内存划分为几块。java虚拟机将内存分为新生代和老生代，新生代中大量对象死去和少量对象存活，使用复制算法；老生代中对象存活率高，采用标记清理或者标记整理。</p>
 
     </div>
 
