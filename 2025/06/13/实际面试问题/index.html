@@ -33,7 +33,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://i.imgur.com/s9EQLmR.png">
 <meta property="article:published_time" content="2025-06-13T07:53:32.000Z">
-<meta property="article:modified_time" content="2025-06-17T08:43:12.431Z">
+<meta property="article:modified_time" content="2025-06-30T15:35:11.863Z">
 <meta property="article:author" content="Weirdo">
 <meta property="article:tag" content="WeirdoBlog">
 <meta name="twitter:card" content="summary">
@@ -154,7 +154,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E6%88%91%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">自我介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E5%AE%9E%E9%99%85%E5%86%85%E5%AE%B9"><span class="nav-number">2.</span> <span class="nav-text">项目实际内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OOCL"><span class="nav-number">3.</span> <span class="nav-text">OOCL</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E6%88%91%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.</span> <span class="nav-text">自我介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E5%AE%9E%E9%99%85%E5%86%85%E5%AE%B9"><span class="nav-number">2.</span> <span class="nav-text">项目实际内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Rakuten"><span class="nav-number">3.</span> <span class="nav-text">Rakuten</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OOCL"><span class="nav-number">4.</span> <span class="nav-text">OOCL</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -250,7 +250,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-06-17 16:43:12" itemprop="dateModified" datetime="2025-06-17T16:43:12+08:00">2025-06-17</time>
+      <time title="修改时间：2025-06-30 23:35:11" itemprop="dateModified" datetime="2025-06-30T23:35:11+08:00">2025-06-30</time>
     </span>
 
   
@@ -292,6 +292,546 @@
 <li>测试一般是独立周期跑：<br>审计员会从系统里抽 10 条最近的付款单，看是否符合 Control 规则。如果不符合，会登记 Issue。</li>
 </ul>
 <p>用户创建 Control 时，实际上就是把「防护要求」和「业务流程」通过系统字段和表单&#x2F;工作流强行绑在一起，然后用 Monitoring 和 Testing 保证它不是纸面上的摆设，而是每天在发挥作用。</p>
+<h2 id="Rakuten"><a href="#Rakuten" class="headerlink" title="Rakuten"></a>Rakuten</h2><ul>
+<li>介绍一下HTTP</li>
+</ul>
+<p>无状态的基于请求-相应模式的协议，基于TCP传输协议，支持明文传输（HTTP）和加密传输（HTTPS），HTTPS 在 HTTP 之上加入了 TLS&#x2F;SSL 层，提供了数据加密和身份认证。</p>
+<ul>
+<li>OSI模型第四层和第七层有什么协议</li>
+</ul>
+<p>第四层（传输层）：提供端到端的数据传输服务，控制数据的可靠性、顺序、流量、错误恢复等，建立主机间的连接或无连接通信。常见协议有：TCP，UDP</p>
+<p>第七层（应用层）：直接面向用户，为用户应用程序提供服务，定义数据格式、编码、对话控制、认证等。常见协议有：HTTP&#x2F;HTTPS，FTP&#x2F;SFTP，SMTP&#x2F;POP3&#x2F;IMAP，DNS，SSH</p>
+<ul>
+<li>HTTP1.0和HTTP1.1的区别</li>
+</ul>
+<p>HTTP&#x2F;1.0：每个请求都建立新连接 ➜ 性能差；</p>
+<p>HTTP&#x2F;1.1：</p>
+<p>支持长连接和复用连接；</p>
+<p>增强缓存机制；</p>
+<p>支持更多请求方法；</p>
+<p>支持虚拟主机（Host 字段）；</p>
+<p>性能比 HTTP&#x2F;1.0 提升明显。</p>
+<ul>
+<li>TTL（Time to Live）是什么</li>
+</ul>
+<p>TTL 的全称是 Time To Live，直译为“生存时间”或“存活时间”，在不同的技术场景中含义略有不同，但核心都是 “一个数据存在多久” 的概念。</p>
+<ol>
+<li>网络传输中的 TTL（IP 数据包）</li>
+</ol>
+<p>含义：一个 IP 数据包能经过多少个路由器（跳数）；</p>
+<p>作用：防止数据包在网络中无限循环。</p>
+<p>实现方式：</p>
+<p>初始由发送端设置（如 64）；</p>
+<p>每经过一个路由器，TTL 减 1；</p>
+<p>TTL 减到 0 就会被丢弃。</p>
+<ul>
+<li>TLS是什么</li>
+</ul>
+<p>TLS 的全称是 Transport Layer Security（传输层安全协议），是一种用来保障网络通信安全的协议，是现在互联网上最常用的安全通信基础，尤其是 HTTPS 的核心组成部分。</p>
+<table>
+<thead>
+<tr>
+<th>能力</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>加密</strong></td>
+<td>数据传输过程是加密的，别人截取也看不懂。</td>
+</tr>
+<tr>
+<td><strong>认证</strong></td>
+<td>确保对方身份真实（服务器有合法证书）。</td>
+</tr>
+<tr>
+<td><strong>完整性校验</strong></td>
+<td>保证数据没被篡改，有校验机制检测中途篡改的内容。</td>
+</tr>
+</tbody></table>
+<p><strong>举个例子：访问 <a target="_blank" rel="noopener" href="https://example.com/">https://example.com</a></strong></p>
+<p>浏览器请求服务器；</p>
+<p>服务器返回 TLS 证书（通常由权威 CA 签发）；</p>
+<p>浏览器验证证书合法性（未过期、域名匹配、信任链）；</p>
+<p>双方通过 密钥协商（握手），生成对称加密密钥；</p>
+<p>之后通信内容就通过这个密钥加密传输了，别人看不到内容。</p>
+<p><strong>TLS 用在哪里？</strong></p>
+<p>HTTPS（加密的 HTTP，TLS 是其安全核心）；</p>
+<p>邮件服务（如 SMTP over TLS）；</p>
+<p>数据库连接（如 MySQL TLS）；</p>
+<p>API 调用、安全传输协议（如 gRPC、MQTT）；</p>
+<p>VPN 加密通道等。</p>
+<p><strong>TLS 的组成模块（简要）：</strong></p>
+<p>对称加密：AES、ChaCha20 等，加密通信内容；</p>
+<p>非对称加密：RSA、ECDSA，用于身份认证与密钥交换；</p>
+<p>哈希函数：SHA256、SHA384，确保消息完整性；</p>
+<p>数字证书：由 CA 机构颁发，用于身份验证。</p>
+<ul>
+<li>TCP UDP区别</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>对比项</th>
+<th>TCP</th>
+<th>UDP</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>是否连接</strong></td>
+<td>面向连接（三次握手）</td>
+<td>无连接</td>
+</tr>
+<tr>
+<td><strong>是否可靠</strong></td>
+<td>可靠（有确认应答、重传机制）</td>
+<td>不可靠（丢了就丢了）</td>
+</tr>
+<tr>
+<td><strong>数据传输顺序</strong></td>
+<td>有序传输（数据按顺序到达）</td>
+<td>无序（可能乱序到达）</td>
+</tr>
+<tr>
+<td><strong>流量控制</strong></td>
+<td>有（根据接收端能力调整发送速度）</td>
+<td>无</td>
+</tr>
+<tr>
+<td><strong>拥塞控制</strong></td>
+<td>有（如慢开始、拥塞避免）</td>
+<td>无</td>
+</tr>
+<tr>
+<td><strong>传输效率</strong></td>
+<td>慢一些，但更安全可靠</td>
+<td>快，适用于实时性高的场景</td>
+</tr>
+<tr>
+<td><strong>适用场景</strong></td>
+<td>对可靠性要求高的应用（如文件传输）</td>
+<td>对实时性要求高的应用（如视频、语音）</td>
+</tr>
+<tr>
+<td><strong>首部开销</strong></td>
+<td>大（20字节）</td>
+<td>小（8字节）</td>
+</tr>
+</tbody></table>
+<ul>
+<li>Redis你在项目里是怎么用的</li>
+</ul>
+<p>缓存热点数据：由于我们项目获取用户的信息需要从另一个服务中调取，同时每个用户的部门之间存在的上下级关系，导致获取一个用户的权限的approver需要较复杂的连表和filter操作。我们将用户id对应的能够审核其请求的用户id记录在redis中。</p>
+<p>Session &#x2F; Token 缓存</p>
+<p>使用场景：用户登录态管理、OAuth token 存储。<br>实现方式：存储用户信息并设置过期时间，或使用 JWT 搭配 Redis 存储黑名单。</p>
+<ul>
+<li>Redis复制方式</li>
+</ul>
+<ol>
+<li>启动复制（初次同步）<br>当你配置一个从节点连接主节点（使用 replicaof 命令或配置项）时，发生如下步骤：</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">1. 从节点发送 PSYNC 命令给主节点；</span><br><span class="line">2. 主节点执行 bgsave 创建 RDB 快照；</span><br><span class="line">3. 主节点将快照发送给从节点；</span><br><span class="line">4. 主节点在生成快照期间的写命令会缓存在内存中；</span><br><span class="line">5. 从节点加载快照后，主节点发送缓存的写命令；</span><br><span class="line">6. 主从节点保持连接，主节点继续将新的写命令发送给从节点。</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>增量复制</li>
+</ol>
+<p>如果主从连接断开后重连，Redis 尝试使用 PSYNC 协议进行增量复制：<br>Redis 会通过 复制偏移量 与 复制积压缓冲区 来判断是否能从断点继续同步。如果可以，则只同步丢失的数据（高效）。如果偏移量太旧，就回退到全量复制。</p>
+<ul>
+<li>为什么想加入我们公司<br>I am very interested in joining Rakuten Institute of Technology because of its strong focus on technological innovation and its influence as part of a global internet company. I was impressed by the company’s emphasis on R&amp;D in areas like AI, data science, and scalable systems, which aligns well with both my academic background and professional experience.</li>
+</ul>
+<p>I previously worked at Citi, where I participated in the development of enterprise-level risk control systems using Java, Spring Boot, Kafka, and Redis, and I’m confident that these experiences will allow me to contribute effectively in your development team.</p>
+<p>Additionally, I appreciate the opportunity to work in an international and collaborative environment like Rakuten’s, which would allow me to grow both technically and culturally. I look forward to being part of a company that values innovation, performance, and continuous improvement.</p>
+<p>我希望加入乐天创研（上海），一方面是因为贵公司作为全球领先互联网企业的技术研发部门，非常注重前沿技术的探索与创新，尤其在人工智能、数据技术和大规模系统架构方面的投入让我非常钦佩，也和我未来的发展方向高度一致。</p>
+<p>此前我在花旗参与了多个企业级系统的开发工作，熟悉 Java、Spring Boot、Kafka、Redis 等后端技术栈，积累了扎实的微服务开发与系统集成经验，我相信这些都可以为贵公司的研发工作带来价值。</p>
+<p>此外，乐天倡导开放、协作的国际化研发氛围，对于我来说不仅能技术成长，也能增强跨文化的沟通与协作能力。我期待在这样一个注重创新与实践的平台中不断提升自己，也为公司创造更多价值。</p>
+<ul>
+<li>现在的项目用的是Java几？有使用相关的特性吗？</li>
+</ul>
+<p>String类型的变量可以调用新的方法</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>isBlank()</code></td>
+<td>判断是否是空白（包含空字符串和只含空格）</td>
+</tr>
+<tr>
+<td><code>lines()</code></td>
+<td>按行拆分字符串，返回 Stream</td>
+</tr>
+<tr>
+<td><code>strip() / stripLeading() / stripTrailing()</code></td>
+<td>替代 <code>trim()</code>，支持 Unicode</td>
+</tr>
+<tr>
+<td><code>repeat(int count)</code></td>
+<td>将字符串重复指定次数</td>
+</tr>
+</tbody></table>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&quot; hello &quot;.strip();        // &quot;hello&quot;</span><br><span class="line">&quot;abc\nxyz&quot;.lines().count();  // 2</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Stream用过吗?有哪些特性?怎么用的?</li>
+</ul>
+<p>主要特性</p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>声明式编程</strong></td>
+<td>通过链式调用表达业务逻辑，避免显式循环</td>
+</tr>
+<tr>
+<td><strong>惰性求值</strong></td>
+<td>中间操作不会立即执行，只有遇到终止操作才会触发执行</td>
+</tr>
+<tr>
+<td><strong>链式调用</strong></td>
+<td>多个操作可以组合在一起</td>
+</tr>
+<tr>
+<td><strong>非存储性</strong></td>
+<td>不会存储数据，只是对数据的“视图”</td>
+</tr>
+<tr>
+<td><strong>可并行性</strong></td>
+<td>支持并行流 <code>parallelStream()</code>，提高处理性能（适用于大数据量）</td>
+</tr>
+</tbody></table>
+<p>常用操作</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>filter(Predicate)</code></td>
+<td>过滤元素</td>
+</tr>
+<tr>
+<td><code>map(Function)</code></td>
+<td>映射每个元素</td>
+</tr>
+<tr>
+<td><code>distinct()</code></td>
+<td>去重</td>
+</tr>
+<tr>
+<td><code>sorted()</code> &#x2F; <code>sorted(Comparator)</code></td>
+<td>排序</td>
+</tr>
+<tr>
+<td><code>limit(n)</code> &#x2F; <code>skip(n)</code></td>
+<td>截断 &#x2F; 跳过</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>filter(Predicate)</code></td>
+<td>过滤元素</td>
+</tr>
+<tr>
+<td><code>map(Function)</code></td>
+<td>映射每个元素</td>
+</tr>
+<tr>
+<td><code>distinct()</code></td>
+<td>去重</td>
+</tr>
+<tr>
+<td><code>sorted()</code> &#x2F; <code>sorted(Comparator)</code></td>
+<td>排序</td>
+</tr>
+<tr>
+<td><code>limit(n)</code> &#x2F; <code>skip(n)</code></td>
+<td>截断 &#x2F; 跳过</td>
+</tr>
+</tbody></table>
+<ul>
+<li>Spring有哪些特性？（解释IOC和AOP）</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>IOC（控制反转）</strong></td>
+<td>由 Spring 容器管理对象的创建与依赖注入</td>
+</tr>
+<tr>
+<td><strong>AOP（面向切面编程）</strong></td>
+<td>允许将通用功能（如日志、安全、事务）从业务逻辑中分离出来</td>
+</tr>
+<tr>
+<td><strong>声明式事务管理</strong></td>
+<td>通过注解或 XML 统一管理事务逻辑</td>
+</tr>
+</tbody></table>
+<p>IoC 是一种思想，指的是 将对象的创建与依赖关系的管理权从代码本身“反转”给框架（如 Spring 容器）来处理。</p>
+<p>IoC 的优点</p>
+<p>降低耦合：类之间无需关心彼此如何构造；</p>
+<p>提升可测试性：方便 mock 替换；</p>
+<p>增强可维护性：依赖关系集中管理；</p>
+<p>灵活配置：通过配置文件或注解动态改变注入行为。</p>
+<table>
+<thead>
+<tr>
+<th>方式</th>
+<th>说明</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>构造方法注入</td>
+<td>通过构造器传入依赖</td>
+<td><code>@Autowired public A(B b)</code></td>
+</tr>
+<tr>
+<td>Setter 方法注入</td>
+<td>通过 setter 方法注入</td>
+<td><code>@Autowired public void setB(B b)</code></td>
+</tr>
+<tr>
+<td>属性注入</td>
+<td>直接在字段上注入依赖</td>
+<td><code>@Autowired private B b;</code></td>
+</tr>
+</tbody></table>
+<p>AOP 通过在不修改原有代码的基础上，在方法调用的“前后”动态插入额外逻辑（称为“切面”）。</p>
+<p>Spring 的 AOP 基于：</p>
+<p>JDK 动态代理（如果目标类实现了接口）</p>
+<p>CGLIB 字节码生成技术（如果目标类没有接口）</p>
+<table>
+<thead>
+<tr>
+<th>概念</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>切面（Aspect）</strong></td>
+<td>通用功能模块，如日志切面</td>
+</tr>
+<tr>
+<td><strong>连接点（Join Point）</strong></td>
+<td>程序执行的某个点，如方法调用</td>
+</tr>
+<tr>
+<td><strong>通知（Advice）</strong></td>
+<td>在连接点执行的操作，如前置&#x2F;后置通知</td>
+</tr>
+<tr>
+<td><strong>切入点（Pointcut）</strong></td>
+<td>匹配连接点的表达式</td>
+</tr>
+<tr>
+<td><strong>织入（Weaving）</strong></td>
+<td>将切面逻辑织入主业务逻辑的过程</td>
+</tr>
+</tbody></table>
+<p>AOP 的优点</p>
+<p>关注点分离：业务逻辑中不再有杂质代码；</p>
+<p>可插拔性：只要配置切面，就能影响任意模块；</p>
+<p>解耦：日志、事务、权限都可以用统一模块处理；</p>
+<p>可扩展性强：面向接口编程 + 动态增强。</p>
+<ul>
+<li>Spring和SpringBoot的区别？</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>框架</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Spring</strong></td>
+<td>一个功能强大的轻量级开发框架，提供了 IOC、AOP、事务、MVC 等核心模块，是整个 Spring 家族的基础。</td>
+</tr>
+<tr>
+<td><strong>Spring Boot</strong></td>
+<td>基于 Spring 的快速开发框架，<strong>简化配置、自动装配</strong>，让你更快、更轻松地构建 Spring 应用，<strong>是 Spring 的增强封装</strong>。</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>对比项</th>
+<th>Spring</th>
+<th>Spring Boot</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>定位</strong></td>
+<td>一个基础开发框架</td>
+<td>一个快速构建 Spring 应用的脚手架</td>
+</tr>
+<tr>
+<td><strong>配置方式</strong></td>
+<td>XML + 注解配置繁琐</td>
+<td>基于注解 + 自动配置，开箱即用</td>
+</tr>
+<tr>
+<td><strong>依赖管理</strong></td>
+<td>手动添加每个 starter</td>
+<td>提供大量 <code>spring-boot-starter-*</code> 简化依赖管理</td>
+</tr>
+<tr>
+<td><strong>项目结构</strong></td>
+<td>需要手动搭建目录结构</td>
+<td>自动生成目录结构（Spring Initializr）</td>
+</tr>
+<tr>
+<td><strong>Web容器启动</strong></td>
+<td>需要部署到外部 Tomcat 等容器</td>
+<td>内嵌 Tomcat&#x2F;Jetty，应用可直接运行（<code>main</code> 方法）</td>
+</tr>
+<tr>
+<td><strong>日志配置</strong></td>
+<td>需要手动配置 log4j&#x2F;slf4j 等</td>
+<td>默认集成 Logback，自动配置</td>
+</tr>
+<tr>
+<td><strong>难易程度</strong></td>
+<td>学习曲线更陡</td>
+<td>更适合中小项目，入门简单</td>
+</tr>
+</tbody></table>
+<ul>
+<li>SpringBoot有哪些特性？</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>自动配置（Auto Configuration）</strong></td>
+<td>根据引入的依赖自动配置 Spring Bean，无需繁琐 XML 或注解配置</td>
+</tr>
+<tr>
+<td><strong>内嵌 Web 服务器</strong></td>
+<td>默认内置 Tomcat、Jetty、Undertow，无需外部部署容器，可直接运行</td>
+</tr>
+<tr>
+<td><strong>简化配置</strong></td>
+<td>使用 <code>application.properties</code> 或 <code>application.yml</code> 文件统一管理配置</td>
+</tr>
+<tr>
+<td><strong>快速启动</strong></td>
+<td>提供 <code>SpringApplication.run()</code> 入口类，一键启动整个服务</td>
+</tr>
+<tr>
+<td><strong>Starter 模块</strong></td>
+<td>提供大量 <code>spring-boot-starter-*</code> 模块，自动引入相关依赖</td>
+</tr>
+<tr>
+<td><strong>健康检查与监控</strong>（Actuator）</td>
+<td>提供系统运行状态、健康指标、Bean 信息、环境变量等监控接口</td>
+</tr>
+<tr>
+<td><strong>统一日志系统</strong></td>
+<td>默认使用 Logback，集成 SLF4J，简化日志配置</td>
+</tr>
+<tr>
+<td><strong>热部署支持</strong>（DevTools）</td>
+<td>自动重启项目，提升开发效率</td>
+</tr>
+<tr>
+<td><strong>Profile 支持</strong></td>
+<td>多环境配置（如 <code>application-dev.yml</code>、<code>application-prod.yml</code>）自动切换</td>
+</tr>
+<tr>
+<td><strong>Spring 全家桶无缝集成</strong></td>
+<td>与 Spring Security、Spring Data、Spring Cloud 等天然集成</td>
+</tr>
+</tbody></table>
+<ul>
+<li>SpringBoot的Starter是如何实现的？</li>
+</ul>
+<p>本质上就是把一堆依赖聚合在一起，保证版本的兼容；也可以设置自动装配类，实现导入即可用</p>
+<table>
+<thead>
+<tr>
+<th>部分</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Starter 模块</strong></td>
+<td>提供功能相关的依赖集合（比如 Redis、Kafka、JPA 的依赖）</td>
+</tr>
+<tr>
+<td><strong>Auto Configuration 模块</strong></td>
+<td>提供自动配置类，定义如何根据条件注册 Bean 到 Spring 容器中</td>
+</tr>
+</tbody></table>
+<ul>
+<li>事务怎么实现的?</li>
+</ul>
+<p>@transactional 或者 transactionTemplate</p>
+<p>@transactional 失效情况：</p>
+<ol>
+<li>同一个类中的方法调用@Transactional的方式时</li>
+<li>exception被catch而未被抛出</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ComplexService</span> </span>&#123;</span><br><span class="line"> </span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> TransactionTemplate transactionTemplate;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">executeComplexLogic</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        transactionTemplate.execute(<span class="keyword">new</span> TransactionCallback&lt;Void&gt;() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> Void <span class="title">doInTransaction</span><span class="params">(TransactionStatus status)</span> </span>&#123;</span><br><span class="line">                <span class="comment">// 这里是你的业务逻辑</span></span><br><span class="line">                <span class="comment">// 如果需要回滚，可以调用 status.setRollbackOnly();</span></span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>SpringCloud有了解过吗？</li>
+</ul>
+<p>Spring Cloud 是一套用于快速构建分布式系统的开发框架，它基于 Spring Boot，整合了各种微服务基础设施组件，提供了 配置管理、服务注册与发现、负载均衡、断路器、链路追踪、网关 等功能，简化了微服务架构下的开发复杂度。</p>
+<ul>
+<li><p>项目的数据量是多少？</p>
+</li>
+<li><p>项目是怎么监控的？</p>
+</li>
+</ul>
+<p>日志用Kibana，api的call和响应过程用AppDynamic，资源的监控用k8s</p>
+<p>我们项目部署在 Kubernetes 集群中，整体采用了多套工具组合实现应用性能监控、系统资源监控和日志采集分析。</p>
+<p>应用性能监控（APM）：<br>使用 AppDynamics 对服务进行链路追踪和性能分析，主要监控 API 的响应时间、吞吐量、错误率等关键指标。一旦某个接口响应变慢或报错增加，我们能迅速定位到具体的服务方法甚至数据库调用。</p>
+<p>日志监控：<br>日志方面采用了 ELK（Elasticsearch + Logstash + Kibana） 方案，其中：</p>
+<p>使用 Logstash&#x2F;Fluentd 采集服务容器日志；</p>
+<p>日志集中存储到 Elasticsearch；</p>
+<p>通过 Kibana 实现可视化分析与查询，比如快速查找错误堆栈、跟踪特定用户请求。</p>
+<p>资源与指标监控：<br>使用 Prometheus + Grafana 对 Kubernetes 节点和服务的资源使用情况（如 CPU、内存、网络流量）进行实时采集和可视化展示，部分服务还埋点了业务指标，比如订单成功率、队列堆积等。</p>
+<p>告警系统：<br>所有监控系统都接入了 Alertmanager 或企业通知系统（如邮件、钉钉、PagerDuty），当触发预设阈值时能第一时间通知相关开发或运维人员处理。<br>SpringBatch主要有哪些组件？</p>
+<ul>
+<li>数据库如何调优的？</li>
+</ul>
+<p><strong>SQL 语句优化：</strong></p>
+<p>避免全表扫描：通过分析慢查询日志，使用合适的索引优化 WHERE、JOIN、ORDER BY 等条件。</p>
+<p>控制返回列数量：尽量避免 SELECT *，只取实际需要的字段。</p>
+<p>分批处理大数据量查询：使用分页或游标，避免一次性拉取大量数据导致内存飙升。</p>
+<p>避免 N+1 查询问题：在 ORM 框架中，合理使用 JOIN 或批量查询。</p>
+<p><strong>数据库连接池优化：</strong></p>
+<p>使用连接池工具（如 HikariCP、Druid），并根据实际并发量设置合理的：</p>
+<p>最大连接数（maxPoolSize）</p>
+<p>最小空闲连接数</p>
+<p>最大等待时间等</p>
+<p>避免连接泄露，确保每次使用后能及时关闭或归还连接。</p>
+<p>redis接触过吗,怎么用的？</p>
+<p>Docker用过吗?</p>
 <h2 id="OOCL"><a href="#OOCL" class="headerlink" title="OOCL"></a>OOCL</h2><p><a target="_blank" rel="noopener" href="https://docs.qq.com/doc/DY3pwd0RFR0NsY01x">https://docs.qq.com/doc/DY3pwd0RFR0NsY01x</a></p>
 <ul>
 <li>SpringMVC 工作原理</li>
@@ -449,7 +989,7 @@
 <ul>
 <li>UML是什么</li>
 </ul>
-<p>UML（Unified Modeling Language） 是一种面向对象的软件建模标准语言，它就是用「图」来画出程序结构、模块关系、类之间的依赖、流程、交互等，方便团队理解和沟通。<br><img src="https://i.imgur.com/s9EQLmR.png" alt="picture 0">   </p>
+<p>UML（Unified Modeling Language） 是一种面向对象的软件建模标准语言，它就是用「图」来画出程序结构、模块关系、类之间的依赖、流程、交互等，方便团队理解和沟通。<br><img src="https://i.imgur.com/s9EQLmR.png" alt="picture 0"></p>
 <ul>
 <li>脑筋急转弯：屋子里能放多少网球</li>
 </ul>
