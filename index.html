@@ -164,7 +164,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">61</span>
+          <span class="site-state-item-count">62</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -213,6 +213,150 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2025/09/11/%E9%A1%B9%E7%9B%AE%E6%B7%B1%E6%8C%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/weirdo.jpg">
+      <meta itemprop="name" content="Weirdo">
+      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Weirdo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2025/09/11/%E9%A1%B9%E7%9B%AE%E6%B7%B1%E6%8C%96/" class="post-title-link" itemprop="url">项目深挖</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-09-11 19:44:24" itemprop="dateCreated datePublished" datetime="2025-09-11T19:44:24+08:00">2025-09-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-09-15 20:22:01" itemprop="dateModified" datetime="2025-09-15T20:22:01+08:00">2025-09-15</time>
+    </span>
+
+  
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2025/09/11/%E9%A1%B9%E7%9B%AE%E6%B7%B1%E6%8C%96/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2025/09/11/项目深挖/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="项目内容"><a href="#项目内容" class="headerlink" title="项目内容"></a>项目内容</h2><p>mca系统记录部门里会出现的各种风险和控制措施，control inventory的用户他们确定用哪个控制措施去降低特定风险， gau和sau(具体部门的人）会采用这套控制措施并执行</p>
+<h3 id="基本数据结构"><a href="#基本数据结构" class="headerlink" title="基本数据结构"></a>基本数据结构</h3><p>Manager’s Control Assessment (MCA) 是花旗内部的风控管理系统，用于对公司关键流程（GPMP：Global Process and Management Procedure）进行 控制设计、监控执行和独立测试，确保流程风险可控、符合监管要求（类似 SOX 合规和风险框架）。</p>
+<p>每个 Control 对应一个 GPMP 流程，用于描述风险点和控制措施。<br>常见字段有：</p>
+<ul>
+<li>Id（主键）</li>
+<li>GPMPId（关联的流程 ID）</li>
+<li>Title（控制点标题）</li>
+<li>Description（控制点描述）</li>
+<li>Control Owner（责任人）</li>
+<li>Approver（审批人）</li>
+<li>Frequency（执行频率，比如 daily&#x2F;weekly&#x2F;monthly）</li>
+<li>Key Risk Indicator (KRI)：关键指标是什么，比如说用户选择了 异常交易率，审批延误率这两种指标</li>
+<li>Expected Outcome &#x2F; Control Target：指标的期望值，期望值为多少属于正常</li>
+<li>Sample Size：比如：抽样 100 笔付款检查合规性。</li>
+<li>Control Category &#x2F; Type（手工 &#x2F; 自动、预防 &#x2F; 检测）</li>
+<li>L1 &#x2F; L2 &#x2F; L3 Mapping（不同层级的流程或风险分类，比如 L1&#x3D;业务大类，L2&#x3D;子类，L3&#x3D;具体流程）</li>
+<li>Status（Draft, Pending Approve, Approved, Retired）</li>
+</ul>
+<p>Monitoring 是对 Control 的执行效果进行 量化跟踪，由系统或用户设定参数，系统自动比对并生成结果。<br>可能字段：</p>
+<ul>
+<li>MonitoringId</li>
+<li>ControlId（对应的 Control）</li>
+<li>Metric &#x2F; KPI（监控指标，比如失败率、异常数）</li>
+<li>Threshold（阈值，比如异常率不能超过 2%）</li>
+<li>Time Window（监控周期：daily&#x2F;weekly&#x2F;monthly）</li>
+<li>Alert Rule（超过阈值时触发告警）</li>
+<li>Escalation Level（告警升级路径）</li>
+<li>Status（Active, Suspended）</li>
+</ul>
+<p>Testing 是由 第三方或独立团队定期对 Control 的有效性做抽查。<br>字段可能有：</p>
+<ul>
+<li>TestingId</li>
+<li>ControlId</li>
+<li>Test Plan（测试计划：抽样多少、方法）</li>
+<li>Frequency（季度 &#x2F; 半年 &#x2F; 一年）</li>
+<li>Tester（责任人，独立于 Control Owner）</li>
+<li>Test Result（Pass &#x2F; Fail &#x2F; Partial）</li>
+<li>Evidence（附件或证明）</li>
+<li>Report（最终报告生成）</li>
+<li>Testing 和 Monitoring 的区别：</li>
+<li>Monitoring &#x3D; 自动化、持续监控</li>
+<li>Testing &#x3D; 抽样验证，更偏人工&#x2F;审计手段</li>
+</ul>
+<p>创建一个 Control 的流程：</p>
+<ul>
+<li>用户创建 Control，绑定 GPMP 流程，填好字段。</li>
+<li>Control 状态变为 Pending Approve。</li>
+<li>系统自动生成两个待办任务：</li>
+<li>Monitoring Pending Creation</li>
+<li>Testing Pending Creation</li>
+<li>任务进入 jBPM 流程，相关责任人配置参数</li>
+<li>审批通过后，Control 生效，并进入周期性运行（Monitoring 定时检测，Testing 定期执行）。</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2025/09/11/%E9%A1%B9%E7%9B%AE%E6%B7%B1%E6%8C%96/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2025/06/13/%E5%AE%9E%E9%99%85%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -244,7 +388,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-07-14 16:54:38" itemprop="dateModified" datetime="2025-07-14T16:54:38+08:00">2025-07-14</time>
+      <time title="修改时间：2025-09-15 20:22:35" itemprop="dateModified" datetime="2025-09-15T20:22:35+08:00">2025-09-15</time>
     </span>
 
   
@@ -340,7 +484,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-07-15 21:15:47" itemprop="dateModified" datetime="2025-07-15T21:15:47+08:00">2025-07-15</time>
+      <time title="修改时间：2025-09-14 15:28:02" itemprop="dateModified" datetime="2025-09-14T15:28:02+08:00">2025-09-14</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1105,98 +1249,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2023/04/01/docker%E5%90%AF%E5%8A%A8mysql%E9%95%9C%E5%83%8F/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://weirdozz.github.io/2023/02/06/%E7%B1%BB%E8%84%91%E8%B6%85%E5%A4%A7%E8%A7%84%E6%A8%A1%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%B3%BB%E7%BB%9F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/weirdo.jpg">
-      <meta itemprop="name" content="Weirdo">
-      <meta itemprop="description" content="怕什么真理无穷，进一步有进一步的欢喜">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Weirdo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/02/06/%E7%B1%BB%E8%84%91%E8%B6%85%E5%A4%A7%E8%A7%84%E6%A8%A1%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%B3%BB%E7%BB%9F/" class="post-title-link" itemprop="url">类脑超大规模深度神经网络系统</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2023-02-06 09:48:42" itemprop="dateCreated datePublished" datetime="2023-02-06T09:48:42+08:00">2023-02-06</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-12-27 20:42:30" itemprop="dateModified" datetime="2023-12-27T20:42:30+08:00">2023-12-27</time>
-    </span>
-
-  
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2023/02/06/%E7%B1%BB%E8%84%91%E8%B6%85%E5%A4%A7%E8%A7%84%E6%A8%A1%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%B3%BB%E7%BB%9F/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2023/02/06/类脑超大规模深度神经网络系统/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>目前的大规模神经网络难以到达人脑生物神经网络连接的规模，在多通道协同处理、知识存储和迁移、持续学习方面表现不佳。作者构建一种启发于人脑功能机制的大规模神经网络模型，以脑区划分和脑区功能机制为启发，借鉴脑功能分区来模块化构建大规模神经网络模型，根据场景输入和目标, 自动构建神经网络通路, 设计神经网络模型来获得输出。该神经网络模型关注输入到输出空间的关系构建, 通过不断学习, 提升模型的关系映射能力, 目标在于让该模型具备多通道协同处理能力, 实现知识存储和持续学习。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/02/06/%E7%B1%BB%E8%84%91%E8%B6%85%E5%A4%A7%E8%A7%84%E6%A8%A1%E6%B7%B1%E5%BA%A6%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E7%B3%BB%E7%BB%9F/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>

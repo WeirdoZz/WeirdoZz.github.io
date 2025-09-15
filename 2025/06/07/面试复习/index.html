@@ -31,11 +31,15 @@
 <meta property="og:site_name" content="Weirdo">
 <meta property="og:description" content="Kafaka-Related详细介绍 Topic: 消息分多个主题，不同的主题进入到不同的队列中，e.g. 买入信息topic，卖出信息topic Broker: 一个独立的kafka服务器节点，多个broker保证高并发 Partition: 每个topic的队列拆分成多个partition， 配合多个broker节点保证服务的高并发，多个partition部署在多个不同的broker上 Rep">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.imgur.com/dowydWm.png">
+<meta property="og:image" content="https://i.imgur.com/2nNUXMp.png">
 <meta property="og:image" content="https://i.imgur.com/9TbaLW3.png">
 <meta property="og:image" content="https://i.imgur.com/QqcsNRV.png">
 <meta property="og:image" content="https://i.imgur.com/9OLmGCp.png">
 <meta property="og:image" content="https://i.imgur.com/acrJ1sM.png">
-<meta property="og:image" content="https://i.imgur.com/oxfmr40.png">
+<meta property="og:image" content="https://i.imgur.com/p49LSaU.png">
+<meta property="og:image" content="https://i.imgur.com/Gool2Uo.png">
+<meta property="og:image" content="https://i.imgur.com/2WWQLHb.png">
 <meta property="og:image" content="https://i.imgur.com/tJE9R68.png">
 <meta property="og:image" content="https://i.imgur.com/bXl5Qgn.png">
 <meta property="og:image" content="https://i.imgur.com/oHh5IHy.png">
@@ -55,6 +59,15 @@
 <meta property="og:image" content="https://i.imgur.com/Hg3S4CD.png">
 <meta property="og:image" content="https://i.imgur.com/OnL0JAZ.png">
 <meta property="og:image" content="https://i.imgur.com/VfzvBU9.png">
+<meta property="og:image" content="https://i.imgur.com/oxfmr40.png">
+<meta property="og:image" content="https://i.imgur.com/Ge0b7Vd.png">
+<meta property="og:image" content="https://i.imgur.com/Hjfu7AE.png">
+<meta property="og:image" content="https://i.imgur.com/23gBFOK.png">
+<meta property="og:image" content="https://i.imgur.com/m6uVH58.png">
+<meta property="og:image" content="https://i.imgur.com/Eg5w3rK.png">
+<meta property="og:image" content="https://i.imgur.com/AwWLBz0.png">
+<meta property="og:image" content="https://i.imgur.com/19Znjkg.png">
+<meta property="og:image" content="https://i.imgur.com/fl70wEu.png">
 <meta property="og:image" content="https://i.imgur.com/oFPzyos.png">
 <meta property="og:image" content="https://i.imgur.com/b91KuLC.png">
 <meta property="og:image" content="https://i.imgur.com/ad2UZhh.png">
@@ -63,11 +76,11 @@
 <meta property="og:image" content="https://i.imgur.com/Yq5Rs6n.png">
 <meta property="og:image" content="https://i.imgur.com/QSXu74r.png">
 <meta property="article:published_time" content="2025-06-07T07:50:36.000Z">
-<meta property="article:modified_time" content="2025-07-15T13:15:47.922Z">
+<meta property="article:modified_time" content="2025-09-14T07:28:02.447Z">
 <meta property="article:author" content="Weirdo">
 <meta property="article:tag" content="kafka java redis">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://i.imgur.com/9TbaLW3.png">
+<meta name="twitter:image" content="https://i.imgur.com/dowydWm.png">
 
 
 <link rel="canonical" href="https://weirdozz.github.io/2025/06/07/%E9%9D%A2%E8%AF%95%E5%A4%8D%E4%B9%A0/">
@@ -184,7 +197,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Kafaka-Related"><span class="nav-number">1.</span> <span class="nav-text">Kafaka-Related</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%A6%E7%BB%86%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.1.</span> <span class="nav-text">详细介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Partition"><span class="nav-number">1.1.1.</span> <span class="nav-text">Partition</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Replica"><span class="nav-number">1.1.2.</span> <span class="nav-text">Replica</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%AB%98%E5%8F%AF%E7%94%A8%E5%92%8C%E9%80%89%E4%B8%BE%E6%9C%BA%E5%88%B6"><span class="nav-number">1.1.3.</span> <span class="nav-text">高可用和选举机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B6%88%E8%B4%B9%E8%80%85%E5%88%86%E7%BB%84%E6%B6%88%E8%B4%B9%E6%9C%BA%E5%88%B6"><span class="nav-number">1.1.4.</span> <span class="nav-text">消费者分组消费机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E5%BA%8F%E5%88%97%E5%8C%96%E6%9C%BA%E5%88%B6"><span class="nav-number">1.1.5.</span> <span class="nav-text">消息序列化机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E5%88%86%E5%8C%BA%E8%B7%AF%E7%94%B1%E6%9C%BA%E5%88%B6"><span class="nav-number">1.1.6.</span> <span class="nav-text">消息分区路由机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E6%81%AF%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6"><span class="nav-number">1.1.7.</span> <span class="nav-text">生产者消息缓存机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%91%E9%80%81%E5%BA%94%E7%AD%94%E6%9C%BA%E5%88%B6"><span class="nav-number">1.1.8.</span> <span class="nav-text">发送应答机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E6%81%AF%E5%B9%82%E7%AD%89%E6%80%A7"><span class="nav-number">1.1.9.</span> <span class="nav-text">生产者消息幂等性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E5%8E%8B%E7%BC%A9%E7%AE%97%E6%B3%95"><span class="nav-number">1.1.10.</span> <span class="nav-text">消息压缩算法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%9F%E4%BA%A7%E9%97%AE%E9%A2%98"><span class="nav-number">1.2.</span> <span class="nav-text">生产问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E4%B8%A2%E5%A4%B1"><span class="nav-number">1.2.1.</span> <span class="nav-text">消息丢失</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#kafka%E6%B6%88%E8%B4%B9%E6%85%A2%EF%BC%8C%E6%9C%8D%E5%8A%A1%E7%AB%AF%E4%B8%80%E7%9B%B4rebalance"><span class="nav-number">1.2.2.</span> <span class="nav-text">kafka消费慢，服务端一直rebalance</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E8%83%8C%E6%99%AF"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">问题背景</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">问题分析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%8E%92%E6%9F%A5%E8%BF%87%E7%A8%8B"><span class="nav-number">1.2.2.3.</span> <span class="nav-text">排查过程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B6%88%E8%B4%B9%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90"><span class="nav-number">1.2.2.4.</span> <span class="nav-text">消费代码分析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">1.2.2.5.</span> <span class="nav-text">解决方案</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#kafka%E6%B6%88%E6%81%AF%E7%A7%AF%E5%8E%8B"><span class="nav-number">1.2.3.</span> <span class="nav-text">kafka消息积压</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E8%83%8C%E6%99%AF-1"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">问题背景</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90-1"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">问题分析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88-1"><span class="nav-number">1.2.3.3.</span> <span class="nav-text">解决方案</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E9%99%85%E5%BA%94%E7%94%A8"><span class="nav-number">1.3.</span> <span class="nav-text">实际应用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-Related"><span class="nav-number">2.</span> <span class="nav-text">Redis-Related</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%A6%E7%BB%86%E4%BB%8B%E7%BB%8D-1"><span class="nav-number">2.1.</span> <span class="nav-text">详细介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2%E6%A8%A1%E5%BC%8F"><span class="nav-number">2.1.1.</span> <span class="nav-text">部署模式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BB%E4%BB%8E%E9%83%A8%E7%BD%B2%EF%BC%88Master-Slave-Replication%EF%BC%89"><span class="nav-number">2.1.1.1.</span> <span class="nav-text">主从部署（Master-Slave Replication）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%93%A8%E5%85%B5%E9%83%A8%E7%BD%B2"><span class="nav-number">2.1.1.2.</span> <span class="nav-text">哨兵部署</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2"><span class="nav-number">2.1.1.3.</span> <span class="nav-text">集群部署</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">2.1.2.</span> <span class="nav-text">数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#String"><span class="nav-number">2.1.2.1.</span> <span class="nav-text">String</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#List"><span class="nav-number">2.1.2.2.</span> <span class="nav-text">List</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Hash"><span class="nav-number">2.1.2.3.</span> <span class="nav-text">Hash</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Unordered-Set"><span class="nav-number">2.1.2.4.</span> <span class="nav-text">Unordered Set</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Sorted-Set-ZSet"><span class="nav-number">2.1.2.5.</span> <span class="nav-text">Sorted Set(ZSet)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Bit-Map"><span class="nav-number">2.1.2.6.</span> <span class="nav-text">Bit-Map</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#HyperLogLogs"><span class="nav-number">2.1.2.7.</span> <span class="nav-text">HyperLogLogs</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Geospatial"><span class="nav-number">2.1.2.8.</span> <span class="nav-text">Geospatial</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81"><span class="nav-number">2.1.3.</span> <span class="nav-text">分布式锁</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81"><span class="nav-number">2.1.3.1.</span> <span class="nav-text">为什么需要分布式锁</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E9%9C%80%E8%A6%81%E5%85%B7%E5%A4%87%E7%9A%84%E6%9D%A1%E4%BB%B6"><span class="nav-number">2.1.3.2.</span> <span class="nav-text">分布式锁需要具备的条件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#redis%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81"><span class="nav-number">2.1.3.3.</span> <span class="nav-text">redis实现分布式锁</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%AF%E9%87%8D%E5%85%A5%E9%94%81"><span class="nav-number">2.1.3.4.</span> <span class="nav-text">可重入锁</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#redis%E8%A7%A3%E5%86%B3%E9%9B%86%E7%BE%A4%E6%83%85%E5%86%B5%E4%B8%8B%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81-%E7%9A%84%E5%8F%AF%E9%9D%A0%E6%80%A7"><span class="nav-number">2.1.3.5.</span> <span class="nav-text">redis解决集群情况下的分布式锁 的可靠性</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E9%97%AE%E9%A2%98"><span class="nav-number">2.1.4.</span> <span class="nav-text">缓存问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E4%B8%80%E8%87%B4%E6%80%A7"><span class="nav-number">2.1.5.</span> <span class="nav-text">缓存一致性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#redis%E4%BA%8B%E5%8A%A1"><span class="nav-number">2.1.6.</span> <span class="nav-text">redis事务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#redis-%E6%8C%81%E4%B9%85%E5%8C%96"><span class="nav-number">2.1.7.</span> <span class="nav-text">redis 持久化</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E9%99%85%E9%97%AE%E9%A2%98"><span class="nav-number">2.2.</span> <span class="nav-text">实际问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%A7key%E9%97%AE%E9%A2%98"><span class="nav-number">2.2.1.</span> <span class="nav-text">大key问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JAVA-Related"><span class="nav-number">3.</span> <span class="nav-text">JAVA-Related</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F"><span class="nav-number">3.1.</span> <span class="nav-text">内存泄漏</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#OOM-%E5%8E%9F%E5%9B%A0"><span class="nav-number">3.1.1.</span> <span class="nav-text">OOM 原因</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#OOM%E5%AE%9A%E4%BD%8D"><span class="nav-number">3.1.2.</span> <span class="nav-text">OOM定位</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E7%BA%BF%E7%A8%8B"><span class="nav-number">3.2.</span> <span class="nav-text">多线程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E7%9A%84"><span class="nav-number">3.2.1.</span> <span class="nav-text">多线程怎么实现的</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">3.3.</span> <span class="nav-text">数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B%E5%92%8C%E5%8C%85%E8%A3%85%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">3.3.1.</span> <span class="nav-text">基本类型和包装类型的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8C%85%E8%A3%85%E7%B1%BB%E5%9E%8B%E7%9A%84%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6"><span class="nav-number">3.3.2.</span> <span class="nav-text">包装类型的缓存机制</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1"><span class="nav-number">3.4.</span> <span class="nav-text">面向对象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8A%BD%E8%B1%A1%E7%B1%BB%E5%92%8C%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">3.4.1.</span> <span class="nav-text">抽象类和接口的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JVM"><span class="nav-number">3.4.2.</span> <span class="nav-text">JVM</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%B1%E6%8B%B7%E8%B4%9D%E6%B5%85%E6%8B%B7%E8%B4%9D"><span class="nav-number">3.4.3.</span> <span class="nav-text">深拷贝浅拷贝</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#String%E3%80%81StringBuffer%E3%80%81StringBuilder-%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">3.4.4.</span> <span class="nav-text">String、StringBuffer、StringBuilder 的区别？</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%82%E5%B8%B8"><span class="nav-number">3.5.</span> <span class="nav-text">异常</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8-try-with-resources-%E4%BB%A3%E6%9B%BFtry-catch-finally%EF%BC%9F"><span class="nav-number">3.5.1.</span> <span class="nav-text">如何使用 try-with-resources 代替try-catch-finally？</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%9B%E5%9E%8B"><span class="nav-number">3.6.</span> <span class="nav-text">泛型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B3%9B%E5%9E%8B%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E5%BC%8F%E6%9C%89%E5%93%AA%E5%87%A0%E7%A7%8D%EF%BC%9F"><span class="nav-number">3.6.1.</span> <span class="nav-text">泛型的使用方式有哪几种？</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84"><span class="nav-number">3.7.</span> <span class="nav-text">反射</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84%E6%9C%89%E4%BB%80%E4%B9%88%E4%BC%98%E7%BC%BA%E7%82%B9%EF%BC%9F"><span class="nav-number">3.7.1.</span> <span class="nav-text">反射有什么优缺点？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84%E7%9A%84%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF%EF%BC%9F"><span class="nav-number">3.7.2.</span> <span class="nav-text">反射的应用场景？</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E8%A7%A3"><span class="nav-number">3.8.</span> <span class="nav-text">注解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B3%A8%E8%A7%A3%E7%9A%84%E8%A7%A3%E6%9E%90%E6%96%B9%E6%B3%95%E6%9C%89%E5%93%AA%E5%87%A0%E7%A7%8D%EF%BC%9F"><span class="nav-number">3.8.1.</span> <span class="nav-text">注解的解析方法有哪几种？</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%8F%E5%88%97%E5%8C%96%E5%92%8C%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96"><span class="nav-number">3.9.</span> <span class="nav-text">序列化和反序列化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A6%82%E6%9E%9C%E6%9C%89%E4%BA%9B%E5%AD%97%E6%AE%B5%E4%B8%8D%E6%83%B3%E8%BF%9B%E8%A1%8C%E5%BA%8F%E5%88%97%E5%8C%96%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9F"><span class="nav-number">3.9.1.</span> <span class="nav-text">如果有些字段不想进行序列化怎么办？</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86"><span class="nav-number">3.10.</span> <span class="nav-text">动态代理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#JDK-%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86"><span class="nav-number">3.10.1.</span> <span class="nav-text">JDK 动态代理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CGLIB%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86"><span class="nav-number">3.10.2.</span> <span class="nav-text">CGLIB动态代理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6"><span class="nav-number">3.11.</span> <span class="nav-text">垃圾回收</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A0%86%E5%86%85%E5%AD%98%E5%88%86%E4%BB%A3%E6%A8%A1%E5%9E%8B"><span class="nav-number">3.11.1.</span> <span class="nav-text">堆内存分代模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-number">3.11.2.</span> <span class="nav-text">垃圾回收工作原理</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%AF%E8%BE%BE%E6%80%A7%E5%88%86%E6%9E%90"><span class="nav-number">3.11.2.1.</span> <span class="nav-text">可达性分析</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AE%97%E6%B3%95"><span class="nav-number">3.11.3.</span> <span class="nav-text">垃圾回收算法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A0%87%E8%AE%B0-%E6%B8%85%E9%99%A4%E7%AE%97%E6%B3%95"><span class="nav-number">3.11.3.1.</span> <span class="nav-text">标记-清除算法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A4%8D%E5%88%B6%E7%AE%97%E6%B3%95"><span class="nav-number">3.11.3.2.</span> <span class="nav-text">复制算法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A0%87%E8%AE%B0%E6%95%B4%E7%90%86%E7%AE%97%E6%B3%95"><span class="nav-number">3.11.3.3.</span> <span class="nav-text">标记整理算法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">3.11.4.</span> <span class="nav-text">垃圾收集器</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%96%B0%E7%94%9F%E4%BB%A3%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">3.11.4.1.</span> <span class="nav-text">新生代收集器</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#SerialGC"><span class="nav-number">3.11.4.1.1.</span> <span class="nav-text">SerialGC</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#ParNewGC"><span class="nav-number">3.11.4.1.2.</span> <span class="nav-text">ParNewGC</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#ParallelGC"><span class="nav-number">3.11.4.1.3.</span> <span class="nav-text">ParallelGC</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%80%81%E7%94%9F%E4%BB%A3%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">3.11.4.2.</span> <span class="nav-text">老生代收集器</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#CMSGC"><span class="nav-number">3.11.4.2.1.</span> <span class="nav-text">CMSGC</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#G1-GC"><span class="nav-number">3.11.4.2.2.</span> <span class="nav-text">G1 GC</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%89%E8%89%B2%E6%A0%87%E8%AE%B0%E6%B8%85%E9%99%A4%E7%AE%97%E6%B3%95"><span class="nav-number">3.11.4.3.</span> <span class="nav-text">三色标记清除算法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B"><span class="nav-number">3.12.</span> <span class="nav-text">并发编程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%AF%E4%BB%A5%E7%9B%B4%E6%8E%A5%E8%B0%83%E7%94%A8-Thread-%E7%B1%BB%E7%9A%84-run-%E6%96%B9%E6%B3%95%E5%90%97%EF%BC%9F"><span class="nav-number">3.12.1.</span> <span class="nav-text">可以直接调用 Thread 类的 run 方法吗？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%BB%E9%94%81%E5%BF%85%E8%A6%81%E6%9D%A1%E4%BB%B6"><span class="nav-number">3.12.2.</span> <span class="nav-text">死锁必要条件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Volatile%E5%85%B3%E9%94%AE%E5%AD%97"><span class="nav-number">3.12.3.</span> <span class="nav-text">Volatile关键字</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E7%A6%81%E6%AD%A2%E6%8C%87%E4%BB%A4%E9%87%8D%E6%8E%92%E5%BA%8F"><span class="nav-number">3.12.3.1.</span> <span class="nav-text">如何禁止指令重排序</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CAS%E7%AE%97%E6%B3%95"><span class="nav-number">3.12.4.</span> <span class="nav-text">CAS算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#synchronized"><span class="nav-number">3.12.5.</span> <span class="nav-text">synchronized</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8synchronized"><span class="nav-number">3.12.5.1.</span> <span class="nav-text">如何使用synchronized</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#synchronized%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86"><span class="nav-number">3.12.5.2.</span> <span class="nav-text">synchronized底层原理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%90%8C%E6%AD%A5%E8%AF%AD%E5%8F%A5%E5%9D%97"><span class="nav-number">3.12.5.3.</span> <span class="nav-text">同步语句块</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%90%8C%E6%AD%A5%E6%96%B9%E6%B3%95"><span class="nav-number">3.12.5.4.</span> <span class="nav-text">同步方法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%94%81%E5%8D%87%E7%BA%A7"><span class="nav-number">3.12.6.</span> <span class="nav-text">锁升级</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%94%81%E7%9A%84%E7%8A%B6%E6%80%81"><span class="nav-number">3.12.6.1.</span> <span class="nav-text">锁的状态</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%94%81%E5%8D%87%E7%BA%A7%E8%BF%87%E7%A8%8B"><span class="nav-number">3.12.6.2.</span> <span class="nav-text">锁升级过程</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ReentryLock"><span class="nav-number">3.12.7.</span> <span class="nav-text">ReentryLock</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#synchoronized-%E5%92%8C-reentryLock%E5%AF%B9%E6%AF%94"><span class="nav-number">3.12.7.1.</span> <span class="nav-text">synchoronized 和 reentryLock对比</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ThreadLocal"><span class="nav-number">3.12.8.</span> <span class="nav-text">ThreadLocal</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#ThreadLocal-%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F"><span class="nav-number">3.12.8.1.</span> <span class="nav-text">ThreadLocal 内存泄漏</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#InheritableThreadLocal"><span class="nav-number">3.12.8.2.</span> <span class="nav-text">InheritableThreadLocal</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0"><span class="nav-number">3.12.9.</span> <span class="nav-text">线程池</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%8B%92%E7%BB%9D%E7%AD%96%E7%95%A5"><span class="nav-number">3.12.9.1.</span> <span class="nav-text">拒绝策略</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Future%E7%B1%BB"><span class="nav-number">3.12.10.</span> <span class="nav-text">Future类</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Calleable-%E5%92%8C-Future%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">3.12.10.1.</span> <span class="nav-text">Calleable 和 Future之间的关系</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CompletedFuture%E7%B1%BB%E6%9C%89%E4%BB%80%E4%B9%88%E7%94%A8"><span class="nav-number">3.12.10.2.</span> <span class="nav-text">CompletedFuture类有什么用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%80%E4%B8%AA%E4%BB%BB%E5%8A%A1%E9%9C%80%E8%A6%81%E4%BE%9D%E8%B5%96%E5%8F%A6%E5%A4%96%E4%B8%A4%E4%B8%AA%E4%BB%BB%E5%8A%A1%E6%89%A7%E8%A1%8C%E5%AE%8C%E4%B9%8B%E5%90%8E%E5%86%8D%E6%89%A7%E8%A1%8C%EF%BC%8C%E6%80%8E%E4%B9%88%E8%AE%BE%E8%AE%A1%EF%BC%9F"><span class="nav-number">3.12.10.3.</span> <span class="nav-text">一个任务需要依赖另外两个任务执行完之后再执行，怎么设计？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IO"><span class="nav-number">3.13.</span> <span class="nav-text">IO</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Reader%E5%92%8CStream"><span class="nav-number">3.13.1.</span> <span class="nav-text">Reader和Stream</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IO%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="nav-number">3.13.2.</span> <span class="nav-text">IO设计模式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F"><span class="nav-number">3.13.2.1.</span> <span class="nav-text">装饰器模式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F"><span class="nav-number">3.13.2.2.</span> <span class="nav-text">适配器模式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F"><span class="nav-number">3.13.2.3.</span> <span class="nav-text">观察者模式</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IO%E6%A8%A1%E5%9E%8B"><span class="nav-number">3.13.3.</span> <span class="nav-text">IO模型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#BIO"><span class="nav-number">3.13.3.1.</span> <span class="nav-text">BIO</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#NIO"><span class="nav-number">3.13.3.2.</span> <span class="nav-text">NIO</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AIO"><span class="nav-number">3.13.3.3.</span> <span class="nav-text">AIO</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sql-related"><span class="nav-number">4.</span> <span class="nav-text">Sql-related</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="nav-number">4.1.</span> <span class="nav-text">基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#DML-%E5%92%8C-DDL"><span class="nav-number">4.1.1.</span> <span class="nav-text">DML 和 DDL</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%B4%A2%E5%BC%95%E7%B1%BB%E5%9E%8B"><span class="nav-number">4.1.2.</span> <span class="nav-text">常见索引类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MVCC%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-number">4.1.3.</span> <span class="nav-text">MVCC的实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E8%87%B4%E6%80%A7%E9%9D%9E%E9%94%81%E5%AE%9A%E8%AF%BB%E5%92%8C%E9%94%81%E5%AE%9A%E8%AF%BB"><span class="nav-number">4.1.4.</span> <span class="nav-text">一致性非锁定读和锁定读</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#InnoDB-%E5%AF%B9-MVCC-%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-number">4.1.5.</span> <span class="nav-text">InnoDB 对 MVCC 的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%9A%90%E8%97%8F%E5%AD%97%E6%AE%B5"><span class="nav-number">4.1.5.1.</span> <span class="nav-text">隐藏字段</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ReadView"><span class="nav-number">4.1.5.2.</span> <span class="nav-text">ReadView</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#undo-log"><span class="nav-number">4.1.5.3.</span> <span class="nav-text">undo-log</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#MVCC%E2%9E%95Next-key-Lock-%E9%98%B2%E6%AD%A2%E5%B9%BB%E8%AF%BB"><span class="nav-number">4.1.5.4.</span> <span class="nav-text">MVCC➕Next-key-Lock 防止幻读</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95"><span class="nav-number">4.1.6.</span> <span class="nav-text">索引</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%81%94%E5%90%88%E7%B4%A2%E5%BC%95"><span class="nav-number">4.1.6.1.</span> <span class="nav-text">联合索引</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E4%B8%8B%E6%8E%A8"><span class="nav-number">4.1.6.2.</span> <span class="nav-text">索引下推</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%89%E5%A4%A7%E6%97%A5%E5%BF%97"><span class="nav-number">4.1.7.</span> <span class="nav-text">三大日志</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#redo-log"><span class="nav-number">4.1.7.1.</span> <span class="nav-text">redo log</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#binlog"><span class="nav-number">4.1.7.2.</span> <span class="nav-text">binlog</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#undo-log-1"><span class="nav-number">4.1.7.3.</span> <span class="nav-text">undo log</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1"><span class="nav-number">4.2.</span> <span class="nav-text">分布式事务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#XA%E5%8D%8F%E8%AE%AE%E7%9A%842PC%E5%92%8C3PC%EF%BC%88%E5%BC%BA%E4%B8%80%E8%87%B4%E6%80%A7%EF%BC%89"><span class="nav-number">4.2.1.</span> <span class="nav-text">XA协议的2PC和3PC（强一致性）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AT%E6%A8%A1%E5%BC%8F%EF%BC%88%E6%9C%80%E7%BB%88%E4%B8%80%E8%87%B4%E6%80%A7%EF%BC%89"><span class="nav-number">4.2.2.</span> <span class="nav-text">AT模式（最终一致性）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TCC%EF%BC%88%E6%9C%80%E7%BB%88%E4%B8%80%E8%87%B4%E6%80%A7%EF%BC%89"><span class="nav-number">4.2.3.</span> <span class="nav-text">TCC（最终一致性）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E9%99%85%E9%A1%B9%E7%9B%AE%E4%B8%AD%E8%A7%A3%E5%86%B3"><span class="nav-number">4.2.4.</span> <span class="nav-text">实际项目中解决</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sql%E4%BC%98%E5%8C%96"><span class="nav-number">4.3.</span> <span class="nav-text">sql优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%9B%E6%9C%88%E6%95%B0%E6%8D%AE%E5%92%8C%E4%BA%94%E6%9C%88%E6%95%B0%E6%8D%AE%E6%89%A7%E8%A1%8C%E9%80%9F%E5%BA%A6%E5%B7%AE%E5%87%A0%E5%8D%83%E5%80%8D"><span class="nav-number">4.3.1.</span> <span class="nav-text">四月数据和五月数据执行速度差几千倍</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E5%8E%9F%E5%9B%A0%EF%BC%9A%E7%B4%A2%E5%BC%95%E5%A4%B1%E6%95%88%E4%B8%8E%E2%80%9C%E5%9B%9E%E8%A1%A8%E2%80%9D%E6%88%90%E6%9C%AC"><span class="nav-number">4.3.1.1.</span> <span class="nav-text">核心原因：索引失效与“回表”成本</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BB%93%E5%90%88%E5%80%BA%E5%88%B8%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E7%89%B9%E7%82%B9%E5%88%86%E6%9E%90"><span class="nav-number">4.3.1.2.</span> <span class="nav-text">结合债券数据库的特点分析</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Springboot-related"><span class="nav-number">4.4.</span> <span class="nav-text">Springboot related</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#springboot-%E7%89%B9%E7%82%B9"><span class="nav-number">4.4.1.</span> <span class="nav-text">springboot 特点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SpringBootApplication%E6%B3%A8%E8%A7%A3%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C"><span class="nav-number">4.4.2.</span> <span class="nav-text">@SpringBootApplication注解如何工作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%88%91%E4%BB%AC%E9%9C%80%E8%A6%81%E5%9C%A8%E5%93%AA%E9%87%8C%E4%BD%BF%E7%94%A8%E2%80%9C-Qualifier%E2%80%9D%E6%B3%A8%E8%A7%A3%EF%BC%9F"><span class="nav-number">4.4.3.</span> <span class="nav-text">我们需要在哪里使用“@Qualifier”注解？</span></a></li></ol></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Kafaka-Related"><span class="nav-number">1.</span> <span class="nav-text">Kafaka-Related</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%A6%E7%BB%86%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.1.</span> <span class="nav-text">详细介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Partition"><span class="nav-number">1.1.1.</span> <span class="nav-text">Partition</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Replica"><span class="nav-number">1.1.2.</span> <span class="nav-text">Replica</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%AB%98%E5%8F%AF%E7%94%A8%E5%92%8C%E9%80%89%E4%B8%BE%E6%9C%BA%E5%88%B6"><span class="nav-number">1.1.3.</span> <span class="nav-text">高可用和选举机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B6%88%E8%B4%B9%E8%80%85%E5%88%86%E7%BB%84%E6%B6%88%E8%B4%B9%E6%9C%BA%E5%88%B6"><span class="nav-number">1.1.4.</span> <span class="nav-text">消费者分组消费机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E5%BA%8F%E5%88%97%E5%8C%96%E6%9C%BA%E5%88%B6"><span class="nav-number">1.1.5.</span> <span class="nav-text">消息序列化机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E5%88%86%E5%8C%BA%E8%B7%AF%E7%94%B1%E6%9C%BA%E5%88%B6"><span class="nav-number">1.1.6.</span> <span class="nav-text">消息分区路由机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E6%81%AF%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6"><span class="nav-number">1.1.7.</span> <span class="nav-text">生产者消息缓存机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%91%E9%80%81%E5%BA%94%E7%AD%94%E6%9C%BA%E5%88%B6"><span class="nav-number">1.1.8.</span> <span class="nav-text">发送应答机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E6%81%AF%E5%B9%82%E7%AD%89%E6%80%A7"><span class="nav-number">1.1.9.</span> <span class="nav-text">生产者消息幂等性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E5%8E%8B%E7%BC%A9%E7%AE%97%E6%B3%95"><span class="nav-number">1.1.10.</span> <span class="nav-text">消息压缩算法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1%E6%B6%88%E6%81%AF"><span class="nav-number">1.2.</span> <span class="nav-text">事务消息</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Kafka%E9%85%8D%E7%BD%AE%E4%BA%8B%E5%8A%A1%E6%B6%88%E6%81%AF"><span class="nav-number">1.2.1.</span> <span class="nav-text">Kafka配置事务消息</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F%E5%92%8C%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.3.</span> <span class="nav-text">观察者模式和发布订阅模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%9F%E4%BA%A7%E9%97%AE%E9%A2%98"><span class="nav-number">1.4.</span> <span class="nav-text">生产问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E4%B8%A2%E5%A4%B1"><span class="nav-number">1.4.1.</span> <span class="nav-text">消息丢失</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#kafka%E6%B6%88%E8%B4%B9%E6%85%A2%EF%BC%8C%E6%9C%8D%E5%8A%A1%E7%AB%AF%E4%B8%80%E7%9B%B4rebalance"><span class="nav-number">1.4.2.</span> <span class="nav-text">kafka消费慢，服务端一直rebalance</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E8%83%8C%E6%99%AF"><span class="nav-number">1.4.2.1.</span> <span class="nav-text">问题背景</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90"><span class="nav-number">1.4.2.2.</span> <span class="nav-text">问题分析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%8E%92%E6%9F%A5%E8%BF%87%E7%A8%8B"><span class="nav-number">1.4.2.3.</span> <span class="nav-text">排查过程</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B6%88%E8%B4%B9%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90"><span class="nav-number">1.4.2.4.</span> <span class="nav-text">消费代码分析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">1.4.2.5.</span> <span class="nav-text">解决方案</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#kafka%E6%B6%88%E6%81%AF%E7%A7%AF%E5%8E%8B"><span class="nav-number">1.4.3.</span> <span class="nav-text">kafka消息积压</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E8%83%8C%E6%99%AF-1"><span class="nav-number">1.4.3.1.</span> <span class="nav-text">问题背景</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90-1"><span class="nav-number">1.4.3.2.</span> <span class="nav-text">问题分析</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88-1"><span class="nav-number">1.4.3.3.</span> <span class="nav-text">解决方案</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E9%99%85%E5%BA%94%E7%94%A8"><span class="nav-number">1.5.</span> <span class="nav-text">实际应用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis-Related"><span class="nav-number">2.</span> <span class="nav-text">Redis-Related</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%A6%E7%BB%86%E4%BB%8B%E7%BB%8D-1"><span class="nav-number">2.1.</span> <span class="nav-text">详细介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2%E6%A8%A1%E5%BC%8F"><span class="nav-number">2.1.1.</span> <span class="nav-text">部署模式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BB%E4%BB%8E%E9%83%A8%E7%BD%B2%EF%BC%88Master-Slave-Replication%EF%BC%89"><span class="nav-number">2.1.1.1.</span> <span class="nav-text">主从部署（Master-Slave Replication）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%93%A8%E5%85%B5%E9%83%A8%E7%BD%B2"><span class="nav-number">2.1.1.2.</span> <span class="nav-text">哨兵部署</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2"><span class="nav-number">2.1.1.3.</span> <span class="nav-text">集群部署</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">2.1.2.</span> <span class="nav-text">数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#String"><span class="nav-number">2.1.2.1.</span> <span class="nav-text">String</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#List"><span class="nav-number">2.1.2.2.</span> <span class="nav-text">List</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Hash"><span class="nav-number">2.1.2.3.</span> <span class="nav-text">Hash</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Unordered-Set"><span class="nav-number">2.1.2.4.</span> <span class="nav-text">Unordered Set</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Sorted-Set-ZSet"><span class="nav-number">2.1.2.5.</span> <span class="nav-text">Sorted Set(ZSet)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Bit-Map"><span class="nav-number">2.1.2.6.</span> <span class="nav-text">Bit-Map</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#HyperLogLogs"><span class="nav-number">2.1.2.7.</span> <span class="nav-text">HyperLogLogs</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Geospatial"><span class="nav-number">2.1.2.8.</span> <span class="nav-text">Geospatial</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81"><span class="nav-number">2.1.3.</span> <span class="nav-text">分布式锁</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81"><span class="nav-number">2.1.3.1.</span> <span class="nav-text">为什么需要分布式锁</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E9%9C%80%E8%A6%81%E5%85%B7%E5%A4%87%E7%9A%84%E6%9D%A1%E4%BB%B6"><span class="nav-number">2.1.3.2.</span> <span class="nav-text">分布式锁需要具备的条件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#redis%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81"><span class="nav-number">2.1.3.3.</span> <span class="nav-text">redis实现分布式锁</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%AF%E9%87%8D%E5%85%A5%E9%94%81"><span class="nav-number">2.1.3.4.</span> <span class="nav-text">可重入锁</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#redis%E8%A7%A3%E5%86%B3%E9%9B%86%E7%BE%A4%E6%83%85%E5%86%B5%E4%B8%8B%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81-%E7%9A%84%E5%8F%AF%E9%9D%A0%E6%80%A7"><span class="nav-number">2.1.3.5.</span> <span class="nav-text">redis解决集群情况下的分布式锁 的可靠性</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E9%97%AE%E9%A2%98"><span class="nav-number">2.1.4.</span> <span class="nav-text">缓存问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E4%B8%80%E8%87%B4%E6%80%A7"><span class="nav-number">2.1.5.</span> <span class="nav-text">缓存一致性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#redis%E4%BA%8B%E5%8A%A1"><span class="nav-number">2.1.6.</span> <span class="nav-text">redis事务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#redis-%E6%8C%81%E4%B9%85%E5%8C%96"><span class="nav-number">2.1.7.</span> <span class="nav-text">redis 持久化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E6%B7%98%E6%B1%B0%E5%92%8C%E8%BF%87%E6%9C%9F%E5%88%A0%E9%99%A4"><span class="nav-number">2.1.8.</span> <span class="nav-text">缓存淘汰和过期删除</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E6%B7%98%E6%B1%B0"><span class="nav-number">2.1.8.1.</span> <span class="nav-text">内存淘汰</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%BF%87%E6%9C%9F%E5%88%A0%E9%99%A4%E7%AD%96%E7%95%A5"><span class="nav-number">2.1.8.2.</span> <span class="nav-text">过期删除策略</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%8B%E7%BC%A9%E5%88%97%E8%A1%A8"><span class="nav-number">2.1.9.</span> <span class="nav-text">压缩列表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Redis-IO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8"><span class="nav-number">2.1.10.</span> <span class="nav-text">Redis IO多路复用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E9%99%85%E9%97%AE%E9%A2%98"><span class="nav-number">2.2.</span> <span class="nav-text">实际问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%A7key%E9%97%AE%E9%A2%98"><span class="nav-number">2.2.1.</span> <span class="nav-text">大key问题</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JAVA-Related"><span class="nav-number">3.</span> <span class="nav-text">JAVA-Related</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F"><span class="nav-number">3.1.</span> <span class="nav-text">内存泄漏</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#OOM-%E5%8E%9F%E5%9B%A0"><span class="nav-number">3.1.1.</span> <span class="nav-text">OOM 原因</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#OOM%E5%AE%9A%E4%BD%8D"><span class="nav-number">3.1.2.</span> <span class="nav-text">OOM定位</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%92%E6%9F%A5%E8%BF%87%E7%A8%8B-1"><span class="nav-number">3.1.3.</span> <span class="nav-text">排查过程</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%94%B6%E9%9B%86%E8%AF%81%E6%8D%AE"><span class="nav-number">3.1.3.1.</span> <span class="nav-text">收集证据</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%86%E6%9E%90Heap-Dump"><span class="nav-number">3.1.3.2.</span> <span class="nav-text">分析Heap Dump</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%9E%E6%97%B6%E7%9B%91%E6%8E%A7"><span class="nav-number">3.1.3.3.</span> <span class="nav-text">实时监控</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E7%BA%BF%E7%A8%8B"><span class="nav-number">3.2.</span> <span class="nav-text">多线程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%9A%E7%BA%BF%E7%A8%8B%E6%80%8E%E4%B9%88%E5%AE%9E%E7%8E%B0%E7%9A%84"><span class="nav-number">3.2.1.</span> <span class="nav-text">多线程怎么实现的</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#sleep-%E5%92%8C-wait-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">3.2.2.</span> <span class="nav-text">sleep() 和 wait()的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%AD%A5"><span class="nav-number">3.2.3.</span> <span class="nav-text">线程同步</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">3.3.</span> <span class="nav-text">数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E7%B1%BB%E5%9E%8B%E5%92%8C%E5%8C%85%E8%A3%85%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">3.3.1.</span> <span class="nav-text">基本类型和包装类型的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8C%85%E8%A3%85%E7%B1%BB%E5%9E%8B%E7%9A%84%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6"><span class="nav-number">3.3.2.</span> <span class="nav-text">包装类型的缓存机制</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1"><span class="nav-number">3.4.</span> <span class="nav-text">面向对象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8A%BD%E8%B1%A1%E7%B1%BB%E5%92%8C%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">3.4.1.</span> <span class="nav-text">抽象类和接口的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%B1%E6%8B%B7%E8%B4%9D%E6%B5%85%E6%8B%B7%E8%B4%9D"><span class="nav-number">3.4.2.</span> <span class="nav-text">深拷贝浅拷贝</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#String%E3%80%81StringBuffer%E3%80%81StringBuilder-%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">3.4.3.</span> <span class="nav-text">String、StringBuffer、StringBuilder 的区别？</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%82%E5%B8%B8"><span class="nav-number">3.5.</span> <span class="nav-text">异常</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8-try-with-resources-%E4%BB%A3%E6%9B%BFtry-catch-finally%EF%BC%9F"><span class="nav-number">3.5.1.</span> <span class="nav-text">如何使用 try-with-resources 代替try-catch-finally？</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%9B%E5%9E%8B"><span class="nav-number">3.6.</span> <span class="nav-text">泛型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B3%9B%E5%9E%8B%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E5%BC%8F%E6%9C%89%E5%93%AA%E5%87%A0%E7%A7%8D%EF%BC%9F"><span class="nav-number">3.6.1.</span> <span class="nav-text">泛型的使用方式有哪几种？</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84"><span class="nav-number">3.7.</span> <span class="nav-text">反射</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84%E6%9C%89%E4%BB%80%E4%B9%88%E4%BC%98%E7%BC%BA%E7%82%B9%EF%BC%9F"><span class="nav-number">3.7.1.</span> <span class="nav-text">反射有什么优缺点？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84%E7%9A%84%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF%EF%BC%9F"><span class="nav-number">3.7.2.</span> <span class="nav-text">反射的应用场景？</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E8%A7%A3"><span class="nav-number">3.8.</span> <span class="nav-text">注解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B3%A8%E8%A7%A3%E7%9A%84%E8%A7%A3%E6%9E%90%E6%96%B9%E6%B3%95%E6%9C%89%E5%93%AA%E5%87%A0%E7%A7%8D%EF%BC%9F"><span class="nav-number">3.8.1.</span> <span class="nav-text">注解的解析方法有哪几种？</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%8F%E5%88%97%E5%8C%96%E5%92%8C%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96"><span class="nav-number">3.9.</span> <span class="nav-text">序列化和反序列化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A6%82%E6%9E%9C%E6%9C%89%E4%BA%9B%E5%AD%97%E6%AE%B5%E4%B8%8D%E6%83%B3%E8%BF%9B%E8%A1%8C%E5%BA%8F%E5%88%97%E5%8C%96%E6%80%8E%E4%B9%88%E5%8A%9E%EF%BC%9F"><span class="nav-number">3.9.1.</span> <span class="nav-text">如果有些字段不想进行序列化怎么办？</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86"><span class="nav-number">3.10.</span> <span class="nav-text">动态代理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#JDK-%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86"><span class="nav-number">3.10.1.</span> <span class="nav-text">JDK 动态代理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CGLIB%E5%8A%A8%E6%80%81%E4%BB%A3%E7%90%86"><span class="nav-number">3.10.2.</span> <span class="nav-text">CGLIB动态代理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6"><span class="nav-number">3.11.</span> <span class="nav-text">垃圾回收</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A0%86%E5%86%85%E5%AD%98%E5%88%86%E4%BB%A3%E6%A8%A1%E5%9E%8B"><span class="nav-number">3.11.1.</span> <span class="nav-text">堆内存分代模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-number">3.11.2.</span> <span class="nav-text">垃圾回收工作原理</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%AF%E8%BE%BE%E6%80%A7%E5%88%86%E6%9E%90"><span class="nav-number">3.11.2.1.</span> <span class="nav-text">可达性分析</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E7%AE%97%E6%B3%95"><span class="nav-number">3.11.3.</span> <span class="nav-text">垃圾回收算法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A0%87%E8%AE%B0-%E6%B8%85%E9%99%A4%E7%AE%97%E6%B3%95"><span class="nav-number">3.11.3.1.</span> <span class="nav-text">标记-清除算法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A4%8D%E5%88%B6%E7%AE%97%E6%B3%95"><span class="nav-number">3.11.3.2.</span> <span class="nav-text">复制算法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A0%87%E8%AE%B0%E6%95%B4%E7%90%86%E7%AE%97%E6%B3%95"><span class="nav-number">3.11.3.3.</span> <span class="nav-text">标记整理算法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">3.11.4.</span> <span class="nav-text">垃圾收集器</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%96%B0%E7%94%9F%E4%BB%A3%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">3.11.4.1.</span> <span class="nav-text">新生代收集器</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#SerialGC"><span class="nav-number">3.11.4.1.1.</span> <span class="nav-text">SerialGC</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#ParNewGC"><span class="nav-number">3.11.4.1.2.</span> <span class="nav-text">ParNewGC</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#ParallelGC"><span class="nav-number">3.11.4.1.3.</span> <span class="nav-text">ParallelGC</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%80%81%E7%94%9F%E4%BB%A3%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">3.11.4.2.</span> <span class="nav-text">老生代收集器</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#CMSGC"><span class="nav-number">3.11.4.2.1.</span> <span class="nav-text">CMSGC</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#G1-GC"><span class="nav-number">3.11.4.2.2.</span> <span class="nav-text">G1 GC</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%89%E8%89%B2%E6%A0%87%E8%AE%B0%E6%B8%85%E9%99%A4%E7%AE%97%E6%B3%95"><span class="nav-number">3.11.4.3.</span> <span class="nav-text">三色标记清除算法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%B5%81%E7%A8%8B"><span class="nav-number">3.11.5.</span> <span class="nav-text">垃圾回收流程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B"><span class="nav-number">3.12.</span> <span class="nav-text">并发编程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%AF%E4%BB%A5%E7%9B%B4%E6%8E%A5%E8%B0%83%E7%94%A8-Thread-%E7%B1%BB%E7%9A%84-run-%E6%96%B9%E6%B3%95%E5%90%97%EF%BC%9F"><span class="nav-number">3.12.1.</span> <span class="nav-text">可以直接调用 Thread 类的 run 方法吗？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%AD%BB%E9%94%81%E5%BF%85%E8%A6%81%E6%9D%A1%E4%BB%B6"><span class="nav-number">3.12.2.</span> <span class="nav-text">死锁必要条件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Volatile%E5%85%B3%E9%94%AE%E5%AD%97"><span class="nav-number">3.12.3.</span> <span class="nav-text">Volatile关键字</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E7%A6%81%E6%AD%A2%E6%8C%87%E4%BB%A4%E9%87%8D%E6%8E%92%E5%BA%8F"><span class="nav-number">3.12.3.1.</span> <span class="nav-text">如何禁止指令重排序</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CAS%E7%AE%97%E6%B3%95"><span class="nav-number">3.12.4.</span> <span class="nav-text">CAS算法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#synchronized"><span class="nav-number">3.12.5.</span> <span class="nav-text">synchronized</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E4%BD%BF%E7%94%A8synchronized"><span class="nav-number">3.12.5.1.</span> <span class="nav-text">如何使用synchronized</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#synchronized%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86"><span class="nav-number">3.12.5.2.</span> <span class="nav-text">synchronized底层原理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%90%8C%E6%AD%A5%E8%AF%AD%E5%8F%A5%E5%9D%97"><span class="nav-number">3.12.5.3.</span> <span class="nav-text">同步语句块</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%90%8C%E6%AD%A5%E6%96%B9%E6%B3%95"><span class="nav-number">3.12.5.4.</span> <span class="nav-text">同步方法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%94%81%E5%8D%87%E7%BA%A7"><span class="nav-number">3.12.6.</span> <span class="nav-text">锁升级</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%94%81%E7%9A%84%E7%8A%B6%E6%80%81"><span class="nav-number">3.12.6.1.</span> <span class="nav-text">锁的状态</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%94%81%E5%8D%87%E7%BA%A7%E8%BF%87%E7%A8%8B"><span class="nav-number">3.12.6.2.</span> <span class="nav-text">锁升级过程</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ReentryLock"><span class="nav-number">3.12.7.</span> <span class="nav-text">ReentryLock</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#synchoronized-%E5%92%8C-reentryLock%E5%AF%B9%E6%AF%94"><span class="nav-number">3.12.7.1.</span> <span class="nav-text">synchoronized 和 reentryLock对比</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ThreadLocal"><span class="nav-number">3.12.8.</span> <span class="nav-text">ThreadLocal</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#ThreadLocal-%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F"><span class="nav-number">3.12.8.1.</span> <span class="nav-text">ThreadLocal 内存泄漏</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#InheritableThreadLocal"><span class="nav-number">3.12.8.2.</span> <span class="nav-text">InheritableThreadLocal</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E6%B1%A0"><span class="nav-number">3.12.9.</span> <span class="nav-text">线程池</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%8B%92%E7%BB%9D%E7%AD%96%E7%95%A5"><span class="nav-number">3.12.9.1.</span> <span class="nav-text">拒绝策略</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Future%E7%B1%BB"><span class="nav-number">3.12.10.</span> <span class="nav-text">Future类</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Calleable-%E5%92%8C-Future%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">3.12.10.1.</span> <span class="nav-text">Calleable 和 Future之间的关系</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#CompletedFuture%E7%B1%BB%E6%9C%89%E4%BB%80%E4%B9%88%E7%94%A8"><span class="nav-number">3.12.10.2.</span> <span class="nav-text">CompletedFuture类有什么用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%80%E4%B8%AA%E4%BB%BB%E5%8A%A1%E9%9C%80%E8%A6%81%E4%BE%9D%E8%B5%96%E5%8F%A6%E5%A4%96%E4%B8%A4%E4%B8%AA%E4%BB%BB%E5%8A%A1%E6%89%A7%E8%A1%8C%E5%AE%8C%E4%B9%8B%E5%90%8E%E5%86%8D%E6%89%A7%E8%A1%8C%EF%BC%8C%E6%80%8E%E4%B9%88%E8%AE%BE%E8%AE%A1%EF%BC%9F"><span class="nav-number">3.12.10.3.</span> <span class="nav-text">一个任务需要依赖另外两个任务执行完之后再执行，怎么设计？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IO"><span class="nav-number">3.13.</span> <span class="nav-text">IO</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Reader%E5%92%8CStream"><span class="nav-number">3.13.1.</span> <span class="nav-text">Reader和Stream</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IO%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F"><span class="nav-number">3.13.2.</span> <span class="nav-text">IO设计模式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F"><span class="nav-number">3.13.2.1.</span> <span class="nav-text">装饰器模式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F"><span class="nav-number">3.13.2.2.</span> <span class="nav-text">适配器模式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F"><span class="nav-number">3.13.2.3.</span> <span class="nav-text">观察者模式</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IO%E6%A8%A1%E5%9E%8B"><span class="nav-number">3.13.3.</span> <span class="nav-text">IO模型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#BIO"><span class="nav-number">3.13.3.1.</span> <span class="nav-text">BIO</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#NIO"><span class="nav-number">3.13.3.2.</span> <span class="nav-text">NIO</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#AIO"><span class="nav-number">3.13.3.3.</span> <span class="nav-text">AIO</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JVM"><span class="nav-number">3.14.</span> <span class="nav-text">JVM</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E5%88%9B%E5%BB%BA%E8%BF%87%E7%A8%8B"><span class="nav-number">3.14.1.</span> <span class="nav-text">对象创建过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B1%BB%E5%8A%A0%E8%BD%BD%E5%99%A8"><span class="nav-number">3.14.2.</span> <span class="nav-text">类加载器</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F"><span class="nav-number">4.</span> <span class="nav-text">分布式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Zookeeper%E5%AE%9E%E7%8E%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81"><span class="nav-number">4.1.</span> <span class="nav-text">Zookeeper实现分布式锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1"><span class="nav-number">4.2.</span> <span class="nav-text">分布式事务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Zookeeper%E4%BD%9C%E7%94%A8"><span class="nav-number">4.3.</span> <span class="nav-text">Zookeeper作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%99%90%E6%B5%81%E7%AE%97%E6%B3%95"><span class="nav-number">4.4.</span> <span class="nav-text">限流算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95"><span class="nav-number">4.5.</span> <span class="nav-text">分布式一致性算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sql-related"><span class="nav-number">5.</span> <span class="nav-text">Sql-related</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86"><span class="nav-number">5.1.</span> <span class="nav-text">基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#DML-%E5%92%8C-DDL"><span class="nav-number">5.1.1.</span> <span class="nav-text">DML 和 DDL</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%B4%A2%E5%BC%95%E7%B1%BB%E5%9E%8B"><span class="nav-number">5.1.2.</span> <span class="nav-text">常见索引类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MVCC%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-number">5.1.3.</span> <span class="nav-text">MVCC的实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E8%87%B4%E6%80%A7%E9%9D%9E%E9%94%81%E5%AE%9A%E8%AF%BB%E5%92%8C%E9%94%81%E5%AE%9A%E8%AF%BB"><span class="nav-number">5.1.4.</span> <span class="nav-text">一致性非锁定读和锁定读</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#InnoDB-%E5%AF%B9-MVCC-%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-number">5.1.5.</span> <span class="nav-text">InnoDB 对 MVCC 的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%9A%90%E8%97%8F%E5%AD%97%E6%AE%B5"><span class="nav-number">5.1.5.1.</span> <span class="nav-text">隐藏字段</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ReadView"><span class="nav-number">5.1.5.2.</span> <span class="nav-text">ReadView</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#undo-log"><span class="nav-number">5.1.5.3.</span> <span class="nav-text">undo-log</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#MVCC%E2%9E%95Next-key-Lock-%E9%98%B2%E6%AD%A2%E5%B9%BB%E8%AF%BB"><span class="nav-number">5.1.5.4.</span> <span class="nav-text">MVCC➕Next-key-Lock 防止幻读</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95"><span class="nav-number">5.1.6.</span> <span class="nav-text">索引</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%81%94%E5%90%88%E7%B4%A2%E5%BC%95"><span class="nav-number">5.1.6.1.</span> <span class="nav-text">联合索引</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E4%B8%8B%E6%8E%A8"><span class="nav-number">5.1.6.2.</span> <span class="nav-text">索引下推</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%89%E5%A4%A7%E6%97%A5%E5%BF%97"><span class="nav-number">5.1.7.</span> <span class="nav-text">三大日志</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#redo-log"><span class="nav-number">5.1.7.1.</span> <span class="nav-text">redo log</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#binlog"><span class="nav-number">5.1.7.2.</span> <span class="nav-text">binlog</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#undo-log-1"><span class="nav-number">5.1.7.3.</span> <span class="nav-text">undo log</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SQL%E4%BC%98%E5%8C%96"><span class="nav-number">5.2.</span> <span class="nav-text">SQL优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%BE%E8%AE%A1%E5%8C%BA%E5%88%86%E5%BA%A6%E9%AB%98%E7%9A%84%E7%B4%A2%E5%BC%95"><span class="nav-number">5.2.1.</span> <span class="nav-text">设计区分度高的索引</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1-1"><span class="nav-number">5.3.</span> <span class="nav-text">分布式事务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#XA%E5%8D%8F%E8%AE%AE%E7%9A%842PC%E5%92%8C3PC%EF%BC%88%E5%BC%BA%E4%B8%80%E8%87%B4%E6%80%A7%EF%BC%89"><span class="nav-number">5.3.1.</span> <span class="nav-text">XA协议的2PC和3PC（强一致性）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AT%E6%A8%A1%E5%BC%8F%EF%BC%88%E6%9C%80%E7%BB%88%E4%B8%80%E8%87%B4%E6%80%A7%EF%BC%89"><span class="nav-number">5.3.2.</span> <span class="nav-text">AT模式（最终一致性）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TCC%EF%BC%88%E6%9C%80%E7%BB%88%E4%B8%80%E8%87%B4%E6%80%A7%EF%BC%89"><span class="nav-number">5.3.3.</span> <span class="nav-text">TCC（最终一致性）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E9%99%85%E9%A1%B9%E7%9B%AE%E4%B8%AD%E8%A7%A3%E5%86%B3"><span class="nav-number">5.3.4.</span> <span class="nav-text">实际项目中解决</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sql%E4%BC%98%E5%8C%96"><span class="nav-number">5.4.</span> <span class="nav-text">sql优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%9B%E6%9C%88%E6%95%B0%E6%8D%AE%E5%92%8C%E4%BA%94%E6%9C%88%E6%95%B0%E6%8D%AE%E6%89%A7%E8%A1%8C%E9%80%9F%E5%BA%A6%E5%B7%AE%E5%87%A0%E5%8D%83%E5%80%8D"><span class="nav-number">5.4.1.</span> <span class="nav-text">四月数据和五月数据执行速度差几千倍</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E5%8E%9F%E5%9B%A0%EF%BC%9A%E7%B4%A2%E5%BC%95%E5%A4%B1%E6%95%88%E4%B8%8E%E2%80%9C%E5%9B%9E%E8%A1%A8%E2%80%9D%E6%88%90%E6%9C%AC"><span class="nav-number">5.4.1.1.</span> <span class="nav-text">核心原因：索引失效与“回表”成本</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BB%93%E5%90%88%E5%80%BA%E5%88%B8%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E7%89%B9%E7%82%B9%E5%88%86%E6%9E%90"><span class="nav-number">5.4.1.2.</span> <span class="nav-text">结合债券数据库的特点分析</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Springboot-related"><span class="nav-number">5.5.</span> <span class="nav-text">Springboot related</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#springboot-%E7%89%B9%E7%82%B9"><span class="nav-number">5.5.1.</span> <span class="nav-text">springboot 特点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SpringBootApplication%E6%B3%A8%E8%A7%A3%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C"><span class="nav-number">5.5.2.</span> <span class="nav-text">@SpringBootApplication注解如何工作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%88%91%E4%BB%AC%E9%9C%80%E8%A6%81%E5%9C%A8%E5%93%AA%E9%87%8C%E4%BD%BF%E7%94%A8%E2%80%9C-Qualifier%E2%80%9D%E6%B3%A8%E8%A7%A3%EF%BC%9F"><span class="nav-number">5.5.3.</span> <span class="nav-text">我们需要在哪里使用“@Qualifier”注解？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AI-related"><span class="nav-number">6.</span> <span class="nav-text">AI-related</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8-LangGraph-%E4%B8%AD%EF%BC%8CStateGraph-%E5%92%8C-MessageGraph-%E6%9C%89%E4%BD%95%E5%8C%BA%E5%88%AB%EF%BC%9F%E8%AF%B7%E8%AF%A6%E7%BB%86%E8%A7%A3%E9%87%8A%E5%AE%83%E4%BB%AC%E5%90%84%E8%87%AA%E7%9A%84%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF%EF%BC%8C%E5%B9%B6%E8%AF%B4%E6%98%8E%E9%80%89%E6%8B%A9%E5%93%AA%E7%A7%8D%E5%9B%BE%E7%B1%BB%E5%9E%8B%E4%B8%BB%E8%A6%81%E5%8F%96%E5%86%B3%E4%BA%8E%E5%93%AA%E4%BA%9B%E5%9B%A0%E7%B4%A0%E3%80%82"><span class="nav-number">6.1.</span> <span class="nav-text">在 LangGraph 中，StateGraph 和 MessageGraph 有何区别？请详细解释它们各自的应用场景，并说明选择哪种图类型主要取决于哪些因素。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MCP"><span class="nav-number">6.2.</span> <span class="nav-text">MCP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RAG"><span class="nav-number">6.3.</span> <span class="nav-text">RAG</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%87%E6%9C%AC%E5%88%86%E5%89%B2"><span class="nav-number">6.3.1.</span> <span class="nav-text">文本分割</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%98%BE%E5%AD%98%E9%97%AE%E9%A2%98"><span class="nav-number">6.3.2.</span> <span class="nav-text">显存问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%81%E8%A3%85%E6%A8%A1%E5%9E%8B%E6%8E%A8%E7%90%86API%E6%9C%8D%E5%8A%A1%EF%BC%9F%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%EF%BC%9F"><span class="nav-number">6.4.</span> <span class="nav-text">封装模型推理API服务？性能优化？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%97%AE%E9%A2%98"><span class="nav-number">6.5.</span> <span class="nav-text">常见面试问题</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -199,7 +212,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">61</span>
+          <span class="site-state-item-count">62</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -280,7 +293,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2025-07-15 21:15:47" itemprop="dateModified" datetime="2025-07-15T21:15:47+08:00">2025-07-15</time>
+      <time title="修改时间：2025-09-14 15:28:02" itemprop="dateModified" datetime="2025-09-14T15:28:02+08:00">2025-09-14</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -372,11 +385,48 @@
 </ul>
 <h4 id="生产者消息幂等性"><a href="#生产者消息幂等性" class="headerlink" title="生产者消息幂等性"></a>生产者消息幂等性</h4><ul>
 <li>retries_config： 生产者发送消息重试次数</li>
-<li>发送消息时，会附加一个sequenceNumber，服务器验证为当前sequence+1才会放入队列</li>
+<li>生产者发送消息时，会附加一个sequenceNumber，服务器验证为当前sequence+1才会放入队列</li>
+<li>通过业务数据库+乐观锁，实现每个业务只被处理一次，e.g. version+1</li>
 </ul>
 <h4 id="消息压缩算法"><a href="#消息压缩算法" class="headerlink" title="消息压缩算法"></a>消息压缩算法</h4><ul>
 <li>生产者和服务端要采用同样的压缩算法， 默认为不压缩，性能紧张时可以使用压缩</li>
 </ul>
+<h3 id="事务消息"><a href="#事务消息" class="headerlink" title="事务消息"></a>事务消息</h3><ol>
+<li>背景：为什么要有事务消息？</li>
+</ol>
+<p>在实际业务里可能遇到这种场景：</p>
+<p>你消费一条消息 → 处理后写入数据库 → 还要往 Kafka 另一个 topic 发送一条结果消息。</p>
+<p>如果中途失败，可能会出现：数据库写了但消息没发，或者消息发了但数据库没写，导致数据不一致。</p>
+<p>Kafka 的事务机制就是为了解决 Producer 多条消息原子写入 + 消费与生产原子绑定 的问题。<br>2. Kafka 的事务机制如何工作</p>
+<p>Kafka 的事务实现依赖两个关键点：</p>
+<p>(1) 幂等生产（Idempotent Producer）</p>
+<p>每条消息有唯一的 (ProducerID, Partition, SequenceNumber) 三元组标识。</p>
+<p>Broker 根据序列号判断消息是否已经写过，避免重复写入。</p>
+<p>(2) 事务协调器（Transaction Coordinator）</p>
+<p>Kafka 内部有一个 事务协调器（Transaction Coordinator），专门管理事务。<br>事务过程类似于数据库的 两阶段提交（2PC）：</p>
+<p>🚀 流程</p>
+<p>BEGIN_TRANSACTION<br>Producer 向 Coordinator 声明开启事务。</p>
+<p>写入消息（未提交状态）<br>Producer 把消息写入 topic 的 partition，但这些消息标记为 未提交。</p>
+<p>消费者（开启 isolation.level&#x3D;read_committed）此时看不到。</p>
+<p>PREPARE_COMMIT<br>Producer 发送请求给 Coordinator 表示事务要提交。</p>
+<p>Coordinator 记录事务日志，确保即使宕机也能恢复。</p>
+<p>COMMIT or ABORT</p>
+<p>如果一切正常 → Coordinator 通知所有分区提交事务。</p>
+<p>如果失败 → Coordinator 通知所有分区回滚（这些消息对外不可见）。</p>
+<p>👉 这样可以保证：事务里的消息，要么全部生效，要么全部不生效。</p>
+<h4 id="Kafka配置事务消息"><a href="#Kafka配置事务消息" class="headerlink" title="Kafka配置事务消息"></a>Kafka配置事务消息</h4><ul>
+<li>Producer端</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">try &#123;</span><br><span class="line">    producer.beginTransaction(); // 开启事务</span><br><span class="line"></span><br><span class="line">    producer.send(new ProducerRecord&lt;&gt;(&quot;topic1&quot;, &quot;key1&quot;, &quot;value1&quot;));</span><br><span class="line">    producer.send(new ProducerRecord&lt;&gt;(&quot;topic2&quot;, &quot;key2&quot;, &quot;value2&quot;));</span><br><span class="line"></span><br><span class="line">    producer.commitTransaction(); // 提交事务</span><br><span class="line">&#125; catch (Exception e) &#123;</span><br><span class="line">    producer.abortTransaction();  // 事务失败回滚</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Consumer端</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">isolation.level=read_committed</span><br></pre></td></tr></table></figure>
+
+<h3 id="观察者模式和发布订阅模式"><a href="#观察者模式和发布订阅模式" class="headerlink" title="观察者模式和发布订阅模式"></a>观察者模式和发布订阅模式</h3><p>观察者模式</p>
+<p><img src="https://i.imgur.com/dowydWm.png" alt="picture 31">  </p>
+<p>发布订阅模式<br><img src="https://i.imgur.com/2nNUXMp.png" alt="picture 32">  </p>
 <h3 id="生产问题"><a href="#生产问题" class="headerlink" title="生产问题"></a>生产问题</h3><h4 id="消息丢失"><a href="#消息丢失" class="headerlink" title="消息丢失"></a>消息丢失</h4><ul>
 <li>生产者发送消息失败：1. 不管broker是否相应立即返回 2. 发出的消息过大，broker无法存储<ol>
 <li>设置ack，必须确认后才可以认为发送成功</li>
@@ -504,6 +554,9 @@
 <p>Redlock 算法的思想是让客户端向 Redis 集群中的多个独立的 Redis 实例依次请求申请加锁，如果客户端能够和半数以上的实例成功地完成加锁操作，那么我们就认为，客户端成功地获得分布式锁，否则加锁失败。</p>
 <p>即使部分 Redis 节点出现问题，只要保证 Redis 集群中有半数以上的 Redis 节点可用，分布式锁服务就是正常的。</p>
 <p>Redlock 是直接操作 Redis 节点的，并不是通过 Redis 集群操作的，这样才可以避免 Redis 集群主从切换导致的锁丢失问题。</p>
+<p>Reddison实现了RedLock算法并且能够用于分布式环境</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Config config = <span class="keyword">new</span> Config();</span><br><span class="line">config.useClusterServers().addNodeAddress(<span class="string">&quot;redis://127.0.0.1:7000&quot;</span>, <span class="string">&quot;redis://127.0.0.1:7001&quot;</span>);</span><br><span class="line">RedissonClient redisson = Redisson.create(config);</span><br><span class="line"></span><br><span class="line">RLock lock = redisson.getLock(<span class="string">&quot;myLock&quot;</span>);</span><br><span class="line">lock.lock(); <span class="comment">// 集群模式下自动使用 Redlock</span></span><br><span class="line">lock.unlock();</span><br></pre></td></tr></table></figure>
+
 <h4 id="缓存问题"><a href="#缓存问题" class="headerlink" title="缓存问题"></a>缓存问题</h4><ul>
 <li>缓存击穿：某个key失效，导致大量请求发送到sql服务器</li>
 </ul>
@@ -531,8 +584,72 @@
 <p>Watch命令，是一种乐观锁的实现方式，watch后，监控到有人更新，事务会被打断，必须更新最新值，才能成功执行事务</p>
 <h4 id="redis-持久化"><a href="#redis-持久化" class="headerlink" title="redis 持久化"></a>redis 持久化</h4><ul>
 <li>RDB：指定时间间隔内，将内存中的数据集快照写入磁盘（二进制序列化形式），每次生成一个全量的备份</li>
+</ul>
+<p>两个命令：save和bgsave，分别是是否在主线程执行</p>
+<ul>
 <li>AOF：对每条写入命令作为日志，append-only写入日志，重启redis之后，回放整个命令集合</li>
 </ul>
+<p>redis 提供三种写回硬盘的策略：</p>
+<ul>
+<li>Always：每次操作命令后，写入磁盘</li>
+<li>EverySec：操作命令后，写入缓冲区，每秒将缓冲区写入磁盘</li>
+<li>No：操作命令后，写入缓冲区，由操作系统决定何时写入硬盘</li>
+</ul>
+<h4 id="缓存淘汰和过期删除"><a href="#缓存淘汰和过期删除" class="headerlink" title="缓存淘汰和过期删除"></a>缓存淘汰和过期删除</h4><p>缓存淘汰和过期删除的区别：</p>
+<ul>
+<li>内存淘汰是指内存满了之后，redis会触发淘汰策略，淘汰一些不必要的内存资源</li>
+<li>过期删除是将已经过期的键值对进行删除，redis采用惰性删除+定期删除</li>
+</ul>
+<h5 id="内存淘汰"><a href="#内存淘汰" class="headerlink" title="内存淘汰"></a>内存淘汰</h5><ol>
+<li>不进行数据淘汰</li>
+</ol>
+<ul>
+<li>noeviction（默认的内存淘汰策略）：当内存满了之后，有新的写入，则报错，不淘汰任何数据</li>
+</ul>
+<ol start="2">
+<li>进行数据淘汰</li>
+</ol>
+<ul>
+<li>volatile-random: 随机淘汰设置了过期时间的键值</li>
+<li>volatile-ttl：优先淘汰更早过期的键值</li>
+<li>volatile-lru：优先淘汰最久未使用的有过期时间的键值</li>
+<li>volatile-lfu：优先淘汰最少使用的有过期时间的键值</li>
+<li>allkeys-random： 淘汰随机键值</li>
+<li>allkeys-lru： 淘汰最久未使用的键值</li>
+<li>allkeys-lfu： 淘汰最少使用的键值</li>
+</ul>
+<h5 id="过期删除策略"><a href="#过期删除策略" class="headerlink" title="过期删除策略"></a>过期删除策略</h5><p>redis采用定期删除+惰性删除</p>
+<ul>
+<li>惰性删除：redis在访问或者修改key之前，都会调用<code>expireIfNeeded</code>，如果过期，则选择删除，返回null</li>
+<li>定期删除：定期随机抽一批键值对，删除其中的过期的，redis中是20个，如果其中过期数量大于5（也就是25%），则继续抽取一批进行删除，如果小于5，则停止。等待下一次的定期删除</li>
+</ul>
+<h4 id="压缩列表"><a href="#压缩列表" class="headerlink" title="压缩列表"></a>压缩列表</h4><ul>
+<li><p>压缩列表（ziplist）是什么</p>
+<p>它是 Redis 里早期用于存储 小规模 list、hash、zset 的底层结构。</p>
+<p>ziplist 是一块连续的内存区域，里面一个接一个存放 entry（元素）。</p>
+<p>每个 entry 包含：</p>
+<p>prevlen：上一个元素的长度，用来支持双向遍历。</p>
+<p>encoding：当前元素的数据类型和长度信息。</p>
+<p>content：真正的数据内容。</p>
+</li>
+<li><p>连锁更新（cascade update）是什么</p>
+<p>重点在 prevlen 字段：</p>
+<p>为了实现双向遍历，entry 需要存储 前一个 entry 的长度（prevlen）。</p>
+<p>如果前一个 entry 比较短（小于 254 字节），prevlen 只需要 1 字节 存储。</p>
+<p>如果前一个 entry 比较长（≥254 字节），prevlen 就需要 5 字节 存储。</p>
+<p>连锁更新发生的场景：</p>
+<p>假设有一系列元素，长度都比较短（&lt;254），所以每个 entry 的 prevlen 都是 1 字节。</p>
+<p>现在你在列表头部插入了一个大元素（比如长度 300 字节）。</p>
+<p>下一个元素的 prevlen 字段需要从 1 字节扩展到 5 字节。</p>
+<p>但因为它自己变长了，后面的元素存储位置也要整体后移。</p>
+<p>如果下一个元素的长度因此超过了 254，导致它的后继元素的 prevlen 也要扩展……<br>👉 就会产生 连锁更新，可能会传导到整个列表。</p>
+</li>
+<li><p>listpack</p>
+</li>
+</ul>
+<p><img src="https://i.imgur.com/p49LSaU.png" alt="picture 34">  </p>
+<h4 id="Redis-IO多路复用"><a href="#Redis-IO多路复用" class="headerlink" title="Redis IO多路复用"></a>Redis IO多路复用</h4><p>IO多路复用其实是使用一个线程来检查多个Socket的就绪状态。</p>
+<p><img src="https://i.imgur.com/Gool2Uo.png" alt="picture 35">  </p>
 <h3 id="实际问题"><a href="#实际问题" class="headerlink" title="实际问题"></a>实际问题</h3><h4 id="大key问题"><a href="#大key问题" class="headerlink" title="大key问题"></a>大key问题</h4><p>如何检测：</p>
 <ul>
 <li>改写客户端，在sdk中加入埋点，实时上报给大key检测平台</li>
@@ -558,9 +675,40 @@
 <li>系统还未OOM</li>
 </ol>
 <p>jmap -dump:format&#x3D;b,file&#x3D;xxxx.hprof threadId</p>
+<h4 id="排查过程-1"><a href="#排查过程-1" class="headerlink" title="排查过程"></a>排查过程</h4><h5 id="收集证据"><a href="#收集证据" class="headerlink" title="收集证据"></a>收集证据</h5><ul>
+<li>JVM参数配置</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">-XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/path/to/dumps</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>日志采集</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">-Xlog:gc*:file=gc.log:time,uptime,level,tags   # JDK9+</span><br><span class="line">-XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xloggc:gc.log # JDK8</span><br></pre></td></tr></table></figure>
+
+<h5 id="分析Heap-Dump"><a href="#分析Heap-Dump" class="headerlink" title="分析Heap Dump"></a>分析Heap Dump</h5><p>将堆的dump文件导出，使用visualvm 查看该文件, 找到跟业务有关的最占内存的对象，找到GCRoot，查看线程调用栈</p>
+<h5 id="实时监控"><a href="#实时监控" class="headerlink" title="实时监控"></a>实时监控</h5><ul>
+<li>jconsole &#x2F; jvisualvm： 查看堆内存曲线、线程数、类加载数</li>
+<li>jstat: 每秒输出GC情况，观察Full GC是否频繁<code>jstat -gc &lt;pid&gt; 1000</code></li>
+<li>jmap: 查看对象实例数和内存占用前20名 <code>jmap -histo &lt;pid&gt; | head -20</code></li>
+<li>jstack: 查看线程堆栈，判断是否有死循环 <code>jstack &lt;pid&gt; &gt; thread.log</code></li>
+</ul>
 <h3 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h3><h4 id="多线程怎么实现的"><a href="#多线程怎么实现的" class="headerlink" title="多线程怎么实现的"></a>多线程怎么实现的</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 直接继承Thread类</span></span><br><span class="line"><span class="comment">// 特点：简单直接，但由于 Java 单继承，继承 Thread 会限制类的扩展性。</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyThread</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Hello from MyThread!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">new</span> MyThread().start();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 实现runnable接口</span></span><br><span class="line"><span class="comment">// 特点：更灵活，可以同时继承其他类；更常用。</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyRunnable</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Hello from MyRunnable!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Thread(<span class="keyword">new</span> MyRunnable()).start();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 实现 Callable 接口 + Future</span></span><br><span class="line"><span class="comment">// 特点：相比 Runnable，Callable 可以有返回值，也可以抛出异常。</span></span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.*;</span><br><span class="line"></span><br><span class="line">Callable&lt;String&gt; task = () -&gt; <span class="string">&quot;Hello from Callable!&quot;</span>;</span><br><span class="line">ExecutorService executor = Executors.newSingleThreadExecutor();</span><br><span class="line">Future&lt;String&gt; future = executor.submit(task);</span><br><span class="line"></span><br><span class="line">System.out.println(future.get()); <span class="comment">// 会阻塞直到结果出来</span></span><br><span class="line">executor.shutdown();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用线程池（推荐实际生产中用）</span></span><br><span class="line"><span class="comment">// 特点：通过线程池重复利用线程，避免频繁创建销毁带来的开销，是企业级项目中最常用的多线程模式。</span></span><br><span class="line">ExecutorService executor = Executors.newFixedThreadPool(<span class="number">5</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++) &#123;</span><br><span class="line">    executor.submit(() -&gt; System.out.println(Thread.currentThread().getName()));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">executor.shutdown();</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 最佳实践</span></span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CompletableFutureDemo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        ExecutorService executor = Executors.newFixedThreadPool(<span class="number">5</span>);</span><br><span class="line"></span><br><span class="line">        CompletableFuture&lt;String&gt; cf = CompletableFuture.supplyAsync(() -&gt; &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123; Thread.sleep(<span class="number">1000</span>); &#125; <span class="keyword">catch</span> (InterruptedException ignored) &#123;&#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;异步结果&quot;</span>;</span><br><span class="line">        &#125;, executor);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 可以链式处理</span></span><br><span class="line">        cf.thenAccept(result -&gt; System.out.println(<span class="string">&quot;收到结果: &quot;</span> + result));</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">&quot;主线程先干别的...&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 等待所有执行完成（可选）</span></span><br><span class="line">        cf.get();</span><br><span class="line"></span><br><span class="line">        executor.shutdown();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="sleep-和-wait-的区别"><a href="#sleep-和-wait-的区别" class="headerlink" title="sleep() 和 wait()的区别"></a>sleep() 和 wait()的区别</h4><p><img src="https://i.imgur.com/2WWQLHb.png" alt="picture 33">  </p>
+<h4 id="线程同步"><a href="#线程同步" class="headerlink" title="线程同步"></a>线程同步</h4><ol>
+<li>CountDownLatch, 设置需要几个线程完成, 当countDown被调用几次后，wait()方法就会通过</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CountDownLatch countDownLatch=<span class="keyword">new</span> CountDownLatch(<span class="number">3</span>);</span><br><span class="line">countDownLatch.countDown();</span><br><span class="line">countDownLatch.wait()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>CyclicBarrier</li>
+</ol>
+<p>用于 多线程互相等待，直到所有线程都到达屏障点才继续执行。</p>
+<p>可以循环使用（CountDownLatch 一次性）。</p>
+<p>调用await()来表示，当前已经到达屏障，当指定数量的线程到达屏障时，则线程继续运行，适合用于多阶段任务</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CyclicBarrier barrier = <span class="keyword">new</span> CyclicBarrier(<span class="number">3</span>, () -&gt; System.out.println(<span class="string">&quot;All threads reached barrier&quot;</span>));</span><br><span class="line">barrier.await();</span><br></pre></td></tr></table></figure>
 
 <h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><h4 id="基本类型和包装类型的区别"><a href="#基本类型和包装类型的区别" class="headerlink" title="基本类型和包装类型的区别"></a>基本类型和包装类型的区别</h4><ul>
 <li>用途：除了定义一些常量和局部变量之外，我们在其他地方比如方法参数、对象属性中很少会使用基本类型来定义变量。并且，包装类型可用于泛型，而基本类型不可以。</li>
@@ -580,7 +728,6 @@
 <ul>
 <li>接口成员变量默认<code>public static final</code>, 其成员方法是 <code>public abstract</code>；抽象方法被abstract修饰，不能被<code>private、static、synchronized、native</code>修饰。</li>
 </ul>
-<h4 id="JVM"><a href="#JVM" class="headerlink" title="JVM"></a>JVM</h4><p><img src="https://i.imgur.com/oxfmr40.png" alt="picture 0">  </p>
 <h4 id="深拷贝浅拷贝"><a href="#深拷贝浅拷贝" class="headerlink" title="深拷贝浅拷贝"></a>深拷贝浅拷贝</h4><ul>
 <li>浅拷贝：浅拷贝会在堆上创建一个新的对象（区别于引用拷贝的一点），不过，如果原对象内部的属性是引用类型的话，浅拷贝会直接复制内部对象的引用地址，也就是说拷贝对象和原对象共用同一个内部对象。</li>
 <li>深拷贝：深拷贝会完全复制整个对象，包括这个对象所包含的内部对象。</li>
@@ -727,12 +874,29 @@
 <p><img src="https://i.imgur.com/oHh5IHy.png" alt="picture 3">  </p>
 <p>GCRoot的来源：</p>
 <ul>
-<li>虚拟机栈中的引用对象</li>
-<li>方法区中的静态字段引用的对象</li>
-<li>方法区中的常量引用的对象</li>
-<li>本地方法栈引用的对象</li>
+<li>虚拟机栈（栈帧）中的本地变量引用（Java 局部变量&#x2F;参数）（每个 Java 线程）</li>
+<li>正在运行的 Java 线程（Thread 对象）（线程本身为 root）</li>
+<li>静态引用（类的 static 字段）（类加载器加载的类）</li>
+<li>常量引用（常量池）（如 String 常量池）</li>
+<li>JNI 全局引用 &#x2F; 本地引用（Native code 创建的引用）</li>
+<li>系统类加载器引用（ClassLoader）</li>
+<li>ReferenceQueue&#x2F;Finalizer 队列中的引用对象（java.lang.ref 包的参考对象）</li>
 </ul>
 <p>对象第一次不可达，则标记为死亡状态；若对象实现了finalize方法，会尝试自救，如果仍不可达，则正式认定为死亡。</p>
+<p>引用类型：</p>
+<ul>
+<li>强引用（StrongReference）：默认引用，只有当无强引用时对象才可回收。</li>
+<li>软引用（SoftReference）：在内存不足时才会回收（适合缓存）；JVM 可根据内存压力决定回收时机。</li>
+<li>弱引用（WeakReference）：一旦 GC 运行且对象只有弱引用，就会被回收（常用于 WeakHashMap）。</li>
+<li>虚引用（PhantomReference）：无法通过 get() 获取对象，常用于在对象回收前做清理（与 ReferenceQueue 配合）。</li>
+</ul>
+<p>这里弱引用举例：</p>
+<p>ThreadLocal在ThreadLocalMap中的Entry里作为Key是弱引用，当GC开始时，该Key会被回收，但是Value是强引用，导致这个entry不会被回收，所以会出现ThreadLocal导致的内存泄漏问题</p>
+<p>虚引用举例：</p>
+<p>虚引用本身是搭配ReferenceQueue使用的，本质是和实例对象创建一个关联，当实例对象被回收的时候，虚引用对象被放到reference queue中，相当于可以做通知，某某对象被回收了，如果有后续操作可以通过这种方式来触发</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.lang.ref.PhantomReference;</span><br><span class="line"><span class="keyword">import</span> java.lang.ref.ReferenceQueue;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PhantomRefDemo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ReferenceQueue&lt;Object&gt; queue = <span class="keyword">new</span> ReferenceQueue&lt;&gt;();</span><br><span class="line">        Object obj = <span class="keyword">new</span> Object();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 创建虚引用，关联到 queue</span></span><br><span class="line">        PhantomReference&lt;Object&gt; phantomRef = <span class="keyword">new</span> PhantomReference&lt;&gt;(obj, queue);</span><br><span class="line"></span><br><span class="line">        System.out.println(phantomRef.get()); <span class="comment">// 永远返回 null</span></span><br><span class="line"></span><br><span class="line">        obj = <span class="keyword">null</span>; <span class="comment">// 去掉强引用</span></span><br><span class="line">        System.gc(); <span class="comment">// 触发 GC</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 检查是否进入队列</span></span><br><span class="line">        <span class="keyword">if</span> (queue.poll() != <span class="keyword">null</span>) &#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;对象已经被回收，虚引用进入队列&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
 <h4 id="垃圾回收算法"><a href="#垃圾回收算法" class="headerlink" title="垃圾回收算法"></a>垃圾回收算法</h4><h5 id="标记-清除算法"><a href="#标记-清除算法" class="headerlink" title="标记-清除算法"></a>标记-清除算法</h5><ol>
 <li>遍历对象，标记出所有需要被回收的对象</li>
 <li>清除这些对象，释放相关内存</li>
@@ -754,6 +918,73 @@
 <p>使用标记清除算法</p>
 <h6 id="G1-GC"><a href="#G1-GC" class="headerlink" title="G1 GC"></a>G1 GC</h6><p><img src="https://i.imgur.com/gAOVOAp.png" alt="picture 10">  </p>
 <p>将堆划分为多个区域，不再严格区分新生代和老年代</p>
+<p>G1 有两类 GC：</p>
+<ul>
+<li><p>年轻代 GC (Young GC)：回收 Eden + Survivor。</p>
+</li>
+<li><p>混合 GC (Mixed GC)：回收 Eden + Survivor + 部分 Old。</p>
+</li>
+<li><p>再加上 Full GC（极少发生，触发时会退化成 Serial GC）。</p>
+</li>
+</ul>
+<p>年轻代GC：</p>
+<ol>
+<li><p>Eden 区满时触发。</p>
+</li>
+<li><p>复制存活对象到 Survivor&#x2F;Old 区。</p>
+</li>
+<li><p>更新 Remembered Set（跨 Region 引用的记录）。</p>
+</li>
+<li><p>大部分是 并发的 Minor GC，但是有 短暂停顿（STW） 用于根扫描。</p>
+</li>
+</ol>
+<p>MixedGC：</p>
+<p>当 Old 区逐渐填满时，触发混合 GC：</p>
+<ol>
+<li>初始标记（STW）</li>
+</ol>
+<ul>
+<li><p>标记 GC Roots 直接可达的对象。</p>
+</li>
+<li><p>这个阶段很快。</p>
+</li>
+</ul>
+<ol start="2">
+<li>并发标记（Concurrent Marking）</li>
+</ol>
+<ul>
+<li><p>使用 三色标记算法 并发标记所有存活对象。</p>
+</li>
+<li><p>应用线程和 GC 线程同时运行。</p>
+</li>
+<li><p>如果发现某些 Region 全部不可达，可以立即回收（即“立即回收”特性）。</p>
+</li>
+</ul>
+<ol start="3">
+<li>最终标记（STW）</li>
+</ol>
+<ul>
+<li><p>处理并发标记期间的“引用变动”（SATB: Snapshot-At-The-Beginning 技术）。</p>
+</li>
+<li><p>修正标记结果，确保准确性。</p>
+</li>
+</ul>
+<ol start="4">
+<li>筛选回收（STW）</li>
+</ol>
+<ul>
+<li><p>根据每个 Region 的回收价值（垃圾比例 + 回收成本）选择一批 Region 进行回收。</p>
+</li>
+<li><p>将存活对象拷贝到别的 Region，腾出空间。</p>
+</li>
+</ul>
+<p>Full GC：</p>
+<ul>
+<li><p>如果内存压力过大，Mixed GC 跟不上，就会退化为 Full GC。</p>
+</li>
+<li><p>Full GC 是单线程 + STW，非常慢（通常要避免）。</p>
+</li>
+</ul>
 <h5 id="三色标记清除算法"><a href="#三色标记清除算法" class="headerlink" title="三色标记清除算法"></a>三色标记清除算法</h5><ol>
 <li><p>所有对象初始为白色</p>
 </li>
@@ -768,6 +999,17 @@
 <li><p>当灰色对象处理完后，剩下的白色对象就是真正的垃圾（不可达）</p>
 </li>
 </ol>
+<h4 id="垃圾回收流程"><a href="#垃圾回收流程" class="headerlink" title="垃圾回收流程"></a>垃圾回收流程</h4><p>假设：</p>
+<p>Eden &#x3D; 100MB，Survivor &#x3D; 10MB each（S0,S1），老年代 400MB。</p>
+<p>SurvivorRatio &#x3D; 8（Eden:Survivor&#x3D;8:1:1），MaxTenuringThreshold &#x3D; 15</p>
+<p>流程：</p>
+<p>程序新建对象 O1、O2、… 都先在 Eden 分配（可能使用 TLAB 提高并发分配效率）。</p>
+<p>Eden 满时触发 Minor GC：</p>
+<p>扫描 Root，标记可达对象（若 A 在 Eden 并被活引用，则被标记）。</p>
+<p>把存活对象复制到 S1（假设 S1 为空），并将在 S0 中已存活对象的年龄 +1，</p>
+<p>若某对象年龄 &gt;&#x3D; MaxTenuringThreshold 或 Survivor 空间不足则 晋升到老年代。</p>
+<p>如果老年代空间不足导致晋升失败 -&gt; 触发 Full GC（STW），做老年代标记-清理&#x2F;压缩。</p>
+<p>Full GC 后若空间仍不足 -&gt; OOME。</p>
 <h3 id="并发编程"><a href="#并发编程" class="headerlink" title="并发编程"></a>并发编程</h3><p><img src="https://i.imgur.com/PH1cZ8Q.png" alt="picture 22">  </p>
 <p>一个进程中可以有多个线程，多个线程共享进程的堆和方法区 (JDK1.8 之后的元空间)资源，但是每个线程有自己的程序计数器、虚拟机栈 和 本地方法栈。</p>
 <h4 id="可以直接调用-Thread-类的-run-方法吗？"><a href="#可以直接调用-Thread-类的-run-方法吗？" class="headerlink" title="可以直接调用 Thread 类的 run 方法吗？"></a>可以直接调用 Thread 类的 run 方法吗？</h4><p>new 一个 Thread，线程进入了新建状态。调用 start()方法，会启动一个线程并使线程进入了就绪状态，当分配到时间片后就可以开始运行了。 start() 会执行线程的相应准备工作，然后自动执行 run() 方法的内容，这是真正的多线程工作。 但是，直接执行 run() 方法，会把 run() 方法当成一个 main 线程下的普通方法去执行，并不会在某个线程中执行它，所以这并不是多线程工作。总结：调用 start() 方法方可启动线程并使线程进入就绪状态，直接执行 run() 方法的话不会以多线程的方式执行。</p>
@@ -892,7 +1134,7 @@
 <li>ThreadPoolExecutor.DiscardOldestPolicy：此策略将丢弃最早的未处理的任务请求。</li>
 </ul>
 <h4 id="Future类"><a href="#Future类" class="headerlink" title="Future类"></a>Future类</h4><h5 id="Calleable-和-Future之间的关系"><a href="#Calleable-和-Future之间的关系" class="headerlink" title="Calleable 和 Future之间的关系"></a>Calleable 和 Future之间的关系</h5><p>我们可以通过 FutureTask 来理解 Callable 和 Future 之间的关系。</p>
-<p>FutureTask 提供了 Future 接口的基本实现，常用来封装 Callable 和 Runnable，具有取消任务、查看任务是否执行完成以及获取任务执行结果的方法。ExecutorService.submit() 方法返回的其实就是 Future 的实现类 FutureTask 。</p>
+<p>FutureTask 提供了 Future 接口的基本实现，常用来封装 Callable 和 Runnable，具有取消任务、查看任务是否执行完成以及获取任务执行结果的方法。ExecutorService.submit() 方法返回的其实就是 Future 的实现类 FutureTask。</p>
 <h5 id="CompletedFuture类有什么用"><a href="#CompletedFuture类有什么用" class="headerlink" title="CompletedFuture类有什么用"></a>CompletedFuture类有什么用</h5><p>Future 在实际使用过程中存在一些局限性，比如不支持异步任务的编排组合、获取计算结果的 get() 方法为阻塞调用。Java 8 才被引入CompletableFuture 类可以解决Future 的这些缺陷。CompletableFuture 除了提供了更为好用和强大的 Future 特性之外，还提供了函数式编程、异步任务编排组合（可以将多个异步任务串联起来，组成一个完整的链式调用）等能力。</p>
 <h5 id="一个任务需要依赖另外两个任务执行完之后再执行，怎么设计？"><a href="#一个任务需要依赖另外两个任务执行完之后再执行，怎么设计？" class="headerlink" title="一个任务需要依赖另外两个任务执行完之后再执行，怎么设计？"></a>一个任务需要依赖另外两个任务执行完之后再执行，怎么设计？</h5><p>这种任务编排场景非常适合通过CompletableFuture实现。这里假设要实现 T3 在 T2 和 T1 执行完后执行。代码如下（这里为了简化代码，用到了 Hutool 的线程工具类 ThreadUtil 和日期时间工具类 DateUtil）：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// T1</span></span><br><span class="line">CompletableFuture&lt;Void&gt; futureT1 = CompletableFuture.runAsync(() -&gt; &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;T1 is executing. Current time：&quot;</span> + DateUtil.now());</span><br><span class="line">    <span class="comment">// 模拟耗时操作</span></span><br><span class="line">    ThreadUtil.sleep(<span class="number">1000</span>);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// T2</span></span><br><span class="line">CompletableFuture&lt;Void&gt; futureT2 = CompletableFuture.runAsync(() -&gt; &#123;</span><br><span class="line">    System.out.println(<span class="string">&quot;T2 is executing. Current time：&quot;</span> + DateUtil.now());</span><br><span class="line">    ThreadUtil.sleep(<span class="number">1000</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用allOf()方法合并T1和T2的CompletableFuture，等待它们都完成</span></span><br><span class="line">CompletableFuture&lt;Void&gt; bothCompleted = CompletableFuture.allOf(futureT1, futureT2);</span><br><span class="line"><span class="comment">// 当T1和T2都完成后，执行T3</span></span><br><span class="line">bothCompleted.thenRunAsync(() -&gt; System.out.println(<span class="string">&quot;T3 is executing after T1 and T2 have completed.Current time：&quot;</span> + DateUtil.now()));</span><br><span class="line"><span class="comment">// 等待所有任务完成，验证效果</span></span><br><span class="line">ThreadUtil.sleep(<span class="number">3000</span>);</span><br></pre></td></tr></table></figure>
@@ -932,7 +1174,32 @@
 <h5 id="AIO"><a href="#AIO" class="headerlink" title="AIO"></a>AIO</h5><p>异步IO</p>
 <p>异步 IO 是基于事件和回调机制实现的，也就是应用操作之后会直接返回，不会堵塞在那里，当后台处理完成，操作系统会通知相应的线程进行后续的操作。</p>
 <p><img src="https://i.imgur.com/VfzvBU9.png" alt="picture 30">  </p>
-<h2 id="Sql-related"><a href="#Sql-related" class="headerlink" title="Sql-related"></a>Sql-related</h2><h3 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h3><h4 id="DML-和-DDL"><a href="#DML-和-DDL" class="headerlink" title="DML 和 DDL"></a>DML 和 DDL</h4><p>DML 语句和 DDL 语句区别：</p>
+<h3 id="JVM"><a href="#JVM" class="headerlink" title="JVM"></a>JVM</h3><p><img src="https://i.imgur.com/oxfmr40.png" alt="picture 0">  </p>
+<h4 id="对象创建过程"><a href="#对象创建过程" class="headerlink" title="对象创建过程"></a>对象创建过程</h4><p><img src="https://i.imgur.com/Ge0b7Vd.png" alt="picture 42">  </p>
+<h4 id="类加载器"><a href="#类加载器" class="headerlink" title="类加载器"></a>类加载器</h4><p><img src="https://i.imgur.com/Hjfu7AE.png" alt="picture 43">  </p>
+<h2 id="分布式"><a href="#分布式" class="headerlink" title="分布式"></a>分布式</h2><h3 id="Zookeeper实现分布式锁"><a href="#Zookeeper实现分布式锁" class="headerlink" title="Zookeeper实现分布式锁"></a>Zookeeper实现分布式锁</h3><p>利用zookeeper的临时顺序节点和监听机制，实现分布式锁</p>
+<p><img src="https://i.imgur.com/23gBFOK.png" alt="picture 36">  </p>
+<p>Zookeeper是强一致性的，因为他的底层ZAB协议（原子广播协议）天然满足一致性和分区容错</p>
+<h3 id="分布式事务"><a href="#分布式事务" class="headerlink" title="分布式事务"></a>分布式事务</h3><p><img src="https://i.imgur.com/m6uVH58.png" alt="picture 37">  </p>
+<h3 id="Zookeeper作用"><a href="#Zookeeper作用" class="headerlink" title="Zookeeper作用"></a>Zookeeper作用</h3><p>zookeeper是分布式协调服务，能够支持集群部署，应用场景</p>
+<ul>
+<li>配置管理：分布式系统中，不同的节点往往有相同的配置信息，比如数据库连接等，zookeeper将这些集中存储，配置变更时，可以通知到各个节点</li>
+<li>服务注册与发现：服务提供者启动时将自己的服务信息（名称，地址，端口等）注册到zookeeper，服务消费者通过zookeeper查找并且获取服务提供者的信息。</li>
+<li>分布式锁：zookeeper可以创建临时顺序节点，然后检查自己的节点是否是序号最小的节点，如果是就表示获取到锁，进行执行，然后删除锁</li>
+</ul>
+<h3 id="限流算法"><a href="#限流算法" class="headerlink" title="限流算法"></a>限流算法</h3><ul>
+<li>滑动窗口限流算法</li>
+</ul>
+<p><img src="https://i.imgur.com/Eg5w3rK.png" alt="picture 38">  </p>
+<ul>
+<li><p>漏桶限流算法</p>
+</li>
+<li><p>令牌桶限流算法</p>
+</li>
+</ul>
+<p><img src="https://i.imgur.com/AwWLBz0.png" alt="picture 39">  </p>
+<p><img src="https://i.imgur.com/19Znjkg.png" alt="picture 40">  </p>
+<h3 id="分布式一致性算法"><a href="#分布式一致性算法" class="headerlink" title="分布式一致性算法"></a>分布式一致性算法</h3><h2 id="Sql-related"><a href="#Sql-related" class="headerlink" title="Sql-related"></a>Sql-related</h2><h3 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h3><h4 id="DML-和-DDL"><a href="#DML-和-DDL" class="headerlink" title="DML 和 DDL"></a>DML 和 DDL</h4><p>DML 语句和 DDL 语句区别：</p>
 <ul>
 <li>DML 是数据库操作语言（Data Manipulation Language）的缩写，是指对数据库中表记录的操作，主要包括表记录的插入、更新、删除和查询，是开发人员日常使用最频繁的操作。</li>
 <li>DDL （Data Definition Language）是数据定义语言的缩写，简单来说，就是对数据库内部的对象进行创建、删除、修改的操作语言。它和 DML 语言的最大区别是 DML 只是对表内部数据的操作，而不涉及到表的定义、结构的修改，更不会涉及到其他对象。DDL 语句更多的被数据库管理员（DBA）所使用，一般的开发人员很少使用。</li>
@@ -1009,6 +1276,8 @@
 <p>查询展示类操作：推荐使用一致性非锁定读，提升并发和性能；</p>
 <p>更新前校验数据正确性：使用 SELECT … FOR UPDATE 确保数据在修改前不被其他事务更改；</p>
 <p>避免幻读：配合隔离级别和加锁读使用，防止并发插入导致幻读问题。</p>
+<p>举个例子：</p>
+<p><img src="https://i.imgur.com/fl70wEu.png" alt="picture 41">  </p>
 <h4 id="InnoDB-对-MVCC-的实现"><a href="#InnoDB-对-MVCC-的实现" class="headerlink" title="InnoDB 对 MVCC 的实现"></a>InnoDB 对 MVCC 的实现</h4><p>MVCC 的实现依赖于：隐藏字段、Read View、undo log。在内部实现中，InnoDB 通过数据行的 DB_TRX_ID 和 Read View 来判断数据的可见性，如不可见，则通过数据行的 DB_ROLL_PTR 找到 undo log 中的历史版本。每个事务读到的数据版本可能是不一样的，在同一个事务中，用户只能看到该事务创建 Read View 之前已经提交的修改和该事务本身做的修改</p>
 <h5 id="隐藏字段"><a href="#隐藏字段" class="headerlink" title="隐藏字段"></a>隐藏字段</h5><p>在内部，InnoDB 存储引擎为每行数据添加了三个 隐藏字段：</p>
 <ul>
@@ -1049,7 +1318,15 @@
 <p>原理很简单，将 redo log 的写入拆成了两个步骤prepare和commit，这就是两阶段提交。</p>
 <p><img src="https://i.imgur.com/QSXu74r.png" alt="picture 17">  </p>
 <h5 id="undo-log-1"><a href="#undo-log-1" class="headerlink" title="undo log"></a>undo log</h5><p>undo log 属于逻辑日志，记录的是 SQL 语句，比如说事务执行一条 DELETE 语句，那 undo log 就会记录一条相对应的 INSERT 语句。同时，undo log 的信息也会被记录到 redo log 中，因为 undo log 也要实现持久性保护。</p>
-<h3 id="分布式事务"><a href="#分布式事务" class="headerlink" title="分布式事务"></a>分布式事务</h3><h4 id="XA协议的2PC和3PC（强一致性）"><a href="#XA协议的2PC和3PC（强一致性）" class="headerlink" title="XA协议的2PC和3PC（强一致性）"></a>XA协议的2PC和3PC（强一致性）</h4><p>引入事务协调者，管理各个微服务，每个微服务是一个事务参与者</p>
+<h3 id="SQL优化"><a href="#SQL优化" class="headerlink" title="SQL优化"></a>SQL优化</h3><p>使用行级锁进行优化的场景</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--  避免脏写</span></span><br><span class="line"><span class="keyword">START</span> TRANSACTION;</span><br><span class="line"><span class="keyword">SELECT</span> balance <span class="keyword">FROM</span> account <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1</span> <span class="keyword">FOR</span> UPDATE;</span><br><span class="line">UPDATE account <span class="keyword">SET</span> balance <span class="operator">=</span> balance <span class="operator">+</span> <span class="number">100</span> <span class="keyword">WHERE</span> id <span class="operator">=</span> <span class="number">1</span>;</span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">--  防止幻读和重复计数</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> orders <span class="keyword">WHERE</span> status <span class="operator">=</span> <span class="string">&#x27;pending&#x27;</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> id LIMIT <span class="number">10</span> <span class="keyword">FOR</span> UPDATE;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="设计区分度高的索引"><a href="#设计区分度高的索引" class="headerlink" title="设计区分度高的索引"></a>设计区分度高的索引</h4><ul>
+<li>选择唯一性强&#x2F;不同值多的列作为单列索引</li>
+<li>组合索引，当单列的区分度较低的时候，可以用组合索引提升选择性</li>
+<li>使用前缀索引，对于长字符串列（手机号，邮箱等）可以使用前缀索引</li>
+</ul>
+<h3 id="分布式事务-1"><a href="#分布式事务-1" class="headerlink" title="分布式事务"></a>分布式事务</h3><h4 id="XA协议的2PC和3PC（强一致性）"><a href="#XA协议的2PC和3PC（强一致性）" class="headerlink" title="XA协议的2PC和3PC（强一致性）"></a>XA协议的2PC和3PC（强一致性）</h4><p>引入事务协调者，管理各个微服务，每个微服务是一个事务参与者</p>
 <p>2PC：</p>
 <ul>
 <li>准备阶段： 协调者发送一个准备命令，每个事务参与者收到命令后，执行事务相关操作，但是不提交，然后参与者返回相应，告诉协调者是否准备成功</li>
@@ -1126,6 +1403,304 @@
 <h4 id="我们需要在哪里使用“-Qualifier”注解？"><a href="#我们需要在哪里使用“-Qualifier”注解？" class="headerlink" title="我们需要在哪里使用“@Qualifier”注解？"></a>我们需要在哪里使用“@Qualifier”注解？</h4><p>此注解用于专门告诉 Spring Boot 从其所有可用实现 bean 中获取特定类。@Qualifier注解与“ @Autowired”注解一起用于依赖注入。</p>
 <p>假设我们有1 个接口和 2 个不同的实现类。</p>
 <p>例如：UserService 接口 &#x3D;&gt; AdminUserService、StaffUserService 类</p>
+<h2 id="AI-related"><a href="#AI-related" class="headerlink" title="AI-related"></a>AI-related</h2><table>
+<thead>
+<tr>
+<th>概念</th>
+<th>解释</th>
+<th>面试答法</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>State</strong></td>
+<td>全局共享状态，流程中所有节点都能读写。一般用 <code>TypedDict</code> 或 <code>pydantic</code> 定义字段类型。</td>
+<td>“State 就是 LangGraph 的‘记事本’，所有 Agent 都共享它。”</td>
+</tr>
+<tr>
+<td><strong>Node</strong></td>
+<td>流程的基本单元，可以是 LLM 调用、工具调用、数据处理等。</td>
+<td>“Node 就像流程图的一个圆圈，负责处理数据并更新状态。”</td>
+</tr>
+<tr>
+<td><strong>Edge</strong></td>
+<td>节点之间的连接路径。分为普通边和条件边（Conditional Edge）。</td>
+<td>“Edge 决定了流程怎么走，条件边就像 if…else 分支。”</td>
+</tr>
+<tr>
+<td><strong>Graph</strong></td>
+<td>由节点和边组成的整个流程，支持循环、分支、并行。</td>
+<td>“Graph 是整个应用的地图。”</td>
+</tr>
+<tr>
+<td><strong>Multi-Agent</strong></td>
+<td>多个 Agent 协作完成任务，每个 Agent 可能是一个节点或一个子图。</td>
+<td>“多 Agent 是 LangGraph 的强项。”</td>
+</tr>
+</tbody></table>
+<h3 id="在-LangGraph-中，StateGraph-和-MessageGraph-有何区别？请详细解释它们各自的应用场景，并说明选择哪种图类型主要取决于哪些因素。"><a href="#在-LangGraph-中，StateGraph-和-MessageGraph-有何区别？请详细解释它们各自的应用场景，并说明选择哪种图类型主要取决于哪些因素。" class="headerlink" title="在 LangGraph 中，StateGraph 和 MessageGraph 有何区别？请详细解释它们各自的应用场景，并说明选择哪种图类型主要取决于哪些因素。"></a>在 LangGraph 中，StateGraph 和 MessageGraph 有何区别？请详细解释它们各自的应用场景，并说明选择哪种图类型主要取决于哪些因素。</h3><p>在 LangGraph 中，StateGraph 和 MessageGraph 都用于定义工作流图，但它们在状态管理和输入&#x2F;输出处理方式上有所不同：</p>
+<ul>
+<li><p>StateGraph：<br>状态管理：StateGraph 使用一个明确定义的、可合并的（mergeable）状态对象作为图的全局状态。你需要定义一个 State 类（通常是一个 TypedDict 或 Pydantic 模型）来表示这个状态。每个节点接收当前的完整 State，并返回一个 PartialState 来更新它。这种更新是合并（merge）操作，而不是完全替换。<br>应用场景：<br>需要精细化控制和跟踪全局状态的复杂代理： 例如，一个多轮对话代理，需要跟踪用户意图、对话历史、已收集的实体、工具调用结果等。<br>需要多个节点协同修改同一组数据的场景： 例如，一个数据处理管道，多个步骤逐步丰富和转换一个中心数据结构。<br>调试和可观测性： 由于状态是显式的且可序列化的，更容易在每个节点执行前后检查和记录状态，便于调试和理解流程。<br>选择因素： 当你的代理或工作流需要维护一个结构化的、持续变化的、可共享的数据上下文时，StateGraph 是更优的选择。</p>
+</li>
+<li><p>MessageGraph：<br>状态管理：MessageGraph 是 StateGraph 的一个特化，它将状态隐式地处理为一系列消息（BaseMessage 对象）。每个节点接收一个消息列表作为输入（通常是最新的消息），并返回一个或多个消息作为输出，这些消息会自动添加到图的全局消息列表中。<br>应用场景：<br>基于消息的对话代理： 特别适合构建类似 LangChain AgentExecutor 的对话代理，其中核心交互是用户和AI之间通过消息进行的。<br>简单的请求-响应流： 当你只需要处理一系列的消息传递，而不需要一个复杂、多维度的全局状态时。<br>快速原型开发： 对于许多对话应用，MessageGraph 提供了更便捷的接口，因为它自动处理了消息的累积。<br>选择因素： 当你的代理或工作流主要围绕消息的生产、消费和累积展开时，MessageGraph 提供了更简洁、更符合直观的抽象。它在内部将消息列表包装在一个 State 对象中。<br>主要选择因素：</p>
+</li>
+<li><p>状态的复杂性： 如果你需要跟踪多个维度的信息，并且这些信息需要被多个节点协同修改，选择 StateGraph。如果核心是消息的传递和累积，MessageGraph 更合适。<br>交互模式： 如果是对话代理，MessageGraph 通常更自然。<br>调试需求：StateGraph 由于其显式状态，在调试复杂状态转换时可能提供更清晰的视角。<br>定制化程度：StateGraph 提供了更大的灵活性来定义任意复杂的状态结构。</p>
+</li>
+</ul>
+<h3 id="MCP"><a href="#MCP" class="headerlink" title="MCP"></a>MCP</h3><p>MCP（Model Context Protocol）构建了AI大模型与外部应用程序间的上下文交换规范，这使得AI开发者能够以一致的规范将各种实时数据源、AI工具和外接功能连接到AIGC大模型中，就像Type-C让不同设备能够通过相同的接口连接到主机一样。MCP的目标是创建一个通用标准，使 AI 应用程序的开发和集成变得更加简单和统一。</p>
+<p>MCP由三个核心组件构成：Host、Client 和 Server。让我们通过一个实际案例来理解这些组件如何协同工作：</p>
+<p>假设我们正在使用AI Agent询问：”帮我女朋友购买丝袜？”</p>
+<p>Host：AI Agent作为 Host，负责接收我们的提问并与其中的AIGC大模型交互。 </p>
+<p>Client：当AIGC大模型需要确定丝袜购买方案时，Host 中内置的 MCP Client 会被激活。这个 Client 负责与适当的 MCP Server 建立连接。 </p>
+<p>Server：在这个例子中，丝袜购买方案 MCP Server 会被调用。它负责执行实际的丝袜购买方案确定操作，访问对应的电商API，并返回找到的丝袜购买方案。</p>
+<p>整个流程是这样的：我们的问题 → AI Agent(Host) → AIGC大模型 → 需要丝袜购买信息 → MCP Client 连接 → 丝袜购买 MCP Server → 执行操作 → 返回结果 → AIGC大模型生成回答 → 显示在AI Agent上。</p>
+<p>这种架构设计使得AI Agent中的AIGC大模型可以在不同场景下灵活调用各种应用工具和数据源，而AIGC开发者只需专注于开发对应的 MCP Server，无需关心 Host 和 Client 的实现细节。</p>
+<p>function call解决了AIGC大模型与外部应用工具之间交互的问题；而MCP则在此基础上对交互的整个流程进行规范化，从而解决海量数据、AIGC大模型、AI应用工具之间的“孤岛”问题。</p>
+<h3 id="RAG"><a href="#RAG" class="headerlink" title="RAG"></a>RAG</h3><h4 id="文本分割"><a href="#文本分割" class="headerlink" title="文本分割"></a>文本分割</h4><p>先按段落&#x2F;标题切（保证语义完整）</p>
+<p>再在长段落内用滑动窗口二次切分（避免过长）。</p>
+<p>常见设置：</p>
+<p>chunk_size &#x3D; 500 tokens</p>
+<p>chunk_overlap &#x3D; 50–100 tokens</p>
+<h4 id="显存问题"><a href="#显存问题" class="headerlink" title="显存问题"></a>显存问题</h4><ol>
+<li>Embedding 阶段</li>
+</ol>
+<p>  问题：</p>
+<p>  使用大型 Embedding 模型（比如 text-embedding-ada-002 本地化部署，或者 BERT&#x2F;SimCSE）时，批量文本分割太大 → 占用显存过高，容易 OOM。</p>
+<p>  向量维度过高（768, 1024+），批量处理时显存压力大。</p>
+<p>  优化：</p>
+<p>  控制 batch size（比如 32 → 8）；</p>
+<p>  考虑使用量化（FP16&#x2F;INT8）；</p>
+<p>  使用 CPU 或混合计算做 embedding（显存压力小，但牺牲速度）。</p>
+<p>  e.g.</p>
+  <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">  &lt;!-- 使用推理框架自带的参数设置 --&gt;</span><br><span class="line"><span class="keyword">from</span> transformers <span class="keyword">import</span> AutoModelForCausalLM, AutoTokenizer</span><br><span class="line"></span><br><span class="line">model = AutoModelForCausalLM.from_pretrained(</span><br><span class="line">    <span class="string">&quot;meta-llama/Llama-2-7b-hf&quot;</span>,</span><br><span class="line">    torch_dtype=<span class="string">&quot;torch.float16&quot;</span>,   <span class="comment"># FP16 推理</span></span><br><span class="line">    device_map=<span class="string">&quot;auto&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">&lt;!-- 或者使用量化库 --&gt;</span><br><span class="line"><span class="keyword">from</span> transformers <span class="keyword">import</span> AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig</span><br><span class="line"></span><br><span class="line">bnb_config = BitsAndBytesConfig(</span><br><span class="line">    load_in_4bit=<span class="literal">True</span>,</span><br><span class="line">    bnb_4bit_compute_dtype=<span class="string">&quot;float16&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">model = AutoModelForCausalLM.from_pretrained(</span><br><span class="line">    <span class="string">&quot;meta-llama/Llama-2-7b-hf&quot;</span>,</span><br><span class="line">    quantization_config=bnb_config,</span><br><span class="line">    device_map=<span class="string">&quot;auto&quot;</span></span><br><span class="line">)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>检索阶段</li>
+</ol>
+<p>  问题：</p>
+<p>  使用 向量数据库在 GPU 上做 ANN 检索（如 FAISS GPU 版、Milvus GPU 索引），如果数据量大（百万级别以上），向量索引会吃掉大量显存。</p>
+<p>  embedding 全部放 GPU 显存，超大规模语料会直接爆显存。</p>
+<p>  优化：</p>
+<p>  使用 CPU 索引（FAISS IVFFlat &#x2F; HNSW），只在关键场景用 GPU。</p>
+<p>  向量量化（PQ &#x2F; OPQ &#x2F; IVF-PQ）降低存储成本。</p>
+<p>  分层存储：热门向量在 GPU，冷门向量在 CPU&#x2F;磁盘。</p>
+<p>检索优化思路</p>
+<p>  (1) 选择合适的索引类型</p>
+<p>IVF_FLAT：倒排索引，先分簇再精确搜索。适合百万级数据，查询比 brute-force 快很多。</p>
+<p>IVF_PQ：倒排 + 乘积量化 (Product Quantization)，存储占用大幅减少，速度快，但精度略有下降。适合大规模（亿级）。</p>
+<p>HNSW：基于图的近邻搜索，高精度 + 高查询性能，内存消耗较大，适合延迟敏感的应用。</p>
+<p>DISKANN：磁盘友好型索引，适合超大规模数据（上亿向量），用磁盘做近似搜索，节省内存。</p>
+<p>Milvus里常用的量化方法有：</p>
+<p>PQ (Product Quantization)</p>
+<p>把向量切成多个子空间，每个子空间做 k-means 聚类，用“簇中心 ID”代替真实值。</p>
+<p>存储占用从几十字节 → 几个字节，大大减少内存。</p>
+<p>代价：检索精度下降。</p>
+<p>OPQ (Optimized PQ)</p>
+<p>PQ 的改进版本，先做旋转变换再分块，能提高精度。</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;!-- 创建索引 --&gt;</span><br><span class="line"><span class="keyword">from</span> pymilvus <span class="keyword">import</span> Collection</span><br><span class="line"></span><br><span class="line"><span class="comment"># 假设已经有一个 collection</span></span><br><span class="line">collection = Collection(<span class="string">&quot;example_collection&quot;</span>)</span><br><span class="line"></span><br><span class="line">index_params = &#123;</span><br><span class="line">    <span class="string">&quot;index_type&quot;</span>: <span class="string">&quot;IVF_PQ&quot;</span>,</span><br><span class="line">    <span class="string">&quot;metric_type&quot;</span>: <span class="string">&quot;L2&quot;</span>,</span><br><span class="line">    <span class="string">&quot;params&quot;</span>: &#123;<span class="string">&quot;nlist&quot;</span>: <span class="number">1024</span>, <span class="string">&quot;m&quot;</span>: <span class="number">16</span>&#125;  <span class="comment"># nlist=聚类数, m=PQ子空间数</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">collection.create_index(field_name=<span class="string">&quot;embedding&quot;</span>, index_params=index_params)</span><br><span class="line"></span><br><span class="line">&lt;!-- 检索时设置探测簇数量 --&gt;</span><br><span class="line">search_params = &#123;<span class="string">&quot;nprobe&quot;</span>: <span class="number">16</span>&#125;</span><br><span class="line">results = collection.search(</span><br><span class="line">    data=[query_vector],</span><br><span class="line">    anns_field=<span class="string">&quot;embedding&quot;</span>,</span><br><span class="line">    param=search_params,</span><br><span class="line">    limit=<span class="number">10</span>,</span><br><span class="line">    expr=<span class="literal">None</span></span><br><span class="line">)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>大模型推理阶段</li>
+</ol>
+<p>  问题：</p>
+<p>  上下文窗口大（比如 32K&#x2F;100K tokens），拼接后输入序列过长 → 显存爆炸。</p>
+<p>  多用户并发请求，多个 prompt 一起推理 → 显存不足。</p>
+<p>  模型本身体量大（7B&#x2F;13B&#x2F;70B），部署时 GPU 显存根本放不下。</p>
+<p>  优化：</p>
+<p>  分片 &#x2F; ZeRO &#x2F; tensor parallelism：多卡切分模型。</p>
+<p>  量化 (4bit&#x2F;8bit)：大幅降低显存需求（13B 模型从 ~30GB → ~8GB）。</p>
+<p>  动态 Batching：用 vLLM&#x2F;Triton，把多个请求合并推理，提升显存利用率。</p>
+<p>  上下文压缩：对长文本做摘要&#x2F;embedding 检索后截断，只保留最相关内容。</p>
+<h3 id="封装模型推理API服务？性能优化？"><a href="#封装模型推理API服务？性能优化？" class="headerlink" title="封装模型推理API服务？性能优化？"></a>封装模型推理API服务？性能优化？</h3><ol>
+<li>API 服务封装思路</li>
+</ol>
+<p>框架选择<br>常用的 Web 框架有 Spring Boot &#x2F; gRPC，根据场景选择：</p>
+<p>REST API：方便业务系统调用；</p>
+<p>gRPC：低延迟，适合高并发推理服务。</p>
+<p>接口设计</p>
+<p>输入：用户问题 &#x2F; 上下文参数；</p>
+<p>输出：模型预测结果（支持流式响应 Streaming，比如逐token返回，提升交互体验）。</p>
+<p>服务结构</p>
+<p>请求处理层：负责鉴权、限流、负载均衡；</p>
+<p>推理调度层：调用模型推理逻辑；</p>
+<p>缓存层：热门 query 结果缓存；</p>
+<p>监控层：Prometheus + Grafana，监控 QPS、延迟、失败率。</p>
+<h3 id="常见面试问题"><a href="#常见面试问题" class="headerlink" title="常见面试问题"></a>常见面试问题</h3><ul>
+<li>如何维护Chatbot的对话历史</li>
+</ul>
+<p>聊天记录部分：</p>
+<p>完整记录每次用户输入的提问和AI返回的回答，用于界面上展示</p>
+<p>记忆部分：</p>
+<ol>
+<li>短期记忆：维护最近10条记忆作为短期记忆</li>
+<li>长期记忆：对十条记忆之外的记忆做摘要，存入Milvus中，并且在用户信息发来之后做检索，找出最接近的一条作为记忆</li>
+</ol>
+<ul>
+<li>AI搜索和ElasticSearch的区别？怎么设计一个AI搜索</li>
+</ul>
+<p>ElasticSearch：</p>
+<p>把文档拆分成关键词（Token），每个词对应一个 posting list，里面记录出现在哪些文档，查询时使用关键词匹配，返回相似度最高的结果</p>
+<p>性能高，适合大规模的数据搜索。</p>
+<p>AISearch:</p>
+<p>把文本转成向量（embedding），存入向量数据库（如 Milvus、PGVector）。查询时把问题转成向量，计算语义相似度（cosine &#x2F; dot product）。</p>
+<p>语义理解能力强，可以与知识库结合，适合人机交互场景</p>
+<p>设计一个AI搜索：</p>
+<ol>
+<li>数据存储：文档存到ElasticSearch同时把文档做embedding存到向量数据库</li>
+<li>查询流程：用户输入做embedding，向量数据库检索k条，elasticsearch检索关键词匹配结果，对两者做一个甲醛排序，得到权重最高的k结果</li>
+<li>答案生成：把这k条结果拼接到prompt，发送给LLM</li>
+<li>优点：混合搜索既能保证准确性也能保证相关性</li>
+</ol>
+<ul>
+<li>怎么保证回答是 准确的、可溯源的？</li>
+</ul>
+<p>引入RAG保证回答可靠可溯源，把检索到的内容发送给大模型，让模型严格按照这个回答，来保证准确性；检索结果附带来源信息（文档 ID &#x2F; URL），模型生成答案时带上引用，保证可溯源；</p>
+<p>同时对用户问题和模型生成结果做完整的日志。</p>
+<ul>
+<li>你知道 RAG 的基本流程吗？怎么实现？<br>RAG 的基本流程是：</li>
+</ul>
+<p>用户问题 → embedding 向量化</p>
+<p>向量数据库检索 topK 文档 → 获取文档内容 + 元信息</p>
+<p>将检索到的文档拼接到 Prompt</p>
+<p>LLM 生成答案，同时可以引用来源</p>
+<p>返回给用户</p>
+<p>企业级实现中，通常会做文档 chunking、短期记忆管理、检索 + 排序优化，以及日志记录，保证答案既准确又可溯源。</p>
+<ul>
+<li>如果文档很大，你会怎么处理？</li>
+</ul>
+<ol>
+<li>文档预处理：</li>
+</ol>
+<p>将文档按照语义切分成小块，对每个chunk单独生成向量表示，并且带上元数据存储到milvus中</p>
+<ol start="2">
+<li>检索策略：</li>
+</ol>
+<p>用户问题embedding，检索topk，返回chunk的原文和metadata</p>
+<ol start="3">
+<li>prompt构建：</li>
+</ol>
+<p>拼接检索结果，选出最相关的chunk，聊天记忆和用户问题</p>
+<ul>
+<li>文档分割方法有哪些</li>
+</ul>
+<ol>
+<li><p>基于自然边界的分割（最推荐）</p>
+</li>
+<li><p>基于句子或固定 Token 长度的分割</p>
+</li>
+<li><p>基于语义相似度的智能分割（高阶方案）</p>
+</li>
+</ol>
+<p>根据相邻句子间的embedding的相似度来判断是否需要切割，相似度较低表示需要切割。</p>
+<p>企业中的实际切割方式</p>
+<ol>
+<li><p>文档解析与清理： 使用强大的解析库从PDF、Word、HTML等格式中提取纯文本和结构元数据（标题、列表等）。</p>
+</li>
+<li><p>结构分析： 识别文档的层次结构（标题等级、章节）。</p>
+</li>
+<li><p>递归分割为主： 采用基于递归分割的策略，优先使用 \n\n，然后是 \n，最后是句子结束符，并严格设定块的大小上限（例如512或1024个token）。</p>
+</li>
+<li><p>强制重叠： 对所有最终生成的块应用重叠设置，重叠比例通常是块大小的10%-20%。</p>
+</li>
+<li><p>可选的后处理： 对过小的块进行合并（如合并连续的图片标题），或使用模型对块的质量进行过滤和排序。</p>
+</li>
+</ol>
+<ul>
+<li>你觉得多模态 AI 的实际应用场景有哪些？</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>描述</th>
+<th>技术点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>智能客服</td>
+<td>用户上传产品图片 + 问题，AI识别图片并回答</td>
+<td>图像识别 + 文本生成</td>
+</tr>
+<tr>
+<td>电商推荐</td>
+<td>跨模态检索：用户上传图片 → 推荐相似商品</td>
+<td>Embedding + RAG</td>
+</tr>
+<tr>
+<td>财务智能分析</td>
+<td>扫描合同&#x2F;报表 → 提取信息 → 问答</td>
+<td>OCR + 文本理解 + 多模态检索</td>
+</tr>
+<tr>
+<td>内容创作</td>
+<td>文本描述生成插图或视频片段</td>
+<td>文本→图像生成、文本→视频生成</td>
+</tr>
+<tr>
+<td>医疗辅助</td>
+<td>医学影像 + 临床记录 → 诊断建议</td>
+<td>图像 + 文本多模态分析</td>
+</tr>
+</tbody></table>
+<ul>
+<li>如何控制高并发情况下的大模型的访问？</li>
+</ul>
+<p>大模型的部署使用Triton的方式，并在triton服务器上启动一个后端服务，接收文本-&gt;转成token-&gt;发送到大模型-&gt;返回token-&gt;转成文本</p>
+<ul>
+<li><p>技术上怎么把语音、图片接入到 AI 应用？</p>
+</li>
+<li><p>多模态Embedding，图文对齐了解吗</p>
+</li>
+<li><p>设计异步、高并发的问答系统</p>
+</li>
+</ul>
+<p>Semaphore 用来限制同一时间段内正在进行的模型调用数。在发起模型推理前 acquire()，推理完成或出错后 release()。对于异步&#x2F;反应式系统要注意不要在 Reactor&#x2F;NIO 事件循环中直接阻塞，应把阻塞调用放到 boundedElastic 或线程池。</p>
+<ul>
+<li>用于RAG的数据格式是什么，多少数据量，如何数据清洗？</li>
+</ul>
+<p>数据有三类：</p>
+<p>内部制度：公司风控手册、合规政策、内部审计规范；</p>
+<p>监管法规：不止美联储，还包括 SEC、FINRA、CFPB、OCC 等美国监管机构的公开规定；</p>
+<p>业务文档：风控系统操作说明书、内部培训材料；</p>
+<p>文档清洗：</p>
+<p>（1）文本提取</p>
+<p>PDF&#x2F;Word&#x2F;Excel → 统一转成纯文本；</p>
+<p>去除页眉页脚、目录、图片说明等“噪音”；</p>
+<p>对表格类内容，考虑结构化保存。</p>
+<p>（2）分块（Chunking）</p>
+<p>常用做法：每 5001000 tokens 一块，带 100200 tokens overlap，保证上下文完整；</p>
+<p>法规类文档适合按 章节、条款 切分，而不是机械按字数。</p>
+<p>（3）标准化 &amp; 清洗</p>
+<p>去除重复段落；</p>
+<p>正则清理掉多余符号、乱码；</p>
+<p>保留原始来源（加上 document_id + section_id，用于回答溯源）。</p>
+<ul>
+<li>Rerank缓存结果保存</li>
+</ul>
+<p>key &#x3D; SHA256(normalize(query) + “|” + sortedCandidateIds + “|” + rerankerModelVersion + “|” + docVersionsHash)</p>
+<p>value&#x3D; rankedDocIds</p>
+<ul>
+<li>CohereRerank</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Document&gt; candidates = vectorRetriever.retrieve(query, <span class="number">10</span>);</span><br><span class="line"></span><br><span class="line">List&lt;ScoredDocument&gt; reranked = candidates.stream()</span><br><span class="line">    .map(doc -&gt; &#123;</span><br><span class="line">        <span class="keyword">double</span> score = callCohereRerankAPI(query, doc.getContent());</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ScoredDocument(doc, score);</span><br><span class="line">    &#125;)</span><br><span class="line">    .sorted(Comparator.comparingDouble(ScoredDocument::getScore).reversed())</span><br><span class="line">    .collect(Collectors.toList());</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>高并发访问大模型解决方案</li>
+</ul>
+<ol>
+<li>用 Semaphore 或线程池控制并发，比如最大允许 8 个并发请求，其他排队。</li>
+<li>模型量化到(fp16&#x2F;int8)做推理</li>
+<li>batch处理用户请求</li>
+</ol>
+<ul>
+<li>LLM Agent的性能评估</li>
+</ul>
+<ol>
+<li>功能正确性（Functional Correctness）：Agent 是否能完成设计任务，比如回答问题、执行工具调用、完成工作流。</li>
+<li>Agent 的内部思考逻辑是否合理、连贯：log 追踪 Thought → Action → Observation</li>
+<li>多轮交互能力（Dialog &#x2F; Multi-turn Performance）：在连续对话或多步任务中保持上下文和状态</li>
+<li>工具调用效率：Agent 调用工具的效率和成功率</li>
+<li>用户体验（UX &#x2F; Human Evaluation）：最终用户的感受</li>
+</ol>
 
     </div>
 
